@@ -2,13 +2,13 @@
 
 pkgname=libksysguard
 pkgver=5.15.0
-pkgrel=1
+pkgrel=2
 pkgdesc="KSysguard library"
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/workspace/libksysguard'
 license=('LGPL')
-depends=(libxres qt5-webkit kwindowsystem kconfigwidgets)
-makedepends=(extra-cmake-modules kdoctools python3 plasma-framework)
+depends=(libxres qt5-webengine kio)
+makedepends=(extra-cmake-modules kdoctools plasma-framework)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
