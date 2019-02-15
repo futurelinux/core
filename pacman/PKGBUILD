@@ -1,29 +1,28 @@
 
 pkgname=pacman
-pkgver=5.0.2
-pkgrel=2
+pkgver=5.1.2
+pkgrel=1
 pkgdesc="A library-based package manager with dependency support"
 arch=('x86_64')
 url="http://www.archlinux.org/pacman/"
 license=('GPL')
 groups=('base' 'base-devel')
-depends=('bash>=4.3.025-1' 'glibc>=2.20-2' 'libarchive=3.2.2' 'curl>=7.28.1'
-         'gpgme' 'pacman-mirrorlist' 'nettle>=3.1')
+depends=('bash' 'glibc' 'libarchive' 'curl'
+         'gpgme' 'pacman-mirrorlist')
 checkdepends=('python2' 'fakechroot')
 makedepends=('asciidoc')
-optdepends=('fakeroot: for makepkg usage as normal user')
-backup=(etc/pacman.conf etc/makepkg.conf)
-install=pacman.install
-options=(!libtool)
+optdepends=('perl-locale-gettext: translation support in makepkg-template'
+            'xdelta3: delta support in repo-add')
+backup=(etc/pacman.conf
+        etc/makepkg.conf)
+options=('strip')
 source=(https://sources.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz{,.sig}
-        https://git.archlinux.org/svntogit/packages.git/plain/trunk/0001-libmakepkg-Support-file-5.33-s-application-x-pie-exe.patch?h=packages/pacman
         pacman.conf
         makepkg.conf)
-sha1sums=('3b9c0797ac04a89d1517771595f13bddc68933b1'
-          'SKIP'
-          '6e760dbfc5b05ac9fb6bcc80e553c4c08fbf59e2'
-          '735dfdbf78f1249567b3250a2766f55eb6ae9a0c'
-          '0e61e106d58a332ac7bb0a34885358d37297886e')
+md5sums=('68d559a8f64efce9840efa7c87fc52a3'
+         'SKIP'
+         '40a92b2788ac997e44dd9b54406e9e18'
+         '9dc831e27cafae4bff3a41a06001ae18')
 validpgpkeys=('6645B0A8C7005E78DB1D7864F99FFE0FEAE999BD'  # Allan McRae <allan@archlinux.org>
               'B8151B117037781095514CA7BBDFFC92306B1121') # Andrew Gregory (pacman) <andrew@archlinux.org>
 
@@ -41,14 +40,13 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir"/$pkgname-$pkgver
+  cd $pkgname-$pkgver
 
   ./configure --prefix=/usr --sysconfdir=/etc \
     --localstatedir=/var --enable-doc \
     --with-scriptlet-shell=/usr/bin/bash \
     --with-ldconfig=/usr/bin/ldconfig
   make V=1
-  make -C contrib
 }
 
 check() {
@@ -56,33 +54,20 @@ check() {
 }
 
 package() {
-  cd "$srcdir"/$pkgname-$pkgver
+  cd $pkgname-$pkgver
   make DESTDIR="$pkgdir" install
-  make DESTDIR="$pkgdir" -C contrib install
 
   # install Chakra specific stuff
-  install -Dm644 "$srcdir"/pacman.conf "$pkgdir"/etc/pacman.conf
-
-  mycarch="x86_64"
-  mychost="x86_64-pc-linux-gnu"
-  myflags="-march=x86-64"
-
-  install -Dm644 "$srcdir"/makepkg.conf "$pkgdir"/etc/makepkg.conf
-  # set things correctly in the default conf file
-  sed -i "$pkgdir"/etc/makepkg.conf \
-    -e "s|@CARCH[@]|$mycarch|g" \
-    -e "s|@CHOST[@]|$mychost|g" \
-    -e "s|@CARCHFLAGS[@]|$myflags|g"
+  install -m644 "$srcdir/pacman.conf" "$pkgdir/etc"
+  install -m644 "$srcdir/makepkg.conf" "$pkgdir/etc"
 
   # put bash_completion in the right location
-  install -dm755 ${pkgdir}/usr/share/bash-completion/completions
-  mv ${pkgdir}/etc/bash_completion.d/pacman \
-    ${pkgdir}/usr/share/bash-completion/completions
-  rmdir ${pkgdir}/etc/bash_completion.d
+  install -dm755 "$pkgdir/usr/share/bash-completion/completions"
+  mv "$pkgdir/etc/bash_completion.d/pacman" "$pkgdir/usr/share/bash-completion/completions"
+  rmdir "$pkgdir/etc/bash_completion.d"
 
   for f in makepkg pacman-key; do
-    ln -s pacman "$pkgdir"/usr/share/bash-completion/completions/$f
+    ln -s pacman "$pkgdir/usr/share/bash-completion/completions/$f"
   done
-
-  install -Dm644 contrib/PKGBUILD.vim "$pkgdir"/usr/share/vim/vimfiles/syntax/PKGBUILD.vim
 }
+
