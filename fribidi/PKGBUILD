@@ -1,24 +1,36 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/fribidi
 
 pkgname=fribidi
-pkgver=0.19.7
+pkgver=1.0.5
 pkgrel=1
 pkgdesc="A Free Implementation of the Unicode Bidirectional Algorithm"
 arch=('x86_64')
 license=('LGPL')
-url="http://fribidi.org"
+url="https://github.com/fribidi/fribidi/"
 depends=('glibc')
-options=('!libtool')
-source=(http://fribidi.org/download/${pkgname}-${pkgver}.tar.bz2)
-md5sums=('6c7e7cfdd39c908f7ac619351c1c5c23')
+makedepends=('git' 'meson')
+_commit=5b6a16e8da12ae7ff482fbfa5a17b72bd518418f  # tags/v1.0.5^0
+source=("git+https://github.com/fribidi/fribidi#commit=$_commit")
+md5sums=('SKIP')
+
+pkgver() {
+  cd $pkgname
+  git describe --tags | sed -e 's/-/+/g' -e 's/^v//'
+}
+
+prepare() {
+  cd $pkgname
+}
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr
-  make
+  chakra-meson $pkgname build -D docs=false
+  ninja -C build
+}
+
+check() {
+  meson test -C build
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  make DESTDIR="${pkgdir}" install
+  DESTDIR="$pkgdir" meson install -C build
 }

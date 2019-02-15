@@ -2,25 +2,34 @@
 # contributions from Arch: https://www.archlinux.org/packages/extra/x86_64/libotf/
 
 pkgname=libotf
-pkgver=0.9.13
+pkgver=0.9.16
 pkgrel=1
 pkgdesc="OpenType Font library"
 url='http://www.nongnu.org/m17n/'
 arch=('x86_64')
 license=('LGPL')
 depends=('libxaw' 'freetype2')
-options=('!libtool')
-source=("http://download.savannah.gnu.org/releases/m17n//${pkgname}-${pkgver}.tar.gz")
-md5sums=('99ca3857016e0bb8944776cfa16e6b2d')
+source=("http://download.savannah.gnu.org/releases/m17n//${pkgname}-${pkgver}.tar.gz"
+            libotf-0.9.16-freetype_pkgconfig.patch
+            libotf-0.9.13-build.patch)
+md5sums=('9b0b708ba5de53bf83e1cb09c6a6e100'
+         '3dca57250e5aae4b0f7cced30d738c3e'
+         '5e14064e1349f83550d4a4630ee05a76')
 
+prepare() {
+    cd "${pkgname}-${pkgver}"
+    patch -Np1 -i "${srcdir}/libotf-0.9.16-freetype_pkgconfig.patch"
+    patch -Np1 -i "${srcdir}/libotf-0.9.13-build.patch"
+    autoreconf
+}
 
 build() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${pkgname}-${pkgver}"
 	./configure --prefix=/usr
 	make
 }
 
 package() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${pkgname}-${pkgver}"
 	make DESTDIR="${pkgdir}" install
 }

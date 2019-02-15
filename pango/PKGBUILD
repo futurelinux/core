@@ -1,37 +1,36 @@
 pkgname=pango
-pkgver=1.40.14
+pkgver=1.42.4
 pkgrel=1
 pkgdesc="A library for layout and rendering of text"
 arch=('x86_64')
 license=('LGPL')
-depends=('libthai' 'cairo' 'libxft' 'harfbuzz' 'graphite')
-makedepends=('harfbuzz' 'fontconfig' 'cairo' 'libxft' 'libthai' 'gobject-introspection' 'help2man')
+depends=(libthai cairo libxft harfbuzz fribidi)
+makedepends=(gobject-introspection help2man gtk-doc git meson)
 checkdepends=('ttf-dejavu')
-install=pango.install
-source=(http://download.gnome.org/sources/${pkgname}/${pkgver:0:4}/${pkgname}-${pkgver}.tar.xz)
-url="http://www.pango.org/"
-sha256sums=('90af1beaa7bf9e4c52db29ec251ec4fd0a8f2cc185d521ad1f88d01b3a6a17e3')
+_commit=a6a89818246b0b14c0fe3d00d6120929fc0a11d9  # tags/1.42.4^0
+source=("git+https://gitlab.gnome.org/GNOME/pango.git#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $pkgname
+  git describe --tags | sed 's/-/+/g'
+}
 
 prepare() {
-  cd ${pkgname}-${pkgver}
+  cd $pkgname
 }
 
 build() {
-  cd ${pkgname}-${pkgver}
-
-  rm -f pango-view/pango-view.1.in
-
-  ./configure --prefix=/usr --sysconfdir=/etc \
-      --localstatedir=/var --with-included-modules=basic-fc
-  make
+  chakra-meson $pkgname build -D enable_docs=true
+  ninja -C build
 }
 
 check() {
-  cd ${pkgname}-${pkgver}
-  make -k check || :
+ # 1 FAIL: /layout/valid-1.markup
+  meson test -C build | true
 }
 
 package() {
-  cd ${pkgname}-${pkgver}
-  make -j1 DESTDIR="${pkgdir}" install
+  DESTDIR="$pkgdir" meson install -C build
+  rm -r "$pkgdir"/usr/{lib,share}/installed-tests
 }
