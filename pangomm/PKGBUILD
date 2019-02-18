@@ -1,6 +1,6 @@
 pkgbase=pangomm
 pkgname=(pangomm pangomm-docs)
-pkgver=2.40.1
+pkgver=2.42.0
 pkgrel=1
 pkgdesc="C++ bindings for Pango"
 url="https://www.gtkmm.org/"
@@ -9,7 +9,7 @@ license=(LGPL)
 depends=(pango glibmm cairomm)
 makedepends=(mm-common glibmm-docs cairomm-docs pkgconfig)
 source=(http://download.gnome.org/sources/${pkgname}/${pkgver:0:4}/${pkgname}-${pkgver}.tar.xz)
-md5sums=('874eadd9434613dbacf0272c82c3ac23')
+md5sums=('6cffedf2225c4e72645a7d757fb5b832')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
