@@ -1,30 +1,22 @@
-
 pkgbase=nfs-utils
 pkgname=('nfs-utils' 'nfsidmap')
-pkgver=2.3.2
+pkgver=2.3.3
 pkgrel=1
 arch=('x86_64')
 url='http://nfs.sourceforge.net'
 makedepends=('libevent' 'sqlite' 'glibc')
 source=(https://www.kernel.org/pub/linux/utils/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.{xz,sign}
         id_resolver.conf
-        exports
-        0001-Only_compile_the_command_when_configured.diff)
+        exports)
 install=nfs-utils.install
-optdepends=('sqlite3: for nfsdcltrack usage'
-            'python2: for nfsiostat and mountstats usage')
-sha1sums=('b7f012ff2e547e46f83d0531c4b4db261733b049'
-          'SKIP'
-          '24b3c10b47dc120b2d252cf1e5001effa8f76a62'
-          '170a929d9c0f22edb13b656648cadf372efea841'
-          '1347da8cdcc38a7fb3dce1d6feca2577dbcfe6f9')
+sha256sums=('f68b34793831b05f1fd5760d6bdec92772c7684177586a99a61e7b444f336322'
+            'SKIP'
+            'ed31ae843cf66d3c262b39ed54533a861876231c5f5bb3811c0c498ac2ffa102'
+            '610715ed3daedc43b2536f541c7c57e138fb31eab5d837d9a6187a7403e30154')
 validpgpkeys=('E1B71E339E20A10A676F7CB69AFB1D681A125177') # Steve Dickson
 
 prepare() {
   cd $pkgbase-$pkgver
- 
-  # fix build
-  patch -Np1 -i ../0001-Only_compile_the_command_when_configured.diff
 
   # fix hardcoded sbin path to our needs
   sed -i "s|sbindir = /sbin|sbindir = /usr/bin|g" utils/*/Makefile.am
@@ -46,11 +38,6 @@ build() {
   make
 }
 
-check() {
-  cd $pkgbase-$pkgver
-  make -k check || /bin/true
-}
-
 package_nfs-utils() {
 
   pkgdesc="Support programs for Network File Systems"
@@ -59,7 +46,7 @@ package_nfs-utils() {
   backup=(etc/{exports,nfs.conf,nfsmount.conf})
   depends=('rpcbind' 'nfsidmap' 'gssproxy' 'libevent' 'device-mapper')
   optdepends=('sqlite: for nfsdcltrack usage'
-              'python: for nfsiostat and mountstats usage')
+              'python3: for nfsiostat and mountstats usage')
 
   cd $pkgbase-$pkgver
   make DESTDIR=$pkgdir install
