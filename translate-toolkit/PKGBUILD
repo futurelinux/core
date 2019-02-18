@@ -1,20 +1,26 @@
-# Maintainer: Neophytos Kolokotronis <tetris4@gmail.com>
-# Contributions from Arch: https://www.archlinux.org/packages/extra/any/translate-toolkit/
+# Contributions from Arch:
+# Maintainer: Lukas Fleischer <lfleischer@archlinux.org>
+# Maintainer: Jaroslav Lichtblau <svetlemodry@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Hugo Doria <hugodoria at gmail.com>
 
 pkgname=translate-toolkit
-pkgver=1.13.0
+pkgver=2.3.1
 pkgrel=1
 pkgdesc="A toolkit to convert between various different translation formats, help process and validate localisations"
-arch=('x86_64')
-url="http://translate.sourceforge.net"
+arch=('any')
+url="https://toolkit.translatehouse.org/"
 license=('GPL')
-depends=('bash' 'python2-lxml' 'python2-six')
-makedepends=('python2-setuptools')
-optdepends=('python2-iniparse: to use ini2po script')
-source=(https://github.com/translate/translate/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.bz2)
-md5sums=('f9997a0deb3f1767bb20665a47cd2708')
+depends=('bash' 'python3-lxml' 'python3-six' 'python3-diff-match-patch')
+makedepends=('python3-setuptools')
+optdepends=('python3-chardet: encoding detector'
+            'python3-levenshtein: faster matching')
+source=($pkgname-$pkgver.tar.gz::https://github.com/translate/translate/archive/$pkgver.tar.gz)
+sha256sums=('0b2d79f0023ce545c6240829624ce1e1ce54ea7bc7913428880345ff423fd999')
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  python setup.py install --root="${pkgdir}" --optimize=1
+  cd "${srcdir}"/translate-$pkgver
+
+  python3 -s setup.py install --root="${pkgdir}" --optimize=1
+  python3 -m compileall "${pkgdir}"/usr/lib/python3.6/site-packages/translate
 }
