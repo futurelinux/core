@@ -3,22 +3,25 @@
 # Contributor: Dan McGee <dan@archlinux.org>
 
 pkgname=rdesktop
-pkgver=1.8.3
-pkgrel=2
-depends=('libx11' 'openssl' 'libao' 'libsamplerate' 'libxrandr' 'pcsclite' 'libgssglue')
+pkgver=1.8.4
+pkgrel=1
+depends=('libao' 'libsamplerate' 'xorg-xrandr' 'pcsclite' 'libgssglue')
 pkgdesc="An open source client for Windows Remote Desktop Services"
-url="http://www.rdesktop.org/"
+url="https://www.rdesktop.org/"
 license=('GPLv3')
 arch=('x86_64')
-source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz"
+source=("https://github.com/rdesktop/rdesktop/archive/v${pkgver}.tar.gz"
         rdesktop-send_physical_buttons.diff)
-md5sums=('86e8b368a7c715e74ded92e0d7912dc5'
-         'cbfb12729e7f28e497afb883cc42022b')
+sha256sums=('516f04df92f16eba04c96bbf9aeb05b9da686689c2bb5c107e0941583e09f933'
+            'e0e5bc6e23941be0bc568198f413caf3319a06cbd292860d24c96243958c0275')
 
 prepare() {
   cd ${pkgname}-${pkgver}
+
   # FS#15113
   patch -i "${srcdir}/rdesktop-send_physical_buttons.diff"
+
+  ./bootstrap
 }
 
 build() {
