@@ -3,7 +3,7 @@ pkgname=('linux' 'linux-headers' 'linux-docs')
 pkgver=4.19.12
 _kernelbasever=${pkgver:0:4}
 _srcname=linux-$pkgver
-pkgrel=1
+pkgrel=2
 _ckpatchversion=1
 #_ckpatchname="patch-${_kernelbasever}-ck${_ckpatchversion}"
 arch=('x86_64')
@@ -139,15 +139,17 @@ package_linux() {
   install=linux.install
 
   local kernver="$(<version)"
+  local modulesdir="$pkgdir/usr/lib/modules/$kernver"
   
   cd ${_srcname}
 
   msg2 "Installing boot image..."
-  install -Dm644 "$(make -s image_name)" "$pkgdir/boot/vmlinuz-$pkgbase"
+  # systemd expects to find the kernel here to allow hibernation
+  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
+  install -Dm644 "$(make -s image_name)" "$modulesdir/vmlinuz"
+  install -Dm644 "$modulesdir/vmlinuz" "$pkgdir/boot/vmlinuz-$pkgbase"
 
   msg2 "Installing modules..."
-  local modulesdir="$pkgdir/usr/lib/modules/$kernver"
-  mkdir -p "$modulesdir"
   make INSTALL_MOD_PATH="$pkgdir/usr" DEPMOD=/doesnt/exist modules_install
 
   # a place for external modules,
