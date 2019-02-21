@@ -1,15 +1,12 @@
-# Part of X.org group
-# Maintainer: Neophytos Kolokotronis <tetris4 AT gmail DOT com>
-
 pkgname=xorg-util-macros
-pkgver=1.19.1
+pkgver=1.19.2
 pkgrel=1
 pkgdesc="X.Org Autotools macros"
 arch=('x86_64')
 license=('custom')
-url="http://xorg.freedesktop.org/"
+url="https://xorg.freedesktop.org/"
 source=("https://ftp.x.org/pub/individual/util/util-macros-${pkgver}.tar.gz"{,.sig})
-sha1sums=('4bc1a51277bf0ffd9290b12f7b4071d1cea7dedd'
+sha1sums=('dfb86cc5f110eee27f21c4856224d4528e176bd5'
           'SKIP')
 validpgpkeys=('3BB639E56F861FA2E86505690FDD682D974CA72A') # Matt Turner
 
