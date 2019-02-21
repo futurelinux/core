@@ -52,6 +52,7 @@ package_plasma-workspace() {
   replaces=('xembed-sni-proxy' 'xembed-sni-proxy-git' 'simplesystray' 'ksuperkey')
   provides=('xembed-sni-proxy' 'xembed-sni-proxy-git' 'simplesystray' 'ksuperkey')
   conflicts=('xembed-sni-proxy' 'xembed-sni-proxy-git' 'simplesystray' 'ksuperkey')
+  backup=('etc/pam.d/kde')
 
   cd build
   make DESTDIR="${pkgdir}" install
