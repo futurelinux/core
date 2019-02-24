@@ -2,7 +2,7 @@
 source ../xorg.conf
 
 pkgname=xf86-video-amdgpu
-pkgver=18.0.1
+pkgver=18.1.0
 pkgrel=1
 pkgdesc="X.org amdgpu video driver"
 arch=('x86_64')
@@ -13,7 +13,7 @@ makedepends=('xorg-server-devel' "X-ABI-VIDEODRV_VERSION=${X_ABI_VIDEODRV_VERSIO
 conflicts=('xorg-server<1.16.0' "X-ABI-VIDEODRV_VERSION<${X_ABI_VIDEODRV_MAJOR}" "X-ABI-VIDEODRV_VERSION>=$((X_ABI_VIDEODRV_MAJOR+1))")
 groups=('xorg-drivers' 'xorg')
 source=(${url}/releases/individual/driver/${pkgname}-${pkgver}.tar.bz2{,.sig})
-sha256sums=('7484682ccb403b3ca9e26d1c980572f08cdfa3469e2b2c9a9affc3d51b52691b'
+sha256sums=('e11f25bb51d718b8ea938ad2b8095323c0ab16f4ddffd92091d80f9a445a9672'
             'SKIP')
 validpgpkeys=('B09FAF35BE914521980951145A81AF8E6ADBB200') # Michel Daenzer <michel@daenzer.net>
 
