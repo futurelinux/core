@@ -1,5 +1,5 @@
 pkgname=meson
-pkgver=0.49.0
+pkgver=0.49.2
 pkgrel=1
 pkgdesc='High productivity build system'
 url='https://mesonbuild.com/'
@@ -7,11 +7,23 @@ arch=('x86_64')
 license=('Apache')
 depends=('python3-setuptools' 'ninja')
 source=(https://github.com/mesonbuild/meson/releases/download/${pkgver}/meson-${pkgver}.tar.gz{,.asc}
-        chakra-meson)
-sha256sums=('fb0395c4ac208eab381cd1a20571584bdbba176eb562a7efa9cb17cace0e1551'
+        chakra-meson
+        4878.patch)
+sha256sums=('ef9f14326ec1e30d3ba1a26df0f92826ede5a79255ad723af78a2691c37109fd'
             'SKIP'
-            '4c336c0da4fc48c2c0704ee169fb93cf2578d2b3783dbd6d7c15b21f9ab99ad1')
+            '4c336c0da4fc48c2c0704ee169fb93cf2578d2b3783dbd6d7c15b21f9ab99ad1'
+            'dccec9804235810d701f62135cb822dbc45da0db90814c0d0448526e79b15f76')
 validpgpkeys=('95181F4EED14FDF4E41B518D3BF4693BFEEB9428') # Jussi Pakkanen <jpakkane@gmail.com>
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+
+  # https://github.com/mesonbuild/meson/issues/4884
+  patch -Np1 -i ../4878.patch
+
+  # Succeeds for us?
+  mv 'test cases/failing/85 gtest dependency with version' 'test cases/frameworks/'
+}
 
 build() {
   cd ${pkgname}-${pkgver}
