@@ -1,7 +1,7 @@
 pkgbase=pyqt5
 pkgname=('python-pyqt5-common' 'python3-pyqt5' 'python2-pyqt5')
 pkgver=5.12
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url="https://riverbankcomputing.com/software/pyqt/intro"
 license=('GPL')
@@ -43,7 +43,6 @@ build() {
   python3 configure.py \
     --confirm-license \
     --no-sip-files \
-    --no-dist-info \
     --qsci-api \
     -q /usr/bin/qmake-qt5
 
@@ -54,7 +53,6 @@ build() {
   python2 configure.py \
     --confirm-license \
     --no-sip-files \
-    --no-dist-info \
     --qsci-api \
     -q /usr/bin/qmake-qt5
 
@@ -95,13 +93,14 @@ package_python3-pyqt5(){
 
   msg "Packaging python3-pyqt5"
   # INSTALL_ROOT is needed for the QtDesigner module, the other Makefiles use DESTDIR
-  make DESTDIR="$pkgdir" INSTALL_ROOT="$pkgdir" install
+  make DESTDIR="$pkgdir" INSTALL_ROOT="$pkgdir" install -j1
 
   # Remove unused py2 version of uic modules:
   rm -r "$pkgdir"/usr/lib/python*/site-packages/PyQt5/uic/port_v2
 
   # compile Python bytecode
   python3 -m compileall -d / "$pkgdir"/usr/lib
+  python3 -O -m compileall -d / "$pkgdir"/usr/lib
 
   # Provided by pyqt-common
   rm "$pkgdir"/usr/share/qt5/qsci/api/python/PyQt5.api
@@ -128,13 +127,14 @@ package_python2-pyqt5(){
   cd PyQt5_gpl-$pkgver-py2
   msg "Packaging pyqt5-python2"
   # INSTALL_ROOT is needed for the QtDesigner module, the other Makefiles use DESTDIR
-  make DESTDIR="$pkgdir" INSTALL_ROOT="$pkgdir" install
+  make DESTDIR="$pkgdir" INSTALL_ROOT="$pkgdir" install -j1
 
   # Remove unused py3 version of uic modules:
   rm -r "$pkgdir"/usr/lib/python*/site-packages/PyQt5/uic/port_v3
 
   # compile Python bytecode
   python2 -m compileall -d / "$pkgdir"/usr/lib
+  python2 -O -m compileall -d / "$pkgdir"/usr/lib
 
   # Fix conflicts with python3-pyqt5
   mv "$pkgdir"/usr/bin/{,python2-}pyuic5
