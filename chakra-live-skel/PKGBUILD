@@ -1,9 +1,9 @@
 
 pkgname=chakra-live-skel
 _gitname=chakra-iso
-_gitsha=7c6ae4841dc23de4f35428a52f802d2db982aa17
+_gitsha=7991c9572f70b9786c4031db250f4791ae83ab9c
 pkgver=2019.02
-pkgrel=1
+pkgrel=2
 pkgdesc="The inital user configuration of a Chakra system"
 arch=('x86_64')
 url="https://www.chakralinux.org/"
