@@ -1,9 +1,9 @@
 pkgbase=linux
 pkgname=('linux' 'linux-headers' 'linux-docs')
-pkgver=4.19.12
+pkgver=4.19.26
 _kernelbasever=${pkgver:0:4}
 _srcname=linux-$pkgver
-pkgrel=2
+pkgrel=1
 _ckpatchversion=1
 #_ckpatchname="patch-${_kernelbasever}-ck${_ckpatchversion}"
 arch=('x86_64')
@@ -27,7 +27,7 @@ validpgpkeys=(
   '647F28654894E3BD457199BE38DBBDC86092693E'  # Greg Kroah-Hartman
   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
 )
-sha256sums=('4d81ac539d62617f5b52f25971749d8c6d3a200deee76898bb99be8492999b77'
+sha256sums=('bec45f66c94739596f2bbc35e89de7a2cbd407cf63b537970b52ab117db747fc'
             'SKIP'
             '861f4d785fc93e7b5c96b88feec8b7a7b827a9035c200ca12e3d2c4d66b40b63'
             '287b43e83535d0aba2797b8fe4c1527788995cbfd858097be37214345e781a25'
