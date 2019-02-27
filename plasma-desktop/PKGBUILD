@@ -1,7 +1,7 @@
 #contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/plasma-desktop
 
 pkgname=plasma-desktop
-pkgver=5.15.1
+pkgver=5.15.2
 pkgrel=1
 pkgdesc='KDE Plasma Desktop'
 arch=('x86_64')
@@ -17,7 +17,7 @@ conflicts=('kde-workspace')
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('ff72769ab6a9f40d2a7e45014c2af1a40781f97c32678f1038aa90a0b20d808c'
+sha256sums=('40576c38428c96903bf085e06729521bcce8ea0e498e40797a900df7aa9cb4ab'
             'SKIP')
 source+=( chakra_defaultPanel.patch::https://bugsfiles.kde.org/attachment.cgi?id=102600 )
 sha256sums+=( 'af2856ae7904726e6e8cfb3616a51f82fbfee10dc7edc85b579be684601a554c' )
