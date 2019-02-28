@@ -4,7 +4,7 @@
 
 pkgname=cryptsetup
 pkgver=1.7.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Userspace setup tool for transparent encryption of block devices using the Linux 2.6 cryptoapi"
 arch=('x86_64')
 license=('GPL')
@@ -21,7 +21,7 @@ validpgpkeys=('2A2918243FDE46648D0686F9D9B0577BD93E98FC') # Milan Broz <gmazylan
 sha256sums=('2b30cd1d0dd606a53ac77b406e1d37798d4b0762fa89de6ea546201906a251bd'
             'SKIP'
             '4406f8dc83f4f1b408e49d557515f721d91b358355c71fbe51f74ab27e5c84ff'
-            '00c2da113d23d05fc13c4929e38a25111ba23a49da86e835d9fb55d45c7aaee2'
+            '15dc23b0e994b16d8d6c2d21dc8c86e8a6f8930bf37d5253f84154b5139b849e'
             'd442304e6a78b3513ebc53be3fe2f1276a7df470c8da701b3ece971d59979bdd')
 
 build() {
