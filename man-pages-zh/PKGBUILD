@@ -6,14 +6,14 @@
 pkgbase=man-pages-zh
 pkgname=(man-pages-zh_cn man-pages-zh_tw)
 _pkgname=manpages-zh
-pkgver=1.6.3
+pkgver=1.6.3.3
 pkgrel=1
 arch=('any')
 url='https://github.com/man-pages-zh/manpages-zh'
 license=('GPL2')
 depends=('man-db')
 makedepends=('opencc' 'python3' 'git')
-conflicts=('man-pages-zh', 'manpages-zh')
+conflicts=('man-pages-zh' 'manpages-zh')
 source=("git+https://github.com/man-pages-zh/manpages-zh.git#tag=v$pkgver")
 md5sums=('SKIP')
 
