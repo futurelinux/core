@@ -1,27 +1,28 @@
+# Contributions from Arch:
 # Maintainer: Jaroslav Lichtblau <dragonlord@aur.archlinux.org>
 
 pkgname=man-pages-de
-pkgver=1.4
+pkgver=2.12
 pkgrel=1
 pkgdesc="German Linux man pages"
 arch=('any')
-url="https://alioth.debian.org/projects/manpages-de/"
+url="https://salsa.debian.org/manpages-de-team/manpages-de"
 license=('GPL3')
 depends=('man-db')
 makedepends=('po4a')
 options=('!emptydirs')
-source=(http://manpages-de.alioth.debian.org/downloads/manpages-de-$pkgver.tar.bz2)
-sha256sums=('1c76f1e7e299c0ef813d30c36540affd6b886f1d810c69d0679b0005756d9ff7')
+source=(https://salsa.debian.org/manpages-de-team/manpages-de/-/archive/v$pkgver/manpages-de-v${pkgver}.tar.bz2)
+sha256sums=('6140bd237e6cbcdb6ef1140c0e22737d2a8ee58b81b1a77871bb74618a5f2334')
 
 build() {
-  cd ${srcdir}/manpages-de-$pkgver
+  cd ${srcdir}/manpages-de-v$pkgver
 
   ./configure --prefix=/usr
   make
 }
 
 package() {
-  cd ${srcdir}/manpages-de-$pkgver
+  cd ${srcdir}/manpages-de-v$pkgver
 
   make DESTDIR=${pkgdir} install
 }
