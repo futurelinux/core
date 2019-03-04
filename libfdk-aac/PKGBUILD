@@ -1,13 +1,13 @@
 pkgname=libfdk-aac
-pkgver=0.1.4
-pkgrel=2
+pkgver=2.0.0
+pkgrel=1
 pkgdesc='Fraunhofer FDK AAC codec library'
 arch=('x86_64')
-url='http://sourceforge.net/projects/opencore-amr/'
+url='https://sourceforge.net/projects/opencore-amr/'
 license=('custom')
 depends=('glibc')
-source=("http://downloads.sourceforge.net/opencore-amr/fdk-aac-${pkgver}.tar.gz")
-sha256sums=('5910fe788677ca13532e3f47b7afaa01d72334d46a2d5e1d1f080f1173ff15ab')
+source=("https://downloads.sourceforge.net/opencore-amr/fdk-aac-${pkgver}.tar.gz")
+sha256sums=('f7d6e60f978ff1db952f7d5c3e96751816f5aef238ecf1d876972697b85fd96c')
 
 build() {
   cd fdk-aac-${pkgver}
