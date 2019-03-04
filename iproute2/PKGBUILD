@@ -1,23 +1,23 @@
 pkgname=iproute2
-pkgver=4.4.0
-pkgrel=2
+pkgver=4.19.0
+pkgrel=1
 pkgdesc="IP Routing Utilities"
 arch=('x86_64')
 license=('GPL2')
-url="http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2"
-depends=('glibc' 'db' 'iptables')
+url="https://git.kernel.org/pub/scm/network/iproute2/iproute2.git"
+depends=('glibc' 'iptables' 'libelf')
 makedepends=('linux-atm')
 optdepends=('linux-atm: ATM support')
 groups=('base')
 provides=('iproute')
 conflicts=('iproute')
 replaces=('iproute')
-options=('!makeflags')
+options=('staticlibs')
 backup=('etc/iproute2/ematch_map' 'etc/iproute2/rt_dsfield' 'etc/iproute2/rt_protos' \
 	'etc/iproute2/rt_realms' 'etc/iproute2/rt_scopes' 'etc/iproute2/rt_tables')
 source=("http://www.kernel.org/pub/linux/utils/net/$pkgname/$pkgname-$pkgver.tar.xz"
         iproute2-fhs.patch)
-sha256sums=('bc91c367288a19f78ef800cd6840363be1f22da8436fbae88e1a7250490d6514'
+sha256sums=('d9ec5ca1f47d8a85416fa26e7dc1cbf5d067640eb60e90bdc1c7e5bdc6a29984'
             '7ab86ebccbdbd2e0218400588a3e6a8404e2ee0004794dacba2a01256540150e')
 
 prepare() {
@@ -40,13 +40,9 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
 
-  make DESTDIR="$pkgdir" install
+  make DESTDIR="$pkgdir" SBINDIR="/usr/bin" install
 
   # libnetlink isn't installed, install it FS#19385
   install -Dm644 include/libnetlink.h "$pkgdir/usr/include/libnetlink.h"
   install -Dm644 lib/libnetlink.a "$pkgdir/usr/lib/libnetlink.a"
-
-  # move binaries
-  cd "${pkgdir}"
-  mv usr/sbin usr/bin
 }
