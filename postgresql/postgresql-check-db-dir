@@ -18,7 +18,7 @@ fi
 # PGMAJORVERSION is major version
 PGMAJORVERSION=10
 # PREVMAJORVERSION is the previous major version
-PREVMAJORVERSION=9
+PREVMAJORVERSION=9.6
 
 # Check for the PGDATA structure
 if [ -f "$PGDATA/PG_VERSION" ] && [ -d "$PGDATA/base" ]
