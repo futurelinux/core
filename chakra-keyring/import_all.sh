@@ -36,18 +36,6 @@ import_trusted "0x3DB6614F" >> chakra-trusted
 gpg --recv-keys --keyserver keys.gnupg.net 0xB6611E8A
 gpg --armor --export s8321414@gmail.com >> chakra.gpg
 import_trusted "0xB6611E8A" >> chakra-trusted
-# Ryan's key
-gpg --recv-keys --keyserver keys.gnupg.net 0xD417608D
-gpg --armor --export ryan@rshipp.com >> chakra.gpg
-import_trusted "0xD417608D" >> chakra-trusted
-# Inkane's key
-gpg --recv-keys --keyserver keys.gnupg.net 0xF906E3F4
-gpg --armor --export 0inkane@googlemail.com >> chakra.gpg
-import_trusted "0xF906E3F4" >> chakra-trusted
-# Gallaecio's key
-gpg --recv-keys --keyserver keys.gnupg.net 0x82AC496A
-gpg --armor --export adriyetichaves@gmail.com >> chakra.gpg
-import_trusted "0x82AC496A" >> chakra-trusted
 # FranzMari's key
 gpg --recv-keys --keyserver keys.gnupg.net 0x4CA5A1FF
 gpg --armor --export framari@openmailbox.org >> chakra.gpg
@@ -56,10 +44,6 @@ import_trusted "0x4CA5A1FF" >> chakra-trusted
 gpg --recv-keys --keyserver keys.gnupg.net 0xC51B9BC2
 gpg --armor --export brli@chakralinux.org >> chakra.gpg
 import_trusted "0xC51B9BC2" >> chakra-trusted
-# gnastyle's key
-gpg --recv-keys --keyserver keys.gnupg.net 0x46B51A79
-gpg --armor --export gnastyle >> chakra.gpg
-import_trusted "0x46B51A79" >> chakra-trusted
 # totte's key
 gpg --recv-keys --keyserver keys.gnupg.net 0x99421F98
 gpg --armor --export totte@chakralinux.org >> chakra.gpg
