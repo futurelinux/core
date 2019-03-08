@@ -1,5 +1,5 @@
 pkgname=gnupg
-pkgver=2.2.8
+pkgver=2.2.13
 pkgrel=1
 pkgdesc='Complete and free implementation of the OpenPGP standard'
 url='http://www.gnupg.org/'
@@ -12,7 +12,7 @@ depends=('npth' 'libgpg-error' 'libgcrypt' 'libksba' 'libassuan'
          'pinentry' 'bzip2' 'readline' 'gnutls' 'sqlite3')
 checkdepends=('openssh')
 source=("https://gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2"{,.sig})
-sha1sums=('d87553a125832ea90e8aeb3ceeecf24f88de56fb'
+sha1sums=('66ebc053e2d22f743673d3fbe54453774e4fac58'
           'SKIP')
 validpgpkeys=('D8692123C4065DEA5E0F3AB5249B39D24F25E3B6'
               '46CC730865BB5C78EBABADCF04376F3EE0856959'
@@ -20,10 +20,6 @@ validpgpkeys=('D8692123C4065DEA5E0F3AB5249B39D24F25E3B6'
               'D238EA65D64C67ED4C3073F28A861B1C7EFD60D9')
 
 install=${pkgname}.install
-
-conflicts=('dirmngr' 'gnupg2')
-provides=('dirmngr' "gnupg2=${pkgver}")
-replaces=('dirmngr' 'gnupg2')
 
 prepare() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
