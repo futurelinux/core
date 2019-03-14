@@ -1,25 +1,33 @@
 pkgname=libmatroska
-pkgver=1.4.8
-pkgrel=2
+pkgver=1.5.0
+pkgrel=1
 pkgdesc="Matroska library"
 arch=('x86_64')
-url="http://dl.matroska.org/downloads/libmatroska/"
+url="https://dl.matroska.org/downloads/libmatroska/"
 license=('LGPL')
 depends=('libebml')
+makedepends=('cmake')
 source=("http://dl.matroska.org/downloads/libmatroska/${pkgname}-${pkgver}.tar.xz")
-md5sums=('45ffda84badb4e3da5d8f2535e54d511')
+md5sums=('39a5293ccac395c741b2208336bf2510')
+
+prepare() {
+  if [[ -d build ]]; then
+    rm -rf build
+  fi
+  mkdir build
+}
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr \
-              --disable-static
+  cd build
 
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+    -DBUILD_SHARED_LIBS=ON
   make
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-
-  make prefix="${pkgdir}/usr" install
+  make DESTDIR="${pkgdir}" -C build install
 }
-
