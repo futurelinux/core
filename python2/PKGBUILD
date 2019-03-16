@@ -6,7 +6,7 @@ pkgdesc="A high-level scripting language"
 arch=('x86_64')
 license=('PSF')
 url="https://www.python.org"
-depends=('bzip2' 'expat' 'gdbm' 'libffi' 'libnsl' 'openssl' 'sqlite' 'zlib')
+depends=('bzip2' 'expat' 'gdbm' 'libffi' 'openssl' 'sqlite' 'zlib') #'libnsl' some files owned by our glibc
 makedepends=('tk' 'bluez-libs')
 optdepends=('tk: for IDLE'
             'python2-setuptools'
