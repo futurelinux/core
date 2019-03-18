@@ -1,6 +1,6 @@
 pkgname=apache
 pkgver=2.4.38
-pkgrel=1
+pkgrel=2
 pkgdesc='A high performance Unix-based HTTP server'
 arch=('x86_64')
 url='https://httpd.apache.org/'
@@ -13,24 +13,27 @@ backup=(etc/httpd/conf/httpd.conf
         etc/httpd/conf/{mime.types,magic}
         etc/logrotate.d/httpd)
 depends=('zlib' 'apr-util' 'pcre' 'openssl')
-makedepends=('libxml2' 'lua' 'curl' 'jansson')
+makedepends=('libxml2' 'lua' 'curl' 'brotli' 'jansson')
 optdepends=(
     'lua: for mod_lua module'
     'libxml2: for mod_proxy_html, mod_xml2enc modules'
     'curl: for mod_md module'
     'jansson: for mod_md module' 
+    'brotli: for mod_brotli module'
     'lynx: apachectl status'
 )
 source=(https://www.apache.org/dist/httpd/httpd-${pkgver}.tar.bz2
         apache.tmpfiles.conf
         httpd.logrotate
         httpd.service
-        chakra.layout)
+        chakra.layout
+        openssl-malloc-init.patch)
 sha256sums=('7dc65857a994c98370dc4334b260101a7a04be60e6e74a5c57a6dee1bc8f394a'
             '16caf534bd54b7ce2203a085ddf844b8297eb63f91f2f3d09b2a8c971f8acc10'
             '875903831634edf35d8d57e9a51bacb818255ecb3bfff29627f03e43d1ab65c3'
             '14d0a775eea7f8c66ba55399a9ad1e4fd29e0302f479a15b28bbfc754c5aa347'
-            'ee0bd61092331f1b3e091086cb1f147466ad6731fe81c347ae862e104ff8a096')
+            'ee0bd61092331f1b3e091086cb1f147466ad6731fe81c347ae862e104ff8a096'
+            'd305f8b52ac2a9bbda7bb0776496471e69e9d30642740f594d00086a8c7e344c')
 
 prepare() {
   cd httpd-${pkgver}
@@ -41,6 +44,9 @@ prepare() {
       -i docs/conf/httpd.conf.in
 
   cat "${srcdir}/chakra.layout" >> config.layout
+
+  # https://github.com/openssl/openssl/issues/2865
+  patch -Np1 -i ../openssl-malloc-init.patch
 }
 
 build() {
@@ -66,12 +72,11 @@ build() {
       --enable-proxy --enable-proxy-connect \
       --enable-proxy-http --enable-proxy-ftp \
       --enable-dbd --enable-imagemap --enable-ident --enable-cern-meta \
-      --enable-lua --enable-xml2enc --enable-md \
+      --enable-lua --enable-xml2enc --enable-md --enable-brotli \
       --with-apr=/usr/bin/apr-1-config \
       --with-apr-util=/usr/bin/apu-1-config \
       --with-pcre=/usr
   make
-
 }
 
 package() {
