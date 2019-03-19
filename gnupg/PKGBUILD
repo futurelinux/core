@@ -1,5 +1,5 @@
 pkgname=gnupg
-pkgver=2.2.13
+pkgver=2.2.14
 pkgrel=1
 pkgdesc='Complete and free implementation of the OpenPGP standard'
 url='http://www.gnupg.org/'
@@ -12,7 +12,7 @@ depends=('npth' 'libgpg-error' 'libgcrypt' 'libksba' 'libassuan'
          'pinentry' 'bzip2' 'readline' 'gnutls' 'sqlite3')
 checkdepends=('openssh')
 source=("https://gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2"{,.sig})
-sha1sums=('66ebc053e2d22f743673d3fbe54453774e4fac58'
+sha1sums=('f349c20e7498af88299b0d42a961e0364e5c37e7'
           'SKIP')
 validpgpkeys=('D8692123C4065DEA5E0F3AB5249B39D24F25E3B6'
               '46CC730865BB5C78EBABADCF04376F3EE0856959'
