@@ -1,7 +1,7 @@
 
 pkgbase=qt5-base
 pkgname=(qt5-base qt5-xcb-private-headers)
-pkgver=5.12.1
+pkgver=5.12.2
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -22,7 +22,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('540e4d774f89615c413dd0cb7aeda555'
+md5sums=('a8f4329015a25e3488078d905379bedd'
          '5f7a6953e797ef4ceeda7a352b36425e'
          'f41158d2f590dfc631a492d581173f7d')
 

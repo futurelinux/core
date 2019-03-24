@@ -1,6 +1,6 @@
 
 pkgname=qt5-canvas3d
-pkgver=5.12.1
+pkgver=5.12.2
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('6a4f5381224554423a1cc3eebc49129e')
+md5sums=('ef8ed440308bfe0f90b47d97d698b70a')
 
 prepare() {
   mkdir -p build
