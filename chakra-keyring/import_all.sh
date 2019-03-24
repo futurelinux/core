@@ -16,18 +16,10 @@ touch chakra.gpg
 rm  chakra-trusted
 touch  chakra-trusted
 
-# Giuseppe's key
-gpg --recv-keys --keyserver keys.gnupg.net 0x26C56140
-gpg --armor --export jiveaxe@gmail.com >> chakra.gpg
-import_trusted "0x26C56140" >> chakra-trusted
 # Weng Xuetian's key
 gpg --recv-keys --keyserver keys.gnupg.net 0xBF2412F9
 gpg --armor --export wengxt@gmail.com >> chakra.gpg
 import_trusted "0xBF2412F9" >> chakra-trusted
-# Neo's key
-gpg --recv-keys --keyserver keys.gnupg.net 0x02238B03
-gpg --armor --export tetris4@gmail.com >> chakra.gpg
-import_trusted "0x02238B03" >> chakra-trusted
 # Luca's key
 gpg --recv-keys --keyserver keys.gnupg.net 0x3DB6614F
 gpg --armor --export gluca86@gmail.com >> chakra.gpg
@@ -45,9 +37,9 @@ gpg --recv-keys --keyserver keys.gnupg.net 0xC51B9BC2
 gpg --armor --export brli@chakralinux.org >> chakra.gpg
 import_trusted "0xC51B9BC2" >> chakra-trusted
 # totte's key
-gpg --recv-keys --keyserver keys.gnupg.net 0x99421F98
+gpg --recv-keys --keyserver keys.gnupg.net 0xED15437F
 gpg --armor --export totte@chakralinux.org >> chakra.gpg
-import_trusted "0x99421F98" >> chakra-trusted
+import_trusted "0xED15437F" >> chakra-trusted
 # Automated Chakra Build System key
 gpg --recv-keys --keyserver keys.gnupg.net 0xDC2F4138
 gpg --armor --export staff@chakralinux.org >> chakra.gpg
