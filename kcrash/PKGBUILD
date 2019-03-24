@@ -1,18 +1,18 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/kcrash
 
 pkgname=kcrash
-pkgver=5.55.0
+pkgver=5.56.0
 pkgrel=1
 pkgdesc='Support for application crash analysis and bug report from apps'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kcrash'
 license=('LGPL')
 depends=('kcoreaddons' 'kwindowsystem')
-makedepends=("extra-cmake-modules>=5.55.0")
+makedepends=("extra-cmake-modules>=5.56.0")
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('c90d96fbac26727e1de32898a93bb7cbc9a05ee992c11d4303941ab96a614821'
+sha256sums=('581e8215212a584886e8d4b6d5c1aac277590bcb343697d8b3653e1c22f6b1e0'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 
