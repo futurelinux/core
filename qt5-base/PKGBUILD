@@ -22,9 +22,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('a8f4329015a25e3488078d905379bedd'
-         '5f7a6953e797ef4ceeda7a352b36425e'
-         'f41158d2f590dfc631a492d581173f7d')
+md5sums=('a8f4329015a25e3488078d905379bedd')
 
 prepare() {
   cd ${_pkgfqn}
