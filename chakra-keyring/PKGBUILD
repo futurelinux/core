@@ -4,7 +4,7 @@
 # Maintainer: Luca Giambonini <almack@chakralinux.org>
 
 pkgname=chakra-keyring
-pkgver=20190308
+pkgver=20190324
 pkgrel=1
 pkgdesc='Chakra PGP keyring'
 arch=('any')
@@ -19,7 +19,7 @@ source=('Makefile'
 sha256sums=('0331469dc8044758801d3b56bb1bfc1a69396a39fe42ee1d0f3d94b080c69d0e'
             '2bdf8d06a12cff19c424d9d1ee8c2b2a071a89103abbc28c236cc67458183bc5'
             'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-            'b40f85ba5ac31bf63230ca60686180e9dc93af07f5bdcd0fc2e7cf56451cc490')
+            '3a0579f8424957e7a89bfa1ea163ea20ebdc17f6cc5d4ba47c6f760afbfa3f74')
 
 package() {
     cd ${srcdir}

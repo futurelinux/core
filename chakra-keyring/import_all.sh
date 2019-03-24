@@ -48,4 +48,6 @@ import_trusted "0xC51B9BC2" >> chakra-trusted
 gpg --recv-keys --keyserver keys.gnupg.net 0x99421F98
 gpg --armor --export totte@chakralinux.org >> chakra.gpg
 import_trusted "0x99421F98" >> chakra-trusted
-
+# Automated Chakra Build System key
+gpg --recv-keys --keyserver keys.gnupg.net 0xDC2F4138
+import_trusted "0xDC2F4138" >> chakra-trusted
