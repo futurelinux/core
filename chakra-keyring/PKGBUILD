@@ -17,9 +17,9 @@ source=('Makefile'
         'chakra-revoked'
         'chakra-trusted')
 sha256sums=('0331469dc8044758801d3b56bb1bfc1a69396a39fe42ee1d0f3d94b080c69d0e'
-            'd65266dd9b7d5fbb9ac4e1ed1fd1b1f7271b4cd386873e9cff35d5954bafa4c1'
+            '89a994c7286a28320cf2252caedfc4357d29546b9dee4146df46ae3cf6d98405'
             'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-            '3a0579f8424957e7a89bfa1ea163ea20ebdc17f6cc5d4ba47c6f760afbfa3f74')
+            'fd286086696d0b554f76938f15df5977e834539466ccf9fd36ab09443cbba00b')
 
 package() {
     cd ${srcdir}
