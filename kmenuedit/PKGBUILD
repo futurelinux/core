@@ -1,7 +1,7 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/kmenuedit
 
 pkgname=kmenuedit
-pkgver=5.15.2
+pkgver=5.15.3
 pkgrel=1
 pkgdesc='KDE menu editor'
 arch=('x86_64')
@@ -12,7 +12,7 @@ makedepends=(extra-cmake-modules kdoctools python3 kdesignerplugin)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('d3ef0d95ea9863654386f6a577e7cdb8da4a2a90abd49e94f54d1b54019156f6'
+sha256sums=('4b5d390e8f5f8af4f2120dfa22b43b64889858a573f8e14c22bd5e15fb85ebe8'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
