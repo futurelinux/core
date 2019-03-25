@@ -11,16 +11,13 @@ makedepends=()
 groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
-               qtbug-73961.patch)
-md5sums=('469629d68419c135f77f760aa0e06da4'
-         '580a78ed7e35993a0a1ec5f6c6db6812')
+source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
+md5sums=('469629d68419c135f77f760aa0e06da4')
 
 prepare() {
   mkdir -p build
 
   cd $_pkgfqn
-  patch -p1 -i ../qtbug-73961.patch # Fix OOM with some Plasma themes https://bugreports.qt.io/browse/QTBUG-73691
 }
 
 build() {
