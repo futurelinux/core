@@ -19,11 +19,15 @@ prepare() {
 
 build() {
   cd "$srcdir"/PyQtWebEngine_gpl-$pkgver
-  python3 configure.py
+  python3 configure.py \
+    --no-sip-files \
+    -q /usr/bin/qmake-qt5
   make
 
   cd "$srcdir"/PyQtWebEngine_gpl-$pkgver-py2
-  python2 configure.py
+  python2 configure.py \
+    --no-sip-files \
+    -q /usr/bin/qmake-qt5
   make
 }
 
