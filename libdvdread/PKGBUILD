@@ -1,23 +1,20 @@
 pkgname=libdvdread
-pkgver=5.0.3
+pkgver=6.0.1
 pkgrel=1
 pkgdesc="Provides a simple foundation for reading DVD video disks"
 arch=('x86_64')
-url="http://dvdnav.mplayerhq.hu"
+url="https://www.videolan.org/developers/libdvdnav.html"
 license=('GPL')
-depends=('glibc' 'libdvdcss')
-source=(http://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2)
-sha256sums=('321cdf2dbdc83c96572bc583cd27d8c660ddb540ff16672ecb28607d018ed82b')
+depends=('glibc')
+makedepends=('libdvdcss')
+optdepends=('libdvdcss: for decoding encrypted DVDs')
+source=(https://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2)
+sha256sums=('28ce4f0063883ca4d37dfd40a2f6685503d679bca7d88d58e04ee8112382d5bd')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  ./configure --prefix=/usr \
-              --enable-static=no \
-              --sharedstatedir=/var \
-              --localstatedir=/var \
-              --sysconfdir=/etc \
-              --with-libdvdcss=yes
+  ./configure --prefix=/usr
   make
 }
 
