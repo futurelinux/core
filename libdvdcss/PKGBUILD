@@ -1,13 +1,14 @@
 pkgname=libdvdcss
-pkgver=1.4.0
+pkgver=1.4.2
 pkgrel=1
-pkgdesc="libdvdcss is a cross-platform library for transparent DVD device access with on-the-fly CSS decryption."
+pkgdesc="Portable abstraction library for DVD decryption"
+url="https://www.videolan.org/developers/libdvdcss.html"
 arch=('x86_64')
 license=('GPL')
 depends=('glibc')
-options=('!libtool' '!emptydirs')
-source=("http://download.videolan.org/pub/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
-sha1sums=('4872a7c7e5c170c6c1787573b2f900b36a1ba974')
+options=('!docs' '!emptydirs')
+source=("https://download.videolan.org/pub/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+sha256sums=('78c2ed77ec9c0d8fbed7bf7d3abc82068b8864be494cfad165821377ff3f2575')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
