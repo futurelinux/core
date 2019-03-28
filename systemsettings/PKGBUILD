@@ -1,7 +1,8 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/systemsettings
 
 pkgname=systemsettings
-pkgver=5.15.3
+pkgver=5.15.3.2
+_pkgver=5.15.3
 pkgrel=1
 pkgdesc='KDE system settings'
 arch=('x86_64')
@@ -11,8 +12,8 @@ depends=(kactivities-stats plasma-workspace)
 makedepends=(extra-cmake-modules kdoctools khtml)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('b2f37d7d4fff3737ba75dbfbeca8290d2995930fdd0247fc947e1924ccc74061'
+source=("https://download.kde.org/stable/plasma/$_pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('42095b95a7866aa667e30c15a7ebc9b00225fdb4f06668510fdf63a18573102f'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
