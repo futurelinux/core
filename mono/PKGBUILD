@@ -1,6 +1,5 @@
 pkgname=mono
 pkgver=5.18.1.0
-_pkgver=5.18.1
 pkgrel=1
 pkgdesc="Free implementation of the .NET platform including runtime and compiler"
 arch=('x86_64')
@@ -17,7 +16,7 @@ sha256sums=('a92a8fb54f8faa922cdb203cf0bee93bf418f08144f5bc018c5013948d03a4f0'
             '7aa517de1307247a133d1b55051243fb9ec49c3cadb0de75c1be9687183b3ae2')
 
 build() {
-  cd $pkgname-$_pkgver
+  cd $pkgname-$pkgver
 
   # build mono
   ./configure --prefix=/usr \
@@ -30,7 +29,7 @@ build() {
 }
 
 package() {
-  cd $pkgname-$_pkgver
+  cd $pkgname-$pkgver
   make DESTDIR=$pkgdir install
   make -C mcs/jay DESTDIR="${pkgdir}" prefix=/usr INSTALL=../../install-sh install
   install -Dm 644 "${srcdir}/mono.binfmt.d" "${pkgdir}/usr/lib/binfmt.d/mono.conf"
