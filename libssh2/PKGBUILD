@@ -1,5 +1,5 @@
 pkgname=libssh2
-pkgver=1.8.1
+pkgver=1.8.2
 pkgrel=1
 pkgdesc="A library implementing the SSH2 protocol as defined by Internet Drafts"
 url="http://www.libssh2.org/"
@@ -9,7 +9,7 @@ depends=('openssl')
 makedepends=('zlib')
 provides=('libssh2.so')
 source=("https://www.libssh2.org/download/$pkgname-$pkgver.tar.gz"{,.asc})
-md5sums=('338f36a8bb7f5ef55715ac1864cc788c'
+md5sums=('616efd99af3d9ef731a26bed6cee9593'
          'SKIP')
 validpgpkeys=('27EDEAF22F3ABCEB50DB9A125CC908FDB71E12C2')   # Daniel Stenberg
 
