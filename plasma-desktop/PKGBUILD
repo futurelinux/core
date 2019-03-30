@@ -18,11 +18,10 @@ conflicts=('kde-workspace')
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$_pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source+=( chakra_defaultPanel.patch::https://bugsfiles.kde.org/attachment.cgi?id=102600 )
 sha256sums=('21e54d489817751173049122410737db641a8e58955b84264a4ec861e302ff8a'
             'SKIP'
             'af2856ae7904726e6e8cfb3616a51f82fbfee10dc7edc85b579be684601a554c')
-source+=( chakra_defaultPanel.patch::https://bugsfiles.kde.org/attachment.cgi?id=102600 )
-sha256sums+=( 'af2856ae7904726e6e8cfb3616a51f82fbfee10dc7edc85b579be684601a554c' )
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
               'D07BD8662C56CB291B316EB2F5675605C74E02CF'  # David Edmundson
