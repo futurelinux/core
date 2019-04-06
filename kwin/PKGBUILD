@@ -1,8 +1,8 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/kwin
 
 pkgname=kwin
-pkgver=5.15.3.2
-_pkgver=5.15.3
+pkgver=5.15.4
+_pkgver=5.15.4
 pkgrel=1
 pkgdesc='KDE Window manager'
 arch=('x86_64')
@@ -14,7 +14,7 @@ optdepends=('qt5-virtualkeyboard: virtual keyboard support for kwin-wayland')
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/${_pkgver}/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('3c7b5ced440cf9ecd23b5905727cea4730188fbfe6388b4fcdb5eb3f52323147'
+sha256sums=('4bdb01713d0d5605810bcbfddfbc9cb5e5bb2e7c89846f37f20e083b84c00ec1'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

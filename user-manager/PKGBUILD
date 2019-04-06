@@ -2,7 +2,7 @@
 
 
 pkgname=user-manager
-pkgver=5.15.3
+pkgver=5.15.4
 pkgrel=1
 pkgdesc="KDE's user manager"
 arch=('x86_64')
@@ -14,7 +14,7 @@ checkdepends=("cmake")
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('444b9a69f3347caa81ab1c1baaabb135a9cae783c1e91cc7e40c3626fb784ca1'
+sha256sums=('e698fcc723a559f54d41b973d17fb26a768edb4058bf1acb036491cb16f66401'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

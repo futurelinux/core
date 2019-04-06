@@ -1,6 +1,6 @@
 
 pkgname=kscreenlocker
-pkgver=5.15.3
+pkgver=5.15.4
 pkgrel=1
 pkgdesc='Library and components for secure lock screen architecture'
 arch=(x86_64)
@@ -11,7 +11,7 @@ depends=(kidletime kwayland kdeclarative)
 makedepends=(extra-cmake-modules python3 kdoctools kcmutils libxcursor)
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('cafe0b7b2ce65e1cf86e6b87f8281380d531949c445e22a23714b1bce2bbf42d'
+sha256sums=('d81e34ac9f22b2fd9ed63e599e9c709e91ecd0b5e7458732e4535a71ce5a9f58'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

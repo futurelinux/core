@@ -1,7 +1,7 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/khotkeys
 
 pkgname=khotkeys
-pkgver=5.15.3
+pkgver=5.15.4
 pkgrel=1
 pkgdesc='KHotKeys'
 arch=('x86_64')
@@ -12,7 +12,7 @@ makedepends=(extra-cmake-modules kdoctools python3 kdesignerplugin)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('85d6705dec38e38d259bc9a721a75a9bd4abde636a1d7406bc1dc5390d6dd33e'
+sha256sums=('4e446507872817a6db360707734cc60254918f6026e56a96ba3eb1e938e59ce6'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
