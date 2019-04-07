@@ -1,5 +1,5 @@
 pkgname=man-pages
-pkgver=4.16
+pkgver=5.00
 _posixver=2013-a
 pkgrel=1
 pkgdesc="Linux man pages"
@@ -55,5 +55,5 @@ package() {
   # included in tzdata
   rm -f man5/tzfile.5 man8/{tzselect,zdump,zic}.8
 }
-md5sums=('ad9f1ff81276fe8d90d077484d6d4b5e'
+md5sums=('d3be22b49e52d93734343c0df52dad01'
          '825fde78e6fddd02426ecdd50e2cbe0d')
