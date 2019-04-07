@@ -2,10 +2,10 @@ pkgbase=ttf-noto
 # Please do not merge noto-color-emoji and noto-emoji for now. ColorEmoji
 # is likely to cause some crashes in application.
 pkgname=('ttf-noto' 'ttf-noto-extra' 'otf-noto-cjk' 'ttf-noto-emoji' 'ttf-noto-color-emoji' 'ttf-croscore')
-pkgver=20181028
-_commit=d7af81e614086435102cca95961b141b3530a027  # master
-_commit_cjk=32a5844539f2e348ed36b44e990f9b06d7fb89fe
-_commit_emoji=8a6530b7b26e8c5ee7b177a1388d492bbcaf4319
+pkgver=20190316
+_commit=4bff97c612daf65d4409c9ebc26dfbd6a3d83a7e  # master
+_commit_cjk=9326451d9b4f32ec7f8640581c5053cc192039f2
+_commit_emoji=77002c46c9efc9b0011cff0fee28464ba94ca62a
 pkgrel=1
 arch=('any')
 url="http://www.google.com/get/noto"
@@ -15,9 +15,9 @@ source=("noto-fonts-$_commit.zip::https://github.com/googlei18n/noto-fonts/archi
         "noto-cjk-$_commit_cjk.zip::https://github.com/googlei18n/noto-cjk/archive/$_commit_cjk.zip"
         "noto-emoji-$_commit_emoji.zip::https://github.com/googlei18n/noto-emoji/archive/$_commit_emoji.zip"
         66-noto-sans.conf 66-noto-serif.conf 66-noto-mono.conf 70-noto-cjk.conf)
-sha256sums=('a6474d3a1fcea8dd4c369b9bb9b3bca3678b92f9eaa269e67e0df42537d685f5'
-            '31e53af3f5e97ae021f24f960608e98f64aaa12804eda7fb583dcfaa8d496ebf'
-            'eef8620340f8f229772fd215282b08273685b416b910698b8979f3c21b5b653b'
+sha256sums=('f751ab53b955466a186c1a759e30d1b70cbad4aec5d52e8b2acf5c6d71b171e9'
+            '28d282497d78e15c77f346afcf81498bef1f98f168e97eeb5a1a288106b84ed2'
+            'd0be6ef425ec5eb4811018ce083334e4bb23d6c81af03e731b4ff24926673805'
             '65ff237a579d438eb1b1c90bf25b5818e15ab019dbbfed2fc283b9cd12e5177f'
             '27419c0557d05e13edbb244cd06a62d921c271c6c2f07126856519869035776e'
             '8c541eab8b44f6c7b02e981a4fbbd082eb6c1aa8285e11dede5f0a3ec0617772'
