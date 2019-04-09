@@ -1,5 +1,5 @@
 pkgname=arch-install-scripts
-pkgver=20
+pkgver=21
 pkgrel=1
 pkgdesc="Scripts to aid in installing Arch Linux (with modifications for Chakra)"
 arch=('any')
