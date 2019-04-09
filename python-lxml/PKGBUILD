@@ -1,16 +1,18 @@
 pkgbase=python-lxml
 pkgname=('python3-lxml' 'python2-lxml' 'python-lxml-docs')
-pkgver=4.1.0
+pkgver=4.3.3
 pkgrel=1
 arch=('x86_64')
 license=('BSD' 'custom')
-url="http://lxml.de/"
-makedepends=('python3' 'python3-setuptools' 'python2' 'python2-setuptools' 'libxslt'
-             'python3-cssselect' 'python2-cssselect' 'python3-beautifulsoup4' 'python2-beautifulsoup4')
-source=(https://pypi.io/packages/source/l/lxml/lxml-${pkgver}.tar.gz)
-md5sums=('247580bd5d942872bd972ad0086e5cbf')
+url="https://lxml.de/"
+makedepends=('libxslt' 'python3-setuptools' 'python2-setuptools' 'epydoc' 'python2-pygments'
+             'python2-docutils' 'cython3' 'cython2' 'python3-cssselect' 'python2-cssselect'
+             'python3-html5lib' 'python2-html5lib' 'python3-beautifulsoup4' 'python2-beautifulsoup4')
+source=("https://github.com/lxml/lxml/archive/lxml-$pkgver.tar.gz")
+sha256sums=('975d56a3993479a6ed422a78440de6e820691222427e962eec82de25a9d04511')
 
 prepare() {
+  mv lxml-lxml-$pkgver lxml-$pkgver
   cp -a lxml-$pkgver{,-py2}
 
   # Setting LC_CTYPE to workaround encoding issue
@@ -23,6 +25,7 @@ build() {
 
   cd "$srcdir"/lxml-$pkgver-py2
   python2 setup.py build
+  make PYTHON=python2 html
 }
 
 package_python3-lxml() {
