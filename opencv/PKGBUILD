@@ -1,12 +1,12 @@
 pkgbase=opencv
 pkgname=('opencv' 'opencv-samples')
-pkgver=3.4.5
+pkgver=3.4.6
 pkgrel=1
 pkgdesc="Open Source Computer Vision Library"
 arch=('x86_64')
 license=('BSD')
-url="http://opencv.org"
-depends=('gst-plugins-base' 'intel-tbb' 'libcl' 'libgphoto2' 'openblas' 'lapack'
+url="https://opencv.org"
+depends=('cblas' 'gst-plugins-base' 'intel-tbb' 'libcl' 'libgphoto2' 'openblas' 'lapack'
          'libdc1394' 'openexr' 'v4l-utils' 'ffmpeg' 'qt5-base' 'glu' 'python3' 'libgphoto2' 'xine-lib')
 makedepends=('pkgconfig' 'cmake' 'mesa' 'python3-numpy' 'eigen3' 'hdf5' 'glew')
 optdepends=('python3-numpy: Python 3.x interface'
@@ -14,8 +14,8 @@ optdepends=('python3-numpy: Python 3.x interface'
             'hdf5: For hdf5 plugin to work')
 source=("opencv-$pkgver.zip::https://github.com/Itseez/opencv/archive/${pkgver}.zip"
         "opencv_contrib-$pkgver.zip::https://github.com/Itseez/opencv_contrib/archive/${pkgver}.zip")
-sha1sums=('8d67f847b2f8fb3eb59cc673fd44c31fa066db42'
-          'e00531339df96a9319277f776980fc9917ca5805')
+sha1sums=('2fe8004a6899df9d61b1d3aa5b814f4b9f9e4f42'
+          '87e7288cf68d3f336dde06b7469d9e75974473e1')
 
 prepare() {
   mkdir -p build
