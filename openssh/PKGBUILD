@@ -1,21 +1,21 @@
 pkgname=openssh
-pkgver=7.8p1
+pkgver=8.0p1
 pkgrel=1
 pkgdesc='Premier connectivity tool for remote login with the SSH protocol'
-url='https://www.openssh.org/portable.html'
+url='https://www.openssh.com/portable.html'
 license=('custom:BSD')
 arch=('x86_64')
 makedepends=('linux-headers')
 depends=('krb5' 'openssl' 'libedit' 'ldns')
 optdepends=('xorg-xauth: X11 forwarding')
-source=("http://ftp.spline.de/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}.tar.gz"{,.asc}
+source=("https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}.tar.gz"{,.asc}
         'sshdgenkeys.service'
         'sshd@.service'
         'sshd.service'
         'sshd.socket'
         'sshd.conf'
         'sshd.pam')
-sha1sums=('27e267e370315561de96577fccae563bc2c37a60'
+sha1sums=('756dbb99193f9541c9206a667eaa27b0fa184a4f'
           'SKIP'
           'caaa801da59a5d14c0c29c43e9de5fef281ea03e'
           'bf99e12186a93bdab81ddc013484c3b0f65f6ccf'
@@ -34,6 +34,7 @@ build() {
 
 	./configure \
 		--prefix=/usr \
+		--sbindir=/usr/bin \
 		--libexecdir=/usr/lib/ssh \
 		--sysconfdir=/etc/ssh \
 		--with-ldns \
@@ -48,13 +49,6 @@ build() {
 		--with-pid-dir=/run \
 
 	make
-}
-
-check() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
-
-	make tests ||
-	grep $USER /etc/passwd | grep -q /bin/false
 }
 
 package() {
