@@ -1,19 +1,16 @@
-# maintainer: Neophytos Kolokotronis <tetris4@gmail.com>
-# contributions from Arch: https://www.archlinux.org/packages/extra/x86_64/ocaml/
-
 pkgbase='ocaml'
 pkgname=('ocaml' 'ocaml-compiler-libs')
-pkgver=4.05.0
+pkgver=4.07.1
 pkgrel=1
 pkgdesc="A functional language with OO extensions"
 arch=('x86_64')
 license=('LGPL2.1' 'custom: QPL-1.0')
 url="http://ocaml.org/"
 depends=('gdbm')
-makedepends=('tk>=8.6.0' 'ncurses>=6.0' 'libx11')
+makedepends=('tk' 'ncurses' 'libx11')
 optdepends=('ncurses: advanced ncurses features' 'tk: advanced tk features')
-source=(http://caml.inria.fr/pub/distrib/${pkgbase}-${pkgver%.*}/${pkgbase}-${pkgver}.tar.gz)
-md5sums=('89fd8cee148a00a6fcd5f587a2cebe10')
+source=(http://caml.inria.fr/pub/distrib/${pkgbase}-${pkgver%.*}/${pkgbase}-${pkgver}.tar.xz)
+md5sums=('c3250eaad4d63e92efb21456a7a46a13')
 options=('!makeflags' '!emptydirs' 'staticlibs')
 
 build() {
@@ -32,24 +29,31 @@ package_ocaml() {
   # install license
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/"
+
+  # remove compiler libs
+  rm -rf "${pkgdir}/usr/lib/ocaml/compiler-libs"
 }
 
 package_ocaml-compiler-libs() {
-  pkgdesc="Several modules used internally by the OCaml compiler"
-  license=('custom: QPL-1.0')
-  depends=('ocaml')
-  optdepends=()
+pkgdesc="Several modules used internally by the OCaml compiler"
+license=('custom: QPL-1.0')
+depends=('ocaml')
+optdepends=()
 
   cd "${srcdir}/${pkgbase}-${pkgver}"
-
-  # Install compiler libraries
-  local compiler_libs="${pkgdir}/usr/lib/ocaml/compiler-libs"
-  mkdir -p "$compiler_libs"/{parsing,typing,utils}
-  cp parsing/*.{cmi,cmo,cmx,ml,mli,mll,o} "$compiler_libs"/parsing
-  cp typing/*.{cmi,cmo,cmx,ml,mli,o} "$compiler_libs"/typing
-  cp utils/*.{cmi,cmo,cmx,ml,mli,o} "$compiler_libs"/utils
-  # duplicated by installation
-  rm -f "$compiler_libs"/typing/outcometree.{cmi,mli}
+  # from Makefile
+  BYTESTART=driver/main.cmo
+  TOPLEVELSTART=toplevel/topstart.cmo
+  mkdir -p "${pkgdir}/usr/lib/ocaml/compiler-libs"
+  cp utils/*.cmi utils/*.cmt utils/*.cmti utils/*.mli \
+     parsing/*.cmi parsing/*.cmt parsing/*.cmti parsing/*.mli \
+     typing/*.cmi typing/*.cmt typing/*.cmti typing/*.mli \
+     bytecomp/*.cmi bytecomp/*.cmt bytecomp/*.cmti bytecomp/*.mli \
+     driver/*.cmi driver/*.cmt driver/*.cmti driver/*.mli \
+     toplevel/*.cmi toplevel/*.cmt toplevel/*.cmti toplevel/*.mli \
+     "${pkgdir}/usr/lib/ocaml/compiler-libs"
+  cp compilerlibs/* ${BYTESTART} ${TOPLEVELSTART} \
+  "${pkgdir}/usr/lib/ocaml/compiler-libs"
 
   # install license
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
