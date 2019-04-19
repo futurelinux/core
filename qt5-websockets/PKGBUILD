@@ -1,7 +1,7 @@
 
 
 pkgname=qt5-websockets
-pkgver=5.12.2
+pkgver=5.12.3
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -14,7 +14,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('6ef39f57085f8f53beacac83691817bc')
+md5sums=('4c9bb82fe9602bc6d90e480cc37ce57b')
 
 prepare() {
   mkdir -p build

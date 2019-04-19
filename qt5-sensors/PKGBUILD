@@ -1,6 +1,6 @@
 
 pkgname=qt5-sensors
-pkgver=5.12.2
+pkgver=5.12.3
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -13,7 +13,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('8863e9df9dff1f101acd84d51b5ef563')
+md5sums=('e253a8617ac97db766bba900d36a4ae8')
 
 prepare() {
   mkdir -p build

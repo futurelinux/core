@@ -1,7 +1,7 @@
 
 pkgname=qt5-scxml
 
-pkgver=5.12.2
+pkgver=5.12.3
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -13,7 +13,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('cf373d005bbcd3efabd6a9ae0bd13871')
+md5sums=('1cc1733dcf011e065c0358f96235857a')
 
 prepare() {
   mkdir -p build
