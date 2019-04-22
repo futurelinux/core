@@ -1,0 +1,33 @@
+# COntributions from Arch:
+# Maintainer: Bruno Pagani <archange@archlinux.org>
+# Contributor: Jakob Gahde <j5lx@fmail.co.uk>
+
+pkgname=dune
+pkgver=1.9.1
+pkgrel=1
+pkgdesc="A composable build system for OCaml (formerly jbuilder)"
+arch=(x86_64)
+url="https://github.com/ocaml/dune"
+license=(Apache)
+depends=(glibc ocaml ocaml-findlib)
+provides=(jbuilder)
+conflicts=(jbuilder)
+replaces=(jbuilder)
+source=("${url}/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+sha256sums=('a2cd1904146475eafc2cbf8d27105d284307c02f1254b15a240af56363991704')
+
+build() {
+    cd ${pkgname}-${pkgver}
+    make release
+}
+
+package() {
+    cd ${pkgname}-${pkgver}
+
+    make DESTDIR="${pkgdir}" INSTALL_ARGS="--prefix=/usr --libdir='$(ocamlfind printconf destdir)'" install
+
+    # Fix doc and man install
+    rm -r "${pkgdir}"/usr/doc
+    install -dm755 "${pkgdir}"/usr/share
+    mv "${pkgdir}"/usr/{man,share/}
+}
