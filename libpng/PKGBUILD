@@ -1,5 +1,5 @@
 pkgname=libpng
-pkgver=1.6.36
+pkgver=1.6.37
 _apngver=${pkgver}
 pkgrel=1
 pkgdesc="A collection of routines used to create PNG format graphics files"
@@ -9,8 +9,8 @@ license=('custom')
 depends=('zlib' 'sh')
 source=(https://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.xz
         https://downloads.sourceforge.net/sourceforge/apng/libpng-$_apngver-apng.patch.gz)
-sha1sums=('aec9548c8319104226cc4c31d1f5e524f1b55295'
-          '31ed34fc74530d742d2d6cc3ae85e5fc02efb7ca')
+sha1sums=('3ab93fabbf4c27e1c4724371df408d9a1bd3f656'
+          '0ad5e6396ac588430ea6bd966dbdabfd5c797964')
           
 prepare() {
   cd ${pkgname}-${pkgver}
@@ -22,23 +22,21 @@ prepare() {
 
 build() {
   cd ${pkgname}-${pkgver}
-  ./configure \
-      --prefix=/usr \
-      --disable-static
-  make
-}
 
-check() {
-  cd $pkgname-$pkgver
-  make check
+  ./configure \
+    --prefix=/usr \
+    --disable-static
+  make
 }
 
 package() {
   cd ${pkgname}-${pkgver}
+
   make DESTDIR="$pkgdir" install
 
+  install -D -m0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
   cd contrib/pngminus
-  make PNGLIB="-L${pkgdir}/usr/lib -lpng" -f makefile.std png2pnm pnm2png
-  install -m755 png2pnm pnm2png "${pkgdir}/usr/bin/"
-  install -Dm644 ../../LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  make PNGLIB_SHARED="-L$pkgdir/usr/lib -lpng" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" png2pnm pnm2png
+  install -m0755 png2pnm pnm2png "$pkgdir/usr/bin/"
 }
