@@ -1,5 +1,5 @@
 pkgname=qpdf
-pkgver=8.4.0
+pkgver=8.4.1
 pkgrel=1
 pkgdesc="QPDF: A Content-Preserving PDF Transformation System"
 arch=('x86_64')
@@ -9,7 +9,7 @@ depends=('libjpeg-turbo' 'zlib')
 optdepends=('perl: required for fix-qdf')
 checkdepends=('perl')
 source=("https://github.com/qpdf/qpdf/releases/download/release-${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz")
-sha1sums=('b16325a88a09ed4b0684e569f060c406f8b208ef')
+sha1sums=('bb7e6ee3b9b515b873366fc85d14bcdf00853bb8')
 
 build() {
   cd "${pkgname}-${pkgver}"
