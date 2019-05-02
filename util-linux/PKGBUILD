@@ -1,5 +1,6 @@
 pkgname=util-linux
-pkgver=2.33
+_pkgmajor=2.33
+pkgver=${_pkgmajor}.2
 pkgrel=1
 pkgdesc="Miscellaneous system utilities for Linux"
 url="https://www.kernel.org/pub/linux/utils/util-linux/"
@@ -14,7 +15,7 @@ replaces=('rfkill')
 license=('GPL2')
 options=('strip' 'debug')
 validpgpkeys=('B0C64D14301CC6EFAEDF60E4E4B71D5EEC39C284')  # Karel Zak
-source=("https://www.kernel.org/pub/linux/utils/util-linux/v$pkgver/$pkgname-$pkgver.tar."{xz,sign}
+source=("https://www.kernel.org/pub/linux/utils/util-linux/v$_pkgmajor/$pkgname-$pkgver.tar."{xz,sign}
         pam-{login,common,su}
         'util-linux.sysusers')
 backup=(etc/pam.d/chfn
@@ -22,7 +23,7 @@ backup=(etc/pam.d/chfn
         etc/pam.d/login
         etc/pam.d/su
         etc/pam.d/su-l)
-md5sums=('3cdf1c652007610f92076ba4212381a9'
+md5sums=('91653b90fcbe9c161153e39b8cc69fb5'
          'SKIP'
          '4368b3f98abd8a32662e094c54e7f9b1'
          'a31374fef2cba0ca34dfc7078e2969e4'
@@ -59,11 +60,6 @@ build() {
 
   make
 }
-
-# only bc test fails, leaving dep to test the rest
-#check() {
-#  make -C "${pkgname}-${pkgver}" check
-#}
 
 package() {
   cd "$pkgname-$pkgver"
