@@ -1,6 +1,6 @@
 
 pkgname=plasma-browser-integration
-pkgver=5.15.4
+pkgver=5.15.5
 pkgrel=1
 pkgdesc="Qt Platform Theme integration plugins for the Plasma workspaces"
 arch=(x86_64)
@@ -11,7 +11,7 @@ makedepends=(extra-cmake-modules)
 options=("debug")
 groups=('plasma')
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('104225b3d825a387a481c7da570f1ee7b2b556401ed333f0a11f96a324471ac4'
+sha256sums=('f1883b504cb5e86a43e16fea803b93c81b09e4ce1339ae8bcf6cf35d7e734d3b'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

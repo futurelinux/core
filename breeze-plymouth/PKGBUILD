@@ -1,6 +1,6 @@
 
 pkgname=breeze-plymouth
-pkgver=5.15.4
+pkgver=5.15.5
 pkgrel=1
 pkgdesc="Breeze theme for Plymouth"
 arch=('x86_64')
@@ -11,7 +11,7 @@ makedepends=(extra-cmake-modules)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('7e2e65f0d51d585fa462612fa60d7190b4c681b795ad5717086f57240119bdf6'
+sha256sums=('0a518d5a9e1bddeb3e1c7329966ce178a36ab0a0bd6dd28caf803fe8c1680de8'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
