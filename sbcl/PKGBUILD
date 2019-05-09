@@ -1,7 +1,7 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/sbcl
 
 pkgname=sbcl
-pkgver=1.2.9
+pkgver=1.4.16
 pkgrel=1
 pkgdesc="Steel Bank Common Lisp"
 arch=('x86_64')
@@ -9,12 +9,11 @@ license=('custom')
 url="http://www.sbcl.org/"
 depends=('glibc')
 provides=('common-lisp' 'cl-asdf')
-makedepends=('sbcl' 'texinfo')
-install=sbcl.install
-source=("http://downloads.sourceforge.net/project/sbcl/sbcl/$pkgver/$pkgname-$pkgver-source.tar.bz2"
+makedepends=('sbcl')
+source=("https://downloads.sourceforge.net/project/sbcl/sbcl/$pkgver/$pkgname-$pkgver-source.tar.bz2"
         'chakra-fixes.lisp')
-md5sums=('e23592dd0e424239b0ddc40f0df44ab0'
-         '7ac0c1936547f4278198b8bf7725204d')
+sha256sums=('8d93ad1b64815854d0db042c00473fc04b284316c67734be2dd62ddb2727cfd7'
+            'b5a6468dcbc1012cae2c3cda155762a37b6d96ef89bba4f723315063b0b5e7ce')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
