@@ -1,6 +1,6 @@
 _pkgname=unifont
 pkgname=bdf-${_pkgname}
-pkgver=12.0.01
+pkgver=12.1.01
 pkgrel=1
 pkgdesc="GNU Unifont Glyphs"
 arch=('x86_64')
@@ -8,7 +8,7 @@ license=('custom' 'GPL2')
 url="http://unifoundry.com/unifont.html"
 depends=('fontconfig' 'xorg-fonts-encodings' 'xorg-font-utils')
 source=("https://ftp.gnu.org/gnu/${_pkgname}/${_pkgname}-${pkgver}/${_pkgname}-${pkgver}.bdf.gz" 'LICENSE')
-md5sums=('2392796b0d7dc3d8ba3ba247db492526'
+md5sums=('9fd9b7d6fbdb0a57a161dc37b19fe5cb'
          '2bb5ee7b73893aa7c9fd837ff95d6b4d')
 
 package() {
