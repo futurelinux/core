@@ -1,19 +1,19 @@
 
 pkgname=kpeople
-pkgver=5.57.0
+pkgver=5.58.0
 pkgrel=1
 pkgdesc='A library that provides access to all contacts and the people who hold them'
 arch=('x86_64')
 url='http://community.kde.org/KTp/libkpeople'
 license=(LGPL)
 depends=('kservice' 'kwidgetsaddons' 'kitemviews' "qt5-declarative")
-makedepends=("extra-cmake-modules>=5.57.0" 'python3')
+makedepends=("extra-cmake-modules>=5.58.0" 'python3')
 conflicts=('libkpeople')
 #replaces=('libkpeople') # enable only when we switch to P5
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('7c239b80b7976e3bfa46338e05a048aecb9c1972548dc33cc8a17e66eb08a85c'
+sha256sums=('2588f7a4df4c03fe756d9e766120e35b0f991df5c8e5f75c3a507cc5739ded32'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 

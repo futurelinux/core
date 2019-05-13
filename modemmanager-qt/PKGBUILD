@@ -1,14 +1,14 @@
 
 pkgname=modemmanager-qt
 _pkgname=modemmanager-qt
-pkgver=5.57.0
+pkgver=5.58.0
 pkgrel=1
 pkgdesc="Plasma Workspace"
 arch=('x86_64')
 url='http://projects.kde.org'
 license=('LGPL')
 depends=('qt5-base' 'networkmanager')
-makedepends=("extra-cmake-modules>=5.57.0" 'kapidox')
+makedepends=("extra-cmake-modules>=5.58.0" 'kapidox')
 checkdepends=("cmake")
 provides=("libmm-qt5=${pkgver}")
 replaces=("libmm-qt5<=5.2.2")
@@ -16,7 +16,7 @@ conflicts=("libmm-qt5<=5.2.2")
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('030bfcfafd5079f25a165aaa5f52693a8fe4b3c15c1345a641716c4329e0929d'
+sha256sums=('cec892b58603fd95656b2cac356e8076a65122d110e3f5175bbabfaa296b16cb'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 

@@ -3,18 +3,18 @@
 
 
 pkgname=kdoctools
-pkgver=5.57.0
+pkgver=5.58.0
 pkgrel=1
 pkgdesc='Various tools to work with documentation'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kdoctools'
 license=('LGPL')
 depends=('karchive' 'docbook-xsl')
-makedepends=("extra-cmake-modules>=5.57.0" "ki18n" "python3" "perl-uri")
+makedepends=("extra-cmake-modules>=5.58.0" "ki18n" "python3" "perl-uri")
 groups=('kf5')
 options=('staticlibs' 'debug')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('649dbaff4f1559302e7da07f423a0bc9e3faa1c7a93dfeb170e50bf452d8def2'
+sha256sums=('5c0b915d0f054098b47c5c1ef6ee0d174a9a607405f23c3921276189cefd48f4'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 
