@@ -7,12 +7,13 @@
 pkgbase=python-numpy
 pkgname=('python3-numpy' 'python2-numpy')
 pkgver=1.16.3
-pkgrel=2
+pkgrel=3
 pkgdesc="Scientific tools for Python"
 arch=('x86_64')
 license=('custom')
 url="http://numpy.org/"
-makedepends=('openblas'
+makedepends=('cblas'
+             'openblas'
              'gcc-fortran'
              'lapack'
              'python3' 'python2'
@@ -44,8 +45,9 @@ build() {
 }
 
 package_python2-numpy() {
-  depends=('lapack' 'python2' 'openblas')
-  optdepends=('python2-nose: testsuite')
+  depends=('cblas' 'lapack' 'python2')
+  optdepends=('python2-nose: testsuite'
+              'openblas: faster linear algebra')
   provides=('python-numpy')
   conflicts=('python-numpy')
   replaces=('python-numpy')
@@ -72,9 +74,9 @@ package_python2-numpy() {
 }
 
 package_python3-numpy() {
-  depends=('lapack' 'python3' 'openblas')
-  optdepends=('python3-nose: testsuite')
-
+  depends=('cblas' 'lapack' 'python3')
+  optdepends=('python3-nose: testsuite'
+              'openblas: faster linear algebra')
   _pyver=3.6
   _pyinc=3.6m
 
