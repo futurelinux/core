@@ -7,93 +7,80 @@
 pkgbase=python-numpy
 pkgname=('python3-numpy' 'python2-numpy')
 pkgver=1.16.3
-pkgrel=3
+pkgrel=4
 pkgdesc="Scientific tools for Python"
 arch=('x86_64')
 license=('custom')
 url="http://numpy.org/"
-makedepends=('cblas'
-             'openblas'
-             'gcc-fortran'
-             'lapack'
-             'python3' 'python2'
-             'python3-setuptools' 'python2-setuptools'
-             'python3-nose' 'python2-nose'
-             'python3-cython' 'python2-cython')
-source=(https://github.com/numpy/numpy/archive/v${pkgver}.tar.gz "site.cfg")
-md5sums=('1138131ceabaf7e58d570f291517c0bd'
-         '050c4ca9c90195558ac037ae2af48ff9')
+makedepends=('cblas' 'lapack' 'python3' 'python2' 'python3-setuptools' 'python2-setuptools'
+             'gcc-fortran' 'python3-nose' 'python2-nose' 'cython3' 'cython2')
+checkdepends=('python3-pytest' 'python2-pytest')
 options=('staticlibs')
+source=("$pkgbase-$pkgver.tar.gz::https://github.com/numpy/numpy/archive/v$pkgver.tar.gz")
+sha512sums=('f9caa1773ec38f6e737d7732083515dc32709c8127d137e51cf35138391a66b012b84592ef473c60846fd3178ed392aa81c4e8d27adb24e5746deabdd8352019')
 
-build() {
-  cd "${srcdir}"
-  cp -a numpy-${pkgver} numpy-py2-${pkgver}
+prepare() {
+  cp -a numpy-$pkgver{,-py2}
+  cd numpy-$pkgver-py2
 
-  cp ${srcdir}/site.cfg numpy-${pkgver}
-  cp ${srcdir}/site.cfg numpy-py2-${pkgver}
+  sed -e "s|#![ ]*/usr/bin/python$|#!/usr/bin/python2|" \
+      -e "s|#![ ]*/usr/bin/env python$|#!/usr/bin/env python2|" \
+      -e "s|#![ ]*/bin/env python$|#!/usr/bin/env python2|" \
+      -i $(find . -name '*.py')
 
-  export ATLAS=None
-  export LDFLAGS="$LDFLAGS -shared"
+  cd ..
+  cd numpy-$pkgver
 
-  echo "Building Python 2 version"
-  cd "${srcdir}/numpy-py2-${pkgver}"
-  python2 setup.py config_fc --fcompiler=gnu95 build
-
-  echo "Building Python 3 version"
-  cd "${srcdir}/numpy-${pkgver}"
-  python3 setup.py config_fc --fcompiler=gnu95 build
+  sed -e "s|#![ ]*/usr/bin/python$|#!/usr/bin/python3|" \
+      -e "s|#![ ]*/usr/bin/env python$|#!/usr/bin/env python3|" \
+      -e "s|#![ ]*/bin/env python$|#!/usr/bin/env python3|" \
+      -i $(find . -name '*.py')
 }
 
-package_python2-numpy() {
-  depends=('cblas' 'lapack' 'python2')
-  optdepends=('python2-nose: testsuite'
-              'openblas: faster linear algebra')
-  provides=('python-numpy')
-  conflicts=('python-numpy')
-  replaces=('python-numpy')
+build() {
+  cd "$srcdir"/numpy-$pkgver
+  python3 setup.py build
 
-  _pyver=2.7
+  cd "$srcdir"/numpy-$pkgver-py2
+  python2 setup.py build
+}
 
-  export ATLAS=None
-  export LDFLAGS="$LDFLAGS -shared"
+check() {
+  # TODO: Fix fortran tests here (it works fine after installation)
 
-  cd "${srcdir}/numpy-py2-${pkgver}"
-  python2 setup.py config_fc --fcompiler=gnu95 install --prefix=/usr --root="${pkgdir}" --optimize=1
+  cd "$srcdir"/numpy-$pkgver
+  python3 setup.py install --root="$PWD/tmp_install" --optimize=1
+  cd "$PWD/tmp_install"
+  PATH="$PWD/usr/bin:$PATH" PYTHONPATH="$PWD/usr/lib/python3.6/site-packages:$PYTHONPATH" python3 -c 'import numpy; numpy.test()'
 
-  install -m755 -d "${pkgdir}/usr/share/licenses/python2-numpy"
-  install -m644 LICENSE.txt "${pkgdir}/usr/share/licenses/python2-numpy/"
-
-  sed -i -e "s|#![ ]*/usr/bin/python$|#!/usr/bin/python2|" \
-         -e "s|#![ ]*/usr/bin/env python$|#!/usr/bin/env python2|" \
-         -e "s|#![ ]*/bin/env python$|#!/usr/bin/env python2|" \
-             $(find ${pkgdir} -name '*.py')
-
-  install -m755 -d "${pkgdir}/usr/include/python${_pyver}"
-  ln -sf /usr/lib/python${_pyver}/site-packages/numpy/core/include/numpy "${pkgdir}/usr/include/python${_pyver}/numpy"
-  mv "$pkgdir"/usr/bin/f2py{,2}
+  cd "$srcdir"/numpy-$pkgver-py2
+  python2 setup.py install --root="$PWD/tmp_install" --optimize=1
+  cd "$PWD/tmp_install"
+  PATH="$PWD/usr/bin:$PATH" PYTHONPATH="$PWD/usr/lib/python2.7/site-packages:$PYTHONPATH" python2 -c 'import numpy; numpy.test()'
 }
 
 package_python3-numpy() {
   depends=('cblas' 'lapack' 'python3')
   optdepends=('python3-nose: testsuite'
               'openblas: faster linear algebra')
-  _pyver=3.6
-  _pyinc=3.6m
 
-  export ATLAS=None
-  export LDFLAGS="$LDFLAGS -shared"
-
-  cd "${srcdir}/numpy-${pkgver}"
-  python3 setup.py config_fc --fcompiler=gnu95 install --prefix=/usr --root="${pkgdir}" --optimize=1
+  cd numpy-$pkgver
+  python3 setup.py install --prefix=/usr --root="${pkgdir}" --optimize=1
 
   install -m755 -d "${pkgdir}/usr/share/licenses/python3-numpy"
   install -m644 LICENSE.txt "${pkgdir}/usr/share/licenses/python3-numpy/"
+}
 
-  sed -i -e "s|#![ ]*/usr/bin/python$|#!/usr/bin/python3|" \
-         -e "s|#![ ]*/usr/bin/env python$|#!/usr/bin/env python3|" \
-         -e "s|#![ ]*/bin/env python$|#!/usr/bin/env python3|" \
-             $(find ${pkgdir} -name '*.py')
+package_python2-numpy() {
+  depends=('cblas' 'lapack' 'python2')
+  optdepends=('python2-nose: testsuite'
+              'openblas: faster linear algebra')
 
-  install -m755 -d "${pkgdir}/usr/include/python${_pyinc}"
-  ln -sf /usr/lib/python${_pyver}/site-packages/numpy/core/include/numpy "${pkgdir}/usr/include/python${_pyinc}/numpy"
+  cd numpy-$pkgver-py2
+  python2 setup.py install --prefix=/usr --root="$pkgdir" --optimize=1
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/python2-numpy"
+  install -m644 LICENSE.txt "${pkgdir}/usr/share/licenses/python2-numpy/"
+
+  mv "$pkgdir"/usr/bin/f2py{,2}
 }
