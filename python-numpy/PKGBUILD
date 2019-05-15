@@ -7,7 +7,7 @@
 pkgbase=python-numpy
 pkgname=('python3-numpy' 'python2-numpy')
 pkgver=1.16.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Scientific tools for Python"
 arch=('x86_64')
 license=('custom')
@@ -68,6 +68,7 @@ package_python2-numpy() {
 
   install -m755 -d "${pkgdir}/usr/include/python${_pyver}"
   ln -sf /usr/lib/python${_pyver}/site-packages/numpy/core/include/numpy "${pkgdir}/usr/include/python${_pyver}/numpy"
+  mv "$pkgdir"/usr/bin/f2py{,2}
 }
 
 package_python3-numpy() {
