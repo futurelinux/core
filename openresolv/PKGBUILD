@@ -1,8 +1,5 @@
-# Maintainer: Neophytos Kolokotronis <tetris4 AT gmail DOT com>
-# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/openresolv
-
 pkgname=openresolv
-pkgver=3.6.1
+pkgver=3.9.0
 pkgrel=1
 pkgdesc="resolv.conf management framework (resolvconf)"
 arch=(any)
@@ -12,10 +9,10 @@ backup=(etc/resolvconf.conf)
 provides=(resolvconf)
 depends=(bash)
 makedepends=(systemd)
-source=("http://roy.marples.name/downloads/openresolv/${pkgname}-${pkgver}.tar.bz2"
+source=("http://roy.marples.name/downloads/openresolv/${pkgname}-${pkgver}.tar.xz"
         fs33801.patch)
-md5sums=('f385e26ec0f9cd06d8ccd45fc219002e'
-         'b6d3c06bd806de87497cb249bea954d0')
+sha256sums=('51a04d39232bb797c9efeaad51a525cf50a1deefcb19a1ea5dd3475118634db8'
+            '466678996689463af748bcdce7ea6f9f24f59004fa4db61fdc04da9f5fff2a6a')
 
 prepare() {
   cd $pkgname-$pkgver
