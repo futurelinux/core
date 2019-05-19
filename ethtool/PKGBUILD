@@ -1,18 +1,13 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 pkgname=ethtool
-pkgver=4.2
+pkgver=4.19
 pkgrel=1
 pkgdesc="Utility for controlling network drivers and hardware"
 arch=(x86_64)
-url="http://www.kernel.org/pub/software/network/ethtool/"
+url="https://www.kernel.org/pub/software/network/ethtool/"
 license=('GPL')
 depends=(glibc)
-source=(http://www.kernel.org/pub/software/network/$pkgname/$pkgname-$pkgver.tar.{xz,sign})
-md5sums=('8433e71a256678d859ecc264132063c5'
+source=(https://www.kernel.org/pub/software/network/$pkgname/$pkgname-$pkgver.tar.{xz,sign})
+md5sums=('c0c3e3339a40cbefed7033b3c7c10df1'
          'SKIP')
 validpgpkeys=(AC2B29BD34A6AFDDB3F68F35E7BFC8EC95861109) # Ben Hutchings <bwh@kernel.org>
 
