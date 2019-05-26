@@ -3,8 +3,8 @@
 source ../xorg.conf
 
 pkgname=xf86-input-libinput
-pkgver=0.28.0
-pkgrel=2
+pkgver=0.28.2
+pkgrel=1
 pkgdesc="Generic input driver for the X.Org server based on libinput"
 arch=('x86_64')
 license=('custom')
@@ -14,7 +14,7 @@ makedepends=('xorg-server-devel' 'X-ABI-XINPUT_VERSION=24.1' 'libxi' 'libx11' 'r
 conflicts=('xorg-server<1.19.0' "X-ABI-XINPUT_VERSION<${X_ABI_XINPUT_MAJOR}" "X-ABI-XINPUT_VERSION>=$((X_ABI_XINPUT_MAJOR+1))")
 groups=('xorg-drivers' 'xorg')
 source=(http://xorg.freedesktop.org/releases/individual/driver/${pkgname}-${pkgver}.tar.bz2{,.sig})
-sha256sums=('21994d065fc26e85d1c3fc87d8479b9c22699ed5a0119df98fbe0000e84630a1'
+sha256sums=('b8b346962c6b62b8069928c29c0db83b6f544863bf2fc6830f324de841de2820'
             'SKIP')
 validpgpkeys=('3C2C43D9447D5938EF4551EBE23B7E70B467F0BF') # Peter Hutterer (Who-T) <office@who-t.net>
 
