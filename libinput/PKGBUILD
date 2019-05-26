@@ -1,7 +1,7 @@
 #Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libinput
 
 pkgname=libinput
-pkgver=1.12.3
+pkgver=1.13.2
 pkgrel=1
 pkgdesc="Input device management and event handling library"
 arch=(x86_64)
@@ -15,7 +15,7 @@ optdepends=('gtk3: libinput debug-gui'
 install=libinput.install
 options=('!libtool')
 source=(http://freedesktop.org/software/$pkgname/$pkgname-$pkgver.tar.xz{,.sig})
-sha256sums=('f266ff861a2e7a97e1402c4345e3547b900efde68adbd40e56403e2617fee255'
+sha256sums=('1d9fa0698348dea46f75321d98788f8ac7181c069b70c4d10736910a12bb6a6d'
             'SKIP')
 validpgpkeys=('3C2C43D9447D5938EF4551EBE23B7E70B467F0BF') # Peter Hutterer (Who-T) <office@who-t.net>
 
