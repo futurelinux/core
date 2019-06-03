@@ -5,7 +5,7 @@
 # Remember to update lib32-rust along with this package.
 
 pkgname=rust
-pkgver=1.34.2
+pkgver=1.35.0
 pkgrel=1
 arch=('x86_64')
 pkgdesc='Systems programming language focused on safety, speed and concurrency'
@@ -18,7 +18,7 @@ depends=('gcc-libs' 'curl' 'libssh2')
 makedepends=('rust' 'llvm' 'libffi' 'perl' 'python2' 'curl' 'cmake' 'ninja')
 source=("https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.gz"
         config.toml)
-sha256sums=('c69a4a85a1c464368597df8878cb9e1121aae93e215616d45ad7d23af3052f56'
+sha256sums=('5a4d637a716bac18d085f44dd87ef48b32195f71b967d872d80280b38cff712d'
             'ff4890bd733509b0dbb885d69afd578c41fc583af256dcc81e9239339c60b144')
 options=('staticlibs' '!strip' '!emptydirs')
 
