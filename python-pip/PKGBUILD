@@ -1,16 +1,16 @@
 pkgname=('python3-pip' 'python2-pip')
-pkgver=9.0.1
+pkgver=19.1.1
 pkgrel=1
 pkgdesc="An easy_install replacement for installing pypi python packages"
 url="http://www.pip-installer.org/"
-arch=('any')
+arch=('x86_64')
 license=('MIT')
 makedepends=('python3' 'python3-setuptools' 'python2' 'python2-setuptools')
 source=(https://pypi.io/packages/source/p/pip/pip-${pkgver}.tar.gz)
-md5sums=('35f01da33009719497f01a4ba69d63c9')
+md5sums=('4fb98a060f21c731d6743b90a714fc73')
 
 package_python3-pip() {
-    depends=('python3' 'python3-setuptools')
+    depends=('python3' 'python3-setuptools' 'python3-six')
 
     cd "$srcdir/pip-$pkgver"
     python3 setup.py build
@@ -27,7 +27,7 @@ package_python3-pip() {
 }
 
 package_python2-pip() {
-    depends=('python2' 'python2-setuptools')
+    depends=('python2' 'python2-setuptools' 'python2-six')
 
     cd "$srcdir/pip-$pkgver"
     python2 setup.py build
