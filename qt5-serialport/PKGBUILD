@@ -1,6 +1,6 @@
 
 pkgname=qt5-serialport
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('24a3cc77859519ff5007be7abf1247e7')
+md5sums=('b025ac03224197701a2b24ff98b8fd99')
 
 
 prepare() {

@@ -1,6 +1,6 @@
 
 pkgname=qt5-webview
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('e0b5648a3aaba2000e83815828080e5d')
+md5sums=('72621df3f8f84f8bd8ac8b0281507d65')
 
 prepare() {
   mkdir -p build

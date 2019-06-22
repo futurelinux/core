@@ -1,6 +1,6 @@
 
 pkgname=qt5-quickcontrols
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('8a207b2d062acf858cc286f23a233f0c')
+md5sums=('103ffb6b27eaaef7852c61bcd3a5cacf')
 
 prepare() {
   mkdir -p build

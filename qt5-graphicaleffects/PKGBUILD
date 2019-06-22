@@ -1,6 +1,6 @@
 
 pkgname=qt5-graphicaleffects
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('f4b1a714b9c2db3471ffccde4135eac5')
+md5sums=('c1a72a93f36107900393730e7479804e')
 
 prepare() {
   mkdir -p build

@@ -1,6 +1,6 @@
 
 pkgname=qt5-multimedia
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -13,7 +13,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('2a58263ac3523124cf28b4be85672240')
+md5sums=('228bb3cef313de977c6b9316572ac82b')
 
 prepare() {
   mkdir -p build

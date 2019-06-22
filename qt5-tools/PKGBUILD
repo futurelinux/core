@@ -1,6 +1,6 @@
 
 pkgname=qt5-tools
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -14,7 +14,7 @@ options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
         {assistant,designer,linguist,qdbusviewer}-qt5.desktop)
-md5sums=('d2e4776ca7ca1bbb39330adffa17a65f'
+md5sums=('a2f74ecdb8930eda6814acba5b4acfd1'
          '892d3632bdcd9a22f191aa8f28a3c0e1'
          '208921efc9e4c11fae762e9580ca23aa'
          '59cbeef3e6090dcb7d2a7d32cd62ea08'

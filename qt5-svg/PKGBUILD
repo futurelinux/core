@@ -1,6 +1,6 @@
 
 pkgname=qt5-svg
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('f8fa6e39584ed631f2795d8d80d5229c')
+md5sums=('58600fa4ffad742f6e2d615b7ae4c474')
 
 prepare() {
   mkdir -p build

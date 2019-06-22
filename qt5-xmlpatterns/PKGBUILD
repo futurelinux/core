@@ -1,6 +1,6 @@
 
 pkgname=qt5-xmlpatterns
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -13,7 +13,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('f1f6b4c1253d2b833e849663c7661110')
+md5sums=('74c5a5e565b817607c645bc2078799b2')
 
 prepare() {
   mkdir -p build

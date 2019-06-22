@@ -1,6 +1,6 @@
 
 pkgname=qt5-remoteobjects
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=(x86_64)
 url='http://qt-project.org/'
@@ -13,7 +13,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('2fa1f689740faae0661b7c80e45cd7b7')
+md5sums=('53c2d41fdb2257ac5f4896584bdf3238')
 
 prepare() {
   mkdir -p build

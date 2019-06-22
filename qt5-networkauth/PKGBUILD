@@ -1,6 +1,6 @@
 
 pkgname=qt5-networkauth
-pkgver=5.12.3
+pkgver=5.12.4
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -11,7 +11,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('bc8f9a2e8e30476ba613c020f811c95c')
+md5sums=('3e3def93c1b6e6a746ee9ca54ee9be82')
 
 prepare() {
   mkdir -p build
