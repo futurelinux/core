@@ -11,7 +11,7 @@ makedepends=('qt5-tools' 'python2' 'pciutils' 'libxtst' 'libxcursor' 'libxrandr'
 groups=('qt5')
 _pkgfqn="qt-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/single/${_pkgfqn}.tar.xz")
-md5sums=('49c4b8d7594f3734c6738d12418c6f12')
+md5sums=('dda95b0239d13c5276834177af3a8588')
 
 prepare() {
   cd ${_pkgfqn} 
@@ -37,7 +37,7 @@ build() {
     -archdatadir /usr/lib/qt5 \
     -datadir /usr/share/qt5 \
     -sysconfdir /etc/xdg \
-    -examplesdir /usr/share/doc/qt5/examples \
+    -nomake examples \
     -plugindir /usr/lib/qt5/plugins \
     -importdir /usr/lib/qt5/imports \
     -qmldir /usr/lib/qt5/qml \
@@ -53,7 +53,4 @@ package() {
 
   install -d "$pkgdir"/usr/share/licenses
   ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/${pkgname}
-
-# Fix conflicts with qt5-examples
-  rm -r "$pkgdir"/usr/share/doc/qt5/examples
 }
