@@ -1,6 +1,6 @@
 pkgbase=pyqt5
 pkgname=('python-pyqt5-common' 'python3-pyqt5' 'python2-pyqt5')
-pkgver=5.12.1
+pkgver=5.12.3
 pkgrel=1
 arch=('x86_64')
 url="https://riverbankcomputing.com/software/pyqt/intro"
@@ -27,7 +27,7 @@ makedepends=('sip'
              'qt5-xmlpatterns'
              'qt5-remoteobjects')
 source=("https://www.riverbankcomputing.com/static/Downloads/PyQt5/$pkgver/PyQt5_gpl-$pkgver.tar.gz")
-sha256sums=('3718ce847d824090fd5f95ff3f13847ee75c2507368d4cbaeb48338f506e59bf')
+sha256sums=('0db0fa37debab147450f9e052286f7a530404e2aaddc438e97a7dcdf56292110')
 
 prepare() {
   # Support new versions of Qt - don't remove, needs to be reapplied after every new Qt release
