@@ -2,18 +2,18 @@
 
 
 pkgname=frameworkintegration
-pkgver=5.58.0
+pkgver=5.59.0
 pkgrel=1
 pkgdesc='Framework providing components to allow applications to integrate with a KDE Workspace'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/frameworkintegration'
 license=('LGPL')
 depends=('kio' 'ttf-noto' 'kpackage' 'knewstuff')
-makedepends=("extra-cmake-modules>=5.58.0")
+makedepends=("extra-cmake-modules>=5.59.0")
 options=("debug")
 groups=('kf5')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('fe2449263d324bfbe43a9c6f50115fbe3b0628516d2b2010e6a9049ead3e7541'
+sha256sums=('52bb4b784cfc4ba25ff9b853ea460a5eedf86eaa6b1581c6efe38c904fb6d075'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 
