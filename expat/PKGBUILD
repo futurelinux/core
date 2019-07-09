@@ -1,13 +1,13 @@
 pkgname=expat
-pkgver=2.2.1
+pkgver=2.2.7
 pkgrel=1
 pkgdesc="An XML Parser library written in C"
 arch=('x86_64')
 url="http://expat.sourceforge.net/"
 license=('custom')
 depends=('glibc')
-source=("http://downloads.sourceforge.net/sourceforge/expat/${pkgname}-${pkgver}.tar.bz2")
-md5sums=('d9c3baeab58774cefc2f04faf29f2cf8')
+source=("https://downloads.sourceforge.net/sourceforge/expat/${pkgname}-${pkgver}.tar.bz2")
+md5sums=('72f36b87cdb478aba1e78473393766aa')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
