@@ -1,7 +1,7 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/kwrited
 
 pkgname=kwrited
-pkgver=5.15.5
+pkgver=5.16.3
 pkgrel=1
 pkgdesc='Kwrited'
 arch=('x86_64')
@@ -13,7 +13,7 @@ checkdepends=("cmake")
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('fbc27517898e57aa6b4c476673971f310121ac3d61e1d30a23e9289930056510'
+sha256sums=('9c86575d080219a00ad9fa99b7d12acc06b2cd807bd256fc9f4d96cc8d7ab37e'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

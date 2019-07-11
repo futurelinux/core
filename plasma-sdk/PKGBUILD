@@ -1,6 +1,6 @@
 
 pkgname=plasma-sdk
-pkgver=5.15.5
+pkgver=5.16.3
 pkgrel=1
 pkgdesc='Applications useful for Plasma Development'
 url="https://cgit.kde.org/plasma-sdk.git/"
@@ -11,7 +11,7 @@ optdepends=('kirigami: for look and feel explorer')
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('f91ccb03f016328c2bd54ac11a916b4f874cfe2304da1600f3fa014faeb7d329'
+sha256sums=('53a5d03d83ae974032fc32414003038a1b068766eba01e831ecdb1fd91df5b15'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

@@ -1,6 +1,6 @@
 
 pkgname=plasma-pa
-pkgver=5.15.5
+pkgver=5.16.3
 pkgrel=1
 pkgdesc='Plasma applet for audio volume management using PulseAudio'
 arch=(x86_64)
@@ -11,7 +11,7 @@ makedepends=(extra-cmake-modules python3 kdoctools)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('326a6d3f6f9d462a3b88402ae6be2dac976f166995a5cb750d294d51085a0a92'
+sha256sums=('e149732abd31b6958d845bb2326f65e344d6440e995d2448c997ddd707a466d6'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
