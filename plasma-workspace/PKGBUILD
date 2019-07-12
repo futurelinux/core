@@ -63,8 +63,9 @@ package_plasma-workspace() {
   # Split plasma-wayland scripts
   rm -r "$pkgdir"/usr/share/wayland-sessions
   
-  # Fix qdbus path in startplasmacompositor
+  # Fix qdbus path in startplasmacompositor and startkde
   sed -i -e 's/qdbus/qdbus-qt5/g' $pkgdir/usr/bin/startplasmacompositor
+  sed -i -e 's/qdbus/qdbus-qt5/g' $pkgdir/usr/bin/startkde
 }
 
 package_plasma-wayland-session() {
