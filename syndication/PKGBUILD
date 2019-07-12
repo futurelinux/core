@@ -1,6 +1,6 @@
 
 pkgname=syndication
-pkgver=5.59.0
+pkgver=5.60.0
 pkgrel=1
 epoch=1
 pkgdesc="RSS/Atom parser library"
@@ -12,7 +12,7 @@ makedepends=(extra-cmake-modules doxygen qt5-tools)
 groups=(kf5)
 options=('debug')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('ba4c185f4a0457b7365baa7a48a5d8eb3b2b10336f83e735dea5a5a045725588'
+sha256sums=('67bf74432d362af7e7d21984f6915b047b596a8a0ac789cbf724ea7c4f8943d9'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 
