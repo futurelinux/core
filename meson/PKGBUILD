@@ -1,5 +1,5 @@
 pkgname=meson
-pkgver=0.51.0
+pkgver=0.51.1
 pkgrel=1
 pkgdesc='High productivity build system'
 url='https://mesonbuild.com/'
@@ -8,20 +8,15 @@ license=('Apache')
 depends=('python3-setuptools' 'ninja')
 source=(https://github.com/mesonbuild/meson/releases/download/${pkgver}/meson-${pkgver}.tar.gz{,.asc}
         chakra-meson
-        5500.patch
         skip-test.diff)
-sha256sums=('2f75fdf6d586d3595c03a07afcd0eaae11f68dd33fea5906a434d22a409ed63f'
+sha256sums=('f27b7a60f339ba66fe4b8f81f0d1072e090a08eabbd6aa287683b2c2b9dd2d82'
             'SKIP'
             '4c336c0da4fc48c2c0704ee169fb93cf2578d2b3783dbd6d7c15b21f9ab99ad1'
-            '866bf7865da5686b6ecaf9bf389fbc2f0bb42ada6c93e0745badd6272d3dc18b'
             'a4968c7b5372148fcc6ce9c5196ccb266844043e25d76917af8cf93767738bcc')
 validpgpkeys=('95181F4EED14FDF4E41B518D3BF4693BFEEB9428') # Jussi Pakkanen <jpakkane@gmail.com>
 
 prepare() {
   cd ${pkgname}-${pkgver}
-
-  # https://github.com/mesonbuild/meson/issues/5497
-  patch -Np1 -i ../5500.patch
 
   # Our containers do not allow sanitizers to run
   patch -Np1 -i ../skip-test.diff
