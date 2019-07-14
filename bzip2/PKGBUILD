@@ -1,6 +1,6 @@
 pkgname=bzip2
-pkgver=1.0.7
-pkgrel=2
+pkgver=1.0.8
+pkgrel=1
 pkgdesc="A high-quality data compression program"
 arch=('x86_64')
 license=('custom')
@@ -8,7 +8,7 @@ url="https://sourceware.org/bzip2/"
 groups=('base')
 depends=('glibc' 'sh')
 source=(https://sourceware.org/pub/bzip2/$pkgname-$pkgver.tar.gz)
-sha256sums=('e768a87c5b1a79511499beb41500bcc4caf203726fff46a6f5f9ad27fe08ab2b')
+sha256sums=('ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269')
 
 build() {
   cd $pkgname-$pkgver
