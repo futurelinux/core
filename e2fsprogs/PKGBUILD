@@ -1,5 +1,5 @@
 pkgname=e2fsprogs
-pkgver=1.45.1
+pkgver=1.45.3
 pkgrel=1
 pkgdesc="Ext2/3/4 filesystem utilities"
 arch=('x86_64')
@@ -12,7 +12,7 @@ source=("https://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${p
         'MIT-LICENSE')
 backup=('etc/mke2fs.conf')
 options=('staticlibs')
-sha1sums=('2e80db4d95280c801be43dc5ac664897e1e373b9'
+sha1sums=('41f018af4858ddde281d74817f3dc9551af5bb6a'
           'f4a0d5b0cdb980e3fedd6f5e7dde0b0ffb7bbdfb')
 
 prepare() {
