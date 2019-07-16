@@ -1,6 +1,6 @@
 pkgname=ffmpeg
 pkgver=4.1.3
-pkgrel=1
+pkgrel=2
 pkgdesc='Complete solution to record, convert and stream audio and video'
 arch=('x86_64')
 url='https://ffmpeg.org/'
@@ -38,6 +38,7 @@ build() {
     --enable-gnutls \
     --enable-gpl \
     --enable-ladspa \
+    --enable-libaom \
     --enable-libass \
     --enable-libbluray \
     --enable-libdrm \
