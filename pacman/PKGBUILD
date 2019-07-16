@@ -1,10 +1,10 @@
 
 pkgname=pacman
-pkgver=5.1.2
+pkgver=5.1.3
 pkgrel=1
 pkgdesc="A library-based package manager with dependency support"
 arch=('x86_64')
-url="http://www.archlinux.org/pacman/"
+url="https://www.archlinux.org/pacman/"
 license=('GPL')
 groups=('base' 'base-devel')
 depends=('bash' 'glibc' 'libarchive' 'curl'
@@ -19,7 +19,7 @@ options=('strip')
 source=(https://sources.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz{,.sig}
         pacman.conf
         makepkg.conf)
-md5sums=('68d559a8f64efce9840efa7c87fc52a3'
+md5sums=('cafd8e5b8b16863ee7a7579ec8402582'
          'SKIP'
          '40a92b2788ac997e44dd9b54406e9e18'
          '9dc831e27cafae4bff3a41a06001ae18')
