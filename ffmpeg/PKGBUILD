@@ -1,11 +1,11 @@
 pkgname=ffmpeg
 pkgver=4.1.3
-pkgrel=2
+pkgrel=3
 pkgdesc='Complete solution to record, convert and stream audio and video'
 arch=('x86_64')
 url='https://ffmpeg.org/'
 license=('GPL3')
-depends=('alsa-lib' 'bzip2' 'fontconfig' 'fribidi' 'glibc' 'gmp' 'gnutls' 'gsm'
+depends=('alsa-lib' 'aom' 'bzip2' 'fontconfig' 'fribidi' 'glibc' 'gmp' 'gnutls' 'gsm'
          'lame' 'libavc1394' 'libdrm' 'libiec61883' 'libmodplug'
          'libomxil-bellagio' 'libpulse' 'libraw1394' 'libsoxr' 'libssh'
          'libtheora' 'libvdpau' 'libwebp' 'libx11' 'libxcb' 'libxext' 'libxml2'
