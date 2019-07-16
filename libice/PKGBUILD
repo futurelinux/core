@@ -1,8 +1,6 @@
 # Part of the X.org group
-# Maintainer: Neophytos Kolokotronis <tetris4 AT gmail DOT com>
-
 pkgname=libice
-pkgver=1.0.9
+pkgver=1.0.10
 pkgrel=1
 pkgdesc="X11 Inter-Client Exchange library"
 arch=(x86_64)
@@ -11,7 +9,7 @@ depends=('glibc' 'xproto')
 makedepends=('pkgconfig' 'xtrans')
 source=(${url}/releases/individual/lib/libICE-${pkgver}.tar.bz2)
 license=('custom')
-sha1sums=('3c3a857a117ce48a1947a16860056e77cd494fdf')
+sha1sums=('5b5eb125d4f43a3ab8153b0f850963ee6c982c24')
 
 build() {
   cd libICE-${pkgver}
