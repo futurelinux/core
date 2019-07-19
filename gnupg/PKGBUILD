@@ -1,19 +1,22 @@
 pkgname=gnupg
-pkgver=2.2.14
+pkgver=2.2.17
 pkgrel=1
 pkgdesc='Complete and free implementation of the OpenPGP standard'
 url='http://www.gnupg.org/'
 license=('GPL')
 arch=('x86_64')
-optdepends=('libldap: gpg2keys_ldap'
-            'libusb-compat: scdaemon')
-makedepends=('libldap' 'libusb-compat')
-depends=('npth' 'libgpg-error' 'libgcrypt' 'libksba' 'libassuan'
-         'pinentry' 'bzip2' 'readline' 'gnutls' 'sqlite3')
 checkdepends=('openssh')
-source=("https://gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2"{,.sig})
-sha1sums=('f349c20e7498af88299b0d42a961e0364e5c37e7'
-          'SKIP')
+makedepends=('libldap' 'libusb-compat' 'pcsclite')
+depends=('npth' 'libgpg-error' 'libgcrypt' 'libksba' 'libassuan'
+         'pinentry' 'bzip2' 'readline' 'gnutls' 'sqlite')
+optdepends=('libldap: gpg2keys_ldap'
+            'libusb-compat: scdaemon'
+            'pcsclite: scdaemon')
+source=("https://gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2"{,.sig}
+        'self-sigs-only.patch')
+sha1sums=('12c1cee8871c03f0315fc8f27876364b75c95b12'
+          'SKIP'
+          '1c161b370a8e2e30fae35eb06a1360168231d962')
 validpgpkeys=('D8692123C4065DEA5E0F3AB5249B39D24F25E3B6'
               '46CC730865BB5C78EBABADCF04376F3EE0856959'
               '031EC2536E580D8EA286A9F22071B08A33BD3F06'
@@ -24,6 +27,7 @@ install=${pkgname}.install
 prepare() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 	sed '/noinst_SCRIPTS = gpg-zip/c sbin_SCRIPTS += gpg-zip' -i tools/Makefile.in
+	patch -R -p1 -i ../self-sigs-only.patch
 }
 
 build() {
