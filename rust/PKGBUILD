@@ -19,7 +19,7 @@ makedepends=('rust' 'llvm' 'libffi' 'perl' 'python2' 'curl' 'cmake' 'ninja')
 source=("https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.gz"
         config.toml)
 sha256sums=('04c4e4d7213d036d6aaed392841496d272146312c0290f728b7400fccd15bb1b'
-            'ff4890bd733509b0dbb885d69afd578c41fc583af256dcc81e9239339c60b144')
+            '3870c9a402fa337bcb0a7c5eaf88c0dc1375578184b4f4742d6899724d3f4a07')
 options=('staticlibs' '!strip' '!emptydirs')
 
 prepare() {
