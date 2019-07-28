@@ -15,30 +15,33 @@ provides=('cargo')
 conflicts=('cargo')
 replaces=('cargo')
 depends=('gcc-libs' 'curl' 'libssh2')
-makedepends=('rust' 'llvm' 'libffi' 'perl' 'python2' 'curl' 'cmake' 'ninja')
+makedepends=('rust' 'llvm' 'libffi' 'perl' 'curl' 'cmake' 'ninja' 'python3')
 source=("https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.gz"
-        config.toml)
+        config.toml
+        librustc-llvm-libffi.patch)
 sha256sums=('04c4e4d7213d036d6aaed392841496d272146312c0290f728b7400fccd15bb1b'
-            '3870c9a402fa337bcb0a7c5eaf88c0dc1375578184b4f4742d6899724d3f4a07')
-options=('staticlibs' '!strip' '!emptydirs')
+            '85dd39356696f8617222f12ab410f94ae2f91e6d14be944a043597f564be1bd4'
+            '49fa39e8775c9e3b3400d35d2df0728975371f9832d2d76d0dadf9fc73199774')
+options=('!emptydirs')
 
 prepare() {
   cd "rustc-$pkgver-src"
 
   cp "$srcdir"/config.toml config.toml
+  patch -Np0 -i $srcdir/librustc-llvm-libffi.patch
 }
 
 build() {
   cd "rustc-$pkgver-src"
 
   msg2 "Run build under x.py"
-  python2 ./x.py build -j"$(nproc)"
+  python3 ./x.py build -j"$(nproc)"
 }
 
 package() {
   cd "rustc-$pkgver-src"
 
-  DESTDIR="$pkgdir" python2 ./x.py install
+  DESTDIR="$pkgdir" python3 ./x.py install
 
   for license in APACHE MIT; do install -Dm644 "LICENSE-$license" \
     "$pkgdir/usr/share/licenses/$pkgname/LICENSE-$license"; done
