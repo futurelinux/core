@@ -2,7 +2,7 @@
 
 pkgbase=phonon
 pkgname=("phonon" "phonon-qt5")
-pkgver=4.10.1
+pkgver=4.10.3
 pkgrel=1
 arch=('x86_64')
 url="http://phonon.kde.org"
@@ -10,7 +10,7 @@ license=('LGPL')
 makedepends=('cmake' 'extra-cmake-modules' 'libpulse' 'libqzeitgeist' 'qt5-base' 'qt5-tools' 'qt5-base' 'qt5-tools')
 options=("debug" "!emptydirs")
 source=("http://download.kde.org/stable/${pkgbase}/${pkgver}/${pkgbase}-${pkgver}.tar.xz")
-sha256sums=('e5a98df31aeffc22493afc8d6adbca5d6f0c27cc2eed73b3be05195321e08db7')
+sha256sums=('2e8b145669afa0e93833e4064b657677abc9413e4007fa5ddc91397c9bddc295')
 
 prepare(){
   mkdir "${srcdir}"/build
