@@ -1,23 +1,22 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
+# Contributions from Arch:
+# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+# Contributor: Murtuza Akhtari <inxsible at gmail dot com>
+# Contributor: Keshav Amburay <(the ddoott ridikulus ddoott rat) (aatt) (gemmaeiil) (ddoott) (ccoomm)>
 
 pkgname="efibootmgr"
 pkgdesc="Tool to modify UEFI Firmware Boot Manager Variables"
-pkgver="0.11.0"
-pkgrel="1"
-arch=('x86_64' 'i686')
-url="https://github.com/vathpela/efibootmgr"
+pkgver=16
+pkgrel=1
+arch=('x86_64')
+url="https://github.com/rhinstaller/efibootmgr"
 license=('GPL2')
 makedepends=('git')
 depends=('pciutils' 'efivar' 'zlib')
 options=('strip' 'zipman' 'docs' '!emptydirs')
-
-source=("efibootmgr::git+https://github.com/vathpela/efibootmgr.git#tag=efibootmgr-${pkgver}")
+source=("efibootmgr::git+https://github.com/rhinstaller/efibootmgr.git#tag=${pkgver}")
 sha1sums=('SKIP')
 
-_pkgver() {
+pkgver() {
 	cd "${srcdir}/efibootmgr/"
 	echo "$(git describe --tags)" | sed -e 's|efibootmgr-||g' -e 's|-|\.|g'
 }
@@ -35,7 +34,7 @@ build() {
 	
 	cd "${srcdir}/efibootmgr/"
 	
-	make EXTRA_CFLAGS="-Os"
+	make EXTRA_CFLAGS="-Os" EFIDIR="/boot/EFI"
 	echo
 	
 }
@@ -45,9 +44,9 @@ package() {
 	cd "${srcdir}/efibootmgr/"
 	
 	install -d "${pkgdir}/usr/bin/"
-	install -D -m0755 "${srcdir}/efibootmgr/src/efibootmgr/efibootmgr" "${pkgdir}/usr/bin/efibootmgr"
+	install -D -m0755 "${srcdir}/efibootmgr/src/efibootmgr" "${pkgdir}/usr/bin/efibootmgr"
 	
 	install -d "${pkgdir}/usr/share/man/man8/"
-	install -D -m0644 "${srcdir}/efibootmgr/src/man/man8/efibootmgr.8" "${pkgdir}/usr/share/man/man8/efibootmgr.8"
+	install -D -m0644 "${srcdir}/efibootmgr/src/efibootmgr.8" "${pkgdir}/usr/share/man/man8/efibootmgr.8"
 	
 }
