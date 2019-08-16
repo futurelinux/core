@@ -13,7 +13,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('228bb3cef313de977c6b9316572ac82b')
+sha256sums=('5076219d277083d2535e5f739d06783abe2e059e9d3fd9f924a1fa7970946d72')
 
 prepare() {
   mkdir -p build

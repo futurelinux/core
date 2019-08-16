@@ -14,8 +14,8 @@ options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
          qtwebengine-harmony.patch)
-md5sums=('9f1f20537eba9b166cd0e59191e49f29'
-         '254061cb349cff714230b7cca83b0a4c')
+sha256sums=('e0af82ecee1ab41b6732697f667b98b7b0c53164bebcfaad8070e88b2e064efe'
+            'feca54ab09ac0fc9d0626770a6b899a6ac5a12173c7d0c1005bc3964ec83e7b3')
 
 prepare() {
   mkdir -p build
