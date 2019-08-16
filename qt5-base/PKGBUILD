@@ -1,7 +1,7 @@
 
 pkgbase=qt5-base
 pkgname=(qt5-base qt5-xcb-private-headers)
-pkgver=5.12.4
+pkgver=5.13.0
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
