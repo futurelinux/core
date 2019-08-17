@@ -1,34 +1,31 @@
 # maintainer: AlmAck <almack@chakralinux.org>
 
+# toolchain build order: linux-api-headers->glibc->binutils->gcc->binutils->glibc
+
 pkgname=binutils
-pkgver=2.29.1
-pkgrel=3
+pkgver=2.32
+pkgrel=2
 pkgdesc="A set of programs to assemble and manipulate binary and object files"
 arch=('x86_64')
 url="http://www.gnu.org/software/binutils/"
 license=('GPL')
 groups=('base-devel')
-depends=('glibc>=2.26' 'zlib')
+depends=('glibc>=2.29' 'zlib')
 makedepends=('git')
 checkdepends=('dejagnu' 'bc')
 conflicts=('binutils-multilib')
 replaces=('binutils-multilib')
 options=('staticlibs' '!distcc' '!ccache')
-source=(https://ftp.gnu.org/gnu/binutils/binutils-$pkgver.tar.xz{,.sig}
-        0001-x86-64_Dont_pass_output_bfd_to_info-callbacks-minfo.patch)
+source=(https://ftp.gnu.org/gnu/binutils/binutils-$pkgver.tar.xz{,.sig})
 validpgpkeys=(3A24BC1E8FB409FA9F14371813FCEF89DD9E3C4F)
-md5sums=('acc9cd826edb9954ac7cecb81c727793'
-         'SKIP'
-         'e4be936139ef46122cb3841881c432b2')
+md5sums=('0d174cdaf85721c5723bf52355be41e6'
+         'SKIP')
 
 prepare() {
   cd binutils-$pkgver
 
   # hack! - libiberty configure tests for header files using "$CPP $CPPFLAGS"
   sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" libiberty/configure
-
-  # https://bugs.archlinux.org/task/55741
-  git apply ../0001-x86-64_Dont_pass_output_bfd_to_info-callbacks-minfo.patch
   
   mkdir -p ${srcdir}/binutils-build
 }
@@ -40,21 +37,22 @@ build() {
     --prefix=/usr \
     --with-lib-path=/usr/lib:/usr/local/lib \
     --with-bugurl=https://code.chakralinux.org/ \
-    --enable-threads \
-    --enable-shared \
-    --enable-ld=default \
+    --enable-deterministic-archives \
     --enable-gold \
+    --enable-ld=default \
+    --enable-lto \
     --enable-plugins \
     --enable-relro \
-    --enable-deterministic-archives \
-    --with-pic \
-    --disable-werror \
+    --enable-shared \
+    --enable-targets=x86_64-pep \
+    --enable-threads \
     --disable-gdb \
+    --disable-werror \
+    --with-pic \
     --with-system-zlib
 
   # check the host environment and makes sure all the necessary tools are available
   make configure-host
-
   make tooldir=/usr
 }
 
@@ -71,7 +69,7 @@ package() {
   make prefix=${pkgdir}/usr tooldir=${pkgdir}/usr install
 
   # Remove unwanted files
-  rm ${pkgdir}/usr/share/man/man1/{dlltool,nlmconv,windres,windmc}*
+  rm ${pkgdir}/usr/share/man/man1/{dlltool,windres,windmc}*
 
   # No shared linking to these files outside binutils
   rm ${pkgdir}/usr/lib/lib{bfd,opcodes}.so

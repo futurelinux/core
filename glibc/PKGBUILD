@@ -4,9 +4,9 @@
 # NOTE: valgrind requires rebuilt with each major glibc version
 
 pkgname=glibc
-pkgver=2.26
-pkgrel=3
-_commit=633e2f7f3d88df6427aa3a7a984d3a6b796d9611  # release/2.26/master
+pkgver=2.29
+pkgrel=2
+_commit=34fb5f61d3c3f4b8fc616ea259fa19168b58ecd4
 pkgdesc="GNU C Library"
 arch=('x86_64')
 url="http://www.gnu.org/software/libc"
@@ -22,23 +22,17 @@ install=glibc.install
 source=(git+https://sourceware.org/git/glibc.git#commit=${_commit}
         locale.gen.txt
         locale-gen
-        0001-manual-Update-to-mention-ENODEV-for-ttyname-and-ttyn.patch
-        0002-linux-ttyname-Update-a-reference-to-kernel-docs-for-.patch
-        0003-linux-ttyname-Change-return-type-of-is_pty-from-int-.patch
-        0004-linux-ttyname-_r-Make-tty-checks-consistent.patch
-        0005-linux-ttyname-_r-Don-t-bail-prematurely-BZ-22145.patch
-        0006-linux-ttyname-_r-Add-tests.patch
-        bz20338.patch)
+        bz20338.patch
+        0001-Revert-elf-Correct-absolute-SHN_ABS-symbol-run-time-.patch
+        file-truncated-while-reading-soname-after-patchelf.patch)
+validpgpkeys=(7273542B39962DF7B299931416792B4EA25340F8 # Carlos O'Donell
+              BC7C7372637EC10C57D7AA6579C43DFBF1CF2187) # Siddhesh Poyarekar
 md5sums=('SKIP'
          '07ac979b6ab5eeb778d55f041529d623'
          '476e9113489f93b348b21e144b6a8fcf'
-         '2bb2dfa660fbb4b349f844459f79d5a1'
-         '299316b1a35426eadf3301a3fad170be'
-         '41d212e3f8d838bff341102679b2af09'
-         '8a886e84f950caf2ad1c37cc3a456339'
-         'fc5af427803b139d9753230849053458'
-         'eb4e1836f4f3721f1215450a2cca3523'
-         'dc0d3ad59aeaaf591b085a77de6e03e9')
+         'dc0d3ad59aeaaf591b085a77de6e03e9'
+         'af5d3c5227ac639effe39667a43879a1'
+         '0820504d2e83ee15f74a656771361872')
 
 prepare() {
   mkdir -p glibc-build
@@ -74,12 +68,12 @@ build() {
       --with-bugurl=https://code.chakralinux.org/ \
       --enable-add-ons \
       --enable-bind-now \
+      --enable-cet \
       --enable-lock-elision \
       --enable-multi-arch \
-      --enable-obsolete-nsl \
-      --enable-obsolete-rpc \
       --enable-stack-protector=strong \
       --enable-stackguard-randomization \
+      --enable-static-pie \
       --disable-profile \
       --disable-werror
 
@@ -121,9 +115,10 @@ package() {
   
   install -dm755 ${pkgdir}/usr/lib/{locale,systemd/system,tmpfiles.d}
 
-  install -m644 nscd/nscd.conf ${pkgdir}/etc/nscd.conf
-  install -m644 nscd/nscd.service ${pkgdir}/usr/lib/systemd/system
-  install -m644 nscd/nscd.tmpfiles ${pkgdir}/usr/lib/tmpfiles.d/nscd.conf
+  install -m644 nscd/nscd.conf "$pkgdir/etc/nscd.conf"
+  install -m644 nscd/nscd.service "$pkgdir/usr/lib/systemd/system"
+  install -m644 nscd/nscd.tmpfiles "$pkgdir/usr/lib/tmpfiles.d/nscd.conf"
+  install -dm755 "$pkgdir/var/db/nscd"
 
   install -m644 posix/gai.conf ${pkgdir}/etc/gai.conf
 
@@ -145,22 +140,18 @@ package() {
   #   libthread_db-1.0.so
 
   cd "$pkgdir"
-  strip $STRIP_BINARIES usr/bin/{gencat,getconf,getent,iconv,makedb,locale,localedef} \
-                        usr/sbin/{iconvconfig,nscd} \
-                        usr/sbin/{ldconfig,sln} \
-                        usr/bin/{pcprofiledump,pldd,rpcgen,sprof} \
-                        usr/lib/getconf/*
+  
+  find "$pkgdir"/usr/bin -type f -executable -exec strip $STRIP_BINARIES {} + 2> /dev/null || true
+  find "$pkgdir"/usr/lib -name '*.a' -type f -exec strip $STRIP_STATIC {} + 2> /dev/null || true
 
-  strip $STRIP_STATIC usr/lib/lib{anl,BrokenLocale,c{,_nonshared},crypt}.a \
-                      usr/lib/lib{dl,g,ieee,mcheck,nsl,pthread{,_nonshared}}.a \
-                      usr/lib/lib{resolv,rpcsvc,rt,util}.a \
-                      usr/lib/lib{m-${pkgver},mvec{,_nonshared}}.a
+  # Do not strip these for gdb and valgrind functionality, but strip the rest
+  find "$pkgdir"/usr/lib \
+      -not -name 'ld-*.so' \
+      -not -name 'libc-*.so' \
+      -not -name 'libpthread-*.so' \
+      -not -name 'libthread_db-*.so' \
+      -name '*-*.so' -type f -exec strip $STRIP_SHARED {} + 2> /dev/null || true
 
-  strip $STRIP_SHARED usr/lib/lib{anl,BrokenLocale,cidn,crypt}-${pkgver}.so \
-                      usr/lib/libnss_{compat,db,dns,files,hesiod,nis,nisplus}-*.so \
-                      usr/lib/lib{dl,m,nsl,resolv,rt,util}-${pkgver}.so \
-                      usr/lib/lib{memusage,pcprofile,SegFault}.so \
-                      usr/lib/{audit,gconv}/*.so usr/lib/libmvec-*.so || true
 
   #
   # add lib symlinks
