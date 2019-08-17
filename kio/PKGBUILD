@@ -1,7 +1,7 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/kio
 
 pkgname=kio
-pkgver=5.60.0
+pkgver=5.61.0
 pkgrel=1
 pkgdesc='Resource and network access abstraction'
 arch=('x86_64')
@@ -9,12 +9,12 @@ url='https://projects.kde.org/projects/frameworks/kio'
 license=('LGPL')
 depends=('solid' 'karchive' 'kjobwidgets' 'kbookmarks' 'libxslt' 'kwallet'
         'desktop-file-utils' 'krb5' 'acl')
-makedepends=("extra-cmake-modules>=5.60.0" 'kdoctools')
+makedepends=("extra-cmake-modules>=5.61.0" 'kdoctools')
 checkdepends=('xorg-server-xvfb' 'openbox')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('be433fcf665679671a2e320556c39b708ed0789271e76ebb6142df058260238d'
+sha256sums=('1fa35126f8167bdbe029e515d01c8d4b91a07556ce6d5c9418e0ea10d7c2e44e'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 
