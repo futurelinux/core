@@ -1,8 +1,8 @@
-# maintainer abveritas@chakra-project.org
 
 pkgname=lm_sensors
-pkgver=3.4.0
-pkgrel=2
+pkgver=3.5.0
+_pkgver=${pkgver//./-}
+pkgrel=1
 pkgdesc="Collection of user space tools for general SMBus access and hardware monitoring"
 arch=('x86_64')
 url="http://www.lm-sensors.org/"
@@ -16,14 +16,12 @@ options=('emptydirs')
 #        "fancontrol.diff::http://www.lm-sensors.org/changeset/6216?format=diff&new=6216"
 #        "sensor.diff::http://www.lm-sensors.org/changeset/6237?format=diff&new=6237"
 # Backup source from Fedora
-source=("http://pkgs.fedoraproject.org/repo/pkgs/lm_sensors/lm_sensors-3.4.0.tar.bz2/c03675ae9d43d60322110c679416901a/lm_sensors-3.4.0.tar.bz2"
-        'lm_sensors-fancontrol.patch'
+source=(https://github.com/lm-sensors/lm-sensors/archive/V${_pkgver}.tar.gz
         'healthd'
         'healthd.conf'
         'sensord.conf'
         'fancontrol.service' 'sensord.service' 'healthd.service')
-sha1sums=('3e245b61a69756ea94f9c8a7c7614ec543970b8c'
-          'b0bc977348610d6a008d75a43f65800251c4c9f7'
+sha1sums=('3d1b3b82d62daeec1f151eaf993c61dc3cf21a6b'
           'f3e4fb36a619fb446139abc3f7a1d5409504c632'
           '6c4e8a2d89dd2fd3ca2f0f4f3b1230111e01b0fc'
           'de8d4d65406815c389f8a04e2a8508a1ae6749c8'
@@ -32,24 +30,23 @@ sha1sums=('3e245b61a69756ea94f9c8a7c7614ec543970b8c'
           'a7a20eb3c799d70287e6c7968a7ab42165925293')
 
 prepare() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/lm-sensors-${_pkgver}"
   sed -i 's|/etc/sysconfig|/etc/conf.d|' prog/{detect/sensors-detect,init/lm_sensors.service}
   sed -i 's@\(/bin/systemctl\|/lib/systemd/system\)@/usr\1@g' prog/detect/sensors-detect
   msg "if the configuration file is not present don't show any errors (file generated with sensors-detect), Arch bug #30887"
   sed -i 's/EnvironmentFile=/EnvironmentFile=-/' prog/init/lm_sensors.service
-  patch -p0 -i ../lm_sensors-fancontrol.patch
-#  patch -p3 < ../sensor.diff
+
 }
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/lm-sensors-${_pkgver}"
   make PROG_EXTRA=sensord \
   BUILD_STATIC_LIB=0 \
   PREFIX=/usr MANDIR=/usr/share/man
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/lm-sensors-${_pkgver}"
   make PROG_EXTRA=sensord \
   BUILD_STATIC_LIB=0 \
   PREFIX=/usr \
