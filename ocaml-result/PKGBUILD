@@ -4,7 +4,7 @@
 _pkgname=result
 pkgname=ocaml-${_pkgname}
 pkgver=1.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Compatibility Result module"
 arch=('x86_64')
 url="https://github.com/janestreet/result"
