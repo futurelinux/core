@@ -5,7 +5,7 @@
 # Remember to update lib32-rust along with this package.
 
 pkgname=rust
-pkgver=1.36.0
+pkgver=1.37.0
 pkgrel=1
 arch=('x86_64')
 pkgdesc='Systems programming language focused on safety, speed and concurrency'
@@ -17,18 +17,15 @@ replaces=('cargo')
 depends=('gcc-libs' 'curl' 'libssh2')
 makedepends=('rust' 'llvm' 'libffi' 'perl' 'curl' 'cmake' 'ninja' 'python3')
 source=("https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.gz"
-        config.toml
-        librustc-llvm-libffi.patch)
-sha256sums=('04c4e4d7213d036d6aaed392841496d272146312c0290f728b7400fccd15bb1b'
-            '85dd39356696f8617222f12ab410f94ae2f91e6d14be944a043597f564be1bd4'
-            '49fa39e8775c9e3b3400d35d2df0728975371f9832d2d76d0dadf9fc73199774')
+        config.toml)
+sha256sums=('120e7020d065499cc6b28759ff04153bfdc2ac9b5adeb252331a4eb87cbe38c3'
+            '94ab3f49b8ed7e1d91368170740a6aed0a24b608e2ccb6ec6795f1ac7085cd94')
 options=('!emptydirs')
 
 prepare() {
   cd "rustc-$pkgver-src"
 
   cp "$srcdir"/config.toml config.toml
-  patch -Np0 -i $srcdir/librustc-llvm-libffi.patch
 }
 
 build() {
