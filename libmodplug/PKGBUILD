@@ -1,14 +1,14 @@
 pkgname=libmodplug
 # Caution: This package has a lib32 alternative, make sure to update that also
-pkgver=0.8.8.5
-pkgrel=3
+pkgver=0.8.9.0
+pkgrel=1
 pkgdesc="A MOD playing library"
 arch=('x86_64')
 url="http://modplug-xmms.sourceforge.net/"
 license=('custom')
 depends=('gcc-libs')
 source=("http://downloads.sourceforge.net/modplug-xmms/${pkgname}-${pkgver}.tar.gz")
-md5sums=('5f30241db109d647781b784e62ddfaa1')
+sha1sums=('9d18572f85fdd95091befa972ee5d94139dcefde')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
