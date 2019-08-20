@@ -1,7 +1,7 @@
 # Contributions from ArchLinux: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/vlc
 
 pkgname=vlc
-_vlcver=3.0.7.1
+_vlcver=3.0.8
 # optional fixup version including hyphen
 _vlcfixupver=
 pkgver=${_vlcver}${_vlcfixupver//-/.r}
@@ -94,7 +94,7 @@ options=('!emptydirs')
 source=("https://download.videolan.org/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz"{,.asc}
         update-vlc-plugin-cache.hook
         lua53_compat.patch)
-sha1sums=('3f6f9e56695eeea662b86602963721f1ac7afd23'
+sha1sums=('424a9795e051c198e7fa28107b15809ee6820d43'
           'SKIP'
           'c3a35ba4dbd6c8e4e5b032664f50b9f0dcf579ee'
           '5d7dba23756ff577a90b8631b187fbeac1f94e17')
