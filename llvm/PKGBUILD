@@ -1,10 +1,18 @@
-# $Id$
-# Maintainer: Evangelos Foutras <evangelos@foutrelis.com>
-# Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
+#llvm now split to different packages
+#
+#- llvm, llvm-libs (in dir llvm/): the main llvm lib and functional part
+#- lld: (dynamic) linker of llvm
+#- lldb: debugger of llvm
+#- compiler-rt: runtime compiler lib for clang to build and run
+#- clang: C/C++ compiler from llvm project
+#
+#they should stay in same release version
+#the update sequence is:
+#(optional ocaml group->) llvm -> lld -> compiler-rt -> clang
 
 pkgname=('llvm' 'llvm-libs' 'llvm-ocaml')
 pkgver=8.0.1
-pkgrel=1
+pkgrel=2
 _ocaml_ver=4.08.0
 arch=('x86_64')
 url="https://llvm.org/"

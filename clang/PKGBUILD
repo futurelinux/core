@@ -10,7 +10,7 @@ arch=('x86_64')
 url="https://clang.llvm.org/"
 license=('custom:University of Illinois/NCSA Open Source License')
 depends=('llvm-libs' 'gcc' 'compiler-rt')
-makedepends=('llvm' 'cmake' 'ninja' 'python3-sphinx' 'python2' 'gmock')
+makedepends=('llvm' 'cmake' 'ninja' 'python3-sphinx' 'python2')
 optdepends=('openmp: OpenMP support in clang with -fopenmp'
             'python3: for scan-view and git-clang-format'
             'llvm: referenced by some clang headers')
@@ -71,7 +71,7 @@ build() {
     -DBUILD_SHARED_LIBS=ON \
     -DLLVM_LINK_LLVM_DYLIB=ON \
     -DLLVM_ENABLE_RTTI=ON \
-    -DLLVM_BUILD_TESTS=ON \
+    -DLLVM_BUILD_TESTS=OFF \
     -DLLVM_INCLUDE_DOCS=ON \
     -DLLVM_BUILD_DOCS=ON \
     -DLLVM_ENABLE_SPHINX=ON \
@@ -80,10 +80,10 @@ build() {
   ninja
 }
 
-check() {
-  cd "$srcdir/cfe-$pkgver.src/build"
-  ninja check-clang{,-tools}
-}
+#check() {
+#  cd "$srcdir/cfe-$pkgver.src/build"
+#  ninja check-clang{,-tools}
+#}
 
 _python2_optimize() {
   python2 -m compileall "$@"

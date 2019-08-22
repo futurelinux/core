@@ -1,7 +1,7 @@
 pkgbase=python-sphinx
 pkgname=('python3-sphinx' 'python2-sphinx')
-pkgver=1.7.9
-pkgrel=1
+pkgver=1.8.5
+pkgrel=2
 arch=('any')
 url='http://sphinx.pocoo.org/'
 license=('GPL')
@@ -37,7 +37,7 @@ checkdepends=(
   'python3-pytz' 'python2-pytz'
 )
 source=("https://pypi.org/packages/source/S/Sphinx/Sphinx-$pkgver.tar.gz")
-md5sums=('a39a368b88c35c3797f7f0cb492cccc4')
+md5sums=('554f7a4e752f48b2601e5ef5ab463346')
 
 prepare() {
   # souce duplication is required because makefile modify source code
@@ -94,6 +94,7 @@ package_python3-sphinx() {
     'python3-six'
     'python3-imagesize'
     'python3-requests'
+    'python3-setuptools'
     'python3-sphinxcontrib-websupport'
     'python3-sqlalchemy'
     'python3-whoosh'
@@ -117,6 +118,7 @@ package_python2-sphinx() {
     'python2-six'
     'python2-imagesize'
     'python2-requests'
+    'python2-setuptools'
     'python2-sphinxcontrib-websupport'
     'python2-sqlalchemy'
     'python2-whoosh'
