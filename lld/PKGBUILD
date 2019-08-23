@@ -1,7 +1,6 @@
-
 pkgname=lld
 pkgver=8.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Linker from the LLVM project"
 arch=('x86_64')
 url="https://lld.llvm.org/"
@@ -38,12 +37,6 @@ build() {
     -DLLVM_EXTERNAL_LIT=/usr/bin/lit \
     -DLLVM_MAIN_SRC_DIR="$srcdir/llvm-$pkgver.src"
   ninja
-}
-
-
-check() {
-  cd "$srcdir/$pkgname-$pkgver.src/build"
-  ninja check-lld
 }
 
 package() {
