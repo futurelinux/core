@@ -7,6 +7,7 @@
 pkgname=rust
 pkgver=1.37.0
 pkgrel=1
+_llvm_ver=8.0.1
 arch=('x86_64')
 pkgdesc='Systems programming language focused on safety, speed and concurrency'
 url='https://www.rust-lang.org/'
@@ -15,11 +16,14 @@ provides=('cargo')
 conflicts=('cargo')
 replaces=('cargo')
 depends=('gcc-libs' 'curl' 'libssh2')
-makedepends=('rust' 'llvm' 'libffi' 'perl' 'curl' 'cmake' 'ninja' 'python3')
+makedepends=('rust' "llvm=$_llvm_ver" 'libffi' 'perl' 'python3' 'curl' 'cmake')
+options=('!emptydirs')
 source=("https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.gz"
+        "https://github.com/llvm/llvm-project/releases/download/llvmorg-$_llvm_ver/compiler-rt-$_llvm_ver.src.tar.xz"
         config.toml)
 sha256sums=('120e7020d065499cc6b28759ff04153bfdc2ac9b5adeb252331a4eb87cbe38c3'
-            '94ab3f49b8ed7e1d91368170740a6aed0a24b608e2ccb6ec6795f1ac7085cd94')
+            '11828fb4823387d820c6715b25f6b2405e60837d12a7469e7a8882911c721837'
+            'c2d04b5c71f7c363a2056823a5cf79b6d45dbecfe241f2bc437d2a90806cf302')
 options=('!emptydirs')
 
 prepare() {
@@ -30,6 +34,9 @@ prepare() {
 
 build() {
   cd "rustc-$pkgver-src"
+
+  export RUST_BACKTRACE=1
+  export RUST_COMPILER_RT_ROOT="$srcdir/compiler-rt-$_llvm_ver.src"
 
   msg2 "Run build under x.py"
   python3 ./x.py build -j"$(nproc)"
