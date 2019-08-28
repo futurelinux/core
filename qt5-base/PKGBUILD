@@ -19,7 +19,6 @@ optdepends=('qt5-svg: to use SVG icon themes'
             'freetds: MS SQL driver'
             'mtdev: evdev plugin')
 groups=('qt5')
-options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
 sha256sums=('ff6964b3b528cd3b1d21bcf3470006e8e5cbe69591923f982871d886ea0488fe')
@@ -34,23 +33,22 @@ prepare() {
   sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
     mkspecs/common/g++-unix.conf
 
-  # Use python2 for Python 2.x
+  # Use python3
   find . -name '*.py' -exec sed -i \
-    's|#![ ]*/usr/bin/python$|&2|;s|#![ ]*/usr/bin/env python$|&2|' {} +
+    's|#![ ]*/usr/bin/python$|&2|;s|#![ ]*/usr/bin/env python$|&3|' {} +
 
 }
 
 build() {
   cd ${_pkgfqn}
 
-  PYTHON=/usr/bin/python2 ./configure -confirm-license -opensource -v \
+  PYTHON=/usr/bin/python3 ./configure -confirm-license -opensource -v \
     -prefix /usr \
     -bindir /usr/lib/qt5/bin \
     -docdir /usr/share/doc/qt5 \
     -headerdir /usr/include/qt5 \
     -archdatadir /usr/lib/qt5 \
     -datadir /usr/share/qt5 \
-    -force-debug-info \
     -sysconfdir /etc/xdg \
     -examplesdir /usr/share/doc/qt5/examples \
     -plugindir /usr/lib/qt5/plugins \
@@ -68,7 +66,6 @@ build() {
     -dbus-linked \
     -system-harfbuzz \
     -journald \
-    -no-use-gold-linker \
     -reduce-relocations
   make
 }
