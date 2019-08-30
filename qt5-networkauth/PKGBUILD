@@ -8,7 +8,6 @@ license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='Network authentication module'
 depends=(qt5-base)
 groups=('qt5')
-options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
 sha256sums=('91ff879d0a9f7e8ff658fb569136f102ee9f25bd47852e97a1f39826c1932c0d')
