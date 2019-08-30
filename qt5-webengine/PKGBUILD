@@ -8,27 +8,39 @@ license=('LGPL3' 'LGPL2.1' 'BSD')
 pkgdesc='Provides support for web applications using the Chromium browser project'
 depends=('qt5-webchannel' 'qt5-location' 'libxcomposite' 'libxrandr' 'pciutils' 'libxss'
          'libevent' 'snappy' 'nss' 'libxslt' 'minizip' 'ffmpeg' 're2' 'libvpx')
-makedepends=('python2' 'git' 'gperf' 'jsoncpp' 'ninja' 'qt5-tools')
+makedepends=('python3' 'git' 'gperf' 'jsoncpp' 'ninja' 'qt5-tools' 'poppler')
 groups=('qt5')
-options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
-         qtwebengine-harmony.patch)
+         qtbug-76958.patch
+         qtwebengine-glibc-2.29.patch
+         qtbug-77037-workaround.patch
+         qtbug-76958.patch
+         qtbug-76913.patch
+         qtbug-76963.patch)
 sha256sums=('e0af82ecee1ab41b6732697f667b98b7b0c53164bebcfaad8070e88b2e064efe'
-            'feca54ab09ac0fc9d0626770a6b899a6ac5a12173c7d0c1005bc3964ec83e7b3')
+            'eef55340b3ec5f8d1020b7327eda67f86729aaf70107c688deb15083f5ca8fbc'
+            'dd791f154b48e69cd47fd94753c45448655b529590995fd71ac1591c53a3d60c'
+            '3e3bb8ecf292e7f249d001db4a4a072ca4ba38f713f496122bd7c73d93d5def9'
+            'eef55340b3ec5f8d1020b7327eda67f86729aaf70107c688deb15083f5ca8fbc'
+            '5771af2442d7743ef7c59f0d3716a23985383e2b69ecb4fa9d4ea8e8f7c551fa'
+            '390607db2967cfbb2741109a15914ff046a6cd91c374f79a9d4d98c8399958c6')
 
 prepare() {
   mkdir -p build
 
-  # Hack to force using python2
+  # Hack to force using python3
   mkdir -p bin
-  ln -s /usr/bin/python2 bin/python
+  ln -s /usr/bin/python3 bin/python
 
   cd ${_pkgfqn}
+  patch -p1 -i ../qtbug-76913.patch # Fix crashes on media-heavy sites
+  patch -p1 -i ../qtbug-76958.patch # Fix crash when loading tabs on the background
+  patch -p1 -i ../qtbug-77037-workaround.patch # Link to pulseaudio to avoid header mismatch
+  patch -p1 -i ../qtbug-76963.patch # Fix SIOCGSTAMP error after glibc update
 
-  # FreeType 2.8.1
-  patch -Np1 -i ../qtwebengine-harmony.patch
-
+  cd src/3rdparty/chromium
+  patch -p1 -i "$srcdir"/qtwebengine-glibc-2.29.patch # Fix PPAPI plugins with glibc 2.29
 }
 
 build() {
@@ -39,8 +51,8 @@ build() {
     -proprietary-codecs \
     -system-ffmpeg \
     -webp \
-    -spellchecker \
-    -webengine-icu
+    -spellchecker
+#    -webengine-icu
   make
 }
 
