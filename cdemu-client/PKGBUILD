@@ -1,37 +1,32 @@
+# Contribtions from Arch:
+# Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Contributor: Mateusz Herych <heniekk@gmail.com>
+# Contributor: Charles Lindsay <charles@chaoslizard.org>
+
 pkgname=cdemu-client
-pkgver=3.0.1
+pkgver=3.2.3
 pkgrel=1
 pkgdesc="Simple command-line client for controlling cdemu-daemon"
-arch=('x86_64')
-url='http://cdemu.sourceforge.net/'
-license=('GPL')
-depends=('python2' 'python2-dbus' 'cdemu-daemon')
-makedepends=('intltool' 'cmake')
-source=("http://downloads.sourceforge.net/cdemu/$pkgname-$pkgver.tar.bz2")
-md5sums=('d3345a893788748b8669a66ff8c6b0d6')
+arch=(any)
+url="https://cdemu.sourceforge.io/"
+license=(GPL)
+depends=(python3-gobject cdemu-daemon)
+makedepends=(intltool cmake bash-completion)
+conflicts=('cdemu')
+source=("https://downloads.sourceforge.net/cdemu/$pkgname-$pkgver.tar.bz2")
+sha256sums=('f883800db99d39a91f41b94ede7c799c12318f15f4c138eeca0374374c156caf')
 
 prepare() {
-  cd "$srcdir/$pkgname-$pkgver"
-
-  msg 'python2 fix'
-  sed -i 's_#!/usr/bin/env python_#!/usr/bin/env python2_' src/cdemu
-
-  msg 'bash completion fix'
-  sed -i CMakeLists.txt -e "s|DESTINATION \${CMAKE_INSTALL_SYSCONFDIR}/bash_completion.d|DESTINATION \${CMAKE_INSTALL_DATADIR}/bash-completion/completions|"
+  cd $pkgname-$pkgver
 }
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
-  [[ -d build ]] && rm -rf build ; mkdir build
-  cd build
-  cmake .. \
+  cmake -H$pkgname-$pkgver -Bbuild \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr
-  make
+  cmake --build build
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver/build"
-  make DESTDIR="$pkgdir" install
-  rm -f "${pkgdir}"/usr/share/applications/cdemu-client.desktop
+  DESTDIR="$pkgdir" cmake --build build --target install
 }
