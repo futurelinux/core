@@ -1,7 +1,7 @@
 # maintainer almack[at]chakralinux[dog]org>
 
 pkgname=filesystem
-pkgver=2016.11
+pkgver=2019.08
 pkgrel=1
 pkgdesc='Base filesystem'
 arch=('x86_64')
@@ -39,7 +39,7 @@ md5sums=('5589e354505fa6d2b479314a0b266b14'
          'b217ea13514b74702f3aa909bafb61d5'
          'a8a962370cd0128465d514e6a1f74130'
          '8aba0b33527e812211b9e5f9b87887ae'
-         '58fc7b3547db3c151cb7a11a0873275c'
+         '52f928921724e363e56efa5cca579e93'
          '201bbb8b4734d2f46afe1e24d7cc6173'
          '71ed98c52e11ada1f936ac8cb14eecd9')
 

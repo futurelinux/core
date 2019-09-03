@@ -5,4 +5,6 @@ ANSI_COLOR="0;36"
 HOME_URL="https://www.chakralinux.org/"
 SUPPORT_URL="https://community.chakralinux.org/"
 BUG_REPORT_URL="https://code.chakralinux.org"
+DOCUMENTATION_URL=""
+LOGO="https://rsync.chakralinux.org/sources/chakra.png"
 
