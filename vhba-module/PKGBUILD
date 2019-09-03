@@ -1,22 +1,23 @@
 pkgbase=vhba-module
 pkgname=(vhba-module vhba-module-dkms)
-pkgver=20170610
-pkgrel=22
+pkgver=20190410
+pkgrel=1
 pkgdesc="Kernel module that emulates SCSI devices"
 arch=('x86_64')
 url="http://cdemu.sourceforge.net/"
 license=('GPL')
-depends=("linux=4.19.26")
-makedepends=("linux-headers=4.19.26")
+depends=("linux=5.2.9")
+makedepends=("linux-headers=5.2.9")
 _extramodules=extramodules-CHAKRA
 source=("http://downloads.sourceforge.net/cdemu/$pkgname-$pkgver.tar.bz2"
         60-vhba.rules  dkms.conf)
-md5sums=('f9478a5f5528fc672c204b6b4bd02213'
+md5sums=('dc2323bd121a0f5e389f00d7e0aa97aa'
          '4dc37dc348b5a2c83585829bde790dcc'
          '7da9314812d9ea665df0db33052c7452')
 
 prepare() {
   cd $pkgname-$pkgver
+  sed -i 's/20190302/20190410/' Makefile  # Fixup VHBA_VERSION
 }
 
 build() {

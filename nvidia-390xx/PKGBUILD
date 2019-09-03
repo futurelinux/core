@@ -1,24 +1,24 @@
 
 pkgbase=nvidia-390xx
 pkgname=(nvidia-390xx nvidia-390xx-dkms chd-nvidia-390xx)
-pkgver=390.87
-pkgrel=7
+pkgver=390.129
+pkgrel=1
 pkgdesc="NVIDIA drivers for linux, 390xx legacy branch"
 arch=('x86_64')
 url="http://www.nvidia.com/"
-makedepends=("linux-headers=4.19.26" "nvidia-390xx-utils=${pkgver}")
+makedepends=("linux-headers=5.2.9" "nvidia-390xx-utils=${pkgver}")
 license=('custom')
 options=('!strip')
 source=("https://code.chakralinux.org/tools/chakra-hardware-detection/raw/master/hwdb/nvidia_supported_new")
 _pkg="NVIDIA-Linux-x86_64-${pkgver}"
 _extramodules=extramodules-CHAKRA
 source+=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run"
-        kernel-4.16.patch
-        kernel-4.19.patch)
+        'kernel-4.16.patch')
 sha256sums=('94db1b11de33b0299da021fee8c21e4442656fe76452ac582b556e3f96365d5d'
-            '38290a0b19e86037112f22397e02be9cdd6bcd677dd926b2977bbd49119e611e'
+            'd690cf21bda0bb6eb5c8a7f71073f0c9aea5857c6dd392a4dac3b48b27631240'
             '622ac792ec200b2239cb663c0010392118b78c9904973d82cd261165c16d6385'
-            'e425320bd3712cc789035d5936412724b0b410f50463980c0a48715fd3f8c431')
+            'd92899d4f7a40e2c3cad92d067f2f53c3a18c49b34e62e707a93b125aa37640f'
+            '9d94f30662d64400ee43bb7745544b72e1c6216a30ae2907a744c7ae0aa6e384')
 
 prepare() {
     sh "${_pkg}.run" --extract-only
@@ -27,7 +27,7 @@ prepare() {
     # Restore phys_to_dma support (still needed for 396.18)
     # https://bugs.archlinux.org/task/58074
     patch -Np1 -i ../kernel-4.16.patch
-    patch -Np1 -i ../kernel-4.19.patch
+
 
     cp -a kernel kernel-dkms
     cd kernel-dkms
@@ -57,7 +57,7 @@ build() {
 
 package_nvidia-390xx() {
     pkgdesc="NVIDIA drivers for linux, 390xx legacy branch"
-    depends=("linux=4.19.26" "nvidia-390xx-utils=${pkgver}" 'libgl')
+    depends=("linux=5.2.9" "nvidia-390xx-utils=${pkgver}" 'libgl')
     conflicts=('nvidia-96xx' 'nvidia-173xx' 'nvidia-304xx' 'nvidia-340xx')
 
     install -Dt "${pkgdir}/usr/lib/modules/${_extramodules}" -m644 \

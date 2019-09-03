@@ -1,22 +1,15 @@
 pkgname=r8168
-pkgver=8.045.08
-pkgrel=19
+pkgver=8.047.02
+pkgrel=1
 pkgdesc="A kernel module for Realtek 8168 network cards"
 url="http://www.realtek.com.tw"
 license=("GPL")
 arch=('x86_64')
-depends=('glibc' "linux=4.19.26")
-makedepends=("linux-headers=4.19.26")
+depends=('glibc' "linux=5.2.9")
+makedepends=("linux-headers=5.2.9")
 _extramodules=extramodules-CHAKRA
-source=("https://github.com/mtorromeo/r8168/archive/$pkgver/$pkgname-$pkgver.tar.gz"
-            linux-4.15.patch)
-sha256sums=('18161cb72fc872a9aed194514f7b8fb8b255b6fa6ed3d2dd459700eaad575f31'
-            '6434f0d1fcb08e3605a17859d3b8946c65bcf14737e223315b6468b3394c5cd7')
-
-prepare() {
-	cd "$pkgname-$pkgver"
-	patch -Np1 -i ../linux-4.15.patch
-}
+source=("https://github.com/mtorromeo/r8168/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+sha256sums=('29a67eedf1d84a3eae60aeb8bbd843b1e65e104a45a3e2932bd015aab4ebd1eb')
 
 build() {
 	KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)

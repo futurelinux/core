@@ -2,26 +2,42 @@
 pkgbase=nvidia-340xx
 pkgname=('nvidia-340xx' 'chd-nvidia-340xx' 'nvidia-340xx-dkms')
 pkgver=340.107
-pkgrel=12
+pkgrel=13
 arch=('x86_64')
 url="http://www.nvidia.com/"
-makedepends=("linux-headers=4.19.26")
+makedepends=("linux-headers=5.2.9")
 license=('custom')
 source=("https://code.chakralinux.org/tools/chakra-hardware-detection/raw/master/hwdb/nvidia_supported"
-               'kernel-4.11.patch')
+               'kernel-4.11.patch'
+               'kernel-5.0.patch'
+               'kernel-5.2.patch')
 _ARCH='x86_64'
 _pkg="NVIDIA-Linux-${_ARCH}-${pkgver}-no-compat32"
 _extramodules=extramodules-CHAKRA
 source+=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run")
 md5sums=('62d0cdb856cfae64753c0f3acf729d47'
-         'e09208cdee41f89ae787f86c602c69d2'
+         '1e5c198f53bf88b5160ebca8d3f602cb'
+         '0ff09b69db7d3da1a56d3455f6587679'
+         '164fac79ada52b2a8723ed30b529a624'
          'ffca1879d77dfc491dfb0276ceb56cc1')
 
 prepare() {
     sh "${_pkg}.run" --extract-only
     cd "${_pkg}"
     # patches here
-    patch -Np0 < "${srcdir}/kernel-4.11.patch"
+
+    #https://devtalk.nvidia.com/default/topic/1047179/linux/-solved-nvidia-340-107-linux-5-0-rc5-failed-to-build-kernel-module/
+    #https://gitlab.manjaro.org/packages/extra/linux52-extramodules/nvidia-340xx
+
+    # Fix compile problem with 4.11
+    (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-4.11.patch)
+
+    # Fix compile problem with 5.0
+    (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-5.0.patch)
+
+    (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-5.2.patch)
+
+
 
     cp -a kernel kernel-dkms
 }
@@ -39,7 +55,7 @@ build() {
 
 package_nvidia-340xx() {
     pkgdesc="NVIDIA drivers for linux."
-    depends=("linux=4.19.26" "nvidia-340xx-libgl" "nvidia-340xx-utils=${pkgver}")
+    depends=("linux=5.2.9" "nvidia-340xx-libgl" "nvidia-340xx-utils=${pkgver}")
     conflicts=('nvidia-96xx' 'nvidia-173xx' 'nvidia-304xx' 'nvidia-bumblebee')
     install=nvidia.install
     

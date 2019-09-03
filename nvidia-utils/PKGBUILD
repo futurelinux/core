@@ -2,8 +2,8 @@ pkgbase=nvidia-utils
 pkgname=(nvidia-utils opencl-nvidia)
 # Edit chakra-hardware-detection/hooks/hwdetect_7_graphics on version jump from 3xx.xx
 # Update nvidia-settings too
-pkgver=418.43
-pkgrel=3
+pkgver=430.40
+pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
 license=('custom')
@@ -14,7 +14,7 @@ source=('nvidia-drm-outputclass.conf'
         "https://download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run")
 sha512sums=('4157ea4217791a307844040bb2ba72705438c20bd9e4c024851e8ee78c1e07e8f7e9e1c50b7eeed42a7733d8f3fc12376cafae5257bb03a6370d44a21247396a'
             '4b3ad73f5076ba90fe0b3a2e712ac9cde76f469cd8070280f960c3ce7dc502d1927f525ae18d008075c8f08ea432f7be0a6c3a7a6b49c361126dcf42f97ec499'
-            'bfd43bec59de7523e879354224f2a678b6bcce53136f10d139882d9ea5d100c034fce2a15100607cb4622a3d158dbbfb41aacc528b04307c989c915b78298045')
+            '68e6187fe74b43e92de6159589463db5f74eba09652b0f55d5fcc790c315405df6cd27129185f4dbe18790abdbb61e79b52977d47c6407e74d3372b5511a4e1b')
 
 
 create_links() {
@@ -162,6 +162,13 @@ package_nvidia-utils() {
     install -D -m644 NVIDIA_Changelog "${pkgdir}/usr/share/doc/nvidia/NVIDIA_Changelog"
     cp -r html "${pkgdir}/usr/share/doc/nvidia/"
     ln -s nvidia "${pkgdir}/usr/share/doc/nvidia-utils"
+
+    # new power management support
+    install -D -m644 nvidia-suspend.service "${pkgdir}/usr/lib/systemd/system/nvidia-suspend.service"
+    install -D -m644 nvidia-hibernate.service "${pkgdir}/usr/lib/systemd/system/nvidia-hibernate.service"
+    install -D -m644 nvidia-resume.service "${pkgdir}/usr/lib/systemd/system/nvidia-resume.service"
+    install -D -m755 nvidia "${pkgdir}/usr/lib/systemd/system-sleep/nvidia"
+    install -D -m755 nvidia-sleep.sh "${pkgdir}/usr/bin/nvidia-sleep.sh"
 
     # distro specific files must be installed in /usr/share/X11/xorg.conf.d
     install -D -m644 "${srcdir}/nvidia-drm-outputclass.conf" "${pkgdir}/usr/share/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf"

@@ -13,13 +13,13 @@ pkgname=(
   'usbip'
   'x86_energy_perf_policy'
 )
-pkgver=4.19.26
+pkgver=5.2.9
 pkgrel=1
 license=('GPL2')
 arch=('x86_64')
 url='http://www.kernel.org'
 options=('!strip')
-makedepends=('git' "linux=4.19.26")
+makedepends=('git' "linux=5.2.9")
 # split packages need all package dependencies set manually in makedepends
 # kernel source deps
 makedepends+=('asciidoc' 'xmlto')
@@ -37,7 +37,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v4.x/linux-${pkgver}.tar.xz"
         'cpupower.systemd'
         'cpupower.service'
         'usbipd.service')
-sha256sums=('bec45f66c94739596f2bbc35e89de7a2cbd407cf63b537970b52ab117db747fc'
+sha256sums=('b6f02a4b306ca5cd314d72615bfc2650166969613135da202630e6c4e1b5d4e6'
             '4fa509949d6863d001075fa3e8671eff2599c046d20c98bb4a70778595cd1c3f'
             'fbf6e0ce6eb0ef15703fe212958de6ca46e62188900b5e9f9272ed3cc9cfd54e'
             'a89284d0ecb556ca53a66d1c2087b5fd6d0a901ab2769cd3aebb93f4478905dc'
