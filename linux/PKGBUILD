@@ -1,6 +1,6 @@
 pkgbase=linux
 pkgname=('linux' 'linux-headers' 'linux-docs')
-pkgver=5.2.9
+pkgver=5.2.11
 _kernelbasever=${pkgver:0:4}
 _srcname=linux-$pkgver
 pkgrel=1
@@ -25,7 +25,7 @@ validpgpkeys=(
   '647F28654894E3BD457199BE38DBBDC86092693E'  # Greg Kroah-Hartman
   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
 )
-sha256sums=('b6f02a4b306ca5cd314d72615bfc2650166969613135da202630e6c4e1b5d4e6'
+sha256sums=('0c2a831f993dc8a8a8e1ca4186b467de72ff173c6f5855e2aab70f6f7fb033f9'
             'SKIP'
             '8b82b75175dbda1c7a08a09429a783c3c80c20b3955b9cb430e7f8952d8629b7'
             '287b43e83535d0aba2797b8fe4c1527788995cbfd858097be37214345e781a25'
