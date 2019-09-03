@@ -1,31 +1,39 @@
 pkgname=libarchive
-pkgver=3.2.2
-pkgrel=4
+pkgver=3.4.0
+pkgrel=2
 pkgdesc="library that can create and read several streaming archive formats"
 arch=('x86_64')
 url="http://libarchive.org/"
 license=('BSD')
-depends=('acl' 'attr' 'bzip2' 'expat' 'lzo' 'nettle' 'xz' 'zlib')
+depends=('acl' 'attr' 'bzip2' 'expat' 'lzo' 'nettle' 'xz' 'zlib' 'zstd')
 provides=('libarchive.so')
 source=("http://libarchive.org/downloads/$pkgname-$pkgver.tar.gz")
-md5sums=('1ec00b7dcaf969dd2a5712f85f23c764')
+md5sums=('6046396255bd7cf6d0f6603a9bda39ac')
+
+prepare() {
+  cd $pkgname-$pkgver 
+  autoreconf -fi
+}
 
 build() {
-  cd "$pkgname-$pkgver"
+  cd $pkgname-$pkgver 
 
-  ./configure --prefix=/usr --without-xml2
+  ./configure \
+      --prefix=/usr \
+      --without-xml2 \
+      --without-nettle \
+      --disable-static
+
   make
 }
 
 check() {
-  cd "$pkgname-$pkgver"
-
+  cd $pkgname-$pkgver
   make check
 }
 
 package() {
-  cd "$pkgname-$pkgver"
+  cd $pkgname-$pkgver
   make DESTDIR="$pkgdir" install
-
-  install -D -m644 COPYING "$pkgdir"/usr/share/licenses/libarchive/COPYING
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/libarchive/COPYING"
 }
