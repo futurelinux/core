@@ -1,5 +1,5 @@
 pkgname=cmake
-pkgver=3.15.2
+pkgver=3.15.3
 pkgrel=1
 pkgdesc='A cross-platform open-source make system'
 arch=('x86_64')
@@ -10,7 +10,7 @@ makedepends=('qt5-base' 'python3-sphinx' 'emacs')
 optdepends=('qt5-base: cmake-gui')
 source=("https://www.cmake.org/files/v${pkgver%.*}/${pkgname}-${pkgver}.tar.gz"
         cmake-default-libdir.patch::"https://gitlab.kitware.com/cmake/cmake/commit/18365587.diff")
-sha256sums=('539088cb29a68e6d6a8fba5c00951e5e5b1a92c68fa38a83e1ed2f355933f768'
+sha256sums=('13958243a01365b05652fa01b21d40fa834f70a9e30efa69c02604e64f58b8f5'
             'c2eb72c6f57e9b1697097f2d6b1f62fd826e225397ef9d4d38354f8bd671d4c5')
 
 prepare() {
