@@ -16,9 +16,7 @@ source+=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.r
         'kernel-4.16.patch')
 sha256sums=('94db1b11de33b0299da021fee8c21e4442656fe76452ac582b556e3f96365d5d'
             'd690cf21bda0bb6eb5c8a7f71073f0c9aea5857c6dd392a4dac3b48b27631240'
-            '622ac792ec200b2239cb663c0010392118b78c9904973d82cd261165c16d6385'
-            'd92899d4f7a40e2c3cad92d067f2f53c3a18c49b34e62e707a93b125aa37640f'
-            '9d94f30662d64400ee43bb7745544b72e1c6216a30ae2907a744c7ae0aa6e384')
+            '622ac792ec200b2239cb663c0010392118b78c9904973d82cd261165c16d6385')
 
 prepare() {
     sh "${_pkg}.run" --extract-only
