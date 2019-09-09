@@ -3,7 +3,7 @@ pkgname=('linux' 'linux-headers' 'linux-docs')
 pkgver=5.2.11
 _kernelbasever=${pkgver:0:4}
 _srcname=linux-$pkgver
-pkgrel=2
+pkgrel=3
 _ckpatchversion=1
 _ckpatch="patch-5.2-ck${_ckpatchversion}"
 arch=('x86_64')
@@ -19,6 +19,7 @@ source=(
   linux.preset   # standard config files for mkinitcpio ramdisk
   #"http://ck.kolivas.org/patches/4.0/${_kernelbasever}/${_kernelbasever}-ck${_ckpatchversion}/${_ckpatch}.xz"
   "http://ck.kolivas.org/patches/5.0/5.2/5.2-ck${_ckpatchversion}/$_ckpatch.xz"
+  0017-Add-ck1-version.patch
 )
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
@@ -31,7 +32,8 @@ sha256sums=('0c2a831f993dc8a8a8e1ca4186b467de72ff173c6f5855e2aab70f6f7fb033f9'
             '287b43e83535d0aba2797b8fe4c1527788995cbfd858097be37214345e781a25'
             'c043f3033bb781e2688794a59f6d1f7ed49ef9b13eb77ff9a425df33a244a636'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            'f1abc13a8d859fbf6350040e45d7f04ad551a6d39f113ba96fbbd820118c0e36')
+            'f1abc13a8d859fbf6350040e45d7f04ad551a6d39f113ba96fbbd820118c0e36'
+            '57eaf233fb1984d8fd4baef682f0ea7130a72162568648a531ddd0995a000a2e')
 
 _kernelname=-CHAKRA
 
@@ -46,13 +48,15 @@ CONFIG_LOCALVERSION="${_kernelname}"
 CONFIG_LOCALVERSION_AUTO=n
 END
 
-  msg2 "Patching with ck patchset..."
-  patch -Np1 -i "$srcdir/${_ckpatch}"
-
   # set extraversion to pkgrel and empty localversion after 0017-Add-ck1-version.patch was applied
   sed -e "/^EXTRAVERSION =/s/=.*/= -${pkgrel}/" \
       -e "/^EXTRAVERSION =/aLOCALVERSION =" \
       -i Makefile
+
+  msg2 "Patching with ck patchset..."
+  patch -Np1 -i "$srcdir/${_ckpatch}"
+  #revert patch, we keep default chakra name 5.2.11-1-CHAKRA instead of 5.2.11-1-ck1-CHAKRA
+  patch -Rp1 -i "$srcdir/0017-Add-ck1-version.patch"
 
   # don't run depmod on 'make install'. We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
