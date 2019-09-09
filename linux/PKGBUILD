@@ -3,7 +3,7 @@ pkgname=('linux' 'linux-headers' 'linux-docs')
 pkgver=5.2.11
 _kernelbasever=${pkgver:0:4}
 _srcname=linux-$pkgver
-pkgrel=1
+pkgrel=2
 _ckpatchversion=1
 _ckpatch="patch-5.2-ck${_ckpatchversion}"
 arch=('x86_64')
@@ -46,13 +46,13 @@ CONFIG_LOCALVERSION="${_kernelname}"
 CONFIG_LOCALVERSION_AUTO=n
 END
 
-  # set extraversion to pkgrel and empty localversion
+  msg2 "Patching with ck patchset..."
+  patch -Np1 -i "$srcdir/${_ckpatch}"
+
+  # set extraversion to pkgrel and empty localversion after 0017-Add-ck1-version.patch was applied
   sed -e "/^EXTRAVERSION =/s/=.*/= -${pkgrel}/" \
       -e "/^EXTRAVERSION =/aLOCALVERSION =" \
       -i Makefile
-
-  msg2 "Patching with ck patchset..."
-  patch -Np1 -i "$srcdir/${_ckpatch}"
 
   # don't run depmod on 'make install'. We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
