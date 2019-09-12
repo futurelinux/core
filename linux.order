@@ -25,6 +25,7 @@ linux-tools
 #ndiswrapper-dkms
 +btrfs-progs
 +r8168
++virtualbox-modules-chakra
 
 +bbswitch
 +nvidia-utils
