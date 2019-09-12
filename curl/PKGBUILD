@@ -1,5 +1,5 @@
 pkgname=curl
-pkgver=7.65.3
+pkgver=7.66.0
 pkgrel=1
 pkgdesc="An URL retrieval utility and library"
 arch=('x86_64')
@@ -9,7 +9,7 @@ depends=('ca-certificates' 'krb5' 'libidn' 'libssh2' 'openssl' 'zlib')
 provides=('libcurl.so')
 options=('strip' 'debug')
 source=("http://curl.haxx.se/download/$pkgname-$pkgver.tar.gz"{,.asc})
-md5sums=('08e951e3da639bb4197d52222458b5dd'
+md5sums=('8cb2898a9adc106075ac3cdc2b965bf6'
          'SKIP')
 validpgpkeys=('914C533DF9B2ADA2204F586D78E11C6B279D5C91')  # Daniel Stenberg
 
