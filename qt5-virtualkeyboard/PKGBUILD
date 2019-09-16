@@ -1,6 +1,6 @@
 
 pkgname=qt5-virtualkeyboard
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -11,7 +11,7 @@ makedepends=()
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('7aea6a3998aa73bbfa3ee5711038f0b5')
+md5sums=('c0169e7c2eadf540638bfa33bf6bfa8c')
 
 prepare() {
   mkdir -p build

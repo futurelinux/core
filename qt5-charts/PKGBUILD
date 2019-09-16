@@ -1,6 +1,6 @@
 
 pkgname=qt5-charts
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -13,7 +13,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('e71c78cfabd4c2e87480cc29f45674c9')
+md5sums=('c9eb5513af3a99e1b12882232f37dc01')
 
 prepare() {
   mkdir -p build

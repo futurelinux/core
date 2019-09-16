@@ -1,6 +1,6 @@
 
 pkgname=qt5-webengine
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -18,7 +18,7 @@ source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodu
          qtbug-76958.patch
          qtbug-76913.patch
          qtbug-76963.patch)
-md5sums=('9f1f20537eba9b166cd0e59191e49f29'
+md5sums=('0f6a3e3d9c1a17be769fca94d4a8f7cb'
          '254061cb349cff714230b7cca83b0a4c')
 
 prepare() {

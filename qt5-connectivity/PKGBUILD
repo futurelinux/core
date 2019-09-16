@@ -1,6 +1,6 @@
 
 pkgname=qt5-connectivity
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -13,7 +13,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('e44edb1286fffb3d1ba74f57ddea0721')
+md5sums=('b45fc7c688d6357f9c2f165001d64766')
 
 prepare() {
   mkdir -p build

@@ -1,6 +1,6 @@
 
 pkgname=qt5-doc
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -11,7 +11,7 @@ makedepends=('qt5-tools' 'python2' 'pciutils' 'libxtst' 'libxcursor' 'libxrandr'
 groups=('qt5')
 _pkgfqn="qt-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/single/${_pkgfqn}.tar.xz")
-md5sums=('dda95b0239d13c5276834177af3a8588')
+md5sums=('6e5ad315fca9345dddc0e012d42f494b')
 
 prepare() {
   cd ${_pkgfqn} 

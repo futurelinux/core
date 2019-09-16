@@ -1,6 +1,6 @@
 
 pkgname=qt5-imageformats
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('85b96a251d08806a208c77bae55a1448')
+md5sums=('d0d3e7f8ee55e72715ecae24ae6e7503')
 
 prepare() {
   mkdir -p build

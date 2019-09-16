@@ -1,6 +1,6 @@
 
 pkgname=qt5-3d
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -13,7 +13,7 @@ options=('debug')
 replaces=(qt5-qt3d)
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('89cd3b9a4c8c43b205df529d89d555a7')
+md5sums=('e68c56d9d6ddda088bf383d43adda269')
 
 prepare() {
   mkdir -p build

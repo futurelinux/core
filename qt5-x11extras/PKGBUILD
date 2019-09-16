@@ -1,6 +1,6 @@
 
 pkgname=qt5-x11extras
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('367621a9e452b8f5119ebadac49a362c')
+md5sums=('34f5d8a32f11c98b853e09a4fd492859')
 
 prepare() {
   mkdir -p build

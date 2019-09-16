@@ -1,6 +1,6 @@
 
 pkgname=qt5-xmlpatterns
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ optdepends=('qt5-declarative: QML bindings')
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('74c5a5e565b817607c645bc2078799b2')
+md5sums=('9154a19f7b12b389b7f876c92f4238f8')
 
 prepare() {
   mkdir -p build

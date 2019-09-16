@@ -1,6 +1,6 @@
 
 pkgname=qt5-script
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -12,7 +12,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('0ed0b8923f32f5c0d6d968bb7d1b7bbb')
+md5sums=('550ba4b0c4e65ee265ec8d4aeb8144d4')
 
 prepare() {
   mkdir -p build
