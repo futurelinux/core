@@ -12,7 +12,7 @@ optdepends=('qt5-declarative: QML bindings')
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('75186ff075d9a3bd30cee145bad6bc69d491b5e555b048d11136727f050d7319')
+md5sums=('74c5a5e565b817607c645bc2078799b2')
 
 prepare() {
   mkdir -p build

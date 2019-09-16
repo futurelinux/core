@@ -11,7 +11,7 @@ makedepends=('qt5-tools')
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('2f8fb3b2c62fcf1aacd0b32432b960a83546384688c0ea78514e4cf4f2f94c28')
+md5sums=('91fddba829258c39bae92ebe3af79cf0')
 
 prepare() {
   mkdir -p build

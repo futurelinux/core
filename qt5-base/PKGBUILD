@@ -21,7 +21,7 @@ optdepends=('qt5-svg: to use SVG icon themes'
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('ff6964b3b528cd3b1d21bcf3470006e8e5cbe69591923f982871d886ea0488fe')
+md5sums=('c01473b0290ea9fe59ad47ee9e956757')
 
 prepare() {
   cd ${_pkgfqn}

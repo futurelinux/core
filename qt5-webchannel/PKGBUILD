@@ -11,7 +11,7 @@ makedepends=()
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('7f6260c73bca968511ab2facfbb14b4d8cc7a9c5b2d0f9211e7390ed8fb52b9a')
+md5sums=('a4ee4a76c0ab8b98c389493a19b3c8c8')
 
 
 prepare() {

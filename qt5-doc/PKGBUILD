@@ -11,7 +11,7 @@ makedepends=('qt5-tools' 'python2' 'pciutils' 'libxtst' 'libxcursor' 'libxrandr'
 groups=('qt5')
 _pkgfqn="qt-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/single/${_pkgfqn}.tar.xz")
-sha256sums=('2cba31e410e169bd5cdae159f839640e672532a4687ea0f265f686421e0e86d6')
+md5sums=('dda95b0239d13c5276834177af3a8588')
 
 prepare() {
   cd ${_pkgfqn} 
