@@ -2,14 +2,14 @@
 
 
 pkgname=kdesignerplugin
-pkgver=5.61.0
+pkgver=5.62.0
 pkgrel=1
 pkgdesc='Integration of Frameworks widgets in Qt Designer/Creator'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kdesignerplugin'
 license=('LGPL')
 depends=('kplotting' 'kdewebkit')
-makedepends=("extra-cmake-modules>=5.61.0" 'qt5-tools' 'kdoctools')
+makedepends=("extra-cmake-modules>=5.62.0" 'qt5-tools' 'kdoctools')
 checkdepends=('cmake' "xorg-server-xvfb")
 groups=('kf5')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
