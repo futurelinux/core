@@ -1,6 +1,6 @@
 
 pkgname=qt5-examples
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -11,7 +11,7 @@ makedepends=()
 groups=('qt5')
 _pkgfqn="qt-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/single/${_pkgfqn}.tar.xz")
-sha256sums=('2cba31e410e169bd5cdae159f839640e672532a4687ea0f265f686421e0e86d6')
+sha256sums=('adf00266dc38352a166a9739f1a24a1e36f1be9c04bf72e16e142a256436974e'
 
 package() {
   _base="$pkgdir"/usr/share/doc/qt5/examples

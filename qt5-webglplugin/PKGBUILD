@@ -1,6 +1,6 @@
 
 pkgname=qt5-webglplugin
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=(x86_64)
 url='http://qt-project.org/'
@@ -11,7 +11,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('b8f05ee429f3fb7d6cef789333ddb56aafdc30a83e05b04f5f9e05650146c06e')
+sha256sums=('fb40c4077f0dc3954c786c47f065e8fa1816af70bd1d42359aac70bf59652b1a'
 
 prepare() {
   mkdir -p build

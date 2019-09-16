@@ -1,6 +1,6 @@
 
 pkgname=qt5-wayland
-pkgver=5.13.0
+pkgver=5.13.1
 pkgrel=1
 arch=('x86_64')
 url='http://qt-project.org/'
@@ -11,7 +11,7 @@ makedepends=()
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('b67a6d8119628bca3301bd03992880db07d61d405534067c9cd2a598695a7cf3')
+sha256sums=('def836f365b8af99cc693625f2079a54a0f71f5eff3f370dcf6f30b8944caf77'
 
 prepare() {
   mkdir -p build
