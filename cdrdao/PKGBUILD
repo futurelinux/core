@@ -1,33 +1,28 @@
+# Contributions from Arch:
+# Maintainer: Daniel J Griffiths <ghost1227@archlinux.us>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: dorphell <dorphell@archlinux.org>
+
 pkgname=cdrdao
-pkgver=1.2.3
-pkgrel=13
+pkgver=1.2.4
+pkgrel=1
 arch=('x86_64')
 license=('GPL')
 url="http://cdrdao.sourceforge.net/"
 pkgdesc='Records audio/data CD-Rs in disk-at-once (DAO) mode'
 depends=('gcc-libs' 'lame' 'libmad' 'libvorbis' 'libao')
-makedepends=('gcc-libs' 'lame' 'libmad' 'libvorbis' 'libao' 'libsigc++2.0')
-source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2"
+source=(https://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz2
         cdrdao-1.2.3-autoconf-update.patch
-        cdrdao-1.2.3-k3b.patch
-        cdrdao-1.2.3-stat.patch
-        cdrdao-1.2.3-format_security.patch
-        cdrdao-1.2.3-narrowing.patch)
-md5sums=('8d15ba6280bb7ba2f4d6be31d28b3c0c'
-         '8e53dfc174f7c0882194caa05e68b85e'
-         '696f6ca01e1eeb9b6a5be88e535d9398'
-         '0fce05542ebad283f36fa1c4d62992a0'
-         '9c3dc231b2b1e862b8b95d7778bc439e'
-         '9344989788e013a16f06556bde282d09')
+        cdrdao-1.2.3-k3b.patch)
+sha256sums=('358d9cb83370ceaecdc60564cbf14c2ea2636eac60a966e2461c011ba09853b4'
+            '2f4f54ed23b4f3b22fd64a2a3d4fa67ff186b3865213cba3fbe81ed9f6c42c74'
+            '6eddd7c79f548b3ad1d8d4ce23367bcae3cd6dee74f0aeb6439758d6599090e0')
 
 prepare() {
   cd ${pkgname}-${pkgver}
   
   patch -Np1 -i ../cdrdao-1.2.3-autoconf-update.patch
   patch -Np1 -i ../cdrdao-1.2.3-k3b.patch
-  patch -Np1 -i ../cdrdao-1.2.3-stat.patch
-  patch -Np1 -i ../cdrdao-1.2.3-format_security.patch
-  patch -Np1 -i ../cdrdao-1.2.3-narrowing.patch
 }
 
 build() {
