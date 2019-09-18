@@ -7,8 +7,9 @@ pkgdesc='Widgets for KConfig'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kconfigwidgets'
 license=('LGPL')
-depends=(kauth kcodecs kconfig kguiaddons ki18n kwidgetsaddons)
-makedepends=("extra-cmake-modules>=5.62.0" kdoctools clang python3-pyqt5 doxygen qt5-tools qt5-doc sip)
+depends=('karchive' 'kauth' 'kcodecs' 'kconfig' 'kguiaddons' 'ki18n' 'kwidgetsaddons')
+makedepends=('extra-cmake-modules' 'kdoctools' 'qt5-tools' 'python3-sip' 'sip' 'python3-pyqt5')
+optdepends=('python-pyqt5: for the Python bindings')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
@@ -29,8 +30,7 @@ build() {
         -DKDE_INSTALL_SYSCONFDIR=/etc \
         -DKDE_INSTALL_LIBEXECDIR=lib \
         -DBUILD_TESTING=OFF \
-        -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@" \
-    -DPYTHON_EXECUTABLE=/usr/bin/python3
+        -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
   make
 }
 

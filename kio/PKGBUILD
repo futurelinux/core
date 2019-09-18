@@ -9,7 +9,7 @@ url='https://projects.kde.org/projects/frameworks/kio'
 license=('LGPL')
 depends=('solid' 'karchive' 'kjobwidgets' 'kbookmarks' 'libxslt' 'kwallet'
         'desktop-file-utils' 'krb5' 'acl')
-makedepends=("extra-cmake-modules>=5.62.0" 'kdoctools')
+makedepends=("extra-cmake-modules>=5.62.0" 'kdoctools' qt5-tools qt5-doc)
 checkdepends=('xorg-server-xvfb' 'openbox')
 groups=('kf5')
 options=("debug")
