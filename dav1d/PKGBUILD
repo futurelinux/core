@@ -2,22 +2,29 @@
 # Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
 
 pkgname=dav1d
-pkgver=0.3.1
+pkgver=0.4.0
 pkgrel=1
 pkgdesc='AV1 cross-platform decoder focused on speed and correctness'
 url='https://code.videolan.org/videolan/dav1d/'
 arch=('x86_64')
 license=('BSD')
-depends=('glibc')
-makedepends=('meson' 'ninja' 'nasm' 'doxygen')
+depends=('glibc' 'sdl2' 'libplacebo' 'vulkan-icd-loader')
+makedepends=('meson' 'ninja' 'nasm' 'doxygen' 'vulkan-headers')
 provides=('libdav1d.so')
-source=(${pkgname}-${pkgver}.tar.bz2::https://code.videolan.org/videolan/dav1d/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.bz2)
-sha256sums=('be511d465223cc74aab507fe3a6e4e764501662ebf1a5e233854ed064a7ae204')
+source=(https://downloads.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz{,.asc})
+sha256sums=('2553b2e65081c0ec799c11a752ea43ad8f2d11b2fb36a83375972d1a00add823'
+            'SKIP')
+validpgpkeys=('65F7C6B4206BD057A7EB73787180713BE58D1ADC') # VideoLAN Release Signing Key
 
 build() {
   cd ${pkgbase}-${pkgver}
   chakra-meson build
   ninja -C build
+}
+
+check() {
+  cd ${pkgbase}-${pkgver}/build
+  meson test
 }
 
 package() {
