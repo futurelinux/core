@@ -1,7 +1,7 @@
 
 pkgname=qt5-imageformats
 pkgver=5.13.1
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url='http://qt-project.org/'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
@@ -11,8 +11,9 @@ makedepends=()
 groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('d0d3e7f8ee55e72715ecae24ae6e7503')
+_srcurl="https://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
+source=("${_srcurl}")
+sha256sums=("$( curl ${_srcurl}.sha256 | cut -d ' ' -f 1 )")
 
 prepare() {
   mkdir -p build
