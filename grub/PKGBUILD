@@ -53,9 +53,8 @@ validpgpkeys=('E53D497F3FA42AD8C9B4D1E835A93B74E82E4209'  # Vladimir 'phcoder' S
               'BE5C23209ACDDACEB20DB0A28C8189F1988C2166'  # Daniel Kiper <dkiper@net-space.pl>
               '95D2E9AB8740D8046387FD151A09227B1F435A33') # Paul Hardy <unifoundry@unifoundry.com>
 
-prepare() {
-	
-	cd "${srcdir}/grub-${pkgver}/"
+prepare() {	
+	cd "${srcdir}/grub/"
 	
 	msg "Patch to detect of Chakra Linux initramfs images by grub-mkconfig (same as Arch)"
 	patch -Np1 -i "${srcdir}/0003-10_linux-detect-archlinux-initramfs.patch"
@@ -65,25 +64,25 @@ prepare() {
 	patch -Np1 -i "${srcdir}/0004-add-GRUB_COLOR_variables.patch"
 	
 	msg "Fix DejaVuSans.ttf location so that grub-mkfont can create *.pf2 files for starfield theme"
-	sed 's|/usr/share/fonts/dejavu|/usr/share/fonts/dejavu /usr/share/fonts/TTF|g' -i "${srcdir}/grub-${pkgver}/configure.ac"
+	sed 's|/usr/share/fonts/dejavu|/usr/share/fonts/dejavu /usr/share/fonts/TTF|g' -i "${srcdir}/grub/configure.ac"
 	
 	msg "Fix mkinitcpio 'rw' FS#36275"
-	sed 's| ro | rw |g' -i "${srcdir}/grub-${pkgver}/util/grub.d/10_linux.in"
+	sed 's| ro | rw |g' -i "${srcdir}/grub/util/grub.d/10_linux.in"
 	
 	msg "Fix OS naming FS#33393"
-	sed 's|GNU/Linux|Linux|' -i "${srcdir}/grub-${pkgver}/util/grub.d/10_linux.in"
+	sed 's|GNU/Linux|Linux|' -i "${srcdir}/grub/util/grub.d/10_linux.in"
 	
 	msg "autogen.sh requires python (2/3). since bzr is in makedepends"
-	sed 's|python|python3|g' -i "${srcdir}/grub-${pkgver}/autogen.sh"
+	sed 's|python|python3|g' -i "${srcdir}/grub/autogen.sh"
 	
 	msg "Pull in latest language files"
 	./linguas.sh
 	
 	msg "Remove not working langs which need LC_ALL=C.UTF-8"
-	sed -e 's#en@cyrillic en@greek##g' -i "${srcdir}/grub-${pkgver}/po/LINGUAS"
+	sed -e 's#en@cyrillic en@greek##g' -i "${srcdir}/grub/po/LINGUAS"
 	
 	msg "Avoid problem with unifont during compile of grub, http://savannah.gnu.org/bugs/?40330 and https://bugs.archlinux.org/task/37847"
-	cp "${srcdir}/unifont-${_UNIFONT_VER}.bdf" "${srcdir}/grub-${pkgver}/unifont.bdf"
+	cp "${srcdir}/unifont-${_UNIFONT_VER}.bdf" "${srcdir}/grub/unifont.bdf"
 
 	msg "Run bootstrap..."
 	./bootstrap \
@@ -92,15 +91,14 @@ prepare() {
 }
 
 _build_grub-common_and_bios() {
-	
 	msg "Copy the source for building the bios part"
-	cp -r "${srcdir}/grub-${pkgver}" "${srcdir}/grub-${pkgver}-bios"
-	cd "${srcdir}/grub-${pkgver}-bios/"
+	cp -r "${srcdir}/grub" "${srcdir}/grub-bios"
+	cd "${srcdir}/grub-bios/"
 	
 	msg "Add the grub-extra sources for bios build"
-	install -d "${srcdir}/grub-${pkgver}-bios/grub-extras"
-	cp -r "${srcdir}/grub-extras/915resolution" "${srcdir}/grub-${pkgver}-bios/grub-extras/915resolution"
-	export GRUB_CONTRIB="${srcdir}/grub-${pkgver}-bios/grub-extras/"
+	install -d "${srcdir}/grub-bios/grub-extras"
+	cp -r "${srcdir}/grub-extras/915resolution" "${srcdir}/grub-bios/grub-extras/915resolution"
+	export GRUB_CONTRIB="${srcdir}/grub-bios/grub-extras/"
 	
 	msg "Unset all compiler FLAGS for bios build"
 	unset CFLAGS
@@ -109,7 +107,7 @@ _build_grub-common_and_bios() {
 	unset LDFLAGS
 	unset MAKEFLAGS
 	
-	cd "${srcdir}/grub-${pkgver}-bios/"
+	cd "${srcdir}/grub-bios/"
 	
 	msg "Run ./configure for bios build"
 	./configure \
@@ -141,11 +139,10 @@ _build_grub-common_and_bios() {
 	make
 }
 
-_build_grub-efi() {
-	
+_build_grub-efi() {	
 	msg "Copy the source for building the ${_EFI_ARCH} efi part"
-	cp -r "${srcdir}/grub-${pkgver}" "${srcdir}/grub-${pkgver}-efi-${_EFI_ARCH}"
-	cd "${srcdir}/grub-${pkgver}-efi-${_EFI_ARCH}/"
+	cp -r "${srcdir}/grub" "${srcdir}/grub-efi-${_EFI_ARCH}"
+	cd "${srcdir}/grub-efi-${_EFI_ARCH}/"
 	
 	msg "Unset all compiler FLAGS for ${_EFI_ARCH} efi build"
 	unset CFLAGS
@@ -154,7 +151,7 @@ _build_grub-efi() {
 	unset LDFLAGS
 	unset MAKEFLAGS
 	
-	cd "${srcdir}/grub-${pkgver}-efi-${_EFI_ARCH}/"
+	cd "${srcdir}/grub-efi-${_EFI_ARCH}/"
 	
 	msg "Run ./configure for ${_EFI_ARCH} efi build"
 	./configure \
@@ -186,9 +183,8 @@ _build_grub-efi() {
 	make
 }
 
-build() {
-	
-	cd "${srcdir}/grub-${pkgver}/"
+build() {	
+	cd "${srcdir}/grub/"
 	
 	msg 'Build grub bios stuff'
 	_build_grub-common_and_bios
@@ -202,7 +198,7 @@ build() {
 
 _package_grub-common_and_bios() {
 	
-	cd "${srcdir}/grub-${pkgver}-bios/"
+	cd "${srcdir}/grub-bios/"
 	
 	msg "Run make install for bios build"
 	make DESTDIR="${pkgdir}/" bashcompletiondir="/usr/share/bash-completion/completions" install
@@ -220,8 +216,7 @@ _package_grub-common_and_bios() {
 }
 
 _package_grub-efi() {
-	
-	cd "${srcdir}/grub-${pkgver}-efi-${_EFI_ARCH}/"
+	cd "${srcdir}/grub-efi-${_EFI_ARCH}/"
 	
 	msg "Run make install for ${_EFI_ARCH} efi build"
 	make DESTDIR="${pkgdir}/" bashcompletiondir="/usr/share/bash-completion/completions" install
@@ -233,7 +228,7 @@ _package_grub-efi() {
 }
 
 package() {	
-	cd "${srcdir}/grub-${pkgver}/"
+	cd "${srcdir}/grub/"
 	
 	msg "Package grub ${_EFI_ARCH} efi stuff"
 	_package_grub-efi
