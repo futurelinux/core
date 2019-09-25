@@ -12,14 +12,11 @@ makedepends=('python3' 'git' 'gperf' 'jsoncpp' 'ninja' 'qt5-tools' 'poppler')
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
-         qtbug-76958.patch
-         qtwebengine-glibc-2.29.patch
          qtbug-77037-workaround.patch
-         qtbug-76958.patch
-         qtbug-76913.patch
-         qtbug-76963.patch)
+         qtbug-76963-new-kernel.patch)
 md5sums=('0f6a3e3d9c1a17be769fca94d4a8f7cb'
-         '254061cb349cff714230b7cca83b0a4c')
+         '5def330a7e85081bc9bbfe04ec46df68'
+         '7831d1ab0e6f2fae9fe3583cf47f5e7c')
 
 prepare() {
   mkdir -p build
@@ -29,13 +26,10 @@ prepare() {
   ln -s /usr/bin/python3 bin/python
 
   cd ${_pkgfqn}
-  patch -p1 -i ../qtbug-76913.patch # Fix crashes on media-heavy sites
-  patch -p1 -i ../qtbug-76958.patch # Fix crash when loading tabs on the background
   patch -p1 -i ../qtbug-77037-workaround.patch # Link to pulseaudio to avoid header mismatch
-  patch -p1 -i ../qtbug-76963.patch # Fix SIOCGSTAMP error after glibc update
-
-  cd src/3rdparty/chromium
-  patch -p1 -i "$srcdir"/qtwebengine-glibc-2.29.patch # Fix PPAPI plugins with glibc 2.29
+  
+  cd src/3rdparty
+  patch -p1 -i "$srcdir"/qtbug-76963-new-kernel.patch #Fix build with recent linux kernel
 }
 
 build() {

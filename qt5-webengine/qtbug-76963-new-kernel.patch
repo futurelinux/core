@@ -1,0 +1,34 @@
+From 74e69da92d0a895122ca65922b9a2b8b3926c882 Mon Sep 17 00:00:00 2001
+From: Emilio Cobos Álvarez <emilio@mozilla.com>
+Date: Wed, 29 May 2019 15:30:32 +0200
+Subject: [PATCH] Fix build with recent linux kernel.
+
+Recent kernel commit[1] moved a bit the define for this constant. This revealed
+a missing include in WebRTC.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0768e17073dc5
+
+Bug: webrtc:10677
+Change-Id: I6ed69d307599d077760ae6ad74be10bfbdd1cac6
+Commit-Queue: Karl Wiberg <kwiberg@webrtc.org>
+Reviewed-by: Karl Wiberg <kwiberg@webrtc.org>
+Cr-Commit-Position: refs/heads/master@{#28108}
+See-Also: https://chromium.googlesource.com/external/webrtc/+/6806550d5d51a820104a12205d1f37ce0acebf19
+Reviewed-by: Jüri Valdmann <juri.valdmann@qt.io>
+---
+
+diff --git a/chromium/third_party/webrtc/rtc_base/physical_socket_server.cc b/chromium/third_party/webrtc/rtc_base/physical_socket_server.cc
+index 4845a73..c38d7fd 100644
+--- a/chromium/third_party/webrtc/rtc_base/physical_socket_server.cc
++++ b/chromium/third_party/webrtc/rtc_base/physical_socket_server.cc
+@@ -51,6 +51,10 @@
+ #include "rtc_base/null_socket_server.h"
+ #include "rtc_base/time_utils.h"
+ 
++#if defined(WEBRTC_LINUX)
++#include <linux/sockios.h>
++#endif
++
+ #if defined(WEBRTC_WIN)
+ #define LAST_SYSTEM_ERROR (::GetLastError())
+ #elif defined(__native_client__) && __native_client__

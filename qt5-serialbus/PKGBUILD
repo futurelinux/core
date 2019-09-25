@@ -1,7 +1,7 @@
 
 pkgname=qt5-serialbus
 pkgver=5.13.1
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url='http://qt-project.org/'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
@@ -16,7 +16,6 @@ md5sums=('6896f5718142118b11ead401f9f7e0be')
 prepare() {
   mkdir -p build
   cd ${_pkgfqn}/
-  patch -Np1 -i $srcdir/0001-include-linux-sockios.h.patch
 }
 
 build() {
