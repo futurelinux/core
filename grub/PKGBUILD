@@ -1,11 +1,13 @@
-_UNIFONT_VER="11.0.02"
+_GRUB_EXTRAS_COMMIT="136763a4cc9ca3a4f59d05b79eede2159d6f441e"
+_GNULIB_COMMIT="9ce9be2ef0cb1180e35dfe9dfbbe90d774b374bd"
+_UNIFONT_VER="12.1.02"
 
 _EFI_ARCH="x86_64"
 
 pkgname="grub"
 pkgdesc="GNU GRand Unified Bootloader (2)"
-pkgver=2.02
-pkgrel=2
+pkgver=2.04
+pkgrel=1
 epoch=1
 url="https://www.gnu.org/software/grub/"
 arch=('x86_64')
@@ -19,45 +21,37 @@ replaces=('grub2-common' 'grub2-bios' 'grub2-efi64' 'grub2-efi32' "grub2-efi-${_
 provides=('grub2-common' 'grub2-bios' 'grub2-efi64' 'grub2-efi32' "grub2-efi-${_EFI_ARCH}")
 
 makedepends=('git' 'rsync' 'xz' 'freetype2' 'ttf-dejavu' 'python3' 'autogen'
-             'texinfo' 'help2man' 'gettext' 'device-mapper' 'fuse')
+             'texinfo' 'help2man' 'gettext' 'device-mapper' 'fuse2')
 depends=('sh' 'xz' 'gettext' 'device-mapper')
 optdepends=('freetype2: For grub-mkfont usage'
-            'fuse: For grub-mount usage'
+            'fuse2: For grub-mount usage'
             'dosfstools: For grub-mkrescue FAT FS and EFI support' 
             'efibootmgr: For grub-install EFI support'
             'libisoburn: Provides xorriso for generating grub rescue iso using grub-mkrescue'
             'os-prober: To detect other OSes when generating grub.cfg in BIOS systems'
             'mtools: For grub-mkrescue FAT FS support')
 
-source=("grub-$pkgver::git+git://git.sv.gnu.org/grub.git#tag=grub-$pkgver"
-        "grub-extras::git+git://git.sv.gnu.org/grub-extras.git#commit=f2a079441939eee7251bf141986cdd78946e1d20"
+source=("git+https://git.savannah.gnu.org/git/grub.git#tag=grub-${pkgver}?signed"
+        "git+https://git.savannah.gnu.org/git/grub-extras.git#commit=${_GRUB_EXTRAS_COMMIT}"
+        "git+https://git.savannah.gnu.org/git/gnulib.git#commit=${_GNULIB_COMMIT}"
         "https://ftp.gnu.org/gnu/unifont/unifont-${_UNIFONT_VER}/unifont-${_UNIFONT_VER}.bdf.gz"{,.sig}
         '0003-10_linux-detect-archlinux-initramfs.patch'
         '0004-add-GRUB_COLOR_variables.patch'
-        '0005-Allow_GRUB_to_mount_ext234_filesystems_that_have_the_encryption_feature.patch'
-        '0006-tsc-Change-default-tsc-calibration-method-to-pmtimer-on-EFI-systems.patch'
-        '0007-grub-mkconfig_10_linux_Support_multiple_early_initrd_images.patch'
-        '0008-Fix-packed-not-aligned-error-on-GCC-8.patch'
-        '0009-xfs-Accept-filesystem-with-sparse-inodes.patch'
-        '0010-add-F2FS-support.patch'
         'grub.default'
         'update-grub')
 
-md5sums=('SKIP'
-         'SKIP'
-         '7c4b82c8d9e825c94000f1973ac0b071'
-         'SKIP'
-         'ba9d27c44b677bf329e5b96933bdbde8'
-         'e506ae4a9f9f7d1b765febfa84e10d48'
-         '7d4aa743cfabe49158e970a97f7795f0'
-         '0b459ce31fecd7f61d373fd064f15dcc'
-         '2256273cdf34e1a7a0976bb0b6e6c1de'
-         '6b7813c4c3cb2704939782430f0314cf'
-         '1801dc136206eb7b5bb0592486b82c47'
-         'e1970507c382c2bd4092fb17f0513395'
-         '40a711c6b12d0b02088eaadc36476eea'
-         '9910bdfd42fa7d3e21e6961bfcc977f9')
-validpgpkeys=('95D2E9AB8740D8046387FD151A09227B1F435A33') # Paul Hardy <unifoundry@unifoundry.com>
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            '04d652be1e28a6d464965c75c71ac84633085cd0960c2687466651c34c94bd89'
+            'SKIP'
+            'b41e4438319136b5e74e0abdfcb64ae115393e4e15207490272c425f54026dd3'
+            'a5198267ceb04dceb6d2ea7800281a42b3f91fd02da55d2cc9ea20d47273ca29'
+            'd361e28ae624fdb1eae58713f940bed92e84b37dd5a4057b0ba7bf0ed12aba4a'
+            'a9d3e1b36d6143416cfce3276e867e10d775df6c8d65a645d10fae69cab7e00b')
+validpgpkeys=('E53D497F3FA42AD8C9B4D1E835A93B74E82E4209'  # Vladimir 'phcoder' Serbinenko <phcoder@gmail.com>
+              'BE5C23209ACDDACEB20DB0A28C8189F1988C2166'  # Daniel Kiper <dkiper@net-space.pl>
+              '95D2E9AB8740D8046387FD151A09227B1F435A33') # Paul Hardy <unifoundry@unifoundry.com>
 
 prepare() {
 	
@@ -69,25 +63,6 @@ prepare() {
 	msg "Patch to enable GRUB_COLOR_* variables in grub-mkconfig"
 	## Based on http://lists.gnu.org/archive/html/grub-devel/2012-02/msg00021.html
 	patch -Np1 -i "${srcdir}/0004-add-GRUB_COLOR_variables.patch"
-
-        msg "Patch to allow GRUB to mount ext2/3/4 filesystems that have the encryption feature"
-	patch -Np1 -i "${srcdir}/0005-Allow_GRUB_to_mount_ext234_filesystems_that_have_the_encryption_feature.patch"
-
-	msg "Patch to change default tsc calibration method to pmtimer on EFI systems"
-	patch -Np1 -i "${srcdir}/0006-tsc-Change-default-tsc-calibration-method-to-pmtimer-on-EFI-systems.patch"
-	echo
-
-	msg "Support multiple early initrd images"
-	patch -Np1 -i "${srcdir}/0007-grub-mkconfig_10_linux_Support_multiple_early_initrd_images.patch"
-
-	msg "Fix packed-not-aligned error on GCC 8"
-	patch -Np1 -i "${srcdir}/0008-Fix-packed-not-aligned-error-on-GCC-8.patch"
-	
-	msg "Patch xfs: Accept filesystem with sparse inodes..."
-	patch -Np1 -i "${srcdir}/0009-xfs-Accept-filesystem-with-sparse-inodes.patch"
-	
-	msg "Patch add f2fs support"
-	patch -Np1 -i "${srcdir}/0010-add-F2FS-support.patch"
 	
 	msg "Fix DejaVuSans.ttf location so that grub-mkfont can create *.pf2 files for starfield theme"
 	sed 's|/usr/share/fonts/dejavu|/usr/share/fonts/dejavu /usr/share/fonts/TTF|g' -i "${srcdir}/grub-${pkgver}/configure.ac"
@@ -108,7 +83,12 @@ prepare() {
 	sed -e 's#en@cyrillic en@greek##g' -i "${srcdir}/grub-${pkgver}/po/LINGUAS"
 	
 	msg "Avoid problem with unifont during compile of grub, http://savannah.gnu.org/bugs/?40330 and https://bugs.archlinux.org/task/37847"
-	cp "${srcdir}/unifont-${_UNIFONT_VER}.bdf" "${srcdir}/grub-${pkgver}/unifont.bdf"	
+	cp "${srcdir}/unifont-${_UNIFONT_VER}.bdf" "${srcdir}/grub-${pkgver}/unifont.bdf"
+
+	msg "Run bootstrap..."
+	./bootstrap \
+		--gnulib-srcdir="${srcdir}/gnulib/" \
+		--no-git
 }
 
 _build_grub-common_and_bios() {
@@ -131,9 +111,6 @@ _build_grub-common_and_bios() {
 	
 	cd "${srcdir}/grub-${pkgver}-bios/"
 	
-	msg "Run autogen.sh for bios build"
-	./autogen.sh
-	
 	msg "Run ./configure for bios build"
 	./configure \
 		FREETYPE="pkg-config freetype2" \
@@ -149,7 +126,7 @@ _build_grub-common_and_bios() {
 		--enable-grub-mount \
 		--prefix="/usr" \
 		--bindir="/usr/bin" \
-		--sbindir="/usr/sbin" \
+		--sbindir="/usr/bin" \
 		--mandir="/usr/share/man" \
 		--infodir="/usr/share/info" \
 		--datarootdir="/usr/share" \
@@ -178,10 +155,6 @@ _build_grub-efi() {
 	unset MAKEFLAGS
 	
 	cd "${srcdir}/grub-${pkgver}-efi-${_EFI_ARCH}/"
-	
-	msg "Run autogen.sh for ${_EFI_ARCH} efi build"
-	./autogen.sh
-	echo
 	
 	msg "Run ./configure for ${_EFI_ARCH} efi build"
 	./configure \
