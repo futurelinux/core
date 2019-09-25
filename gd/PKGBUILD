@@ -1,6 +1,6 @@
 pkgname=gd
 pkgver=2.2.5
-pkgrel=1
+pkgrel=2
 pkgdesc='Library for the dynamic creation of images by programmers'
 arch=('x86_64')
 url='http://www.libgd.org/'
