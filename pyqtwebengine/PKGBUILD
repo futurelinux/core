@@ -4,14 +4,14 @@
 
 pkgbase=pyqtwebengine
 pkgname=(python3-pyqtwebengine pyqtwebengine-common)
-pkgver=5.12.1
+pkgver=5.13.1
 pkgrel=1
 arch=(x86_64)
 url="https://www.riverbankcomputing.com/software/pyqtwebengine/intro"
 license=(GPL)
 makedepends=(sip qt5-webengine python3-pyqt5)
 source=("https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/${pkgver}/PyQtWebEngine_gpl-$pkgver.tar.gz")
-sha256sums=('860704672ea1b616e1347be1f347bc1c749e64ed378370863fe209e84e9bd473')
+sha256sums=('8d8c1262005d8465653a848bf67327fb338e0d3c2d26090a6f7eb071dbb42092')
 
 build() {
   cd "$srcdir"/PyQtWebEngine_gpl-$pkgver
