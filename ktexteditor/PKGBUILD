@@ -2,7 +2,7 @@
 
 pkgname=ktexteditor
 pkgver=5.62.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Advanced embeddable text editor'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/ktexteditor'

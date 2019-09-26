@@ -2,14 +2,14 @@
 
 pkgname=kconfigwidgets
 pkgver=5.62.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Widgets for KConfig'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kconfigwidgets'
 license=('LGPL')
 depends=('karchive' 'kauth' 'kcodecs' 'kconfig' 'kguiaddons' 'ki18n' 'kwidgetsaddons')
-makedepends=('extra-cmake-modules' 'kdoctools' 'qt5-tools' 'python3-sip' 'sip' 'python3-pyqt5')
-optdepends=('python-pyqt5: for the Python bindings')
+makedepends=("extra-cmake-modules>=5.62.0" 'kdoctools' 'qt5-tools') # 'python3-sip' 'sip' 'python3-pyqt5')
+optdepends=('python3-pyqt5: for the Python bindings')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
