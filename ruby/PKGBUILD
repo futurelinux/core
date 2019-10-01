@@ -1,7 +1,7 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/ruby
 
 pkgname=(ruby ruby-docs)
-pkgver=2.4.7
+pkgver=2.4.8
 pkgrel=1
 arch=('x86_64')
 url='http://www.ruby-lang.org/en/'
@@ -10,7 +10,7 @@ makedepends=(gdbm openssl libffi doxygen graphviz libyaml ttf-dejavu tk)
 options=(!emptydirs)
 source=(https://cache.ruby-lang.org/pub/ruby/${pkgver:0:3}/ruby-${pkgver}.tar.xz
         gemrc)
-sha1sums=('6ed0e943bfcbf181384b48e7873361f1acaf106d'
+sha1sums=('adf24e0b0ad1755067435f21baa8d142bcaff5a9'
           '0d24837add3d7ddcecd4c565f4a4a180176d9e6d')
 
 build() {
