@@ -19,9 +19,7 @@ source=("https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.gz"
         0001-WIP-minimize-the-rust-std-component.patch
         config.toml)
 sha256sums=('644263ca7c7106f8ee8fcde6bb16910d246b30668a74be20b8c7e0e9f4a52d80'
-            'SKIP'
             '11828fb4823387d820c6715b25f6b2405e60837d12a7469e7a8882911c721837'
-            'SKIP'
             '1d6b69444ef6ff033fe1612e56ecdaad5c52aa44395e704f78b1a047c65b9321'
             'b1bd845081ece690685b5bf2a7e9e931a44a603ab836dd5a9b3c2b062fc5559b')
 
