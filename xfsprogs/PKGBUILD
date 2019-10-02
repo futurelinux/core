@@ -1,12 +1,12 @@
 pkgname=xfsprogs
-pkgver=4.19.0
+pkgver=5.2.1
 pkgrel=1
 pkgdesc="XFS filesystem utilities"
 arch=('x86_64')
 license=('LGPL')
 url="http://xfs.org/"
 groups=('base')
-depends=('util-linux' 'sh' 'readline')
+depends=('util-linux' 'sh' 'readline' 'icu' 'device-mapper')
 makedepends=('git')
 options=('!makeflags')
 source=("git+https://git.kernel.org/pub/scm/fs/xfs/xfsprogs-dev.git#tag=v${pkgver}")
