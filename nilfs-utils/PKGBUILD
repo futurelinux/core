@@ -1,21 +1,22 @@
+# Contributions from Arch:
+# Maintainer: Dan McGee <dan@archlinux.org>
+# Contributor: Geoffroy Carrier <geoffroy.carrier@koon.fr>
+
 pkgname=nilfs-utils
-pkgver=2.2.6
-pkgrel=3
-pkgdesc="A log-structured file system supporting continuous snapshotting (userspace tools)"
+pkgver=2.2.8
+pkgrel=1
+pkgdesc="A log-structured file system supporting continuous snapshotting (userspace utils)"
 arch=('x86_64')
 url="http://nilfs.sourceforge.net/"
 license=('GPL2' 'LGPL2.1')
+backup=('etc/nilfs_cleanerd.conf')
 depends=('util-linux')
-source=(https://github.com/nilfs-dev/${pkgname}/archive/v${pkgver}.tar.gz)
-md5sums=('614bd602caa83546acf0383160b94add')
+source=(http://nilfs.sourceforge.net/download/$pkgname-$pkgver.tar.bz2)
+sha256sums=('5a29f8f59db03edf8dd1e68dfd80ff4713e0aa184cfa83a6326ac8af93d9bda6')
 
 build() {
   cd $pkgname-$pkgver
-  ./autogen.sh
-
-  # TODO: there is a change to configure to apply here.
-  # root_sbindir needs to change from /sbin to /usr/bin
-  # or there are file conflicts later.
+  sed -i -e 's#root_sbindir=/sbin#root_sbindir=/usr/bin#' configure
   ./configure --sbindir=/usr/bin --with-libmount
   make
 }
