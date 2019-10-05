@@ -4,7 +4,7 @@
 
 pkgname=ghostscript
 pkgver=9.27
-pkgrel=1
+pkgrel=2
 pkgdesc="An interpreter for the PostScript language"
 arch=('x86_64')
 license=('AGPL' 'custom')
@@ -63,8 +63,9 @@ package() {
   # drop full libs linked gs, prefer gsc dynamically linked against libgs; FS#50422
   ln -sf /usr/bin/gsc "${pkgdir}"/usr/bin/gs
 
-  # install missing doc files # http://bugs.archlinux.org/task/18023
-  install -m 644 "${srcdir}"/ghostscript-${pkgver}/doc/{VectorDevices.htm,gs-vms.hlp,gsdoc.el,pscet_status.txt} "${pkgdir}"/usr/share/ghostscript/$pkgver/doc/
+
+  # remove useless broken doc/ symlink - FS#59507
+  rm -f "${pkgdir}"/usr/share/ghostscript/${pkgver}/doc
   
   install -D -m644 LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 
