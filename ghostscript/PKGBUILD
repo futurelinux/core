@@ -3,7 +3,7 @@
 #
 
 pkgname=ghostscript
-pkgver=9.21
+pkgver=9.27
 pkgrel=1
 pkgdesc="An interpreter for the PostScript language"
 arch=('x86_64')
@@ -17,7 +17,7 @@ source=(https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/
         ghostscript-sys-zlib.patch)
 options=('!makeflags')
 # https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-sha1sums=('a93b456a0e18d5c925d26b0b13e961c8e8140f62'
+sha1sums=('f926d2cfb418a7c5d92dce0a9843fa01ee62fe2c'
           'e054caf753df4d67221b29a2eac66130653f7556')
 
 prepare() {
