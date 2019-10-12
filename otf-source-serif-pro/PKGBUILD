@@ -1,22 +1,21 @@
-# Maintainer: s8321414 <s8321414 at gmail.com>
-# Arch Linux maintainers and contributors:
+# Contributions from Arch:
 # Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+
 pkgname=otf-source-serif-pro
-pkgver=2.007
-_relver=2.007R-ro/1.007R-it
-_tarver=${_relver//\//-}
+pkgver=3.001
 pkgrel=1
-pkgdesc="A set of serif OpenType fonts designed to complement Source Sans Pro"
-arch=('any')
+pkgdesc="Serif typeface for setting text. Designed to complement Source Sans Pro"
 url="https://adobe-fonts.github.io/source-serif-pro/"
-license=('custom')
-depends=('fontconfig')
-source=("${_tarver}.tar.gz::https://github.com/adobe-fonts/source-serif-pro/archive/${_relver}.tar.gz")
-sha256sums=('8cc3c342fd783096711b7b73d9d4a63d6086f60ff3458dcb1913376ac44c9aeb')
- 
+arch=(any)
+license=(custom)
+_relver=${pkgver}R
+_tarname=source-serif-pro-$_relver
+source=("$_tarname.tar.gz::https://github.com/adobe-fonts/source-serif-pro/archive/$_relver.tar.gz")
+sha256sums=('84e08c9e870081e0fcda4d83b02e06a4a7f35e52f96491a2246eca8b82fc8a53')
+
 package() {
-  cd source-serif-pro-${_tarver}
+  cd $_tarname
   install -d "${pkgdir}/usr/share/fonts/OTF"
   install -t "${pkgdir}/usr/share/fonts/OTF" -m644 OTF/*.otf
-  install -Dm644 LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
