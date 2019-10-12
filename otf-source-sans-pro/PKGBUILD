@@ -1,20 +1,21 @@
-pkgname=otf-source-sans-pro
-pkgver=2.040
-_relver=2.040R-ro/1.090R-it
-_tarver=${_relver//\//-}
+# COntributions from Arch:
+# Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+
+pkgname=adobe-source-sans-pro-fonts
+pkgver=3.006
 pkgrel=1
-pkgdesc="Adobe Source Sans Pro OTF Fonts"
-arch=('any')
-url="http://adobe-fonts.github.io/source-sans-pro/"
-license=('custom')
-source=("${_tarver}.tar.gz::https://github.com/adobe-fonts/source-sans-pro/archive/${_relver}.tar.gz")
-depends=('fontconfig')
-md5sums=('c043d0dd3f1b44419b618ed0ab52c24b')
-screenshot=('http://wstaw.org/m/2013/04/10/source-sans-pro.png')
+pkgdesc="Sans serif font family for user interface environments"
+url="https://adobe-fonts.github.io/source-sans-pro/"
+arch=(any)
+license=(custom)
+_relver=${pkgver}R
+_tarname=source-sans-pro-$_relver
+source=("$_tarname.tar.gz::https://github.com/adobe-fonts/source-sans-pro/archive/$_relver.tar.gz")
+sha256sums=('a384e8c3246490bb5eaf79eb9eb9e41d7f2d167bb7d36280156ec77ae8ddfda1')
 
 package() {
-  cd source-sans-pro-${_tarver}
+  cd $_tarname
   install -d "${pkgdir}/usr/share/fonts/OTF"
   install -t "${pkgdir}/usr/share/fonts/OTF" -m644 OTF/*.otf
-  install -Dm644 LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
