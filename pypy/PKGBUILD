@@ -1,5 +1,5 @@
 pkgname=pypy
-pkgver=7.1.1
+pkgver=7.2.0
 pkgrel=1
 pkgdesc="A Python implementation written in Python, JIT enabled"
 arch=('x86_64')
@@ -7,11 +7,11 @@ url="https://pypy.org/"
 license=('MIT')
 depends=('expat' 'bzip2' 'gdbm' 'openssl' 'libffi' 'zlib' 'ncurses')
 makedepends=('python2' 'tk' 'sqlite3' 'mercurial' 'python2-pycparser')
-optdepends=('sqlite3: sqlite module'
+optdepends=('sqlite: sqlite module'
             'tk: tk module')
 source=("https://bitbucket.org/${pkgname}/${pkgname}/downloads/pypy2.7-v$pkgver-src.tar.bz2")
 options=(!buildflags)
-sha256sums=('5f06bede6d71dce8dfbfe797aab26c8e35cb990e16b826914652dc093ad74451')
+sha256sums=('55cb7757784fbe3952102447f65b27d80e6c885a464a7af1a9ce264492439dcc')
 
 build() {
   cd pypy2.7-v${pkgver}-src/pypy/goal
