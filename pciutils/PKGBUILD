@@ -1,28 +1,32 @@
+# Contributions from Arch:
+# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+
 pkgname=pciutils
-pkgver=3.3.1
+pkgver=3.6.2
 pkgrel=1
 pkgdesc="PCI bus configuration space access library and tools"
-arch=('x86_64')
+arch=(x86_64)
 license=('GPL2')
 groups=('base')
-url="http://mj.ucw.cz/pciutils.html"
-optdepends=('sh: required by update-pciids') 
-makedepends=('wget')
-depends=('glibc' 'hwids')
-source=(ftp://ftp.kernel.org/pub/software/utils/${pkgname}/${pkgname}-${pkgver}.tar.xz)
-md5sums=('4c340a317987d61a11ee2cf139ef1191')
+url="https://mj.ucw.cz/sw/pciutils/"
+depends=('glibc' 'hwids' 'kmod')
+source=(ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/${pkgname}-${pkgver}.tar.gz
+        ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/${pkgname}-${pkgver}.tar.gz.sign)
+validpgpkeys=('5558F9399CD7836850553C6EC28E7847ED70F82D') # Martin Mares <mj@ucw.cz>
+sha256sums=('30005e341bb0ffa734174e592dc8f0dd928e1c9368b859715812149ed91d8f93'
+            'SKIP')
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  ./update-pciids.sh
-  make OPT="${CFLAGS} -fPIC -DPIC" ZLIB=no SHARED=no PREFIX=/usr SHAREDIR=/usr/share/hwdata MANDIR=/usr/share/man all
+  cd "${pkgname}-${pkgver}"
+  make OPT="${CFLAGS} -fPIC -DPIC" ZLIB=no SHARED=no PREFIX=/usr SHAREDIR=/usr/share/hwdata MANDIR=/usr/share/man SBINDIR=/usr/bin lib/libpci.a 
+  cp lib/libpci.a "${srcdir}/"
   make clean
-  make OPT="${CFLAGS}" ZLIB=no SHARED=yes PREFIX=/usr SHAREDIR=/usr/share/hwdata MANDIR=/usr/share/man all
+  make OPT="${CFLAGS}" ZLIB=no SHARED=yes PREFIX=/usr SBINDIR=/usr/bin SHAREDIR=/usr/share/hwdata MANDIR=/usr/share/man all
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  make SHARED=yes PREFIX=/usr SHAREDIR=/usr/share/hwdata MANDIR=/usr/share/man DESTDIR="${pkgdir}" install install-lib
+  cd "${pkgname}-${pkgver}"
+  make SHARED=yes PREFIX=/usr SBINDIR=/usr/bin SHAREDIR=/usr/share/hwdata MANDIR=/usr/share/man DESTDIR="${pkgdir}" install install-lib
   # this is now supplied by the hwids package
-  rm -rf $pkgdir/usr/{sbin/update-pciids,share/{man/man8/update-pciids.8.gz,hwdata}}
+  rm -rf "$pkgdir"/usr/{sbin/update-pciids,share/{man/man8/update-pciids.8,hwdata}}
 }
