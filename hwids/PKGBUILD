@@ -1,20 +1,19 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer: abveritas@chakra-project.org
+# Contributions from Arch:
+# Maintainer: Tom Gundersen <teg@jklm.no>
 
 pkgname=hwids
-pkgver=20140222
+pkgver=20190818
 pkgrel=1
 pkgdesc="hardware identification databases"
-url="https://github.com/gentoo/hwids"
+makedepends=('git')
+url=https://github.com/gentoo/hwids
 license=('GPL2')
 arch=('any')
-source=("https://github.com/gentoo/${pkgname}/tarball/${pkgname}-${pkgver}")
-md5sums=('3cfc6640ce4c22ddca75218d4d9e3a31')
+source=("git://github.com/gentoo/hwids.git#tag=${pkgname}-${pkgver}")
+md5sums=('SKIP')
 
 package() {
-  cd ${srcdir}/*
+  cd hwids
 
   for ids in pci.ids usb.ids; do
     install -Dm644 "$ids" "${pkgdir}/usr/share/hwdata/${ids}"
