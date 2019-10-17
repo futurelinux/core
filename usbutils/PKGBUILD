@@ -1,28 +1,28 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
+# Contributions from Arch:
+# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+# Contributor: Tom Gundersen <teg@jklm.no>
+# Contributor: Judd Vinet <jvinet@zeroflux.org>
+# Contributor: Curtis Campbell <curtisjamescampbell@hotmail.com>
 
 pkgname=usbutils
-pkgver=008
+pkgver=012
 pkgrel=1
 pkgdesc="USB Device Utilities"
-arch=(i686 x86_64)
+arch=(x86_64)
 license=('GPL')
 groups=('base')
 depends=('libusb' 'hwids')
-optdepends=('python2: for lsusb.py usage'
+optdepends=('python3: for lsusb.py usage'
             'coreutils: for lsusb.py usage')
 url="http://linux-usb.sourceforge.net/"
-source=("http://www.kernel.org/pub/linux/utils/usb/usbutils/${pkgname}-${pkgver}.tar.xz"
-        fix-python2.patch)
-sha1sums=('233dee6cd6829476be778554984045663b568b18'
-          '4d674f1ca826169c82bf2e433a4d0fe46c55ea27')
+source=("https://www.kernel.org/pub/linux/utils/usb/usbutils/${pkgname}-${pkgver}.tar"{.xz,.sign})
+md5sums=('0da98eb80159071fdbb00905390509d9'
+         'SKIP')
+validpgpkeys=('647F28654894E3BD457199BE38DBBDC86092693E') # Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 build() {
   cd $srcdir/$pkgname-$pkgver
-  # patch lsusb.py to use correct usb.ids file and python2 interpreter
-  patch -Np1 -i $srcdir/fix-python2.patch
+  ./autogen.sh
   ./configure --prefix=/usr --datadir=/usr/share/hwdata --disable-zlib
   make
 }
@@ -33,5 +33,3 @@ package() {
   # this is now in the hwids package
   rm -rf $pkgdir/usr/{share/hwdata,sbin}
 }
-
-
