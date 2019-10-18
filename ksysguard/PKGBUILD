@@ -12,7 +12,7 @@ makedepends=(extra-cmake-modules kdoctools python3)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('5558977389cb1fac4a5ce52c9430b27d9d1ee92705ae1995d92bed5340477282'
+sha256sums=('10abf3bfa676275b6fded5e49979466a011e0552b9357c1b8923f01184c029d5'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
