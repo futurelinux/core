@@ -2,7 +2,7 @@
 
 pkgbase=oxygen
 pkgname=('oxygen' 'oxygen-cursors')
-pkgver=5.16.5
+pkgver=5.17.0
 pkgrel=1
 pkgdesc="KDE Oxygen style"
 arch=('x86_64')
@@ -11,7 +11,7 @@ license=('LGPL')
 makedepends=(frameworkintegration kcmutils kdecoration extra-cmake-modules kdoctools python3)
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('0e85dcd874d2e69aaa2d4eefc379289c7dd572437f53e42f1d6d260d97c2f8a2'
+sha256sums=('0ed752fc90634277d40f816a0ce0717b4708ced1e88596ab890112991c9614d2'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

@@ -1,19 +1,19 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/kconfigwidgets
 
 pkgname=kconfigwidgets
-pkgver=5.62.0
-pkgrel=2
+pkgver=5.63.0
+pkgrel=1
 pkgdesc='Widgets for KConfig'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kconfigwidgets'
 license=('LGPL')
 depends=('karchive' 'kauth' 'kcodecs' 'kconfig' 'kguiaddons' 'ki18n' 'kwidgetsaddons')
-makedepends=("extra-cmake-modules>=5.62.0" 'kdoctools' 'qt5-tools') # 'python3-sip' 'sip' 'python3-pyqt5')
+makedepends=("extra-cmake-modules" 'kdoctools' 'qt5-tools') # 'python3-sip' 'sip' 'python3-pyqt5')
 optdepends=('python3-pyqt5: for the Python bindings')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('6c10810725e0b109c96ddc2246ca1741bcae012296e31caf7b41167a04ae31d6'
+sha256sums=('e577c68523721cbdbe2f019098f382cdcd4db4c805fb68d86c2b7d6fb76b1d25'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 

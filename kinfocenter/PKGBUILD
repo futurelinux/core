@@ -1,7 +1,7 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/kinfocenter
 
 pkgname=kinfocenter
-pkgver=5.16.5
+pkgver=5.17.0
 pkgrel=1
 pkgdesc='KInfocenter'
 arch=('x86_64')
@@ -14,7 +14,7 @@ options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig}
         'kcm-about-distrorc'
         'chakra-label.png')
-sha256sums=('e3bbc5e2baedf35dc8750c99e18c115b651f2665218a105c08177bc5250eb9b1'
+sha256sums=('f9866450a795b6c458011de457f27e51258803459d5d384b7366f13f9a1c8d7e'
             'SKIP'
             '7705eef707bbc5238c61bac4bbc749c4ba257d752b2b67e0720e56f9e287fa73'
             'b06c781319509e0b082508a69f26f511acc40f169e79be5bc2cad8508ba25513')
