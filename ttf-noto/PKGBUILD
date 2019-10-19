@@ -14,7 +14,7 @@ depends=(fontconfig)
 makedepends=(git)
 source=("noto-fonts::git+https://github.com/googlei18n/noto-fonts.git#commit=$_commit"
         "noto-cjk::git+https://github.com/googlei18n/noto-cjk.git#commit=$_commit_cjk"
-        "noto-emoji::git+https://github.com/googlei18n/noto-emoji.git#commit=/$_commit_emoji"
+        "noto-emoji::git+https://github.com/googlei18n/noto-emoji.git#commit=$_commit_emoji"
         66-noto-sans.conf 66-noto-serif.conf 66-noto-mono.conf 70-noto-cjk.conf)
 sha256sums=('SKIP'
             'SKIP'
