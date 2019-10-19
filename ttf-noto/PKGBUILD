@@ -2,7 +2,7 @@ pkgbase=ttf-noto
 # Please do not merge noto-color-emoji and noto-emoji for now. ColorEmoji
 # is likely to cause some crashes in application.
 pkgname=('ttf-noto' 'ttf-noto-extra' 'otf-noto-cjk' 'ttf-noto-emoji' 'ttf-noto-color-emoji' 'ttf-croscore')
-pkgver=20191016
+pkgver=20191019
 _commit=46eb8fa0c46d16a87eee3e763baa3efb7423a8b4  # master
 _commit_cjk=9326451d9b4f32ec7f8640581c5053cc192039f2
 _commit_emoji=f3b9faa83dedf51cd4d9d8ff30e13c17b8073211
@@ -33,7 +33,7 @@ package_ttf-noto() {
     provides=('ttf-font')
 
     cd noto-fonts
-    install -Dm644 hinted/Noto*.tt[fc] -t "$pkgdir"/usr/share/fonts/noto
+    install -Dm644 hinted/Noto*/*.tt[fc] -t "$pkgdir"/usr/share/fonts/noto
 
     # in -extra
     rm -f "$pkgdir"/usr/share/fonts/noto/Noto*{Condensed,SemiBold,Extra}*.tt[fc]
@@ -56,7 +56,7 @@ package_ttf-noto-extra() {
 
     cd noto-fonts
     mkdir -p "$pkgdir"/usr/share/fonts/noto
-    cp hinted/Noto*{Condensed,SemiBold,Extra}*.tt[fc] "$pkgdir"/usr/share/fonts/noto
+    cp hinted/Noto*/*{Condensed,SemiBold,Extra}*.tt[fc] "$pkgdir"/usr/share/fonts/noto
     install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
 
