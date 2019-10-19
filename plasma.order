@@ -7,21 +7,21 @@
 # (or stages").
 # GitLab-CI:1
 
-bluedevil
-polkit-kde-agent
-kwayland-integration
-libkscreen
-kwrited
-kdecoration
-kscreenlocker
-kwin
-breeze
-oxygen
-libksysguard
-ksysguard
-milou
-plasma-integration
-plasma-browser-integration
+#bluedevil
+#polkit-kde-agent
+#kwayland-integration
+#libkscreen
+#kwrited
+#kdecoration
+#kscreenlocker
+#kwin
+#breeze
+#oxygen
+#libksysguard
+#ksysguard
+#milou
+#plasma-integration
+#plasma-browser-integration
 plasma-workspace
 kde-cli-tools
 powerdevil
