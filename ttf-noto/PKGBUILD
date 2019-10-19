@@ -2,10 +2,10 @@ pkgbase=ttf-noto
 # Please do not merge noto-color-emoji and noto-emoji for now. ColorEmoji
 # is likely to cause some crashes in application.
 pkgname=('ttf-noto' 'ttf-noto-extra' 'otf-noto-cjk' 'ttf-noto-emoji' 'ttf-noto-color-emoji' 'ttf-croscore')
-pkgver=20190316
-_commit=4bff97c612daf65d4409c9ebc26dfbd6a3d83a7e  # master
+pkgver=20191016
+_commit=46eb8fa0c46d16a87eee3e763baa3efb7423a8b4  # master
 _commit_cjk=9326451d9b4f32ec7f8640581c5053cc192039f2
-_commit_emoji=77002c46c9efc9b0011cff0fee28464ba94ca62a
+_commit_emoji=f3b9faa83dedf51cd4d9d8ff30e13c17b8073211
 pkgrel=1
 arch=('any')
 url="http://www.google.com/get/noto"
