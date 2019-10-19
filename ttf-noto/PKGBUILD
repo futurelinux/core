@@ -11,13 +11,14 @@ arch=('any')
 url="http://www.google.com/get/noto"
 license=('custom:SIL')
 depends=(fontconfig)
-source=("noto-fonts-$_commit.zip::https://github.com/googlei18n/noto-fonts/archive/$_commit.zip"
-        "noto-cjk-$_commit_cjk.zip::https://github.com/googlei18n/noto-cjk/archive/$_commit_cjk.zip"
-        "noto-emoji-$_commit_emoji.zip::https://github.com/googlei18n/noto-emoji/archive/$_commit_emoji.zip"
+makedepends=(git)
+source=("noto-fonts::git+https://github.com/googlei18n/noto-fonts.git#commit=$_commit"
+        "noto-cjk::git+https://github.com/googlei18n/noto-cjk.git#commit=$_commit_cjk"
+        "noto-emoji::git+https://github.com/googlei18n/noto-emoji.git#commit=/$_commit_emoji"
         66-noto-sans.conf 66-noto-serif.conf 66-noto-mono.conf 70-noto-cjk.conf)
-sha256sums=('f751ab53b955466a186c1a759e30d1b70cbad4aec5d52e8b2acf5c6d71b171e9'
-            '28d282497d78e15c77f346afcf81498bef1f98f168e97eeb5a1a288106b84ed2'
-            'd0be6ef425ec5eb4811018ce083334e4bb23d6c81af03e731b4ff24926673805'
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
             '65ff237a579d438eb1b1c90bf25b5818e15ab019dbbfed2fc283b9cd12e5177f'
             '27419c0557d05e13edbb244cd06a62d921c271c6c2f07126856519869035776e'
             '8c541eab8b44f6c7b02e981a4fbbd082eb6c1aa8285e11dede5f0a3ec0617772'
@@ -31,7 +32,7 @@ package_ttf-noto() {
     pkgdesc="Google Noto TTF fonts"
     provides=('ttf-font')
 
-    cd noto-fonts-${_commit}
+    cd noto-fonts
     install -Dm644 hinted/Noto*.tt[fc] -t "$pkgdir"/usr/share/fonts/noto
 
     # in -extra
@@ -53,7 +54,7 @@ package_ttf-noto-extra() {
     pkgdesc="Google Noto TTF fonts - additional variants"
     depends=(ttf-noto)
 
-    cd noto-fonts-${_commit}
+    cd noto-fonts
     mkdir -p "$pkgdir"/usr/share/fonts/noto
     cp hinted/Noto*{Condensed,SemiBold,Extra}*.tt[fc] "$pkgdir"/usr/share/fonts/noto
     install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
@@ -63,7 +64,7 @@ package_otf-noto-cjk() {
     pkgdesc="Google Noto CJK OTF fonts"
     provides=('otf-noto' 'ttf-font')
     replaces=('otf-noto')
-    cd noto-cjk-${_commit_cjk}
+    cd noto-cjk
     install -Dm644 *.ttc -t "$pkgdir"/usr/share/fonts/noto
     install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 
@@ -74,14 +75,14 @@ package_otf-noto-cjk() {
 
 package_ttf-noto-emoji() {
     pkgdesc="Google Noto Emoji TTF fonts"
-    cd noto-emoji-${_commit_emoji}
+    cd noto-emoji
     install -Dm644 fonts/NotoEmoji-Regular.ttf -t "$pkgdir"/usr/share/fonts/noto
     install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
 
 package_ttf-noto-color-emoji() {
     pkgdesc="Google Noto Color Emoji TTF fonts"
-    cd noto-emoji-${_commit_emoji}
+    cd noto-emoji
     install -Dm644 fonts/NotoColorEmoji.ttf -t "$pkgdir"/usr/share/fonts/noto
     install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
 }
