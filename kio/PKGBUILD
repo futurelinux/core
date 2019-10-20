@@ -2,7 +2,7 @@
 
 pkgname=kio
 pkgver=5.63.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Resource and network access abstraction'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kio'

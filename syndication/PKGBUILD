@@ -1,7 +1,7 @@
 
 pkgname=syndication
 pkgver=5.63.0
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc="RSS/Atom parser library"
 arch=('x86_64')

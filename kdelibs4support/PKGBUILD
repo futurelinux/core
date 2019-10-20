@@ -2,7 +2,7 @@
 
 pkgname=kdelibs4support
 pkgver=5.63.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Porting aid from KDELibs4'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kdelibs4support'
