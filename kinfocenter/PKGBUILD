@@ -2,7 +2,7 @@
 
 pkgname=kinfocenter
 pkgver=5.17.0
-pkgrel=2
+pkgrel=3
 pkgdesc='KInfocenter'
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/workspace/kinfocenter'
