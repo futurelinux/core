@@ -2,7 +2,7 @@
 
 pkgname=bluedevil
 pkgver=5.17.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Integrate the Bluetooth technology within KDE workspace and applications"
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/workspace/bluedevil'

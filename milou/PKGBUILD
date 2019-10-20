@@ -2,12 +2,12 @@
 
 pkgname=milou
 pkgver=5.17.0
-pkgrel=3
+pkgrel=4
 pkgdesc="A dedicated search application built on top of Baloo"
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/workspace/milou/'
 license=('LGPL')
-depends=(krunner)
+depends=(krunner kitemmodels)
 makedepends=(extra-cmake-modules kdoctools python3)
 groups=('plasma')
 options=("debug")

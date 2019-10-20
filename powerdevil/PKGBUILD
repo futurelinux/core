@@ -2,7 +2,7 @@
 
 pkgname=powerdevil
 pkgver=5.17.0
-pkgrel=3
+pkgrel=4
 pkgdesc='Manages the power consumption settings of a Plasma Shell'
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/workspace/powerdevil'

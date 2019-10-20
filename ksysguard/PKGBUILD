@@ -2,7 +2,7 @@
 
 pkgname=ksysguard
 pkgver=5.17.0
-pkgrel=3
+pkgrel=4
 pkgdesc="KSysguard"
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/workspace/ksysguard'
