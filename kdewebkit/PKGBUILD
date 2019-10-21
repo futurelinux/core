@@ -11,7 +11,7 @@ license=('LGPL')
 depends=(qt5-webkit kparts)
 makedepends=("extra-cmake-modules>=5.63.0" qt5-tools)
 options=("debug")
-groups=('kf5')
+groups=('kf5-aids')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/portingAids/${pkgname}-${pkgver}.tar.xz"{,.sig})
 sha256sums=('db78cf8b167562a211c20a081e23540d0613d2e6feec67d461bb9fc982ad6be8'
             'SKIP')

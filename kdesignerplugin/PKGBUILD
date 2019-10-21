@@ -11,7 +11,7 @@ license=('LGPL')
 depends=('kplotting' 'kdewebkit')
 makedepends=("extra-cmake-modules>=5.63.0" 'qt5-tools' 'kdoctools')
 checkdepends=('cmake' "xorg-server-xvfb")
-groups=('kf5')
+groups=('kf5-aids')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/portingAids/${pkgname}-${pkgver}.tar.xz"{,.sig})
 sha256sums=('c9f63d672cbc04465e77eff07d62530e8f9a9129e0d6dfa7e13e0ad4bea6eff0'
             'SKIP')
