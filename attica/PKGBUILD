@@ -5,7 +5,7 @@
 
 pkgname=attica
 pkgver=5.63.0
-pkgrel=3
+pkgrel=4
 pkgdesc='Qt library that implements the Open Collaboration Services API'
 arch=('x86_64')
 url='https://projects.kde.org/projects/kdesupport/attica'
@@ -14,6 +14,7 @@ depends=('qt5-base')
 makedepends=('extra-cmake-modules' 'doxygen' 'qt5-tools' 'qt5-doc')
 groups=('kf5')
 options=("debug")
+replaces=('attica-qt5')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
 sha256sums=('c064af18478386da6a8eee16a9af626e300a4f0d1755b1598c910e2628977a37'
             'SKIP')
