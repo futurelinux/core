@@ -1,5 +1,7 @@
-# Contributor : Andrea Scarpino <andrea@archlinux.org>
-
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kservice
 pkgver=5.63.0
@@ -10,7 +12,6 @@ url='https://projects.kde.org/projects/frameworks/kservice'
 license=('LGPL')
 depends=('ki18n' 'kconfig' 'kcrash' 'kdbusaddons')
 makedepends=("extra-cmake-modules" 'kdoctools' 'python3')
-checkdepends=('xorg-server-xvfb' 'kded')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig}
@@ -29,23 +30,16 @@ prepare() {
 build() {
   cd build
   cmake ../${pkgname}-${pkgver} \
-         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DKDE_INSTALL_LIBDIR=lib \
-        -DKDE_INSTALL_SYSCONFDIR=/etc \
-        -DKDE_INSTALL_LIBEXECDIR=lib \
-        -DBUILD_TESTING=OFF \
-        -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@" \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@" \
     -DPYTHON_EXECUTABLE=/usr/bin/python3
   make
 }
-
-# check() {
-#   cd build
-#   eval `dbus-launch --sh-syntax `
-#   xvfb-run make test
-#   kill $DBUS_SESSION_BUS_PID
-# }
 
 package() {
   cd build

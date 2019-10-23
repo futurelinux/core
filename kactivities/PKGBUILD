@@ -1,9 +1,13 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kactivities
 pkgver=5.63.0
 pkgrel=2
-arch=('x86_64')
 pkgdesc="Core components for the KDE's Activities"
+arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kactivities'
 license=('LGPL')
 depends=('kcmutils' 'kdeclarative' 'kactivitymanagerd>=5.5.95')

@@ -1,3 +1,7 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=modemmanager-qt
 _pkgname=modemmanager-qt
@@ -9,7 +13,6 @@ url='http://projects.kde.org'
 license=('LGPL')
 depends=('qt5-base' 'networkmanager')
 makedepends=("extra-cmake-modules>=5.63.0" 'kapidox')
-checkdepends=("cmake")
 provides=("libmm-qt5=${pkgver}")
 replaces=("libmm-qt5<=5.2.2")
 conflicts=("libmm-qt5<=5.2.2")
@@ -27,19 +30,14 @@ prepare() {
 build() {
   cd build
   cmake ../${pkgname}-${pkgver} \
-         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DKDE_INSTALL_LIBDIR=lib \
-        -DKDE_INSTALL_SYSCONFDIR=/etc \
-        -DKDE_INSTALL_LIBEXECDIR=lib \
-        -DBUILD_TESTING=OFF \
-        -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
   make
-}
-
-check() {
-  cd build
-  make test || return 0
 }
 
 package() {
