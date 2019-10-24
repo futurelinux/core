@@ -1,22 +1,22 @@
 pkgname=python2
-pkgver=2.7.16
+pkgver=2.7.17
 pkgrel=1
 _pybasever=2.7
 pkgdesc="A high-level scripting language"
 arch=('x86_64')
 license=('PSF')
 url="https://www.python.org"
-depends=('bzip2' 'expat' 'gdbm' 'libffi' 'openssl' 'sqlite' 'zlib') #'libnsl' some files owned by our glibc
+depends=('bzip2' 'expat' 'gdbm' 'libffi' 'libnsl' 'openssl' 'sqlite' 'zlib')
 makedepends=('tk' 'bluez-libs')
 optdepends=('tk: for IDLE'
             'python2-setuptools'
             'python2-pip')
 provides=('python' 'python-elementtree' 'python-ctypes')
 replaces=('python-elementtree' 'python-ctypes' 'python')
-conflicts=('python')
+conflicts=('python<3')
 source=(https://www.python.org/ftp/python/${pkgver%rc?}/Python-${pkgver}.tar.xz
         'add-chakra-support.patch')
-sha256sums=('f222ef602647eecb6853681156d32de4450a2c39f4de93bd5b20235f2e660ed7'
+sha256sums=('4d43f033cdbd0aa7b7023c81b0e986fd11e653b5248dac9144d508f11812ba41'
             'dec83a8ca0e8505cf899c61d8c62ee44ccdd041d22799e17c99d590466ff523e')
 
 prepare() {
