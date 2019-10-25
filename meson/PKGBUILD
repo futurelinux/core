@@ -1,5 +1,5 @@
 pkgname=meson
-pkgver=0.51.2
+pkgver=0.52.0
 pkgrel=1
 pkgdesc='High productivity build system'
 url='https://mesonbuild.com/'
@@ -9,7 +9,7 @@ depends=('python3-setuptools' 'ninja')
 source=(https://github.com/mesonbuild/meson/releases/download/${pkgver}/meson-${pkgver}.tar.gz{,.asc}
         chakra-meson
         skip-test.diff)
-sha256sums=('23688f0fc90be623d98e80e1defeea92bbb7103bf9336a5f5b9865d36e892d76'
+sha256sums=('d60f75f0dedcc4fd249dbc7519d6f3ce6df490033d276ef1cf27453ef4938d32'
             'SKIP'
             '4c336c0da4fc48c2c0704ee169fb93cf2578d2b3783dbd6d7c15b21f9ab99ad1'
             'a4968c7b5372148fcc6ce9c5196ccb266844043e25d76917af8cf93767738bcc')

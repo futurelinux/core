@@ -1,4 +1,7 @@
-# Include global configuration
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgbase=oxygen-icons
 _pkgbase=oxygen-icons5
@@ -9,8 +12,8 @@ pkgrel=2
 arch=('x86_64')
 url='http://www.oxygen-icons.org/'
 license=('LGPL')
-groups=('kf5')
 makedepends=('cmake' 'extra-cmake-modules' 'qt5-tools')
+groups=('kf5')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${_pkgbase}-${pkgver}.tar.xz"{,.sig})
 sha256sums=('2fe1d14add182c5537596bc19f1cafb4a1e25052cb4391d8f8d7ea18b55f0966'
             'SKIP')

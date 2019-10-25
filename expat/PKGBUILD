@@ -1,24 +1,33 @@
+# Contributions from Arch:
+# Maintainer:  Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Allan McRae <allan@archlinux.org>
+# Contributor: Judd Vinet <jvinet@zeroflux.org>
+
 pkgname=expat
-pkgver=2.2.7
+pkgver=2.2.9
 pkgrel=1
-pkgdesc="An XML Parser library written in C"
-arch=('x86_64')
-url="http://expat.sourceforge.net/"
-license=('custom')
-depends=('glibc')
-source=("https://downloads.sourceforge.net/sourceforge/expat/${pkgname}-${pkgver}.tar.bz2")
-md5sums=('72f36b87cdb478aba1e78473393766aa')
+pkgdesc='An XML parser library'
+arch=(x86_64)
+url='https://libexpat.github.io/'
+license=(custom)
+depends=(glibc)
+source=(https://github.com/libexpat/libexpat/releases/download/R_${pkgver//./_}/expat-${pkgver}.tar.bz2{,.asc})
+validpgpkeys=(3176EF7DB2367F1FCA4F306B1F9B0E909AF37285) # Sebastian Pipping
+sha256sums=('f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237'
+            'SKIP')
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd $pkgname-$pkgver
+  ./configure --prefix=/usr --disable-static
+  make
+}
 
-  ./configure --prefix=/usr --mandir=/usr/share/man 
-  make 
+check() {
+  make -C $pkgname-$pkgver check
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  
-  make DESTDIR="${pkgdir}" install 
-  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING" 
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+  install -Dm644 "-t$pkgdir/usr/share/licenses/$pkgname" COPYING
 }
