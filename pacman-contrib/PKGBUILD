@@ -3,7 +3,7 @@
 
 pkgname=pacman-contrib
 pkgver=1.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Contributed scripts and tools for pacman systems"
 url="https://git.archlinux.org/pacman-contrib.git/about/"
 arch=('x86_64')
@@ -17,10 +17,13 @@ source=("https://git.archlinux.org/pacman-contrib.git/snapshot/pacman-contrib-$p
 sha256sums=('317f53819e35647a19138cb0d68e16206af4a80f52115a7cd622c4a367f914b7'
             'SKIP')
 
+prepare() {
+  cd pacman-contrib-$pkgver
+  ./autogen.sh
+}
+
 build() {
   cd pacman-contrib-$pkgver
-
-  ./autogen.sh
   ./configure \
       --prefix=/usr \
       --sysconfdir=/etc \
