@@ -8,7 +8,7 @@ license=('GPL')
 groups=('base')
 backup=(etc/pacman.d/mirrorlist)
 source=('mirrorlist')
-md5sums=('313834e9b966ab570cc907fa7846290f')
+md5sums=('6c3a23d94ed9b508f19361a6bf353683')
 
 package() {
   mkdir -p $pkgdir/etc/pacman.d
