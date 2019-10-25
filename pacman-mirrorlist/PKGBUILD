@@ -1,5 +1,5 @@
 pkgname=pacman-mirrorlist
-pkgver=20190202
+pkgver=20191025
 pkgrel=1
 pkgdesc="Chakra Linux mirror list for use by pacman"
 arch=('x86_64')
