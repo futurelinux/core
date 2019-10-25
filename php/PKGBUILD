@@ -20,7 +20,7 @@ pkgname=('php'
          'php-sqlite'
          'php-tidy'
          'php-xsl')
-pkgver=7.1.32
+pkgver=7.1.33
 pkgrel=1
 arch=('x86_64')
 license=('PHP')
@@ -36,7 +36,7 @@ source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"{,.asc}
         'php.ini.patch'
         'enchant-2.patch'
         'php-freetype-2.9.1.patch')
-sha256sums=('7f38b5bdaae3184d325a8c70e86c010afcc33651d15faafe277a0db6d2ea2741'
+sha256sums=('bd7c0a9bd5433289ee01fd440af3715309faf583f75832b64fe169c100d52968'
             'SKIP'
             '8b5b15f1c348d8897d837ea9894157d9630dc542bbb0dbc7ad93c5dc0235d1d5'
             '258b33b6531b1128d9804c8b608b6013423a421edcf764747042d07e79ec6df3'
