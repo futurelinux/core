@@ -1,4 +1,4 @@
-# GitLab CI:1
+# Dummy variable to change in order for this file to be included in commits:1
 
 extra-cmake-modules
 kapidox
@@ -79,6 +79,4 @@ prison
 purpose
 kholidays
 syndication
-
-#_build_desktop_kf5_additionals="sddm-kcm"
 

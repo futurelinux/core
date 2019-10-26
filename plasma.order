@@ -1,11 +1,4 @@
-#
-# Chakra GNU/Linux Buildscript Config file
-#
-# KDE Plasma
-#
-# These are the building "groups" or "package lists"
-# (or stages").
-# GitLab-CI:1
+# Dummy variable to change in order for this file to be included in commits:1
 
 bluedevil
 polkit-kde-agent
@@ -49,7 +42,3 @@ breeze-grub
 drkonqi
 plasma-vault
 xdg-desktop-portal-kde
-
-# Notes:
-# don't build muon and discover until we have akabei
-# plasma-mediacenter moved to extragear

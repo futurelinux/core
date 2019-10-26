@@ -12,7 +12,6 @@ url='https://projects.kde.org/projects/frameworks/threadweaver'
 license=('LGPL')
 depends=('qt5-base')
 makedepends=('extra-cmake-modules')
-checkdepends=('cmake')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})

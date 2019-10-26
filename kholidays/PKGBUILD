@@ -20,7 +20,6 @@ sha256sums=('c728d03732c8570ec50359daf6166924847c9a0d17456d2fb91c1265019c6580'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 
-
 prepare() {
   mkdir -p build
 }

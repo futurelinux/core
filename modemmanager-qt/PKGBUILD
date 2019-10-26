@@ -4,7 +4,6 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=modemmanager-qt
-_pkgname=modemmanager-qt
 pkgver=5.63.0
 pkgrel=2
 pkgdesc="Plasma Workspace"

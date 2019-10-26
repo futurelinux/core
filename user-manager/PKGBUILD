@@ -1,5 +1,7 @@
-# Contributor: Andrea Scarpino <andrea@archlinux.org>
-
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=user-manager
 pkgver=5.17.1
@@ -10,7 +12,6 @@ url='projects.kde.org/'
 license=('LGPL')
 depends=(accountsservice libpwquality kio)
 makedepends=(extra-cmake-modules python3 kcmutils)
-checkdepends=("cmake")
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
@@ -23,28 +24,21 @@ validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
 
 prepare() {
   mkdir -p build
-
-  cd ${pkgname}-${pkgver}
 }
 
 build() {
   cd build
   cmake ../${pkgname}-${pkgver} \
-         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DKDE_INSTALL_LIBDIR=lib \
-        -DKDE_INSTALL_SYSCONFDIR=/etc \
-        -DKDE_INSTALL_LIBEXECDIR=lib \
-        -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
-        -DBUILD_TESTING=OFF \
-        -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@" \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@" \
     -DPYTHON_EXECUTABLE=/usr/bin/python3
   make
-}
-
-check() {
-  cd build
-  make test || return 0
 }
 
 package() {

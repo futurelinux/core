@@ -1,5 +1,7 @@
-# Contributor from arch: https://projects.archlinux.org/svntogit/packages.git/tree/kde-unstable/PKGBUILD?h=packages/breeze-grub
-
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=breeze-grub
 pkgver=5.17.1
@@ -20,8 +22,6 @@ validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
 
 prepare() {
   mkdir -p build
-
-  cd $pkgname-$pkgver
 }
 
 package() {

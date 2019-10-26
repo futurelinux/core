@@ -25,7 +25,7 @@ prepare() {
 
 build() {
   cd build
-    cmake ../${pkgname}-${pkgver} \
+  cmake ../${pkgname}-${pkgver} \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DKDE_INSTALL_LIBDIR=lib \
@@ -34,7 +34,6 @@ build() {
     -DBUILD_TESTING=OFF \
     -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
     -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d ../${pkgname}-${pkgver}
-
   make
 }
 
