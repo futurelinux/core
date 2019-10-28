@@ -1,0 +1,179 @@
+#contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/postgresql
+
+pkgbase=postgresql
+pkgname=('postgresql-libs'
+         'postgresql-docs'
+         'postgresql')
+pkgver=10.6
+_majorver=${pkgver%.*}
+# When upgrading to a major version, remember to update the postgresql-check-db-dir file accordingly!!
+pkgrel=4
+arch=('x86_64')
+url='https://www.postgresql.org/'
+license=('custom:PostgreSQL')
+makedepends=('krb5' 'libxml2' 'openssl' 'perl' 'python3' 'tcl')
+source=("https://ftp.postgresql.org/pub/source/v${pkgver}/postgresql-${pkgver}.tar.bz2"
+        'postgresql-check-db-dir'
+        'postgresql-run-socket.patch'
+        'postgresql.confd'
+        'postgresql.logrotate'
+        'postgresql.pam'
+        'postgresql.service'
+        'postgresql.tmpfiles.conf')
+sha256sums=('68a8276f08bda8fbefe562faaf8831cb20664a7a1d3ffdbbcc5b83e08637624b'
+            '888a1d44f03fccfa4bf344ee45824fefb846ae3c1c0c40113ad6020b4be3b0cf'
+            '8538619cb8bea51078b605ad64fe22abd6050373c7ae3ad6595178da52f6a7d9'
+            '419550699aae3d19715e87e51f32d1ad50cbb5d3175794f5476697572383b4e3'
+            '6abb842764bbed74ea4a269d24f1e73d1c0b1d8ecd6e2e6fb5fb10590298605e'
+            '57dfd072fd7ef0018c6b0a798367aac1abb5979060ff3f9df22d1048bb71c0d5'
+            'c69b614731fdd3f4e127540814f5999f423363523c5209e252e19b1d4362ad68'
+            '7e086d70e0dcaa6ce45693b4e826ce92d770192b3aff5642319b1ef279d88dc4')
+
+build() {
+    cd "${srcdir}/postgresql-${pkgver}"
+    patch -Np1 < ../postgresql-run-socket.patch
+
+    ./configure \
+        --prefix=/usr \
+        --mandir=/usr/share/man \
+        --datadir=/usr/share/postgresql \
+        --sysconfdir=/etc \
+	--with-gssapi \
+	--with-libxml \
+        --with-openssl \
+        --with-perl \
+        --with-python PYTHON=/usr/bin/python3 \
+        --with-tcl \
+        --with-pam \
+        --with-system-tzdata=/usr/share/zoneinfo \
+        --enable-nls \
+        --enable-thread-safety
+    make world
+}
+
+package_postgresql-libs() {
+    pkgdesc="Libraries for use with PostgreSQL"
+    depends=('krb5'
+             'openssl'
+             'readline')
+    provides=('postgresql-client')
+    conflicts=('postgresql-client')
+
+    cd "${srcdir}/postgresql-${pkgver}"
+
+    # Install license
+    install -Dm644 COPYRIGHT "${pkgdir}/usr/share/licenses/postgresql-libs/LICENSE"
+
+    # install libs and non-server binaries
+    for dir in src/interfaces src/bin/pg_config src/bin/pg_dump src/bin/psql src/bin/scripts; do
+    make -C ${dir} DESTDIR="${pkgdir}" install
+    done
+
+    for util in pg_config pg_dump pg_dumpall pg_restore psql \
+        clusterdb createdb createuser dropdb dropuser pg_isready reindexdb vacuumdb; do
+    install -Dm 644 doc/src/sgml/man1/${util}.1 "${pkgdir}"/usr/share/man/man1/${util}.1
+    done
+
+    install -Dm644 doc/src/sgml/man1/pg_config.1 "${pkgdir}/usr/share/man/man1/pg_config.1"
+    install -Dm644 doc/src/sgml/man1/pg_dump.1 "${pkgdir}/usr/share/man/man1/pg_dump.1"
+    install -Dm644 doc/src/sgml/man1/pg_dumpall.1 "${pkgdir}/usr/share/man/man1/pg_dumpall.1"
+    install -Dm644 doc/src/sgml/man1/pg_restore.1 "${pkgdir}/usr/share/man/man1/pg_restore.1"
+    install -Dm644 doc/src/sgml/man1/psql.1 "${pkgdir}/usr/share/man/man1/psql.1"
+
+    cd src/include
+
+    mkdir -p "${pkgdir}"/usr/include/{libpq,postgresql/internal/libpq}
+
+    # These headers are needed by the public headers of the interfaces
+    install -m644 pg_config.h "${pkgdir}/usr/include/"
+    install -m644 pg_config_os.h "${pkgdir}/usr/include/"
+    install -m644 pg_config_ext.h "${pkgdir}/usr/include/"
+    install -m644 postgres_ext.h "${pkgdir}/usr/include/"
+    install -m644 libpq/libpq-fs.h "${pkgdir}/usr/include/libpq/"
+    install -m644 pg_config_manual.h "${pkgdir}/usr/include/"
+
+    # These headers are needed by the not-so-public headers of the interfaces
+    install -m644 c.h "${pkgdir}/usr/include/postgresql/internal/"
+    install -m644 port.h "${pkgdir}/usr/include/postgresql/internal/"
+    install -m644 postgres_fe.h "${pkgdir}/usr/include/postgresql/internal/"
+    install -m644 libpq/pqcomm.h "${pkgdir}/usr/include/postgresql/internal/libpq/"
+}
+
+package_postgresql-docs() {
+    pkgdesc="HTML documentation for PostgreSQL"
+    options=('docs')
+
+    cd "${srcdir}/postgresql-${pkgver}"
+
+    # Install license
+    install -Dm644 COPYRIGHT "${pkgdir}/usr/share/licenses/postgresql-docs/LICENSE"
+
+    make -C doc/src/sgml DESTDIR="${pkgdir}" install-html
+    chown -R root:root "${pkgdir}/usr/share/doc/postgresql/html/"
+
+    # Clean up
+    rmdir "${pkgdir}"/usr/share/man/man{1,3,7}
+    rmdir "${pkgdir}"/usr/share/man
+}
+
+package_postgresql() {
+    pkgdesc="Sophisticated object-relational DBMS"
+    backup=('etc/pam.d/postgresql'
+            'etc/logrotate.d/postgresql')
+    depends=("postgresql-libs>=${pkgver}" 'krb5' 'libxml2' 'openssl' 'readline')
+    optdepends=('python3: for PL/Python support'
+                'perl: for PL/Perl support'
+                'tcl: for PL/Tcl support'
+                'postgresql-old-upgrade: upgrade from previous major version using pg_upgrade')
+    provides=('akonadi-backend')
+    options=('staticlibs')
+    install=postgresql.install
+
+    cd "${srcdir}/postgresql-${pkgver}"
+
+    # Install
+    make DESTDIR="${pkgdir}" install
+    make -C contrib DESTDIR="${pkgdir}" install
+    make -C doc/src/sgml DESTDIR="${pkgdir}" install-man
+
+    # we don't want these, they are in the -libs package
+    for dir in src/interfaces src/bin/pg_config src/bin/pg_dump src/bin/psql src/bin/scripts; do
+    make -C ${dir} DESTDIR="${pkgdir}" uninstall
+    done
+    for util in pg_config pg_dump pg_dumpall pg_restore psql \
+        clusterdb createdb createuser dropdb dropuser pg_isready reindexdb vacuumdb; do
+    rm "${pkgdir}"/usr/share/man/man1/${util}.1
+    done
+
+    # Install license
+    install -Dm644 COPYRIGHT "${pkgdir}/usr/share/licenses/${pkgbase}/LICENSE"
+
+    # Remove unneeded installed items
+    rm -rf "${pkgdir}/usr/include/postgresql/internal"
+    rm -rf "${pkgdir}/usr/include/libpq"
+    find "${pkgdir}/usr/include" -maxdepth 1 -type f -execdir rm {} +
+    rmdir "${pkgdir}/usr/share/doc/postgresql/html"
+
+    # Install conf file
+    #install -Dm644 "${srcdir}/postgresql.confd" \
+    #    "${pkgdir}/etc/conf.d/postgresql"
+    install -D -m644 "${srcdir}/postgresql.tmpfiles.conf" \
+        "${pkgdir}/usr/lib/tmpfiles.d/postgresql.conf"
+
+    # Install pam file
+    install -Dm644 "${srcdir}/postgresql.pam" \
+        "${pkgdir}/etc/pam.d/postgresql"
+
+    # Install logrotate file
+    install -Dm644 "${srcdir}/postgresql.logrotate" \
+        "${pkgdir}/etc/logrotate.d/postgresql"
+
+    # Install systemd unit
+    install -Dm644 "${srcdir}/postgresql.service" \
+        "${pkgdir}/usr/lib/systemd/system/postgresql.service"
+
+    # ?
+    install -Dm755 "${srcdir}/postgresql-check-db-dir" \
+        "${pkgdir}/usr/bin/postgresql-check-db-dir"
+}
+

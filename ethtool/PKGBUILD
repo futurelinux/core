@@ -1,0 +1,27 @@
+pkgname=ethtool
+pkgver=5.2
+pkgrel=1
+pkgdesc="Utility for controlling network drivers and hardware"
+arch=(x86_64)
+url="https://www.kernel.org/pub/software/network/ethtool/"
+license=('GPL')
+depends=(glibc)
+source=(https://www.kernel.org/pub/software/network/$pkgname/$pkgname-$pkgver.tar.{xz,sign})
+md5sums=('908b2156ec36ef19cbcd525bc5dd2241'
+         'SKIP')
+validpgpkeys=(AC2B29BD34A6AFDDB3F68F35E7BFC8EC95861109) # Ben Hutchings <bwh@kernel.org>
+
+build() {
+  cd ${pkgname}-${pkgver}
+  ./configure \
+    --prefix=/usr \
+    --mandir=/usr/share/man \
+    --sbindir=/usr/bin
+
+  make
+}
+
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="${pkgdir}" install
+}

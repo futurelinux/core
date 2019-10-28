@@ -1,0 +1,25 @@
+# Part of the X.org group
+pkgname=libice
+pkgver=1.0.10
+pkgrel=1
+pkgdesc="X11 Inter-Client Exchange library"
+arch=(x86_64)
+url="http://xorg.freedesktop.org/"
+depends=('glibc' 'xproto')
+makedepends=('pkgconfig' 'xtrans')
+source=(${url}/releases/individual/lib/libICE-${pkgver}.tar.bz2)
+license=('custom')
+sha1sums=('5b5eb125d4f43a3ab8153b0f850963ee6c982c24')
+
+build() {
+  cd libICE-${pkgver}
+  ./configure --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd libICE-${pkgver}
+  make DESTDIR="${pkgdir}" install
+
+  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}

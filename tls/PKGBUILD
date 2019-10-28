@@ -1,0 +1,28 @@
+#
+# Platform Packages for Chakra, part of chakra-project.org
+#
+
+pkgname=tls
+pkgver=1.6.7
+pkgrel=1
+pkgdesc="OpenSSL extension to Tcl"
+arch=('x86_64')
+url="http://tls.sourceforge.net/"
+license=('GPL')
+depends=('tcl' 'openssl' 'awk')
+source=("http://downloads.sourceforge.net/$pkgname/$pkgname$pkgver-src.tar.gz")
+md5sums=('2765d84a7a520c9979d82a0abebc1647')
+
+build() {
+  cd ${srcdir}/tls$pkgver
+
+  ./configure --prefix=/usr --with-ssl-dir=/usr
+  make 
+}
+
+package() {
+  cd ${srcdir}/tls$pkgver
+
+  make DESTDIR=${pkgdir} install
+  ln -s tls${pkgver}/libtls${pkgver}.so ${pkgdir}/usr/lib/libtls${pkgver}.so
+}

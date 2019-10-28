@@ -1,30 +1,44 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/gnutls
 
 pkgname=gnutls
-pkgver=2.12.7
-pkgrel=2
+pkgver=3.5.19
+pkgrel=1
 pkgdesc="A library which provides a secure layer over a reliable transport layer"
-arch=('i686' 'x86_64')
-license=('GPL3' 'LGPL')
-url="http://www.gnu.org/software/gnutls/"
+arch=('x86_64')
+license=('GPL3' 'LGPL2.1')
+url="http://www.gnutls.org/"
 install=gnutls.install
-options=('libtool')
-depends=('gcc-libs>=4.4.3' 'libtasn1>=2.5' 'readline>=6.0' 'zlib' 'libgcrypt>=1.4.5' 'texinfo' 'nettle')
-source=("ftp://ftp.gnu.org/gnu/gnutls/${pkgname}-${pkgver}.tar.bz2")
-md5sums=('4b48aa3119f549d30d550bf4162c721b')
+options=('!zipman')
+depends=('gcc-libs' 'libidn' 'libtasn1' 'libunistring' 'readline' 'zlib' 'nettle' 'p11-kit' 'libidn')
+optdepends=('guile: for use with Guile bindings')
+source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v3.5/${pkgname}-${pkgver}.tar.xz{,.sig})
+sha256sums=('1936eb64f03aaefd6eb16cef0567457777618573826b94d03376bb6a4afadc44'
+            'SKIP')
+validpgpkeys=('0424D4EE81A0E3D119C6F835EDA21E94B565716F'
+              '1F42418905D8206AA754CCDC29EE58B996865171')
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr --with-zlib --with-libgcrypt --disable-guile || return 1
-  make || return 1
+  cd ${pkgname}-${pkgver}
+  ./configure --prefix=/usr \
+	--with-zlib \
+	--without-idn \
+	--disable-static \
+	--enable-guile --with-guile-site-dir=no \
+	--with-default-trust-store-pkcs11="pkcs11:model=p11-kit-trust;manufacturer=PKCS%2311%20Kit"
+  make
+}
+
+check() {
+  cd ${pkgname}-${pkgver}
+  make -j1 check | true
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  make DESTDIR="${pkgdir}" install || return 1
-}
+  cd ${pkgname}-${pkgver}
+  make DESTDIR="${pkgdir}" install
 
-# vim:set ts=2 sw=2 et:
+  # lots of .png files are put into infodir and are gzipped by makepkg! this needs to be fixed by using !zipman
+  # gzip -9 all files in infodir and manpages manually
+  find "$pkgdir/usr/share/info" -name '*.info*' -exec gzip -9 {} \;
+  find "$pkgdir/usr/share/man" -exec gzip -9 {} \;
+}

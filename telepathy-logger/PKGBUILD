@@ -1,0 +1,33 @@
+pkgname=telepathy-logger
+pkgver=0.8.2
+pkgrel=2
+pkgdesc="Telepathy framework logging daemon"
+arch=('x86_64')
+url="http://telepathy.freedesktop.org/wiki/Logger"
+license=('LGPL2.1')
+depends=('telepathy-glib' 'sqlite3' 'libxml2' 'python2')
+makedepends=('intltool' 'gobject-introspection' 'libxslt')
+install=${pkgname}.install
+options=('!libtool')
+source=("http://telepathy.freedesktop.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+md5sums=('c2f6a31c76cbdf8790500cf4f872ba71')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  ./configure --prefix=/usr \
+    --sysconfdir=/etc \
+    --libexecdir=/usr/lib/telepathy \
+    --disable-static \
+    --disable-scrollkeeper \
+    --enable-call \
+    --disable-schemas-compile
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="$pkgdir/" install
+  rm -r $pkgdir/usr/share/gtk-doc
+}
+

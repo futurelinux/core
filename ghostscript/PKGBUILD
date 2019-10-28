@@ -1,0 +1,77 @@
+#
+# Platform Packages for Chakra, part of chakralinux.org
+#
+
+pkgname=ghostscript
+pkgver=9.27
+pkgrel=2
+pkgdesc="An interpreter for the PostScript language"
+arch=('x86_64')
+license=('AGPL' 'custom')
+depends=('libxt' 'libcups' 'fontconfig' 'zlib' 'libpng' 'libjpeg'
+          'libtiff' 'libxext' 'lcms2' 'dbus' 'libpaper')
+makedepends=('gnutls' 'hardening-wrapper')
+optdepends=('texlive-core:      needed for dvipdf')
+url="http://www.ghostscript.com/"
+source=(https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${pkgver/./}/ghostscript-${pkgver}.tar.xz
+        ghostscript-sys-zlib.patch)
+options=('!makeflags')
+# https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
+sha1sums=('f926d2cfb418a7c5d92dce0a9843fa01ee62fe2c'
+          'e054caf753df4d67221b29a2eac66130653f7556')
+
+prepare() {
+  cd ghostscript-${pkgver}
+  # fix build with system zlib
+  patch -Np1 -i ${srcdir}/ghostscript-sys-zlib.patch
+}
+
+build() {
+  cd ghostscript-${pkgver}
+  
+  # force it to use system-libs
+  # keep heavily patched included openjpeg, leads to segfault with system openjpeg
+  # https://bugs.archlinux.org/task/38226
+  rm -rfv cups/libs freetype jpeg lcms2 libpng tiff zlib
+
+  autoconf --force
+
+  ./configure --prefix=/usr \
+	--enable-dynamic \
+	--without-omni \
+	--with-x \
+	--with-drivers=ALL\
+	--with-fontpath=/usr/share/fonts/Type1:/usr/share/fonts \
+	--enable-fontconfig \
+	--enable-freetype \
+	--enable-openjpeg \
+	--without-luratech \
+	--with-system-libtiff \
+	--with-libpaper \
+	--disable-gtk \
+	--disable-compile-inits #--help # needed for linking with system-zlib
+  make so
+  make
+}
+
+package() {
+  cd ghostscript-${pkgver}
+  make DESTDIR="${pkgdir}" \
+	cups_serverroot="${pkgdir}"/etc/cups \
+	cups_serverbin="${pkgdir}"/usr/lib/cups install install-so
+
+  # drop full libs linked gs, prefer gsc dynamically linked against libgs; FS#50422
+  ln -sf /usr/bin/gsc "${pkgdir}"/usr/bin/gs
+
+
+  # remove useless broken doc/ symlink - FS#59507
+  rm -f "${pkgdir}"/usr/share/ghostscript/${pkgver}/doc
+  
+  install -D -m644 LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
+
+  # remove unwanted localized man-pages
+  rm -rf "$pkgdir"/usr/share/man/[^man1]*
+
+  # remove filters that are now maintained in cups-filters as upstream home
+  rm -rf "$pkgdir"/usr/lib/cups/filter/{gstopxl,gstoraster}
+}

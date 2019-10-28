@@ -1,0 +1,23 @@
+# Contributions from Arch: https://www.archlinux.org/packages/extra/x86_64/libasyncns/
+
+pkgname=libasyncns
+pkgver=0.8
+pkgrel=2
+pkgdesc="A C library for Linux/Unix for executing name service queries asynchronously"
+arch=('x86_64')
+url="http://0pointer.de/lennart/projects/libasyncns"
+license=('LGPL')
+depends=('glibc')
+source=(http://0pointer.de/lennart/projects/libasyncns/${pkgname}-${pkgver}.tar.gz)
+md5sums=('1f553d6ce1ad255bc83b3d8e9384f515')
+
+build() {
+  cd ${srcdir}/libasyncns-${pkgver}
+  ./configure --prefix=/usr --disable-lynx
+  make
+}
+
+package() {
+  cd ${srcdir}/libasyncns-${pkgver}
+  make DESTDIR=${pkgdir} install
+}

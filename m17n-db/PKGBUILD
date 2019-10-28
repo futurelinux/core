@@ -1,0 +1,21 @@
+pkgname=m17n-db
+pkgver=1.8.0
+pkgrel=1
+pkgdesc='Multilingual text processing library (database)'
+url='http://www.nongnu.org/m17n/'
+arch=('x86_64')
+license=('GPL')
+depends=('glibc') # not because of compiling, but because of /usr/share/i18n/charmaps/ files that glibc provides
+source=("https://download.savannah.gnu.org/releases/m17n/${pkgname}-${pkgver}.tar.gz")
+sha1sums=('b314d22e726b06676f405ac1e06cad2823868bc3')
+ 
+build() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	./configure --prefix=/usr
+	make
+}
+ 
+package() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	make DESTDIR="${pkgdir}" install
+}

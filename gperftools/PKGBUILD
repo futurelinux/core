@@ -1,0 +1,40 @@
+
+pkgname=gperftools
+pkgver=2.6.2
+pkgrel=2
+pkgdesc="Fast, multi-threaded malloc() and nifty performance analysis tools"
+arch=('x86_64')
+url="https://github.com/gperftools/gperftools"
+license=('BSD')
+depends=('perl')
+provides=('libtcmalloc.so'
+          'libprofiler.so'
+          'libtcmalloc_debug.so'
+          'libtcmalloc_and_profiler.so'
+          'libtcmalloc_minimal.so'
+          'libtcmalloc_minimal_debug.so')
+#makedepends=('git')
+optdepends=('graphviz: pprof graph generation'
+            'gv: pprof postscript generation')
+source=("https://github.com/gperftools/gperftools/archive/$pkgname-$pkgver.tar.gz")
+md5sums=('7cfbe9bc4add4506725e320166c21df5')
+
+prepare() {
+  cd $pkgname-$pkgname-$pkgver
+
+  ./autogen.sh
+}
+
+build() {
+  cd $pkgname-$pkgname-$pkgver
+
+  ./configure --prefix=/usr --enable-frame-pointers
+  make
+}
+
+package() {
+  cd $pkgname-$pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

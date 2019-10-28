@@ -1,0 +1,85 @@
+pkgname=networkmanager
+_pkgname=NetworkManager
+pkgver=1.14.4
+pkgrel=1
+pkgdesc="Network Management daemon"
+arch=('x86_64')
+license=(GPL2 LGPL2.1)
+url="https://wiki.gnome.org/Projects/NetworkManager"
+_pppver=2.4.7
+depends=(iproute2 polkit wpa_supplicant libsoup modemmanager
+         libnewt libndp libteam curl "ppp=$_pppver"
+         libgudev nss dbus-glib util-linux jansson systemd bluez-libs glib-networking)
+makedepends=(intltool dhclient iptables gobject-introspection gtk-doc "ppp=$_pppver" modemmanager
+             dbus-glib iproute2 nss polkit wpa_supplicant libsoup systemd libgudev rp-pppoe
+             libnewt libndp libteam vala perl-yaml python3-gobject git vala jansson bluez-libs meson)
+checkdepends=(libx11 python3-dbus)
+_commit=66cad942f2404a5bac0df1a623fb5d72ab8f4d20  # tags/1.14.4^0
+optdepends=('dnsmasq: connection sharing'
+            'bluez: Bluetooth support'
+            'openresolv: resolvconf support'
+            'ppp: dialup connection support'
+            'rp-pppoe: ADSL support'
+            'dhclient: External DHCP client'
+            'modemmanager: cellular network support')
+backup=('etc/NetworkManager/NetworkManager.conf')
+source=("git+https://anongit.freedesktop.org/git/NetworkManager/NetworkManager#commit=$_commit"
+        NetworkManager.conf 20-connectivity.conf)
+sha256sums=('SKIP'
+            'dd2d3a9c8a08ce961e263e1847453890f1b24c72a806d8c83a5b69b227a5ccec'
+            'b1266936545fb8747ca31e7672a1867536982c7e9c2967bda746e0ec24c1ab0c')
+
+pkgver() {
+  cd NetworkManager
+  git describe | sed 's/-dev/dev/;s/-rc/rc/;s/-/+/g'
+}
+
+prepare() {
+  cd NetworkManager
+}
+
+build() {
+  cd NetworkManager
+  local meson_args=(
+    # LTO breaks NM_BACKPORT_SYMBOL
+    # https://gitlab.freedesktop.org/NetworkManager/NetworkManager/issues/63
+    -D b_lto=false
+
+    -D dbus_conf_dir=/usr/share/dbus-1/system.d
+    -D dist_version="$pkgver-$pkgrel"
+    -D session_tracking_consolekit=false
+    -D suspend_resume=systemd
+    -D modify_system=true
+    -D polkit_agent=true
+    -D selinux=false
+    -D iwd=true
+    -D pppd_plugin_dir=/usr/lib/pppd/$_pppver
+    -D teamdctl=true
+    -D libnm_glib=true
+    -D bluez5_dun=true
+    -D config_plugins_default=keyfile,ibft
+    -D ibft=true
+    -D docs=true
+    -D more_asserts=no
+    -D more_logging=false
+    -D qt=true
+  )
+
+  arch-meson NetworkManager build "${meson_args[@]}"
+  ninja -C build
+}
+
+check() {
+  meson test -C build
+}
+
+package() {
+  cd NetworkManager
+  DESTDIR="$pkgdir" meson install -C build
+
+  install -dm700 "$pkgdir/etc/NetworkManager/system-connections"
+  install -d "$pkgdir"/etc/NetworkManager/{conf,dnsmasq}.d
+  install -m644 ../NetworkManager.conf "$pkgdir/etc/NetworkManager/"
+  install -Dm644 ../20-connectivity.conf \
+    "$pkgdir/usr/lib/NetworkManager/conf.d/20-connectivity.conf"
+}

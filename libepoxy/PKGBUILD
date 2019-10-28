@@ -1,0 +1,37 @@
+# Maintainer: AlmAck
+
+pkgname=libepoxy
+pkgver=1.4.1
+pkgrel=1
+pkgdesc="A library for handling OpenGL function pointer management for you"
+url="https://github.com/anholt/libepoxy"
+arch=('x86_64')
+license=(MIT)
+depends=('glibc')
+makedepends=('python3' 'mesa-libgl' 'meson' 'doxygen' 'graphviz')
+source=("$pkgname-$pkgver::https://github.com/anholt/${pkgname}/archive/${pkgver}.tar.gz")
+md5sums=('SKIP')
+
+prepare() {
+  mkdir build
+}
+
+build() {
+  cd build
+  export LANG=en_US.UTF-8
+  meson --prefix=/usr --buildtype=release ../$pkgname-$pkgver -Denable-docs=true
+  ninja
+}
+
+check() {
+  cd build
+  ninja test
+}
+
+package() {
+  cd build
+  DESTDIR="$pkgdir" ninja install
+
+  cd ../$pkgname-$pkgver
+  install -Dm644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/COPYING
+}

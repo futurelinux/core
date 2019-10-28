@@ -1,0 +1,47 @@
+pkgname=qtscriptgenerator
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="Script generator for qt"
+arch=("x86_64")
+url="http://code.google.com/p/qtscriptgenerator/"
+license=('GPL')
+depends=('qt' 'phonon')
+makedepends=('pkgconfig' 'mesa')
+source=("https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/$pkgname/$pkgname-src-$pkgver.tar.gz"
+        phonon.patch
+        no-phonon.patch)
+md5sums=('9f82b0aa212f7938de37df46cd27165c'
+         'b32a1d02d2e3d6d908bb08d5a6ae877a'
+         'e92365025276e89ba48d5921ed0fea92')
+
+prepare() {
+  cd $pkgname-src-$pkgver
+# Don't build webkit or phonon bindings
+  sed -e '/webkit/d' -e '/phonon/d' -i qtbindings/qtbindings.pro
+
+  patch -p1 -i "${srcdir}"/phonon.patch
+  patch -p1 -i "${srcdir}"/no-phonon.patch
+}
+
+build() {
+  cd "${srcdir}"/$pkgname-src-$pkgver
+
+  # prepare plugins
+  cd generator
+  qmake
+  make
+  ./generator --include-paths=/usr/include
+
+  # build plugins
+  cd "${srcdir}"/$pkgname-src-$pkgver/qtbindings
+  qmake
+  make
+}
+
+package() {
+  cd "${srcdir}"/$pkgname-src-$pkgver/qtbindings
+  # move plugins to correct directory
+  install -d "${pkgdir}"/usr/lib/qt/plugins/script
+  mv "${srcdir}"/$pkgname-src-$pkgver/plugins/script/* \
+    "${pkgdir}"/usr/lib/qt/plugins/script/
+}

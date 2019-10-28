@@ -1,0 +1,174 @@
+pkgbase=otf-source-han-sans
+pkgname=($pkgbase $pkgbase-kr $pkgbase-cn $pkgbase-tw $pkgbase-hk ${pkgbase/otf/otc})
+pkgver=2.001
+pkgrel=1
+pkgdesc='Adobe Source Han Sans - A set of Pan-CJK fonts designed to complement Source Sans Pro'
+arch=('any')
+license=('custom:OFL')
+url='https://github.com/adobe-fonts/source-han-sans'
+depends=('fontconfig')
+source=()
+
+_commit=a69eda09a2fb57836e055bddb0a9a61b162ad1e6
+_weights=("Bold" "ExtraLight" "Heavy" "Light" "Medium" "Normal" "Regular")
+_font=("OTC SourceHanSans ttc ${pkgbase/otf/otc} 44-source-han-sans-otc.conf"
+       "OTF/Japanese SourceHanSans otf $pkgbase 44-source-han-sans.conf"
+       "OTF/Korean SourceHanSansK otf $pkgbase-kr 44-source-han-sans-kr.conf"
+       "OTF/SimplifiedChinese SourceHanSansSC otf $pkgbase-cn 44-source-han-sans-cn.conf"
+       "OTF/TraditionalChinese SourceHanSansTC otf $pkgbase-tw 44-source-han-sans-tw.conf"
+       "OTF/TraditionalChineseHK SourceHanSansHC otf $pkgbase-hk 44-source-han-sans-hk.conf")
+
+_pkgdesc=("Adobe Source Han Sans - Pan-CJK OpenType/CFF Collection fonts"
+          "Adobe Source Han Sans - Japanese OpenType/CFF fonts"
+          "Adobe Source Han Sans - Korean OpenType/CFF fonts"
+          "Adobe Source Han Sans - Simplified Chinese OpenType/CFF fonts"
+          "Adobe Source Han Sans - Traditional Chinese (Taiwan) OpenType/CFF fonts"
+          "Adobe Source Han Sans - Traditional Chinese (Hong Kong) OpenType/CFF fonts")
+
+_replace=("" "$pkgbase-jp=1.000" "$pkgbase-kr=1.000" "$pkgbase-cn=1.000" "$pkgbase-twhk=1.000")
+
+for((idx=0;idx<${#_font[@]};idx++)); do
+    _info=${_font[$idx]}
+    _args=($_info)
+    source+=("${_args[4]}")
+    for w in "${_weights[@]}"; do
+        source+=("https://github.com/adobe-fonts/source-han-sans/raw/$_commit/${_args[0]}/${_args[1]}-${w}.${_args[2]}")
+        if  [[ $idx -gt 1  ]]; then
+          source+=("https://github.com/adobe-fonts/source-han-sans/raw/$_commit/${_args[0]}HW/${_args[1]/SourceHanSans/SourceHanSansHW}-Regular.${_args[2]}")
+          source+=("https://github.com/adobe-fonts/source-han-sans/raw/$_commit/${_args[0]}HW/${_args[1]/SourceHanSans/SourceHanSansHW}-Bold.${_args[2]}")
+        fi
+    done
+    eval "function package_${_args[3]}() { _package $idx; }"
+done
+
+function _package {
+    cd "$srcdir"
+    idx=$1
+
+    _info=${_font[$idx]}
+    _args=($_info)
+    _fontconfig_filename=${_args[4]}
+    pkgdesc=${_pkgdesc[$idx]}
+    if [[ "${_replace[$idx]}" != "" ]]; then
+         replaces=("${_replace[$idx]}")
+         conflicts=("${_replace[$idx]}")
+    fi
+
+    # Prepare destination directory
+    install -dm755 "$pkgdir/usr/share/fonts/OTF"
+
+    for w in "${_weights[@]}"; do
+	font="${_args[1]}-${w}.${_args[2]}"
+        install -m644 "$font" "$pkgdir/usr/share/fonts/OTF/"
+    done
+
+    # Install fontconfig fix
+    install -d "$pkgdir/etc/fonts/conf.d"
+    install -Dm644 "$srcdir/$_fontconfig_filename" "$pkgdir/etc/fonts/conf.avail/$_fontconfig_filename"
+    ln -s ../conf.avail/$_fontconfig_filename "$pkgdir/etc/fonts/conf.d/$_fontconfig_filename"
+}
+
+sha256sums=('71397a72a3b0738db191db2b924eed7804e8fe83af17582505e104e9eedc0da7'
+            'c6b92064ea16a0b3953e576e874b939c3f5c548d9afc3a09928d67a97fd4f720'
+            'a7854a2ab31d6f5d8073659a76e95c1d20d9ffc9f141709066615aead3b24e33'
+            'd63a52b0b01ec8b22cc5ce0f1e2fc2526f954e59e29f4c6dc408594f2cfdccd3'
+            '8aaea417701c3cadecc411836273fc8638dfc48a4bab4a14af351e61e6addf5b'
+            'd05cc11d863cca6761d754785c3ad93a4c1bd5f885c554b7510a94f6e6e84d4c'
+            '415321508ff43993cda9e3acdf9d3515ff95cc904a4392bfc67c008d7d4665d7'
+            'aba89747cadf8525e1baa8da817deeefd34a3d61e9c121c70ead7d38098a8e1b'
+            '18225126927cc7814fe92a3e72332685f78598afbe4ea69a2be84af825dbd1e6'
+            'd2c585eb956d4f23214026483f49039b40a930cf755260983a4c9ff842e509cc'
+            '1e10c2647651e73b52c776a06ff6394389f1f49f8989a0db00d6897d9c339324'
+            'b4032611074624e0522b968e25114ec3ce795f31d82ea22e55765af84c434f82'
+            '92fa45adcc2757edac2df8439cbb8cf356059fa670e93da60a9638cce0f1669e'
+            '240320a58f075735d69e66b5daf3a1e7557365047a5454962ef990289de3357a'
+            '4dab2aea00e382ade75ab27a8c43f022a6fda851c8fb0e5658f7bd76cf9e7a6f'
+            '23d44666724942cf1c24a2ee17be4067609e0f8f238cd5880a57b97a298d147c'
+            'd975db0d9df4c71267cbb78bdb0c2ae526666162fd256c326041562a83d2b758'
+            'f37586581a947ae0b93cd7e239c3e5dfd8011b8127e51222b86626b639b8395f'
+            '11fa3c2fb71f2d01ed42777f53ce78d998c883ed9db23d7cc737558cbe690102'
+            'f52de267c1f36804b69440c7053f333864f500f12eb11d8aa9186b7da79a092b'
+            '1fe3b6ffc45dd7be931fe0e79833941d8b0b3dd997e98056df87e51c546967db'
+            '11fa3c2fb71f2d01ed42777f53ce78d998c883ed9db23d7cc737558cbe690102'
+            'f52de267c1f36804b69440c7053f333864f500f12eb11d8aa9186b7da79a092b'
+            '7a0f734b42db19ac5c1b87b2d7b3b8f46dfd292f5e95e336e7c3940c6ca7503a'
+            '11fa3c2fb71f2d01ed42777f53ce78d998c883ed9db23d7cc737558cbe690102'
+            'f52de267c1f36804b69440c7053f333864f500f12eb11d8aa9186b7da79a092b'
+            'aba98a34fdd7bcd68efa33d5745047bcdd4a824b4236ac12bc300a1038ba4158'
+            '11fa3c2fb71f2d01ed42777f53ce78d998c883ed9db23d7cc737558cbe690102'
+            'f52de267c1f36804b69440c7053f333864f500f12eb11d8aa9186b7da79a092b'
+            '46da4514cb6f2a95448b8983b0de8d16daa906180594d5c122bf951c41a19589'
+            '11fa3c2fb71f2d01ed42777f53ce78d998c883ed9db23d7cc737558cbe690102'
+            'f52de267c1f36804b69440c7053f333864f500f12eb11d8aa9186b7da79a092b'
+            '4b4dacbc54729b1fa5e6d6d03938e0514030be12c7b37f156bc1a5fe23a44968'
+            '11fa3c2fb71f2d01ed42777f53ce78d998c883ed9db23d7cc737558cbe690102'
+            'f52de267c1f36804b69440c7053f333864f500f12eb11d8aa9186b7da79a092b'
+            '2f2b9ce66a2f1318cb0fa84864e762289eb01587f41fa384775251773da6329c'
+            '11fa3c2fb71f2d01ed42777f53ce78d998c883ed9db23d7cc737558cbe690102'
+            'f52de267c1f36804b69440c7053f333864f500f12eb11d8aa9186b7da79a092b'
+            '140db21c2ff0966c1ba52f2945d8b368516f898abddad28a817849337aa7f917'
+            'df560f379d55a0c9859add605dd67e0721955fde3cd76c41c5f8d6cba7823d41'
+            '1efac76308afce214144f38471044219d86f322535c7c5397aeb346d2f110144'
+            '9bfcee3fda584b0ce80c9cfac4dcfaea41f5bb94efbf23178e64a8b5920420a3'
+            '8c396d89f72db75b57c014df1ef2c36b18ae09eff4135790032ba4fa628fed22'
+            '1efac76308afce214144f38471044219d86f322535c7c5397aeb346d2f110144'
+            '9bfcee3fda584b0ce80c9cfac4dcfaea41f5bb94efbf23178e64a8b5920420a3'
+            'b98b102ba73279f0972162f77d924fd159af221abb106a46333dac96c76f38fc'
+            '1efac76308afce214144f38471044219d86f322535c7c5397aeb346d2f110144'
+            '9bfcee3fda584b0ce80c9cfac4dcfaea41f5bb94efbf23178e64a8b5920420a3'
+            '8e06e7642097aff11a5487f74f80efd5caaa1b4730cd08ef53a4efe1cdd20a7c'
+            '1efac76308afce214144f38471044219d86f322535c7c5397aeb346d2f110144'
+            '9bfcee3fda584b0ce80c9cfac4dcfaea41f5bb94efbf23178e64a8b5920420a3'
+            'b6d06ae567c25e347e5f04026179277aab7c2bf495dc4ea88a67a95e365deba7'
+            '1efac76308afce214144f38471044219d86f322535c7c5397aeb346d2f110144'
+            '9bfcee3fda584b0ce80c9cfac4dcfaea41f5bb94efbf23178e64a8b5920420a3'
+            'cc16029b6acb921cfae59ceb6c83e81f252123c8ad80e108a5a470cfc93114a1'
+            '1efac76308afce214144f38471044219d86f322535c7c5397aeb346d2f110144'
+            '9bfcee3fda584b0ce80c9cfac4dcfaea41f5bb94efbf23178e64a8b5920420a3'
+            'a2125a726118e672952ebc914bdf3e7ef4b8f7c19f56c1044b747a02d107a111'
+            '1efac76308afce214144f38471044219d86f322535c7c5397aeb346d2f110144'
+            '9bfcee3fda584b0ce80c9cfac4dcfaea41f5bb94efbf23178e64a8b5920420a3'
+            '12c80ff78aaa29574183038527a191ff4f4948a237e923c0a95dec4c22b200d0'
+            '39114bcc27590bf78baf7f6d2082c078df9932fd7ea63d76629523c40f77d381'
+            'e20f5e3c761b88214d8db1aa2eacd58227a82619dab2a95ac1310cb636ff6a64'
+            'dff7d2b25b85bc9712b617ec56e8f80bd07cb036dca2e21792c590efd881a1b1'
+            'aefb5d4ab370c8ad2656b54613fa1c21b378e6538eb1438c5efe05f93c8dccba'
+            'e20f5e3c761b88214d8db1aa2eacd58227a82619dab2a95ac1310cb636ff6a64'
+            'dff7d2b25b85bc9712b617ec56e8f80bd07cb036dca2e21792c590efd881a1b1'
+            'a2c0ca756767484f5ddb079b86ee5e54520e0886d372ce0cf9703da4a0b3d240'
+            'e20f5e3c761b88214d8db1aa2eacd58227a82619dab2a95ac1310cb636ff6a64'
+            'dff7d2b25b85bc9712b617ec56e8f80bd07cb036dca2e21792c590efd881a1b1'
+            '4f610b1988c6d5a586bc79107b0d5ca5b3d2bac2b0920238230e0157245ec26a'
+            'e20f5e3c761b88214d8db1aa2eacd58227a82619dab2a95ac1310cb636ff6a64'
+            'dff7d2b25b85bc9712b617ec56e8f80bd07cb036dca2e21792c590efd881a1b1'
+            'edab9a3d4376f91744379fed92a9539d3b2e27eba3362731d2046121821266a7'
+            'e20f5e3c761b88214d8db1aa2eacd58227a82619dab2a95ac1310cb636ff6a64'
+            'dff7d2b25b85bc9712b617ec56e8f80bd07cb036dca2e21792c590efd881a1b1'
+            '6e26619ff7674d70931cedac674dd0be8e099218803a23501e1a1f6c07cb2e0a'
+            'e20f5e3c761b88214d8db1aa2eacd58227a82619dab2a95ac1310cb636ff6a64'
+            'dff7d2b25b85bc9712b617ec56e8f80bd07cb036dca2e21792c590efd881a1b1'
+            '17502f8dc264aec71cb66d3fd3c31d4b89cbb6e4e259b0aa93451a7100825893'
+            'e20f5e3c761b88214d8db1aa2eacd58227a82619dab2a95ac1310cb636ff6a64'
+            'dff7d2b25b85bc9712b617ec56e8f80bd07cb036dca2e21792c590efd881a1b1'
+            'f3026b9678a1f72bd89afc763aab67644f8b416a401351a7e8c7f8f4468705ca'
+            '1dec4da23b1414904ae2bc876c6ba39a3fd221e1738625ef00339dddf8d1c3e2'
+            'cd60577a81dbe76491b9212ae411a8bda251afc01973a79ca7f6be9091fcde87'
+            'ef1a8cef1649541c4d04c894282b14b754e036ceaf308cef318a7a8b2438fb53'
+            '1a3d2352b430720ae3acfb60a187e39fb49914aba9d2e3fbcba4775f25c697ff'
+            'cd60577a81dbe76491b9212ae411a8bda251afc01973a79ca7f6be9091fcde87'
+            'ef1a8cef1649541c4d04c894282b14b754e036ceaf308cef318a7a8b2438fb53'
+            '8bffc6ecf2978bc89fc54e8f14fa67f5b1f7fffefa1e4a4dfffb9e4829eee9c8'
+            'cd60577a81dbe76491b9212ae411a8bda251afc01973a79ca7f6be9091fcde87'
+            'ef1a8cef1649541c4d04c894282b14b754e036ceaf308cef318a7a8b2438fb53'
+            '725dcfea41e0f505a6694fc1bbd281070f9a4b6181d3ad5b733aabd93592de44'
+            'cd60577a81dbe76491b9212ae411a8bda251afc01973a79ca7f6be9091fcde87'
+            'ef1a8cef1649541c4d04c894282b14b754e036ceaf308cef318a7a8b2438fb53'
+            'b5b5c66021043309505c793a52013a7d883a27ec90257ac5bfe7e532a419446c'
+            'cd60577a81dbe76491b9212ae411a8bda251afc01973a79ca7f6be9091fcde87'
+            'ef1a8cef1649541c4d04c894282b14b754e036ceaf308cef318a7a8b2438fb53'
+            '54715c82cc1a2fcd15f3445fba7202477758d61e65ac132457ec71fdc829d7d3'
+            'cd60577a81dbe76491b9212ae411a8bda251afc01973a79ca7f6be9091fcde87'
+            'ef1a8cef1649541c4d04c894282b14b754e036ceaf308cef318a7a8b2438fb53'
+            '545a6a5eb41891f3d7e5f9a5c505a565523f521978cc5c4ceec3373312366c8b'
+            'cd60577a81dbe76491b9212ae411a8bda251afc01973a79ca7f6be9091fcde87'
+            'ef1a8cef1649541c4d04c894282b14b754e036ceaf308cef318a7a8b2438fb53')

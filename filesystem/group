@@ -12,15 +12,16 @@ wheel:x:10:root
 ftp:x:11:
 mail:x:12:
 uucp:x:14:
-log:x:19:root
 utmp:x:20:
 locate:x:21:
 rfkill:x:24:
 smmsp:x:25:
+proc:x:26:
 http:x:33:
 games:x:50:
 lock:x:54:
 uuidd:x:68:
+dbus:x:81:
 network:x:90:
 video:x:91:
 audio:x:92:
@@ -31,3 +32,9 @@ scanner:x:96:
 power:x:98:
 nobody:x:99:
 users:x:100:
+lpadmin:x:107:
+systemd-journal:x:110:
+systemd-timesync:x:112:
+systemd-network:x:113:
+systemd-bus-proxy:x:114:
+systemd-resolve:x:115:

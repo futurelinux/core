@@ -1,0 +1,49 @@
+pkgname=pypy
+pkgver=7.2.0
+pkgrel=1
+pkgdesc="A Python implementation written in Python, JIT enabled"
+arch=('x86_64')
+url="https://pypy.org/"
+license=('MIT')
+depends=('expat' 'bzip2' 'gdbm' 'openssl' 'libffi' 'zlib' 'ncurses')
+makedepends=('python2' 'tk' 'sqlite3' 'mercurial' 'python2-pycparser')
+optdepends=('sqlite: sqlite module'
+            'tk: tk module')
+source=("https://bitbucket.org/${pkgname}/${pkgname}/downloads/pypy2.7-v$pkgver-src.tar.bz2")
+options=(!buildflags)
+sha256sums=('55cb7757784fbe3952102447f65b27d80e6c885a464a7af1a9ce264492439dcc')
+
+build() {
+  cd pypy2.7-v${pkgver}-src/pypy/goal
+
+  python2 ../../rpython/bin/rpython -Ojit --shared targetpypystandalone
+
+  # Compile binary modules
+  PYTHONPATH=../.. ./pypy-c ../tool/build_cffi_imports.py
+}
+
+package() {
+  cd pypy2.7-v${pkgver}-src
+
+  # Prepare installation
+  python2 pypy/tool/release/package.py --archive-name pypy --targetdir .
+  mkdir unpacked
+  tar xf pypy.tar.bz2 -C unpacked
+
+  # Install pypy
+  cd unpacked
+  install -Dm755 pypy/bin/pypy "${pkgdir}"/opt/pypy/bin/pypy
+  install -Dm755 pypy/bin/libpypy-c.so "${pkgdir}"/opt/pypy/bin/libpypy-c.so
+  cp -r pypy/include pypy/lib_pypy pypy/lib-python pypy/site-packages "${pkgdir}"/opt/pypy/
+  cd ..
+
+  # Install symlink
+  mkdir -p "${pkgdir}"/usr/bin "${pkgdir}"/usr/lib
+  ln -s /opt/pypy/bin/pypy "${pkgdir}"/usr/bin/pypy
+  ln -s /opt/pypy/bin/libpypy-c.so "${pkgdir}"/usr/lib/libpypy-c.so
+
+  # Install misc stuff
+  install -Dm644 README.rst "${pkgdir}"/opt/pypy/README.rst
+  install -Dm644 LICENSE "${pkgdir}"/opt/pypy/LICENSE
+  install -Dm644 LICENSE "${pkgdir}"/usr/share/licenses/pypy/LICENSE
+}

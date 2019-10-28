@@ -1,8 +1,10 @@
-NAME="The Chakra-Project"
-VERSION="Claire"
+NAME="Chakra"
 ID=chakra
-PRETTY_NAME="The Chakra-Project (Claire)"
+PRETTY_NAME="Chakra"
 ANSI_COLOR="0;36"
-HOME_URL="http://www.chakra-project.org/"
-BUG_REPORT_URL="http://chakra-linux.org/bugs/"
+HOME_URL="https://www.chakralinux.org/"
+SUPPORT_URL="https://community.chakralinux.org/"
+BUG_REPORT_URL="https://code.chakralinux.org"
+DOCUMENTATION_URL=""
+LOGO="https://rsync.chakralinux.org/sources/chakra.png"
 

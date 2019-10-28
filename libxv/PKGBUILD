@@ -1,0 +1,29 @@
+# Part of the X.org group
+# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libxv
+
+pkgname=libxv
+# Caution: This package has a lib32 alternative, make sure to update that one as well
+pkgver=1.0.11
+pkgrel=1
+pkgdesc="X11 Video extension library"
+arch=(x86_64)
+license=('custom')
+url="http://xorg.freedesktop.org/"
+depends=('libxext' 'videoproto')
+makedepends=('pkgconfig')
+source=(${url}/releases/individual/lib/libXv-${pkgver}.tar.bz2)
+sha1sums=('d79f9c56faedd682f420fa68bb9d7ff755b84579')
+
+build() {
+  cd "${srcdir}/libXv-${pkgver}"
+  ./configure --prefix=/usr --disable-static 
+  make
+}
+
+package() {
+  cd "${srcdir}/libXv-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

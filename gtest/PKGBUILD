@@ -1,0 +1,107 @@
+# Contributions from Arch:
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Contributor: Alexandre Bique <bique.alexandre@gmail.com>
+# Contributor: Louis R. Marascio <lrm@fitnr.com>
+# Contributor: Cody Maloney <cmaloney@theoreticalchaos.com>
+
+pkgbase=gtest
+pkgname=('gtest' 'gmock')
+pkgver=1.8.1
+pkgrel=2
+pkgdesc='Google Test - C++ testing utility'
+url='https://github.com/google/googletest/'
+arch=('x86_64')
+license=('BSD')
+makedepends=('python2' 'cmake' 'gcc-libs' 'sh')
+_srcname=googletest-release-${pkgver}
+source=(${_srcname}.tar.gz::https://github.com/google/googletest/archive/release-${pkgver}.tar.gz
+        gtest-1.8.1-libversion.patch
+        gtest-1.8.1-null-pointer.patch)
+sha256sums=('9bf1fe5182a604b4135edc1a425ae356c9ad15e9b23f9f12a02e80184c3a249c'
+            '316dce63a38f366b087da71ef3d14ea2190e26dc521bb5cd53c0e3b2d6759f32'
+            'f93800528ec5bf84479b120e5a5e397b8e578d8f56622b82eb27e6c5234f5679')
+
+prepare() {
+  cd ${_srcname}
+  cp ../gtest-1.8.1-libversion.patch gtest-1.8.1-libversion.patch
+  sed "s|__GOOGLETEST_VERSION__|${pkgver}|g" -i gtest-1.8.1-libversion.patch
+  # https://src.fedoraproject.org/rpms/gtest/tree/master
+  patch -Np1 -i gtest-1.8.1-libversion.patch
+  patch -Np1 -i ../gtest-1.8.1-null-pointer.patch
+
+  find . -name '*.py' -exec sed -i '1s|python$|&2|g' {} +
+
+  # fixup version as they are never correct
+  sed -E "s|(GOOGLETEST_VERSION) [0-9\\.]+|\\1 ${pkgver}|" -i CMakeLists.txt
+  sed -E "s|^( +)\\[[0-9\\.]+\\],$|\\1[${pkgver}],|" -i {googletest,googlemock,.}/configure.ac
+  sed -E "s|(GTEST_MIN_VERSION)=\"1.8.0\"|\\1=\"${pkgver}\"|" -i googlemock/configure.ac
+}
+
+build() {
+  cmake -H${_srcname} -Bbuild \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DBUILD_SHARED_LIBS=ON \
+    -DPython_ADDITIONAL_VERSIONS=2.7 \
+    -Dgtest_build_tests=ON
+  cmake --build build
+
+  # Only for g{test,mock}-config
+  cd ${_srcname}/googletest
+  autoreconf -fvi
+  ./configure --prefix=/usr
+  cd ../googlemock
+  autoreconf -fvi
+  ./configure --prefix=/usr
+}
+
+check() {
+  cmake --build build --target test
+}
+
+package_gtest() {
+  pkgdesc='Google Test - C++ testing utility based on the xUnit framework (like JUnit)'
+  depends=('gcc-libs' 'sh')
+
+  DESTDIR="${pkgdir}" cmake --build build --target install
+
+  # Shouldn't be present
+  find "${pkgdir}" -name '*.pump' -printf 'Removing %P\n' -delete
+
+  # Split gmock
+  mkdir -p gmock/{include,lib/pkgconfig}
+  mv "${pkgdir}"/usr/include/gmock gmock/include/
+  mv "${pkgdir}"/usr/lib/libgmock* gmock/lib/
+  mv "${pkgdir}"/usr/lib/pkgconfig/gmock* gmock/lib/pkgconfig/
+
+  cd ${_srcname}/googletest
+  install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm 644 README.md CHANGES CONTRIBUTORS -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm 755 scripts/gtest-config -t "${pkgdir}/usr/bin"
+  install -Dm 644 m4/gtest.m4 -t "${pkgdir}/usr/share/aclocal"
+  install -Dm 644 cmake/* -t "${pkgdir}/usr/src/gtest/cmake"
+  install -Dm 644 src/* -t "${pkgdir}/usr/src/gtest/src"
+  install -Dm 644 CMakeLists.txt -t "${pkgdir}/usr/src/gtest"
+}
+
+package_gmock() {
+  pkgdesc='Google Mock - A library for writing and using C++ mock classes'
+  depends=('python2' 'gtest' 'gcc-libs' 'sh')
+
+  mv gmock "${pkgdir}/usr"
+
+  cd ${_srcname}/googlemock
+  install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm 644 README.md CHANGES CONTRIBUTORS -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm 755 scripts/gmock-config -t "${pkgdir}/usr/bin"
+  install -Dm 644 src/* -t "${pkgdir}/usr/src/gmock"
+  install -Dm 644 scripts/generator/{*.py,LICENSE,README*} -t "${pkgdir}/usr/share/gmock/generator"
+  install -Dm 644 scripts/generator/cpp/* -t "${pkgdir}/usr/share/gmock/generator/cpp"
+
+  sed -i 's|src/||' "${pkgdir}/usr/src/gmock/gmock-all.cc"
+
+  python2 -m compileall -d /usr/share/gmock "${pkgdir}/usr/share/gmock"
+  python2 -O -m compileall -d /usr/share/gmock "${pkgdir}/usr/share/gmock"
+}

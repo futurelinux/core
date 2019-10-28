@@ -1,0 +1,28 @@
+
+pkgname=libisoburn
+pkgver=1.4.6
+pkgrel=1
+pkgdesc="frontend for libraries libburn and libisofs"
+url="http://libburnia-project.org"
+arch=('x86_64')
+license=('GPL2')
+depends=('libburn' 'libisofs' 'readline')
+optdepends=('tk:      for xorriso-tcltk frontend'
+            'bwidget: for xorriso-tcltk frontend')
+provides=('xorriso' 'xorriso-tcltk')
+install=${pkgname}.install
+source=(http://files.libburnia-project.org/releases/${pkgname}-${pkgver}.tar.gz{,.sig})
+md5sums=('15d763fd698b9bc8d6fc643a3257505b'
+         'SKIP')
+validpgpkeys=('44BC9FD0D688EB007C4DD029E9CBDFC0ABC0A854') # Thomas Schmitt <scdbackup@gmx.net>
+
+build() {
+  cd ${pkgname}-${pkgver/.pl01/}
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd ${pkgname}-${pkgver/.pl01/}
+  make DESTDIR=${pkgdir} install
+}

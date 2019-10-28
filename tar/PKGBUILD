@@ -1,32 +1,44 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 pkgname=tar
-pkgver=1.26
+pkgver=1.29
 pkgrel=2
-pkgdesc="Utility used to store, backup, and transport files"
-arch=('i686' 'x86_64')
+pkgdesc='Utility used to store, backup, and transport files'
+arch=('x86_64')
 url="http://www.gnu.org/software/tar/tar.html"
 license=('GPL3')
 groups=('base')
-depends=('glibc' 'sh')
+depends=('glibc' 'acl' 'attr')
 options=('!emptydirs')
 install=tar.install
-source=(ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.bz2 tar.1)
-md5sums=('2cee42a2ff4f1cd4f9298eeeb2264519'
-         'e0538778516a284e3558c454b2576c2f')
+validpgpkeys=('325F650C4C2B6AD58807327A3602B07F55D0C732') # Sergey Poznyakoff
+source=("ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz"{,.sig})
+md5sums=('a1802fec550baaeecff6c381629653ef'
+         'SKIP')
+
+prepare() {
+  cd $pkgname-$pkgver
+  # apply patch from the source array (should be a pacman feature)
+  local filename
+  for filename in "${source[@]}"; do
+    if [[ "$filename" =~ \.patch$ ]]; then
+      msg2 "Applying patch ${filename##*/}"
+      patch -p1 -N -i "$srcdir/${filename##*/}"
+    fi
+  done
+  :
+}
 
 build() {
-  cd ${srcdir}/$pkgname-$pkgver
-  ./configure --prefix=/usr --libexecdir=/usr/lib/tar --bindir=/bin
-  make || return 1
+  cd $pkgname-$pkgver
+  ./configure --prefix=/usr --libexecdir=/usr/lib/tar
+  make
 }
-  
+
+check() {
+  cd $pkgname-$pkgver
+  make check
+}
+
 package() {
-  cd ${srcdir}/$pkgname-$pkgver
-  make DESTDIR=${pkgdir} install
-  install -D -m644 ../tar.1 ${pkgdir}/usr/share/man/man1/tar.1
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
 }

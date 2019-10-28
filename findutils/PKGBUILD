@@ -1,29 +1,25 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer: abveritas@chakra-project.org
-
 pkgname=findutils
-pkgver=4.4.2
-pkgrel=5
+pkgver=4.7.0
+pkgrel=1
 pkgdesc="GNU utilities to locate files"
 arch=('x86_64')
 license=('GPL3')
-groups=('base')
+groups=('base' 'base-devel')
 depends=('glibc' 'sh')
-url="http://www.gnu.org/software/findutils"
-source=("ftp://ftp.gnu.org/pub/gnu/findutils/findutils-$pkgver.tar.gz")
-install=findutils.install
-md5sums=('351cc4adb07d54877fa15f75fb77d39f')
+url="https://www.gnu.org/software/findutils"
+source=("https://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+sha256sums=('c5fefbdf9858f7e4feb86f036e1247a54c79fc2d8e4b7064d5aaa1f47dfa789a')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
   # Don't build or install locate because we use mlocate,
   # which is a secure version of locate.
-  sed -i '/^SUBDIRS/s/locate//' Makefile.in
+  sed -e '/^SUBDIRS/s/locate//' -e 's/frcode locate updatedb//' -i Makefile.in
 
   ./configure --prefix=/usr
+  # don't build locate, but the docs want a file in there.
+  make -C locate dblocation.texi
   make
 }
 
@@ -35,5 +31,5 @@ check() {
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  make DESTDIR=$pkgdir install
+  make DESTDIR="$pkgdir" install
 }

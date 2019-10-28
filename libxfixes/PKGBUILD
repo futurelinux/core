@@ -1,0 +1,28 @@
+# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libxfixes1
+
+pkgname=libxfixes
+# Caution: This package has a lib32 alternative, make sure to update that also
+pkgver=5.0.3
+pkgrel=1
+pkgdesc="X11 miscellaneous 'fixes' extension library"
+arch=('x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('libx11' 'fixesproto')
+makedepends=('xorg-util-macros')
+source=("${url}/releases/individual/lib/libXfixes-${pkgver}.tar.bz2")
+sha256sums=('de1cd33aff226e08cefd0e6759341c2c8e8c9faf8ce9ac6ec38d43e287b22ad6')
+
+build() {
+  cd "${srcdir}/libXfixes-${pkgver}"
+  ./configure --prefix=/usr --sysconfdir=/etc --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/libXfixes-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

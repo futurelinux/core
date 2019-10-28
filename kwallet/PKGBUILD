@@ -1,0 +1,42 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
+pkgname=kwallet
+pkgver=5.63.0
+pkgrel=2
+pkgdesc='Secure and unified container for user passwords'
+arch=('x86_64')
+url='https://projects.kde.org/projects/frameworks/kwallet'
+license=('LGPL')
+depends=('knotifications' 'kiconthemes' 'kservice' 'gpgme')
+makedepends=('extra-cmake-modules' 'python3' 'kdoctools' 'boost')
+groups=('kf5')
+options=("debug")
+source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
+sha256sums=('0f094d52f1a14f04006dcbec4c8bcd7972a6e6b6fb62c6c9c5dc40405faee3b6'
+            'SKIP')
+validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../${pkgname}-${pkgver} \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="${pkgdir}" install
+}

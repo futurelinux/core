@@ -1,0 +1,77 @@
+#
+# Platform Packages for Chakra, part of chakralinux.org
+#
+# Maintainer: Adrian Chaves Fernandez (Gallaecio) <adriyetichaves@gmail.com>
+
+pkgbase=python-twisted
+pkgname=(python3-twisted python2-twisted)
+pkgver=17.9.0
+pkgrel=1
+pkgdesc="Asynchronous networking framework written in Python"
+arch=('x86_64')
+url="http://twistedmatrix.com/"
+license=('MIT')
+makedepends=('python3-zope-interface' 'python2-zope-interface' 'python3-setuptools'
+             'python2-setuptools' 'python3-service-identity' 'python2-service-identity'
+             'python3-incremental' 'python2-incremental' 'python3-constantly' 'python2-constantly'
+             'python3-automat' 'python2-automat' 'python3-hyperlink' 'python2-hyperlink')
+source=("$pkgbase-$pkgver.tar.gz::https://github.com/twisted/twisted/archive/twisted-$pkgver.tar.gz")
+sha1sums=('331701056e6efb701083c4d96faaf7a52920f92c')
+
+prepare() {
+  cp -a twisted-twisted-$pkgver{,-py2}
+
+  sed -i 's:^#!.*bin.*python:#!/usr/bin/python2:' \
+  twisted-twisted-$pkgver-py2/src/twisted/mail/test/pop3testserver.py \
+  twisted-twisted-$pkgver-py2/src/twisted/trial/test/scripttest.py
+}
+
+build() {
+  cd "$srcdir"/twisted-twisted-$pkgver
+  python3 setup.py build
+
+  cd "$srcdir"/twisted-twisted-$pkgver-py2
+  python2 setup.py build
+}
+
+# to many checkdepends missing on chakra
+#check()
+
+
+package_python3-twisted() {
+  depends=('python3-zope-interface' 'python3-incremental' 'python3-constantly' 'python3-automat'
+           'python3-hyperlink')
+  optdepends=('python3-pyopenssl'
+              'python3-service-identity: for TLS client hostname verification'
+              'python3-pyasn1: for using conch'
+              'tk: for using tkconch')
+
+  cd "$srcdir"/twisted-twisted-$pkgver
+  python3 setup.py install --prefix=/usr --root="$pkgdir" --optimize=1
+
+  # twisted in python 3 supports only few command line tools for now.
+  # Let's rename the tools the other way round after the python 3 version supports all.
+  for name in trial twistd twist ckeygen cftp conch pyhtmlizer tkconch; do
+    mv "$pkgdir/usr/bin/$name"{,3}
+  done
+
+  install -D -m644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_python2-twisted() {
+  depends=('python2-zope-interface' 'python2-incremental' 'python2-constantly' 'python2-automat'
+           'python2-hyperlink')
+  optdepends=('python2-pyopenssl'
+              'python2-service-identity: for TLS client hostname verification'
+              'python2-soappy: for twisted.web.soap'
+              'python2-pyasn1: for using conch'
+              'pygtk: for using manhole'
+              'tk: for using tkconch')
+  provides=("twisted=$pkgver")
+  conflicts=('twisted<14.0.0')
+  replaces=('twisted<14.0.0')
+
+  cd "$srcdir"/twisted-twisted-$pkgver-py2
+  python2 setup.py install --prefix=/usr --root="$pkgdir" --optimize=1
+  install -D -m644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -1,0 +1,52 @@
+
+pkgbase=libxkbcommon
+pkgname=(libxkbcommon libxkbcommon-x11)
+pkgver=0.7.1
+pkgrel=2
+pkgdesc="Keyboard handling library using XKB data"
+arch=('x86_64')
+url="http://xkbcommon.org/"
+license=('custom')
+depends=(xkeyboard-config glibc)
+checkdepends=(xorg-server-xvfb libgl)
+makedepends=(libxcb doxygen xorg-util-macros autoconf-archive git graphviz
+             wayland wayland-protocols)
+source=("https://github.com/xkbcommon/libxkbcommon/archive/xkbcommon-$pkgver.tar.gz")
+md5sums=('93e7d136da177810af3a384c1337d52a')
+
+prepare() {
+  mkdir -p x11/usr/{include/xkbcommon,lib/pkgconfig}
+  cd "$pkgbase-xkbcommon-$pkgver"
+  NOCONFIGURE=1 ./autogen.sh
+}
+
+build() {
+  cd "$pkgbase-xkbcommon-$pkgver"
+  ./configure --prefix=/usr --disable-static
+  make
+}
+
+check() {
+  cd "$pkgbase-xkbcommon-$pkgver"
+  xvfb-run -a make -k check
+}
+
+package_libxkbcommon() {
+  cd "$pkgbase-xkbcommon-$pkgver"
+  make DESTDIR="$pkgdir" install
+  install -Dm644  LICENSE "$pkgdir/usr/share/licenses/libxkbcommon/LICENSE"
+
+### Split libxkbcommon-x11
+
+  mv "$pkgdir"/usr/lib/*x11* "$srcdir/x11/usr/lib"
+  mv "$pkgdir"/usr/lib/pkgconfig/*x11* "$srcdir/x11/usr/lib/pkgconfig"
+  mv "$pkgdir"/usr/include/xkbcommon/*x11* "$srcdir/x11/usr/include/xkbcommon"
+}
+
+package_libxkbcommon-x11() {
+  pkgdesc="Keyboard handling library using XKB data for X11 XCB clients"
+  depends=(libxkbcommon libxcb)
+  mv x11/* "$pkgdir"
+
+  install -Dm644 $pkgbase-xkbcommon-$pkgver/LICENSE "$pkgdir/usr/share/licenses/libxkbcommon-x11/LICENSE"
+}

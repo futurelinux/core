@@ -1,0 +1,39 @@
+pkgname=libmbim
+pkgver=1.16.0
+pkgrel=1
+pkgdesc="MBIM modem protocol helper library"
+arch=(x86_64)
+url="http://www.freedesktop.org/wiki/Software/libmbim/"
+license=(GPL2)
+depends=('glib2' 'bash' 'systemd' 'libgudev')
+makedepends=('gtk-doc' 'python' 'git' 'python2-six')
+_commit=16e15d49297f72397f6b691cf7a9ccf47bdae844  # tags/1.16.0
+source=("git://anongit.freedesktop.org/libmbim/libmbim#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $pkgname
+  git describe --tags | sed 's/-/+/g'
+}
+
+prepare() {
+  cd $pkgname
+  NOCONFIGURE=1 ./autogen.sh
+}
+
+build() {
+  cd $pkgname
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+    --libexecdir=/usr/lib/$pkgname --disable-static --enable-gtk-doc
+  make
+}
+
+check() {
+  cd $pkgname
+  make check
+}
+
+package() {
+  cd $pkgname
+  make DESTDIR="$pkgdir" install
+}

@@ -1,0 +1,28 @@
+#
+# Platform Packages for Chakra, part of chakra-project.org
+#
+
+pkgname=dmidecode
+pkgver=3.0
+pkgrel=1
+pkgdesc="Desktop Management Interface table related utilities"
+arch=('x86_64')
+url="http://www.nongnu.org/dmidecode"
+license=('GPL')
+depends=('glibc')
+source=("http://download.savannah.nongnu.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+md5sums=('281ee572d45c78eca73a14834c495ffd')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+
+  # Arch only
+  #sed -i "s:sbin:bin:g" Makefile
+  make prefix=/usr
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+
+  make prefix=/usr DESTDIR="${pkgdir}" install
+}

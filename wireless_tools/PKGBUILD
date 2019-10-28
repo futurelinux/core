@@ -1,29 +1,35 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+# Contributions from Arch:
+# Maintainer: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Giovanni Scafora <giovanni@archlinux.org>
+# Contributor: Jason Chu <jchu@xentac.net>
 
 pkgname=wireless_tools
-pkgver=29
-pkgrel=5
-pkgdesc="Wireless Tools"
-arch=('i686' 'x86_64')
-url="http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html"
+pkgver=30.pre9
+_pkgver=${pkgver%.pre*}
+pkgrel=1
+pkgdesc='Tools allowing to manipulate the Wireless Extensions'
+url='https://hewlettpackard.github.io/wireless-tools/Tools.html'
 license=('GPL')
-depends=('glibc')
-source=("http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.${pkgver}.tar.gz")
-md5sums=('e06c222e186f7cc013fd272d023710cb')
+arch=('x86_64')
+source=("https://hewlettpackard.github.io/wireless-tools/${pkgname}.${pkgver}.tar.gz")
+sha256sums=('abd9c5c98abf1fdd11892ac2f8a56737544fe101e1be27c6241a564948f34c63')
+
+prepare() {
+	cd "${srcdir}/${pkgname}.${_pkgver}"
+	sed '/BUILD_STATIC =/d' -i Makefile
+}
 
 build() {
-	cd ${srcdir}/wireless_tools.${pkgver}
-	make
+	cd "${srcdir}/${pkgname}.${_pkgver}"
+	make CFLAGS="${CFLAGS} -I." LDFLAGS="${LDFLAGS}"
 }
 
 package() {
-	cd ${srcdir}/wireless_tools.${pkgver}
-	make INSTALL_DIR="${pkgdir}/usr/sbin" \
+	cd "${srcdir}/${pkgname}.${_pkgver}"
+	make \
+		INSTALL_DIR="${pkgdir}/usr/bin" \
 		INSTALL_LIB="${pkgdir}/usr/lib" \
 		INSTALL_INC="${pkgdir}/usr/include" \
-		INSTALL_MAN="${pkgdir}/usr/share/man" install
+		INSTALL_MAN="${pkgdir}/usr/share/man" \
+		install
 }

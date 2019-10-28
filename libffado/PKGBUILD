@@ -1,0 +1,42 @@
+# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libffado
+
+pkgname=libffado
+pkgver=2.4.0
+pkgrel=1
+pkgdesc="Driver for FireWire audio devices"
+arch=('x86_64')
+url="http://www.ffado.org/"
+license=('GPL')
+depends=('libiec61883' 'libavc1394' 'libsigc++' 'libxml++' 'alsa-lib'
+         'libconfig')
+makedepends=('scons' 'python2-pyqt4' 'jack')
+optdepends=('python2-pyqt4: mixer applet'
+            'python2: ffado-diag')
+source=("http://www.ffado.org/files/libffado-$pkgver.tgz")
+md5sums=('3050229da90bbc4830acc0d09a92b8f2')
+
+
+build() {
+  cd $pkgname-$pkgver
+
+  scons PREFIX=/usr \
+        DEBUG=no \
+        MANDIR=/usr/share/man \
+        UDEVDIR=/usr/lib/udev/rules.d
+}
+
+package() {
+  cd $pkgname-$pkgver
+
+  scons DESTDIR="$pkgdir" WILL_DEAL_WITH_XDG_MYSELF="True" install
+
+  # desktop files & icons
+  install -Dm644 support/xdg/ffado.org-ffadomixer.desktop \
+    "$pkgdir/usr/share/applications/ffadomixer.desktop"
+
+  install -Dm644 support/xdg/hi64-apps-ffado.png \
+    "$pkgdir/usr/share/pixmaps/ffado.png"
+
+  install -Dm644 AUTHORS "${pkgdir}/usr/share/doc/${pkgname}/AUTHORS"
+  install -Dm644 README "${pkgdir}/usr/share/doc/${pkgname}/README"
+}

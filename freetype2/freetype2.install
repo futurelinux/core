@@ -1,23 +1,8 @@
-# arg 1:  the new package version
-post_install() {
-  echo -n "updating font cache... "
-  /sbin/ldconfig -r .
-  /usr/bin/fc-cache -f
-  echo "done."
-}
-
-# arg 1:  the new package version
-# arg 2:  the old package version
 post_upgrade() {
-  post_install $1
+  if (( $(vercmp $2 2.5.4-3) < 0 )); then
+    cat <<MSG
+  Subpixel hinting can be enabled by adding FT2_SUBPIXEL_HINTING=1
+  to your environment, for example /etc/environment or ~/.pam_environment .
+MSG
+  fi
 }
-
-# arg 1:  the old package version
-pre_remove() {
-  /bin/true
-}
-
-op=$1
-shift
-
-$op $*

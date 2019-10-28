@@ -1,0 +1,25 @@
+# Contributor: abveritas@chakra-project.org
+# Maintainer: BrLi <brli[at]chakraos.org>
+
+pkgname=libshout
+pkgver=2.4.1
+pkgrel=1
+pkgdesc="Library for accessing a shoutcast/icecast server"
+arch=('x86_64')
+depends=('libvorbis' 'libtheora' 'speex')
+url="http://www.icecast.org/"
+license=('LGPL')
+source=("http://downloads.xiph.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+md5sums=('89cebf8cb0197f639cde69c95177fe47')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+  #make LDFLAGS+=-lspeex
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}

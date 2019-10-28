@@ -1,0 +1,26 @@
+# Part of the X.org group
+# Maintainer: Neophytos Kolokotronis <tetris4 AT gmail DOT com>
+
+pkgname=xbitmaps
+pkgver=1.1.2
+pkgrel=1
+pkgdesc="X.org Bitmap files"
+arch=('x86_64')
+url="http://xorg.freedesktop.org/"
+license=('custom')
+makedepends=('xorg-util-macros')
+source=(${url}/releases/individual/data/${pkgname}-${pkgver}.tar.bz2)
+sha1sums=('1cb0e485a66280e9a64b48426140b8a0de9cf169')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

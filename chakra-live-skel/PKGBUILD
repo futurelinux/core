@@ -1,0 +1,27 @@
+
+pkgname=chakra-live-skel
+_gitname=chakra-iso
+_gitsha=7991c9572f70b9786c4031db250f4791ae83ab9c
+pkgver=2019.02
+pkgrel=2
+pkgdesc="The inital user configuration of a Chakra system"
+arch=('x86_64')
+url="https://www.chakralinux.org/"
+license=('GPL')
+source=("$pkgname"::"git+https://code.chakralinux.org/chakra/tools/chakra-iso.git#commit=${_gitsha}"
+        'locale-gen-fixme')
+install=chakra-live-skel.install
+md5sums=('SKIP'
+         '476e9113489f93b348b21e144b6a8fcf')
+
+package() {
+  cd ${srcdir}/${pkgname}/chakra-live-packages/chakra-live-skel/skel
+  for folder in ./*; do \
+    cp -a $folder ${pkgdir}; \
+  done
+  chmod 750 ${pkgdir}/etc/sudoers.d/
+  
+  # copy the parallel version of locale-gen
+  install -dm755 ${pkgdir}/usr/sbin
+  install -m755 ${srcdir}/locale-gen-fixme ${pkgdir}/usr/sbin
+}

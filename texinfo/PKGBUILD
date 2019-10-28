@@ -1,33 +1,41 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+# Maintainer: almack[at]chakralinux[dot]org>
 
 pkgname=texinfo
-pkgver=4.13a
-pkgrel=6
+pkgver=6.3
+pkgrel=4
 pkgdesc="Utilities to work with and produce manuals, ASCII text, and on-line documentation from a single source file"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://www.gnu.org/software/texinfo/"
 license=('GPL3')
 groups=('base')
-depends=('ncurses' 'findutils' 'gzip')
+depends=('ncurses' 'findutils' 'gzip' 'sh' 'perl')
 install=texinfo.install
-source=(ftp://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz)
-md5sums=('71ba711519209b5fb583fed2b3d86fcb')
-sha1sums=('a1533cf8e03ea4fa6c443b73f4c85e4da04dead0')
+source=(https://ftp.gnu.org/pub/gnu/$pkgname/$pkgname-$pkgver.tar.xz{,.sig}
+	texinfo-6.0-disable-failing-info-test.patch)
+md5sums=('32baefe5c7080dfb512a4eac5ce67b2a'
+         'SKIP'
+	 '8bfaa21315a8a6184811de8478005d22')
+validpgpkeys=('EAF669B31E31E1DECBD11513DDBC579DAB37FBA9') # Gavin Smith
+
+prepare() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  patch -p1 -i ../texinfo-6.0-disable-failing-info-test.patch
+}
 
 build() {
-   cd ${srcdir}/${pkgname}-4.13
+   cd ${srcdir}/${pkgname}-${pkgver}
+   
    ./configure --prefix=/usr
    make
 }
 
-package() {
-   cd ${srcdir}/${pkgname}-4.13
-   make DESTDIR=${pkgdir} install
+check() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  make check
+}
 
-   # fix this here as it prevent make from trying to rebuild manual pages
-   sed -i 's#A-z#A-Za-z#' ${pkgdir}/usr/bin/texi2dvi
+package() {
+   cd ${srcdir}/${pkgname}-${pkgver}  
+   make DESTDIR=${pkgdir} install
+   rm -rfv $pkgdir/usr/share/libalpm/
 }

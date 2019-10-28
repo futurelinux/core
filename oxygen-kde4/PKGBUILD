@@ -1,0 +1,46 @@
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+
+_pkgname=oxygen
+pkgname=oxygen-kde4
+pkgver=5.13.0
+pkgrel=1
+pkgdesc='Artwork, styles and assets for the Oxygen visual style for the KDE4'
+arch=('x86_64')
+url='projects.kde.org/'
+license=('LGPL')
+depends=('kdelibs')
+makedepends=('extra-cmake-modules' 'automoc4')
+checkdepends=("cmake")
+groups=('plasma')
+options=("debug")
+conflicts=('kde-workspace')
+source=("https://download.kde.org/stable/plasma/$pkgver/$_pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('95dd1da6458f0777f494d18647e07776c77477a6887316738868a54f5f024b69'
+             'SKIP' )
+validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
+              '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
+              'D07BD8662C56CB291B316EB2F5675605C74E02CF'  # David Edmundson
+              '1FA881591C26B276D7A5518EEAAF29B42A678C20') # Marco Martin <notmart@gmail.com>
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../${_pkgname}-${pkgver} \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DUSE_KDE4=ON \
+    -DBUILD_TESTING=OFF
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="${pkgdir}" install
+
+  # needed for pure Qt4 apps
+  install -d "$pkgdir"/usr/lib/qt/plugins/styles
+  ln -s /usr/lib/kde4/plugins/styles/oxygen.so "$pkgdir"/usr/lib/qt/plugins/styles
+}

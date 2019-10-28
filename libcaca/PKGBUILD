@@ -1,0 +1,24 @@
+pkgname=libcaca
+pkgver=0.99.beta19
+pkgrel=2
+pkgdesc="Color AsCii Art library"
+arch=('x86_64')
+license=('LGPL')
+url="http://caca.zoy.org/wiki/libcaca"
+depends=('imlib2' 'ncurses')
+options=(!emptydirs)
+source=("http://libcaca.zoy.org/files/libcaca/${pkgname}-${pkgver}.tar.gz")
+md5sums=('a3d4441cdef488099f4a92f4c6c1da00')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --mandir=/usr/share/man \
+    --enable-shared --disable-doc \
+    --disable-cxx --disable-gl --disable-csharp --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}

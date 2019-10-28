@@ -1,0 +1,24 @@
+#Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libdc1394
+
+pkgname=libdc1394
+pkgver=2.2.3
+pkgrel=1
+pkgdesc="High level programming interface to control IEEE 1394 based cameras"
+arch=('x86_64')
+license=('LGPL')
+url="http://sourceforge.net/projects/libdc1394/"
+depends=('libraw1394' 'libusb')
+options=(!emptydirs)
+source=("http://downloads.sourceforge.net/sourceforge/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+md5sums=('443d0638e51054ff37fb8e551e07672a')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}

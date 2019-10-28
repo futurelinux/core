@@ -1,0 +1,36 @@
+# Arch contributor: https://projects.archlinux.org/svntogit/packages.git/plain/trunk/PKGBUILD?h=packages/vulkan-docs
+
+pkgbase=vulkan-docs
+pkgname=(vulkan-html-docs)
+pkgver=1.1.94
+_pkgname=Vulkan-Docs
+_pkgver=1.1.94
+pkgrel=1
+arch=(any)
+url="https://www.khronos.org/vulkan/"
+license=('custom')
+makedepends=(asciidoc asciidoctor)
+groups=(vulkan-devel)
+source=("https://github.com/KhronosGroup/${_pkgname}/archive/v${_pkgver}.tar.gz")
+md5sums=('b4a6dc00e41898dfe0a87e34838fcfb4')
+
+build() {
+  cd "${_pkgname}-${_pkgver/+/-}"
+
+  ./makeAllExts html
+}
+
+package_vulkan-html-docs() {
+  pkgdesc="Vulkan html documentation"
+  replaces=(vulkan-man-pages)
+  cd "${_pkgname}-${pkgver}"
+  
+  install -dm755 "${pkgdir}/usr/share/doc/vulkan"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+
+  mv -v out/*.html "${pkgdir}/usr/share/doc/vulkan/"
+  mv -v out/html/* "${pkgdir}/usr/share/doc/vulkan/"
+
+  install -m644 copyright-ccby.txt ${pkgdir}/usr/share/licenses/${pkgname}/copyright-ccby.txt
+  install -m644 copyright-spec.txt ${pkgdir}/usr/share/licenses/${pkgname}/copyright-spec.txt
+}

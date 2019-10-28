@@ -1,34 +1,31 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer : abveritas@chakra-project.org
-
-# Find the kernel name inside the chroot
-_extramodules=extramodules-3.0-lts
-_kver="$(cat /lib/modules/${_extramodules}/version)"
 
 pkgname=vhba-module-lts
-pkgver=20120422
-pkgrel=2
+_pkgname=vhba-module
+pkgver=20170610
+pkgrel=9
 pkgdesc="Kernel module that emulates SCSI devices"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://cdemu.sourceforge.net/"
 license=('GPL2')
-depends=('linux-lts>=3.0' 'linux-lts<3.1')
-makedepends=('linux-lts-headers')
-install=vhba-module.install
-source=(http://sourceforge.net/projects/cdemu/files/vhba-module/vhba-module-$pkgver.tar.bz2
-        60-vhba.rules)
-md5sums=('d97372da1d270d1605742b2995fb6678'
-         '549bd2d9696bd1884c8eed7193c00e21')
+depends=("linux-lts>=${_kernelver}")
+makedepends=("linux-lts-headers=4.4.165")
+_extramodules=extramodules-CHAKRA-LTS
+source=("http://sourceforge.net/projects/cdemu/files/vhba-module/vhba-module-$pkgver.tar.bz2"
+        '60-vhba.rules')
+md5sums=('f9478a5f5528fc672c204b6b4bd02213'
+         '4dc37dc348b5a2c83585829bde790dcc')
+
+prepare() {
+  cd $_pkgname-$pkgver
+}
 
 build() {
-  cd "$srcdir/vhba-module-$pkgver"
-  make -j1 KDIR=/usr/src/linux-${_kver}
+  cd $_pkgname-$pkgver
+  make KERNELRELEASE="$(cat /usr/lib/modules/$_extramodules/version)"
 }
 
 package() {
-  cd "$srcdir/vhba-module-$pkgver"
-  install -D vhba.ko "$pkgdir/lib/modules/${_extramodules}/vhba.ko"
-  sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "${startdir}/vhba-module.install"
+  cd $_pkgname-$pkgver
+  install -Dt "$pkgdir/usr/lib/modules/$_extramodules" -m644 vhba.ko
+  install -Dt "$pkgdir/usr/lib/udev/rules.d" -m644 ../60-vhba.rules
 }

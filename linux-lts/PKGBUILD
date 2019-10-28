@@ -1,100 +1,71 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
 
-pkgbase="linux-lts"
-pkgname=('linux-lts' 'linux-lts-headers' 'linux-lts-docs') # Build stock -CHAKRA-LTS kernel
-# pkgname=linux-custom       # Build kernel with a different name
-_kernelname=${pkgname#linux}
-_basekernel=3.0
-pkgver=${_basekernel}.43
+pkgbase=linux-lts
+pkgname=('linux-lts' 'linux-lts-headers' 'linux-lts-docs')
+pkgver=4.4.165
+_srcname=linux-4.4
 pkgrel=1
-makedepends=('xmlto' 'docbook-xsl')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc')
 arch=('x86_64')
 license=('GPL2')
 url="http://www.kernel.org"
-options=(!strip)
-source=("ftp://ftp.kernel.org/pub/linux/kernel/v3.0/linux-$_basekernel.tar.bz2"
-        "http://www.kernel.org/pub/linux/kernel/v3.x/patch-${pkgver}.xz"
+options=('!strip')
+source=(http://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.{xz,sign}
+        http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz
         # the main kernel config files
-        'config' 'config.x86_64'
-        #aufs patches
-        'aufs3.0-loopback.patch'
-        'aufs3.0-base.patch'
-        'aufs3.0-proc_map.patch'
-        'aufs3.0-standalone.patch'
-        'aufs3.0-kbuild.patch'
-        'aufs3.0.patch'
-        'config.aufs'
+        config.x86_64
         # standard config files for mkinitcpio ramdisk
-        'linux-lts.preset'
-        'change-default-console-loglevel.patch'
-        'i915-fix-ghost-tv-output.patch'
-        'ext4-options.patch')
-md5sums=('398e95866794def22b12dfbc15ce89c0'
-         '29280fa77173b325b372bba8dce394e0'
-         '2d787099d3a44531bcb3ab39aee5539e'
-         'f441ad868946ca2f34e739e5649985da'
-         '821e1112493f187dc70df9412e61f324'
-         'b9248a75a3fe415a18d4730887daa339'
-         '798336f60f73b1fb63331225b9c9c971'
-         'd5ca601dc80b35fda18b078daf4aeb61'
-         '967195f0bf1d9a3b54ce8ae6173072d8'
-         'fcb34283bfb627a15b31f3b3e3228c05'
-         '52f4a2c7f6277774117c834d949d6b81'
-         '1277dd4aa587632fc27964edde49970f'
-         '9d3c56a4b999c8bfbd4018089a62f662'
-         '263725f20c0b9eb9c353040792d644e5'
-         '74d2b710d6c97aee441d7566f8f68815')
+        linux-lts.preset
+        60-linux.hook  # pacman hook for depmod
+        90-linux.hook  # pacman hook for initramfs regeneration
+        change-default-console-loglevel.patch)
+md5sums=('9a78fa2eb6c68ca5a40ed5af08142599'
+         'SKIP'
+         'dcfc0db36564de7afa191888d77d667c'
+         '3c82e548b482a80cb344c083a9e4e259'
+         'a329f9581060d555dc7358483de9760a'
+         '8462c6689eca5bd30a72b71e318953c5'
+         'a85bfae59eb537b973c388ffadb281ff'
+         'df7fceae6ee5d7e7be7b60ecd7f6bb35')
+validpgpkeys=(
+              'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
+              '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
+             )
 
-build() {
-  cd ${srcdir}/linux-$_basekernel
+_kernelname=-CHAKRA-LTS
+             
+prepare() {
+  cd ${srcdir}/$_srcname
 
   # add upstream patch
+  msg "adding upstream patch"
   patch -p1 -i "${srcdir}/patch-${pkgver}"
-
+  
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
-
-  # Some chips detect a ghost TV output
-  patch -p1 -i "${srcdir}/i915-fix-ghost-tv-output.patch"
 
   # set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)
   # remove this when a Kconfig knob is made available by upstream
   # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
+  msg "changing default console loglevel"
   patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
-  # fix ext4 module to mount ext3/2 correct
-  patch -p1 -i "${srcdir}/ext4-options.patch"
-
-  #aufs patches for Live:
-  patch -p1 -i "${srcdir}/aufs3.0.patch"
-  patch -p1 -i "${srcdir}/aufs3.0-base.patch"
-  patch -p1 -i "${srcdir}/aufs3.0-kbuild.patch"
-  patch -p1 -i "${srcdir}/aufs3.0-loopback.patch"
-  patch -p1 -i "${srcdir}/aufs3.0-proc_map.patch"
-  #patch -p1 -i "${srcdir}/aufs3.0-fix-export-__devcgroup_inode_permission.patch"
-  patch -p1 -i "${srcdir}/aufs3.0-standalone.patch"
-
-  # create .config
-  if [ "${CARCH}" = "x86_64" ]; then
-    cat "${srcdir}/config.x86_64" > ./.config
-  else
-    cat "${srcdir}/config" > ./.config
-  fi
-
-    cat "${srcdir}/config.aufs" >> ./.config
+  # replace the config file with the x86_64 configurations
+  cat "${srcdir}/config.x86_64" > ./.config
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
+    sed -i "s|CONFIG_LOCALVERSION_AUTO=.*|CONFIG_LOCALVERSION_AUTO=n|" ./.config
   fi
 
   # set extraversion to pkgrel
   sed -ri "s|^(EXTRAVERSION =).*|\1 -${pkgrel}|" Makefile
+  
+  # don't run depmod on 'make install'. We'll do this ourselves in packaging
+  sed -i '2iexit 0' scripts/depmod.sh
 
   # get kernel version
   make prepare
+  make -s kernelrelease > ../version
 
   # load configuration
   # Configure the kernel. Replace the line below with one of your choice.
@@ -104,212 +75,191 @@ build() {
   #make oldconfig # using old config from previous kernel version
   # ... or manually edit .config
 
+  # rewrite configuration
+  yes "" | make config >/dev/null
+
+  # save configuration for later reuse
+  cat .config > "${startdir}/config.x86_64.last"
+
   ####################
   # stop here
   # this is useful to configure the kernel
   #msg "Stopping build"
   #return 1
   ####################
+}
 
-  yes "" | make config
+build() {
+  cd ${srcdir}/$_srcname
 
-  # build!
-  make ${MAKEFLAGS} bzImage modules
+  make ${MAKEFLAGS} LOCALVERSION= bzImage modules
 }
 
 package_linux-lts() {
   pkgdesc="The Linux LTS-Kernel and modules"
   groups=('lts')
-  depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=0.7.5')
+  depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio')
   optdepends=('crda: to set the correct wireless channels of your country')
-  replaces=('kernel26-lts' 'linux-scsi'
+  replaces=('linux-scsi'
             'squashfs' 'unionfs' 'ivtv'
             'zd1211' 'kvm-modules' 'iwlwifi' 'rt2x00-cvs'
             'gspcav1' 'atl2' 'wlan-ng26' 'rt2500'
             'aufs3' 'nouveau-drm')
-  provides=("aufs3=$_aufs" 'nouveau-drm-lts' 'kernel26-lts' 'acerhk-lts=0.5.35')
-  conflicts=('kernel26-lts' 'acerhk-lts')
-  backup=("etc/mkinitcpio.d/${pkgname}.preset")
+  provides=("aufs3=$_aufs" 'nouveau-drm-lts' 'acerhk-lts=0.5.35')
+  conflicts=('acerhk-lts')
+  backup=("etc/mkinitcpio.d/${pkgbase}.preset")
   install=${pkgname}.install
 
-  cd "${srcdir}/linux-${_basekernel}"
 
-  KARCH=x86
+  local kernver="$(<version)"
+  
+  cd ${_srcname}
 
-  # get kernel version
-  _kernver="$(make kernelrelease)"
+  msg2 "Installing boot image..."
+  install -Dm644 "$(make -s image_name)" "$pkgdir/boot/vmlinuz-$pkgbase"
 
-  mkdir -p "${pkgdir}"/{lib/modules,lib/firmware,boot}
-  make INSTALL_MOD_PATH="${pkgdir}" modules_install
-  cp arch/$KARCH/boot/bzImage "${pkgdir}/boot/vmlinuz-${pkgname}"
+  msg2 "Installing modules..."
+  local modulesdir="$pkgdir/usr/lib/modules/$kernver"
+  mkdir -p "$modulesdir"
+  make INSTALL_MOD_PATH="$pkgdir/usr" DEPMOD=/doesnt/exist modules_install
 
-  # add vmlinux
-  install -D -m644 vmlinux "${pkgdir}/usr/src/linux-${_kernver}/vmlinux"
-
-  # install fallback mkinitcpio.conf file and preset file for kernel
-  install -D -m644 "${srcdir}/${pkgname}.preset" "${pkgdir}/etc/mkinitcpio.d/${pkgname}.preset"
-
-  # set correct depmod command for install
-  sed \
-    -e  "s/KERNEL_NAME=.*/KERNEL_NAME=${_kernelname}/g" \
-    -e  "s/KERNEL_VERSION=.*/KERNEL_VERSION=${_kernver}/g" \
-    -i "${startdir}/${pkgname}.install"
-  sed \
-    -e "s|ALL_kver=.*|ALL_kver=\"/boot/vmlinuz-${pkgname}\"|g" \
-    -e "s|default_image=.*|default_image=\"/boot/initramfs-${pkgname}.img\"|g" \
-    -e "s|fallback_image=.*|fallback_image=\"/boot/initramfs-${pkgname}-fallback.img\"|g" \
-    -i "${pkgdir}/etc/mkinitcpio.d/${pkgname}.preset"
+  # a place for external modules,
+  # with version file for building modules and running depmod from hook
+  local extramodules="extramodules$_kernelname"
+  local extradir="$pkgdir/usr/lib/modules/$extramodules"
+  install -Dt "$extradir" -m644 ../version
+  ln -sr "$extradir" "$modulesdir/extramodules"
 
   # remove build and source links
-  rm -f "${pkgdir}"/lib/modules/${_kernver}/{source,build}
+  rm "$modulesdir"/{source,build}
   # remove the firmware
-  rm -rf "${pkgdir}/lib/firmware"
-  # gzip -9 all modules to save 100MB of space
-  find "${pkgdir}" -name '*.ko' -exec gzip -9 {} \;
-  # make room for external modules
-  ln -s "../extramodules-${_basekernel}${_kernelname:--CHAKRA-LTS}" "${pkgdir}/lib/modules/${_kernver}/extramodules"
-  # add real version for building modules and running depmod from post_install/upgrade
-  mkdir -p "${pkgdir}/lib/modules/extramodules-${_basekernel}${_kernelname:--CHAKRA-LTS}"
-  echo "${_kernver}" > "${pkgdir}/lib/modules/extramodules-${_basekernel}${_kernelname:--CHAKRA-LTS}/version"
+  rm -rf "${pkgdir}/usr/lib/firmware"
+
+  msg2 "Running depmod..."
+  depmod -b "${pkgdir}/usr" -F System.map "${kernver}"
+
+  msg2 "Installing hooks..."
+
+  # sed expression for following substitutions
+  local subst="
+    s|%PKGBASE%|$pkgbase|g
+    s|%KERNVER%|$kernver|g
+    s|%EXTRAMODULES%|$extramodules|g
+  "
+
+  # hack to allow specifying an initially nonexisting install file
+  sed "$subst" "$startdir/$install" > "$startdir/$install.pkg"
+  true && install=$install.pkg
+
+  # fill in mkinitcpio preset and pacman hooks
+  sed "$subst" ../linux-lts.preset | install -Dm644 /dev/stdin \
+    "$pkgdir/etc/mkinitcpio.d/$pkgbase.preset"
+  sed "$subst" ../60-linux.hook | install -Dm644 /dev/stdin \
+    "$pkgdir/usr/share/libalpm/hooks/60-$pkgbase.hook"
+  sed "$subst" ../90-linux.hook | install -Dm644 /dev/stdin \
+    "$pkgdir/usr/share/libalpm/hooks/90-$pkgbase.hook"
+
+  msg2 "Fixing permissions..."
+  chmod -Rc u=rwX,go=rX "$pkgdir"
 }
 
 package_linux-lts-headers() {
   pkgdesc="Header files and scripts for building modules for linux lts-kernel"
-  provides=('kernel26-lts-headers')
-  conflicts=('kernel26-lts-headers')
-  replaces=('kernel26-lts-headers')
 
-  mkdir -p "${pkgdir}/lib/modules/${_kernver}"
+  local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
+  
+  install -dm755 "${pkgdir}/usr/lib/modules/${_kernver}"
 
-  cd "${pkgdir}/lib/modules/${_kernver}"
-  ln -sf ../../../usr/src/linux-${_kernver} build
+  cd ${_srcname}
+  
+  msg2 "Installing build files..."
+  install -Dt "$builddir" -m644 Makefile .config Module.symvers System.map vmlinux
+  install -Dt "$builddir/kernel" -m644 kernel/Makefile
+  install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
+  cp -t "$builddir" -a scripts
+  
+  # add xfs and shmem for aufs building
+  mkdir -p "$builddir"/{fs/xfs,mm}
 
-  cd "${srcdir}/linux-${_basekernel}"
-  install -D -m644 Makefile \
-    "${pkgdir}/usr/src/linux-${_kernver}/Makefile"
-  install -D -m644 kernel/Makefile \
-    "${pkgdir}/usr/src/linux-${_kernver}/kernel/Makefile"
-  install -D -m644 .config \
-    "${pkgdir}/usr/src/linux-${_kernver}/.config"
-
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/include"
-
-  for i in acpi asm-generic config crypto drm generated linux math-emu \
-    media net pcmcia scsi sound trace video xen; do
-    cp -a include/${i} "${pkgdir}/usr/src/linux-${_kernver}/include/"
-  done
-
-  # copy arch includes for external modules
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/arch/x86"
-  cp -a arch/x86/include "${pkgdir}/usr/src/linux-${_kernver}/arch/x86/"
-
-  # copy files necessary for later builds, like nvidia and vmware
-  cp Module.symvers "${pkgdir}/usr/src/linux-${_kernver}"
-  cp -a scripts "${pkgdir}/usr/src/linux-${_kernver}"
-
-  # fix permissions on scripts dir
-  chmod og-w -R "${pkgdir}/usr/src/linux-${_kernver}/scripts"
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/.tmp_versions"
-
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/arch/${KARCH}/kernel"
-
-  cp arch/${KARCH}/Makefile "${pkgdir}/usr/src/linux-${_kernver}/arch/${KARCH}/"
-
-  if [ "${CARCH}" = "i686" ]; then
-    cp arch/${KARCH}/Makefile_32.cpu "${pkgdir}/usr/src/linux-${_kernver}/arch/${KARCH}/"
-  fi
-
-  cp arch/${KARCH}/kernel/asm-offsets.s "${pkgdir}/usr/src/linux-${_kernver}/arch/${KARCH}/kernel/"
-
-  # add headers for lirc package
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/video"
-
-  cp drivers/media/video/*.h  "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/video/"
-
-  for i in bt8xx cpia2 cx25840 cx88 em28xx et61x251 pwc saa7134 sn9c102; do
-    mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/video/${i}"
-    cp -a drivers/media/video/${i}/*.h "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/video/${i}"
-  done
-
-  # add docbook makefile
-  install -D -m644 Documentation/DocBook/Makefile \
-    "${pkgdir}/usr/src/linux-${_kernver}/Documentation/DocBook/Makefile"
+  # ???
+  mkdir "$builddir/.tmp_versions"
+  
+  msg2 "Installing headers..."
+  cp -t "$builddir" -a include
+  cp -t "$builddir/arch/x86" -a arch/x86/include
+  install -Dt "$builddir/arch/x86/kernel" -m644 arch/x86/kernel/asm-offsets.s
 
   # add dm headers
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/drivers/md"
-  cp drivers/md/*.h "${pkgdir}/usr/src/linux-${_kernver}/drivers/md"
+  install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h
 
   # add inotify.h
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/include/linux"
-  cp include/linux/inotify.h "${pkgdir}/usr/src/linux-${_kernver}/include/linux/"
+  install -Dt "$builddir/include/linux/inotify" -m644 include/linux/inotify.h
 
   # add wireless headers
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/net/mac80211/"
-  cp net/mac80211/*.h "${pkgdir}/usr/src/linux-${_kernver}/net/mac80211/"
+  install -Dt "$builddir/net/mac80211" -m644 net/mac80211/*.h
 
   # add dvb headers for external modules
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/dvb-core"
-  cp drivers/media/dvb/dvb-core/*.h "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/dvb-core/"
-  # and...
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/include/config/dvb/"
-  cp include/config/dvb/*.h "${pkgdir}/usr/src/linux-${_kernver}/include/config/dvb/"
+  install -Dt "$builddir/drivers/media/dvb-core" -m644 drivers/media/dvb-core/*.h
+  install -Dt "$builddir/include/config/dvb" -m644 include/config/dvb/*.h
+    
+  # http://bugs.archlinux.org/task/13146
+  install -Dt "$builddir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
 
-  # add dvb headers for http://mcentral.de/hg/~mrec/em28xx-new
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/frontends/"
-  cp drivers/media/dvb/frontends/lgdt330x.h "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/frontends/"
-  cp drivers/media/video/msp3400-driver.h "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/frontends/"
+  # http://bugs.archlinux.org/task/20402
+  install -Dt "$builddir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
+  install -Dt "$builddir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
+  install -Dt "$builddir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
 
-  # add dvb headers
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/dvb-usb"
-  cp drivers/media/dvb/dvb-usb/*.h "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/dvb-usb/"
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/frontends"
-  cp drivers/media/dvb/frontends/*.h "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/dvb/frontends/"
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/common/tuners"
-  cp drivers/media/common/tuners/*.h "${pkgdir}/usr/src/linux-${_kernver}/drivers/media/common/tuners/"
+  msg2 "Installing KConfig files..."
+  find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
 
-  # add xfs and shmem for aufs building
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/fs/xfs"
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/mm"
-  cp fs/xfs/xfs_sb.h "${pkgdir}/usr/src/linux-${_kernver}/fs/xfs/xfs_sb.h"
-
-  # copy in Kconfig files
-  for i in `find . -name "Kconfig*"`; do
-    mkdir -p "${pkgdir}"/usr/src/linux-${_kernver}/`echo ${i} | sed 's|/Kconfig.*||'`
-    cp ${i} "${pkgdir}/usr/src/linux-${_kernver}/${i}"
+  msg2 "Removing unneeded architectures..."
+  local arch
+  for arch in "$builddir"/arch/*/; do
+    [[ $arch = */x86/ ]] && continue
+    echo "Removing $(basename "$arch")"
+    rm -r "$arch"
   done
 
-  chown -R root.root "${pkgdir}/usr/src/linux-${_kernver}"
-  find "${pkgdir}/usr/src/linux-${_kernver}" -type d -exec chmod 755 {} \;
+  msg2 "Removing documentation..."
+  rm -r "$builddir/Documentation"
 
-  # strip scripts directory
-  find "${pkgdir}/usr/src/linux-${_kernver}/scripts" -type f -perm -u+w 2>/dev/null | while read binary ; do
-    case "$(file -bi "${binary}")" in
-      *application/x-sharedlib*) # Libraries (.so)
-        /usr/bin/strip ${STRIP_SHARED} "${binary}";;
-      *application/x-archive*) # Libraries (.a)
-        /usr/bin/strip ${STRIP_STATIC} "${binary}";;
-      *application/x-executable*) # Binaries
-        /usr/bin/strip ${STRIP_BINARIES} "${binary}";;
+  msg2 "Removing broken symlinks..."
+  find -L "$builddir" -type l -printf 'Removing %P\n' -delete
+
+  msg2 "Removing loose objects..."
+  find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
+
+  msg2 "Stripping build tools..."
+  local file
+  while read -rd '' file; do
+    case "$(file -bi "$file")" in
+      application/x-sharedlib\;*)      # Libraries (.so)
+        strip -v $STRIP_SHARED "$file" ;;
+      application/x-archive\;*)        # Libraries (.a)
+        strip -v $STRIP_STATIC "$file" ;;
+      application/x-executable\;*)     # Binaries
+        strip -v $STRIP_BINARIES "$file" ;;
+      application/x-pie-executable\;*) # Relocatable binaries
+        strip -v $STRIP_SHARED "$file" ;;
     esac
-  done
+  done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
 
-  # remove unneeded architectures
-  rm -rf "${pkgdir}"/usr/src/linux-${_kernver}/arch/{alpha,arm,arm26,avr32,blackfin,cris,frv,h8300,ia64,m32r,m68k,m68knommu,mips,microblaze,mn10300,parisc,powerpc,ppc,s390,sh,sh64,sparc,sparc64,um,v850,xtensa}
+  msg2 "Fixing permissions..."
+  chmod -Rc u=rwX,go=rX "$pkgdir"
 }
 
 package_linux-lts-docs() {
   pkgdesc="Kernel hackers manual - HTML documentation that comes with the Linux lts-kernel."
-  provides=('kernel26-lts-docs')
-  conflicts=('kernel26-lts-docs')
-  replaces=('kernel26-lts-docs')
 
-  cd "${srcdir}/linux-${_basekernel}"
+  local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
 
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}"
-  cp -al Documentation "${pkgdir}/usr/src/linux-${_kernver}"
-  find "${pkgdir}" -type f -exec chmod 444 {} \;
-  find "${pkgdir}" -type d -exec chmod 755 {} \;
+  cd "${srcdir}/$_srcname"
 
-  # remove a file already in linux package
-  rm -f "${pkgdir}/usr/src/linux-${_kernver}/Documentation/DocBook/Makefile"
+  msg2 "Installing documentation..."
+  mkdir -p "$builddir"
+  cp -t "$builddir" -a Documentation
+
+  msg2 "Fixing permissions..."
+  chmod -Rc u=rwX,go=rX "$pkgdir"
 }

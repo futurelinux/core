@@ -1,0 +1,37 @@
+source ../plasma.conf
+
+pkgname=plasma-mediacenter
+pkgver=5.7.5
+pkgrel=1
+pkgdesc="A mediacenter user interface based on KDE Plasma components"
+arch=(x86_64)
+url="http://community.kde.org/Plasma/Plasma_Media_Center/"
+license=(GPL3)
+depends=(plasma-workspace baloo taglib)
+makedepends=(extra-cmake-modules python3)
+groups=('plasma')
+options=("debug")
+source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('dd0df7dbc3e51ec4e329a6365c25b2b2e3d6e4dd7fd8e0aa916f3f9559a863bf')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../${pkgname}-${pkgver} \
+         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DKDE_INSTALL_LIBDIR=lib \
+        -DKDE_INSTALL_SYSCONFDIR=/etc \
+        -DKDE_INSTALL_LIBEXECDIR=lib \
+        -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+        -DBUILD_TESTING=OFF \
+        -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
+  make
+}
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}

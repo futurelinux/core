@@ -1,33 +1,44 @@
-# Platform Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
 
 pkgname=icu
-pkgver=4.6
-pkgrel=4
+pkgver=59.1
+pkgrel=2
 pkgdesc="International Components for Unicode library"
 arch=('x86_64')
 url="http://www.icu-project.org/"
-license=('custom:"icu"')
+license=('custom:icu')
 depends=('gcc-libs' 'sh')
-source=(http://download.icu-project.org/files/${pkgname}4c/${pkgver}/${pkgname}4c-${pkgver//./_}-src.tgz
-	#http://download.icu-project.org/files/${pkgname}4c/${pkgver}/${pkgname}4c-${pkgver/./_}-src.tgz
-        icu.8198.revert.icu5431.patch
-)
-md5sums=('43e56b71c407be5154de681eaa646a4a' 
-         '685f0c5ff76bc50f930ffb67bbd27eb3')
+source=(#http://download.icu-project.org/files/${pkgname}4c/${pkgver}/${pkgname}4c-${pkgver/./_}-src.tgz
+	http://download.icu-project.org/files/${pkgname}4c/${pkgver}/${pkgname}4c-${pkgver//./_}-src.tgz{,.asc})
+# upstream offers md5sum checks, only asc file for md5sum check
+md5sums=('54923fa9fab5b2b83f235fb72523de37'
+         'SKIP')
+sha256sums=('7132fdaf9379429d004005217f10e00b7d2319d0fea22bdfddef8991c45b75fe'
+            'SKIP')
+validpgpkeys=('BA90283A60D67BA0DD910A893932080F4FB419E3' # "Steven R. Loomis (filfla-signing) <srloomis@us.ibm.com>" 
+                        '9731166CD8E23A83BEE7C6D3ACA5DBE1FD8FABF1') # "Steven R. Loomis (ICU Project) <srl@icu-project.org>" 
+
+prepare() {
+  cd icu/source
+  # https://ssl.icu-project.org/trac/ticket/13329
+  sed -i 's/xlocale/locale/' i18n/digitlst.cpp
+}
 
 build() {
-  cd ${srcdir}/icu/source
-  # fix Malayalam encoding https://bugzilla.redhat.com/show_bug.cgi?id=654200
-  patch -Rp3 -i ${srcdir}/icu.8198.revert.icu5431.patch
-  ./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man
-  make 
+  cd icu/source
+  ./configure --prefix=/usr \
+	--sysconfdir=/etc \
+	--mandir=/usr/share/man
+  make
+}
+
+check() {
+  cd icu/source
+  make -k check # passes all
 }
 
 package() {
-   cd ${srcdir}/icu/source
-  make -j1 DESTDIR=${pkgdir} install 
+  cd icu/source
+  make -j1 DESTDIR=${pkgdir} install
 
   # Install license
   install -Dm644 ${srcdir}/icu/license.html ${pkgdir}/usr/share/licenses/icu/license.html

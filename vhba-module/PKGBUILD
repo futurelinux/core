@@ -1,39 +1,46 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
-
-_extramodules=extramodules-3.6-CHAKRA
-_kver="$(cat /lib/modules/${_extramodules}/version)"
-
-pkgname=vhba-module
-pkgver=20120422
-pkgrel=6
+pkgbase=vhba-module
+pkgname=(vhba-module vhba-module-dkms)
+pkgver=20190410
+pkgrel=2
 pkgdesc="Kernel module that emulates SCSI devices"
 arch=('x86_64')
 url="http://cdemu.sourceforge.net/"
-license=('GPL2')
-depends=('linux>=3.6' 'linux<3.7')
-makedepends=('linux-headers')
-install=vhba-module.install
-source=("http://sourceforge.net/projects/cdemu/files/vhba-module/vhba-module-$pkgver.tar.bz2"
-        '60-vhba.rules')
-md5sums=('d97372da1d270d1605742b2995fb6678'
-         '071cd160f50ef6b062b6e3262d5b1e76')
+license=('GPL')
+depends=("linux=5.2.11")
+makedepends=("linux-headers=5.2.11")
+_extramodules=extramodules-CHAKRA
+source=("http://downloads.sourceforge.net/cdemu/$pkgname-$pkgver.tar.bz2"
+        60-vhba.rules  dkms.conf)
+md5sums=('dc2323bd121a0f5e389f00d7e0aa97aa'
+         '4dc37dc348b5a2c83585829bde790dcc'
+         '7da9314812d9ea665df0db33052c7452')
 
-build() {
-  cd "$srcdir/$pkgname-$pkgver"
-
-  make -j1 KDIR=/usr/src/linux-${_kver}
+prepare() {
+  cd $pkgname-$pkgver
+  sed -i 's/20190302/20190410/' Makefile  # Fixup VHBA_VERSION
 }
 
-package() {
-  cd "$srcdir/$pkgname-$pkgver"
+build() {
+  cd $pkgbase-$pkgver
+  make KERNELRELEASE="$(cat /usr/lib/modules/$_extramodules/version)"
+}
 
-  install -D vhba.ko "$pkgdir/lib/modules/${_extramodules}/vhba.ko"
-  sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" \
-          "${startdir}/vhba-module.install"
+package_vhba-module() {
+  cd $pkgbase-$pkgver
+  install -Dt "$pkgdir/usr/lib/modules/$_extramodules" -m644 *.ko
+  install -Dt "$pkgdir/usr/lib/udev/rules.d" -m644 ../60-vhba.rules
+  echo 'g cdemu - -' | install -Dm644 /dev/stdin "$pkgdir/usr/lib/sysusers.d/cdemu.conf"
 
-  install -Dm644 "$srcdir/60-vhba.rules" \
-	  "$pkgdir/usr/lib/udev/rules.d/60-vhba.rules"
+  find "$pkgdir" -name '*.ko' -exec xz {} +
+}
+
+package_vhba-module-dkms() {
+  depends=(dkms)
+  provides=("vhba-module=$pkgver-$pkgrel")
+  conflicts=(vhba-module)
+
+  cd $pkgbase-$pkgver
+  install -Dt "$pkgdir/usr/src/$pkgbase-$pkgver" -m644 Makefile vhba.c ../dkms.conf
+  install -Dt "$pkgdir/usr/lib/udev/rules.d" -m644 ../60-vhba.rules
+  echo 'g cdemu - -' | install -Dm644 /dev/stdin "$pkgdir/usr/lib/sysusers.d/cdemu.conf"
 }

@@ -1,0 +1,98 @@
+pkgname=ffmpeg2.8
+pkgver=2.8.13
+pkgrel=5
+pkgdesc='Complete solution to record, convert and stream audio and video'
+arch=('x86_64')
+url='http://ffmpeg.org/'
+license=('GPL3' 'custom')
+depends=('alsa-lib' 'bzip2' 'fontconfig' 'fribidi' 'gnutls' 'gsm' 'lame'
+         'libass' 'libbluray' 'libmodplug' 'libpulse' 'libsoxr' 'libssh'
+         'libtheora' 'libva' 'libvdpau' 'libwebp' 'opencore-amr' 'openjpeg'
+         'opus' 'schroedinger' 'sdl' 'speex' 'v4l-utils' 'xvidcore' 'zlib'
+         'dcadec' 'vid.stab' 'libvorbis' 'lame' 
+         'libvpx' 'libx264.so' 'x265' 'libfdk-aac')
+makedepends=('hardening-wrapper' 'ladspa' 'libvdpau' 'yasm')
+optdepends=('ladspa: LADSPA filters')
+#checkdepends=('valgrind')
+provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'
+          'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so'
+          'libswscale.so')
+source=(http://ffmpeg.org/releases/ffmpeg-${pkgver}.tar.bz2{,.asc})
+validpgpkeys=('FCF986EA15E6E293A5644F10B4322F04D67658D8')
+sha256sums=('df9b98cb584a004ce8e29b4c954cfb8d9e45dac52b4c6d036f25dfbaa3086778'
+            'SKIP')
+
+build() {
+  cd ffmpeg-${pkgver}
+
+  ./configure \
+    --prefix='/usr' \
+    --incdir='/usr/include/ffmpeg2.8' \
+    --libdir='/usr/lib/ffmpeg2.8' \
+    --shlibdir='/usr/lib/ffmpeg2.8' \
+    --disable-debug \
+    --disable-static \
+    --disable-stripping \
+    --enable-avisynth \
+    --enable-avresample \
+    --enable-fontconfig \
+    --enable-gnutls \
+    --enable-gpl \
+    --enable-ladspa \
+    --enable-libass \
+    --enable-libbluray \
+    --enable-libdcadec \
+    --enable-libfreetype \
+    --enable-libfribidi \
+    --enable-libgsm \
+    --enable-libmodplug \
+    --enable-libmp3lame \
+    --enable-libopencore_amrnb \
+    --enable-libopencore_amrwb \
+    --enable-libopenjpeg \
+    --enable-libopus \
+    --enable-libpulse \
+    --enable-libschroedinger \
+    --enable-libsoxr \
+    --enable-libspeex \
+    --enable-libssh \
+    --enable-libtheora \
+    --enable-libv4l2 \
+    --enable-libvidstab \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libwebp \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-libxvid \
+    --enable-shared \
+    --enable-version3 \
+    --enable-x11grab \
+    --enable-nonfree \
+    --enable-libfdk-aac \
+    --enable-libmp3lame
+
+  make
+  make tools/qt-faststart
+  make doc/ff{mpeg,play,server}.1
+}
+
+#check() {
+#  cd ${pkgname}-${pkgver}
+#  make check
+#}
+
+package() {
+  cd ffmpeg-${pkgver}
+
+  make DESTDIR="${pkgdir}" install
+  rm -rf "${pkgdir}"/usr/share
+
+  find "${pkgdir}"/usr/bin -type f -exec mv {} {}2.8 \;
+
+  install -dm 755 "${pkgdir}"/etc/ld.so.conf.d
+  echo -e '/usr/lib/\n/usr/lib/ffmpeg2.8/' > "${pkgdir}"/etc/ld.so.conf.d/50-ffmpeg2.8.conf
+}
+
+# vim: ts=2 sw=2 et:
+

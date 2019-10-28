@@ -1,27 +1,32 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
-
 pkgname=libssh
-pkgver=0.5.3
+pkgver=0.8.5
 pkgrel=1
 pkgdesc="Library for accessing ssh client services through C libraries"
-url="http://www.libssh.org/"
+url="https://www.libssh.org/"
 license=('LGPL')
 arch=('x86_64')
-depends=('openssl')
-makedepends=('cmake' 'doxygen')
-source=("https://red.libssh.org/attachments/download/38/${pkgname}-${pkgver}.tar.gz")
-md5sums=('9ad01838d3b89d98e900e0f6260a88cc')
+depends=('zlib' 'openssl')
+makedepends=('cmake' 'cmocka' 'doxygen' 'python3')
+source=(https://libssh.org/files/${pkgver%.*}/$pkgname-$pkgver.tar.xz{,.asc})
+sha256sums=('07d2c431240fc88f6b06bcb36ae267f9afeedce2e32f6c42f8844b205ab5a335'
+            'SKIP')
+validpgpkeys=('8DFF53E18F2ABC8D8F3C92237EE0FC4DCC014E3D') # Andreas Schneider <asn@cryptomilk.org>
+
+prepare() {
+  # disable the test. It is confused by our clean container setup.
+  # 'extra-x86-build' uses user 'nobody' that has a record in /etc/passwd file
+  # but $HOME envvar is set to '/build'. The test expects that $HOME corresponds to passwd file.
+  sed 's/cmocka_unit_test(torture_path_expand_tilde_unix),//' -i libssh-${pkgver}/tests/unittests/torture_misc.c
+
+  mkdir -p build
+}
 
 build() {
-  cd "${srcdir}"
-  mkdir build
   cd build
   cmake ../${pkgname}-${pkgver} \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DCMAKE_BUILD_TYPE=Release
+    -DWITH_GSSAPI=OFF \
+    -DUNIT_TESTING=ON
   make
 }
 

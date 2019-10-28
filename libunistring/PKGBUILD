@@ -1,39 +1,24 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 pkgname=libunistring
-pkgver=0.9
+pkgver=0.9.7
 pkgrel=1
-# dash the next line if you want to skip the tests
-_test=1
-pkgdesc="Unicode string library for C"
-arch=('any')
-url="http://www.gnu.org/software/libunistring/"
+pkgdesc="Library for manipulating Unicode strings and C strings."
+url="https://www.gnu.org/software/libunistring/"
+arch=('x86_64')
 license=('GPL')
-makedepends=('dejagnu')
-options=('!libtool' 'log')
-source=(http://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz)
-md5sums=('3263ae4966e6e58b06d5d6d544bcf1a8')
-
+depends=('glibc')
+install=${pkgname}.install
+source=(https://ftp.gnu.org/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz{,.sig})
+md5sums=('8e663454aa372181ee8e46edaa3ba4c8'
+         'SKIP')
+validpgpkeys=('462225C3B46F34879FC8496CD605848ED7E69871') # Daiki Ueno
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
-
+  cd "${srcdir}/${pkgname}-${pkgver}"
   ./configure --prefix=/usr
   make
-
-  if [ -n "${_test}" ]; then
-     echo "<<< STARTING TESTS >>>"
-     make check
-     echo "<<< ENDING TESTS >>>"
-  fi
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
-
-  make -j1 DESTDIR="$pkgdir/" install
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
 }

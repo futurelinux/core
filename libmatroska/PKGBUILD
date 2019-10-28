@@ -1,0 +1,33 @@
+pkgname=libmatroska
+pkgver=1.5.0
+pkgrel=1
+pkgdesc="Matroska library"
+arch=('x86_64')
+url="https://dl.matroska.org/downloads/libmatroska/"
+license=('LGPL')
+depends=('libebml')
+makedepends=('cmake')
+source=("http://dl.matroska.org/downloads/libmatroska/${pkgname}-${pkgver}.tar.xz")
+md5sums=('39a5293ccac395c741b2208336bf2510')
+
+prepare() {
+  if [[ -d build ]]; then
+    rm -rf build
+  fi
+  mkdir build
+}
+
+build() {
+  cd build
+
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+    -DBUILD_SHARED_LIBS=ON
+  make
+}
+
+package() {
+  make DESTDIR="${pkgdir}" -C build install
+}

@@ -1,48 +1,64 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
-
-pkgname=glib2
-pkgver=2.32.1
-pkgrel=3
+pkgbase=glib2
+pkgname=(glib2 glib2-docs)
+pkgver=2.58.1
+pkgrel=2
 pkgdesc="Common C routines used by GTK+ and other libs"
-url="http://www.gtk.org/"
-arch=(i686 x86_64)
-license=('LGPL')
-depends=('pcre' 'libffi')
-makedepends=('pkgconfig' 'python2')
-options=('!libtool' '!docs')
-source=(http://ftp.gnome.org/pub/GNOME/sources/glib/2.32/glib-${pkgver}.tar.xz
-        glib2.sh
-        glib2.csh
-        revert-warn-glib-compile-schemas.patch)
-sha256sums=('484d5b7fc09f3fa398355adaf74b369768f5859866c299f229c99721990f8398'
-            '9456872cdedcc639fb679448d74b85b0facf81033e27157d2861b991823b5a2a'
-            '8d5626ffa361304ad3696493c0ef041d0ab10c857f6ef32116b3e2878ecf89e3'
-            '6967ba8481ce194ed083a462343386e32fea236e343299d3066a2106e1114e5f')
+url="https://wiki.gnome.org/Projects/GLib"
+arch=(x86_64)
+depends=(pcre libffi util-linux zlib)
+makedepends=(gettext gtk-doc shared-mime-info python3 libelf git meson dbus)
+checkdepends=(desktop-file-utils)
+optdepends=('python3: gdbus-codegen, glib-genmarshal, glib-mkenums, gtester-report'
+            'libelf: gresource inspection tool')
+options=(!emptydirs)
+source=("http://download.gnome.org/sources/glib/2.58/glib-${pkgver}.tar.xz"
+        noisy-glib-compile-schemas.diff
+        glib-compile-schemas.hook gio-querymodules.hook)
+sha256sums=('97d6a9d926b6aa3dfaadad3077cfb43eec74432ab455dff14250c769d526d7d6'
+            '81a4df0b638730cffb7fa263c04841f7ca6b9c9578ee5045db6f30ff0c3fc531'
+            'e1123a5d85d2445faac33f6dae1085fdd620d83279a4e130a83fe38db52b62b3'
+            '5ba204a2686304b1454d401a39a9d27d09dd25e4529664e3fd565be3d439f8b6')
 
-build() {
-  cd "${srcdir}/glib-${pkgver}"
-  patch -Rp1 -i "$srcdir/revert-warn-glib-compile-schemas.patch"
-  PYTHON=/usr/bin/python2 ./configure --prefix=/usr \
-      --sysconfdir=/etc \
-      --with-pcre=system \
-      --disable-fam
-  make
+prepare() {
+  cd glib-$pkgver
+
+  # Suppress noise from glib-compile-schemas.hook
+  patch -Np1 -i ../noisy-glib-compile-schemas.diff
 }
 
-package() {
-  cd "${srcdir}/glib-${pkgver}"
-  make completiondir=/usr/share/bash-completion/completions DESTDIR="${pkgdir}" install
+build() {
+  chakra-meson glib-$pkgver build \
+    -D selinux=false \
+    -D man=true \
+    -D gtk_doc=true
+  ninja -C build
+}
 
-  install -d "${pkgdir}/etc/profile.d"
-  install -m755 "${srcdir}/glib2.sh" "${pkgdir}/etc/profile.d/"
-  install -m755 "${srcdir}/glib2.csh" "${pkgdir}/etc/profile.d/"
+check() {
+  meson test -C build
+}
 
-  for _i in "${pkgdir}/usr/share/bash-completion/completions/"*; do
-      chmod -x "${_i}"
-  done
-  sed -i "s|#!/usr/bin/env python|#!/usr/bin/env python2|" "$pkgdir"/usr/bin/gdbus-codegen
+package_glib2() {
+  DESTDIR="$pkgdir" meson install -C build
+  install -Dt "$pkgdir/usr/share/libalpm/hooks" -m644 *.hook
+
+  python3 -m compileall -d /usr/share/glib-2.0/codegen "$pkgdir/usr/share/glib-2.0/codegen"
+  python3 -O -m compileall -d /usr/share/glib-2.0/codegen "$pkgdir/usr/share/glib-2.0/codegen"
+
+  # Split docs
+  mv "$pkgdir/usr/share/gtk-doc" "$srcdir"
+}
+
+package_glib2-docs() {
+  pkgdesc="Documentation for GLib"
+  depends=()
+  optdepends=()
+  license+=(custom)
+
+  mkdir -p "$pkgdir/usr/share"
+  mv gtk-doc "$pkgdir/usr/share"
+
+  cd glib-$pkgver
+  install -Dt "$pkgdir/usr/share/licenses/glib2-docs" -m644 docs/reference/COPYING
 }
 

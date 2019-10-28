@@ -1,0 +1,26 @@
+# Contributions from Arch: https://projects.archlinux.org/svntogit/community.git/tree/trunk?h=packages/jansson
+
+pkgname=jansson
+pkgver=2.7
+pkgrel=1
+pkgdesc='C library for encoding, decoding and manipulating JSON data'
+arch=('x86_64')
+url='http://www.digip.org/jansson/'
+license=('MIT')
+options=('!staticlibs')
+source=("$url/releases/$pkgname-$pkgver.tar.bz2")
+md5sums=('ffac352f9c5f80a6ae8145d451af2c0e')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  make DESTDIR="$pkgdir" install
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

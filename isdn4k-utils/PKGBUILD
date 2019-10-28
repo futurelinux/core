@@ -1,31 +1,48 @@
-# $Id: PKGBUILD 31126 2009-03-24 13:01:52Z allan $
-# Contributor: Dennis "Gyroplast" Herbrich <dennis@archlinux.org>
-# Maintainer: dorphell <dorphell@archlinux.org>
+#contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/isdn4k-utils
+
 pkgname=isdn4k-utils
-pkgver=3.2p1
-pkgrel=6
+pkgver=3.27
+pkgrel=2
 pkgdesc="User space administration programs and tools for ISDN"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://www.isdn4linux.de/"
 license=('GPL')
-depends=('ncurses') 
+depends=('ncurses' 'sh') 
 backup=(etc/isdn/{callerid.conf,isdn.conf,rate.conf,isdnlog.isdnctrl0.options})
-source=(ftp://ftp.isdn4linux.de/pub/isdn4linux/utils/${pkgname}.v${pkgver}.tar.bz2 \
-        config gcc3.3-slashdev.patch gcc34.patch \
-	http://cvs.mandriva.com/cgi-bin/cvsweb.cgi/~checkout~/SPECS/isdn4k-utils/isdn4k-utils-gcc4.patch)
-md5sums=('d347afa462e46eccfd1284aebae227b6' '3429894039f33c114fef5ef9f866920e'\
-         '32f94ab17f6c2a1d5ab72b8b07a175ea' 'd90d56e1ecfb9329ff09d651b85f5c55'\
-         '7993f27b8d7239a35374da7d8f358cb9')
+options=('!makeflags')
+source=(isdn4k-utils::git+git://git.misdn.eu/isdn4k-utils.git#tag=v${pkgver}
+        config
+        va_list.patch)
+md5sums=('SKIP'
+         'd3be8bf50f21bff277deff5e3bc46ef9'
+         '5bce7606c04bb51a4e6527a5ff56c87e')
+
+prepare() {
+  CPPFLAGS="$CPPFLAGS -O2"
+  cd $srcdir/$pkgname
+  patch -Np1 -i $srcdir/va_list.patch
+  cp $srcdir/config ./.config
+  cd capiinfo
+  aclocal
+  automake --add-missing
+  autoreconf
+  cd $srcdir/$pkgname
+  cd capifax
+  aclocal 
+  automake --add-missing
+  autoreconf
+  cd $srcdir/$pkgname
+  make subconfig
+}
 
 build() {
   cd $srcdir/$pkgname
-  export MAKEFLAGS="j1"
-  patch -Np1 -i ../gcc3.3-slashdev.patch
-  patch -Np1 -i ../gcc34.patch
-  patch -Np1 -i ../isdn4k-utils-gcc4.patch
-  cp ../config ./.config
-  make subconfig || return 1
-  make || return 1
-  mkdir -p $pkgdir/sbin
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname
+  install -dm755 $pkgdir/usr/bin
   make DESTDIR=$pkgdir install
+  chmod 755 $pkgdir/usr/bin/*
 }

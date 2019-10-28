@@ -1,0 +1,28 @@
+
+pkgname=bbswitch
+pkgver=0.8
+pkgrel=54
+pkgdesc="kernel module allowing to switch dedicated graphics card on Optimus laptops"
+arch=('x86_64')
+url="http://github.com/Bumblebee-Project/bbswitch"
+license=('GPL')
+depends=("linux=5.2.11")
+makedepends=("linux-headers=5.2.11")
+_extramodules=extramodules-CHAKRA
+source=("https://github.com/Bumblebee-Project/bbswitch/archive/v${pkgver}.tar.gz")
+md5sums=('5b116b31ace3604ddf9d1fc1f4bc5807')
+
+build() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+  msg2 "Kernel = $KERNEL_VERSION"
+
+  make KDIR="/usr/lib/modules/$KERNEL_VERSION/build/"
+}
+
+package() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  # KDIR is necessary even when cleaning
+  install -Dm644 bbswitch.ko $pkgdir/usr/lib/modules/${_extramodules}/bbswitch.ko
+  gzip "${pkgdir}/usr/lib/modules/${_extramodules}/bbswitch.ko"
+}

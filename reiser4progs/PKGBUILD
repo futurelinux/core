@@ -1,0 +1,22 @@
+pkgname=reiser4progs
+pkgver=1.2.1
+pkgrel=1
+pkgdesc="Reiser4 utilities"
+arch=('x86_64')
+url='https://sourceforge.net/projects/reiser4'
+license=('GPL2')
+depends=('libaal' 'e2fsprogs')
+options=('!libtool')
+source=("http://sourceforge.net/projects/reiser4/files/reiser4-utils/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+sha256sums=('87423b977ffd03c6499e648c8956e2cea9f8cc7933ad8b6fee1c91e6efc66d0f')
+
+build() {
+	cd "${pkgname}-${pkgver}"
+	./configure --prefix=/usr --sbindir=/usr/bin
+	make
+}
+
+package() {
+	cd "${pkgname}-${pkgver}"
+	make DESTDIR="${pkgdir}" install
+}

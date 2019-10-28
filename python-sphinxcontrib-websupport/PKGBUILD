@@ -1,0 +1,34 @@
+pkgbase=python-sphinxcontrib-websupport
+pkgname=(python3-sphinxcontrib-websupport python2-sphinxcontrib-websupport)
+pkgver=1.1.0
+pkgrel=1
+pkgdesc="Sphinx API for Web Apps"
+arch=('any')
+url="http://www.sphinx-doc.org/"
+license=('BSD')
+makedepends=('python3' 'python3-setuptools' 'python2' 'python2-setuptools')
+source=("$pkgbase-$pkgver.tar.gz::https://github.com/sphinx-doc/sphinxcontrib-websupport/archive/$pkgver.tar.gz")
+sha512sums=('a99a7edf60ccff0be60a9442bc5f8b2612d374747b730b8a428df34b2e434e3fb55d88ee858255b710b05c2b75f4c235e17f908e5bb2fae4bb7790ff262bc7be')
+
+prepare() {
+  cp -a sphinxcontrib-websupport-$pkgver{,-py2}
+}
+
+build() {
+  cd "$srcdir"/sphinxcontrib-websupport-$pkgver
+  python3 setup.py build
+
+  cd "$srcdir"/sphinxcontrib-websupport-$pkgver-py2
+  python2 setup.py build
+}
+
+package_python3-sphinxcontrib-websupport() {
+  cd "$srcdir"/sphinxcontrib-websupport-$pkgver
+  python3 setup.py install --root="$pkgdir" --optimize=1
+}
+
+package_python2-sphinxcontrib-websupport() {
+  cd "$srcdir"/sphinxcontrib-websupport-$pkgver-py2
+  python2 setup.py install --root="$pkgdir" --optimize=1
+}
+

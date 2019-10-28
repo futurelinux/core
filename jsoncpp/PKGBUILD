@@ -1,0 +1,62 @@
+pkgbase=jsoncpp
+pkgname=('jsoncpp' 'jsoncpp-doc')
+pkgver=1.8.4
+pkgrel=3
+pkgdesc='A C++ library for interacting with JSON'
+url='https://github.com/open-source-parsers/jsoncpp'
+license=('MIT' 'custom:Public_Domain')
+arch=('x86_64')
+makedepends=('gcc-libs' 'cmake' 'doxygen' 'graphviz' 'python3' 'meson')
+options=('staticlibs')
+source=(${pkgbase}-${pkgver}.tar.gz::https://github.com/open-source-parsers/${pkgbase}/archive/${pkgver}.tar.gz)
+md5sums=('fa47a3ab6b381869b6a5f20811198662')
+
+prepare() {
+  cd ${pkgbase}-${pkgver}
+  mkdir -p build
+}
+
+build() {
+  cd ${pkgbase}-${pkgver}
+  msg2 "Building docs..."
+  python3 doxybuild.py \
+    --doxygen="$(which doxygen)" \
+    --with-dot
+
+  msg2 "Building shared library..."
+  chakra-meson --default-library shared build
+  ninja -C build
+
+  msg2 "Building static library..."
+  chakra-meson --default-library static build-static
+  ninja -C build-static
+}
+
+check() {
+  cd ${pkgbase}-${pkgver}
+  ninja -C build test
+  cd test
+  python3 runjsontests.py ../build/jsontestrunner
+  python3 rununittests.py ../build/jsoncpp_test
+}
+
+package_jsoncpp() {
+  depends=('gcc-libs')
+  optdepends=('jsoncpp-doc: documentation')
+
+  cd ${pkgbase}-${pkgver}
+  DESTDIR="${pkgdir}" ninja -C build install
+  DESTDIR="${pkgdir}" ninja -C build-static install
+  install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm 644 README.md -t "${pkgdir}/usr/share/doc/${pkgname}"
+}
+
+package_jsoncpp-doc() {
+  pkgdesc+=' (documentation)'
+  optdepends=('jsoncpp')
+
+  cd ${pkgbase}-${pkgver}
+  install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -dm 755 "${pkgdir}/usr/share/doc/${pkgbase}"
+  cp -a dist/doxygen/jsoncpp-api-html-${pkgver} "${pkgdir}/usr/share/doc/${pkgbase}/html"
+}

@@ -1,0 +1,37 @@
+pkgname=libdvdnav
+pkgver=5.0.3
+pkgrel=1
+pkgdesc="The library for xine-dvdnav plugin."
+arch=('x86_64')
+license=('GPL')
+url="https://dvdnav.mplayerhq.hu/"
+depends=('libdvdread')
+source=("http://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2"
+        'fix-crash-describe_title.patch')
+md5sums=('e9ea4de3bd8f204e61301d407d09f033'
+         'a23f89f9175a36f04b5e202bd4e35baa')
+
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+  patch -Np1 -i ../fix-crash-describe_title.patch
+  autoreconf -fi
+}
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --sharedstatedir=/var \
+              --localstatedir=/var \
+              --disable-fast-install \
+              --disable-static
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+
+  make DESTDIR="${pkgdir}" install
+}

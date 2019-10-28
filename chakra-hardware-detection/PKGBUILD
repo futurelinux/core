@@ -1,0 +1,27 @@
+#
+# Chakra Packages for Chakra, part of chakralinux.org
+#
+
+pkgname=chakra-hardware-detection
+pkgver=20190923
+pkgrel=1
+branch="master"
+pkgdesc="Hardware detection scripts for Chakra"
+arch=('any')
+url="https://www.chakralinux.org"
+depends=('bc' 'util-linux' 'chd-nvidia' 'chd-nvidia-340xx' 'chd-nvidia-390xx'
+         'dmidecode') 
+license=('GPL')
+
+_gitname=$pkgname
+_gitsha=aaf1ca66
+source=("$pkgname"::"git+https://code.chakralinux.org/tools/${_gitname}.git#commit=${_gitsha}")
+
+md5sums=('SKIP')
+
+# create tarball: source PKGBUILD && mksource
+
+package(){
+	cd "$srcdir/$_gitname/"
+	make install DESTDIR="${pkgdir}"
+}

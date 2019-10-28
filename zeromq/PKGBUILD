@@ -1,0 +1,39 @@
+# Contributions from Arch: https://projects.archlinux.org/svntogit/community.git/tree/trunk?h=packages/zeromq
+
+pkgname=zeromq
+pkgver=4.2.1
+pkgrel=3
+pkgdesc="Fast messaging system built on sockets.  C and C++ bindings. aka 0MQ, ZMQ."
+arch=('x86_64')
+url="http://www.zeromq.org"
+license=('LGPL')
+depends=('gcc-libs' 'util-linux' 'libsodium' 'libpgm')
+makedepends=('python2')
+options=('staticlibs')
+source=("https://github.com/zeromq/libzmq/releases/download/v$pkgver/zeromq-$pkgver.tar.gz"
+            "zmq.hpp.$pkgver::https://raw.githubusercontent.com/zeromq/cppzmq/b0e6d4b/zmq.hpp")
+md5sums=('820cec2860a72c3257881a394d83bfc0'
+         '4a81b2afcb6ce78e6e8198c332e20334')
+
+prepare() {
+  # Needed for new libsodium
+  sed -i 's/libzmq_werror="yes"/libzmq_werror="no"/' $pkgname-$pkgver/configure
+  cp zmq.hpp.$pkgver zmq.hpp
+}
+      
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  ./configure prefix=/usr \
+    --with-pgm \
+    --with-libsodium \
+    --with-documentation \
+    --enable-static
+
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
+  install -Dm644 "$srcdir/zmq.hpp" "$pkgdir/usr/include/zmq.hpp"
+}

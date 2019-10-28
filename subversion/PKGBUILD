@@ -1,73 +1,94 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
-
 pkgname=subversion
-pkgver=1.7.8
+pkgver=1.12.0
 pkgrel=1
 pkgdesc="A Modern Concurrent Version Control System"
 arch=('x86_64')
-license=('apache' 'bsd')
-depends=('neon' 'apr-util' 'sqlite3' 'file')
-optdepends=('kdeutils-kwallet' 'bash-completion: for svn bash completion')
+url="https://subversion.apache.org/"
+license=('apache')
+depends=('sqlite' 'libutf8proc' 'file' 'serf' 'systemd')
 makedepends=('krb5' 'apache' 'python2' 'perl' 'swig' 'ruby' 'java-runtime' 
-             'autoconf' 'db' 'e2fsprogs' 'kdelibs')
-#backup=('etc/xinetd.d/svn' 'etc/conf.d/svnserve')
-url="http://subversion.apache.org/"
+             'autoconf' 'kwallet' 'kdelibs4support' 'openjdk')
+optdepends=('kwallet: for KWallet for auth credentials'
+            'bash-completion: for svn bash completion'
+            'python2: for some hook scripts'
+            'java-environment: for Java support'
+            'ruby: for some hook scripts')
+backup=('etc/xinetd.d/svn' 'etc/conf.d/svnserve')
 provides=('svn')
-options=('!makeflags' '!libtool')
-source=(http://apache.mirror.rafal.ca/subversion/$pkgname-$pkgver.tar.bz2{,.asc}
-        svn svnserve.conf 
+options=('!makeflags' '!emptydirs')
+source=(https://www.apache.org/dist/subversion/subversion-${pkgver}.tar.bz2{,.asc}
+        apr-1.7.patch::https://github.com/apache/subversion/commit/d67979e61f.patch
+        svn
+        svnserve.conf 
 	svnserve.tmpfiles
 	svnserve.service
-        subversion.rpath.fix.patch)
-md5sums=('454b9f398415c3504435bf8c3f6ed127'
-         '8fc10351ec75a103b0c0c69d8ed786b7'
-         'a0db6dd43af33952739b6ec089852630'
-         'c459e299192552f61578f3438abf0664'
-         'bb2857eceafcfac35dde39dcffad2314'
-         'e8020c7a1d1a0c47091b5fdd034f81c5'
-         '6b4340ba9d8845cd8497e013ae01be3f')
+        subversion.rpath.fix.patch
+        ruby-frozen-nil.patch)
+sha1sums=('2dfecac56f18951182dbee4a4f14d27f27ebcdb7'
+          'SKIP'
+          '9869963ba349eb5b6d3561ef92c3a21e0b088e38'
+          '73b36c046c09cec2093354911c89e3ba8056af6c'
+          'ad117bf3b2a838a9a678a93fd8db1a066ad46c41'
+          '00cc36e69077a8c45674ead6dd62a7647b3a3b6d'
+          'd299e1612d5e48afb877bd3ae18338d198f89dfa'
+          'afdf311e7422131fab1c068d7153b5c4b3bb318e'
+          '53c209b2ad958aa1c4f9d563ffe7ade901a5ed98')
+validpgpkeys=('19BBCAEF7B19B280A0E2175E62D48FAD16A0DE01'
+              '8BC4DAE0C5A4D65F404401074F7DBAA99A59B973'
+              'BA3C15B1337CF0FB222BD41A1BCA6586A347943F'
+              'E7B2A7F4EC28BE9FF8B38BA4B64FFF1209F9FA74'
+              '3D1DC66D6D2E0B9039528138C4A6C625CCC8E1DF')
+# Ben Reser / Stefan Sperling / Branko Čibej / Evgeny Kotkov / Bert Huijben
+
+prepare() {
+   cd ${pkgname}-${pkgver}
+   patch -p1 -i ../apr-1.7.patch
+   patch -Np0 -i ../subversion.rpath.fix.patch
+   patch -p1 -i ../ruby-frozen-nil.patch
+   sed -i 's|/usr/bin/env python|/usr/bin/env python2|' tools/hook-scripts/{,mailer/{,tests/}}*.py subversion/tests/cmdline/*.py
+
+   ./autogen.sh
+}
 
 build() {
-   cd "${srcdir}/${pkgname}-${pkgver}"
+   cd ${pkgname}-${pkgver}
 
    export PYTHON=/usr/bin/python2
 
-   patch -p0 -i ../subversion.rpath.fix.patch
-   sed -i 's|/usr/bin/env python|/usr/bin/env python2|' tools/hook-scripts/{,mailer/{,tests/}}*.py
-
    # configure
-   autoreconf
    ./configure --prefix=/usr --with-apr=/usr --with-apr-util=/usr \
-               --with-zlib=/usr --with-neon=/usr --with-apxs \
-               --with-sqlite=/usr \
-               --enable-javahl --without-gnome-keyring --with-kwallet
+               --with-zlib=/usr --with-serf=/usr --with-apxs \
+               --with-sqlite=/usr --with-jdk=/usr/lib/jvm/java-8-openjdk \
+               --enable-javahl --without-gnome-keyring --with-kwallet \
+               --with-apache-libexecdir=/usr/lib/httpd/modules \
+               --disable-static
 
-   make external-all
    make LT_LDFLAGS="-L$Fdestdir/usr/lib" local-all
    make swig_pydir=/usr/lib/python2.7/site-packages/libsvn \
-     swig_pydir_extra=/usr/lib/python2.7/site-packages/svn swig-py swig-pl javahl # swig-rb
+     swig_pydir_extra=/usr/lib/python2.7/site-packages/svn swig-py swig-pl javahl swig-rb
 }
 
 package() {
-   cd "${srcdir}/${pkgname}-${pkgver}"
+   cd ${pkgname}-${pkgver}
 
    export LD_LIBRARY_PATH="${pkgdir}"/usr/lib:${LD_LIBRARY_PATH}
    make DESTDIR="${pkgdir}" INSTALLDIRS=vendor \
      swig_pydir=/usr/lib/python2.7/site-packages/libsvn \
      swig_pydir_extra=/usr/lib/python2.7/site-packages/svn \
-     install install-swig-py install-swig-pl install-javahl # install-swig-rb
+     install install-swig-py install-swig-pl install-javahl install-swig-rb
 
-   install -d "${pkgdir}"/usr/share/subversion
+   install -dm755 "${pkgdir}"/usr/share/subversion
    cp -a tools/hook-scripts "${pkgdir}"/usr/share/subversion/
    rm "${pkgdir}"/usr/share/subversion/hook-scripts/*.in
 
    rm "${pkgdir}"/usr/lib/perl5/vendor_perl/auto/SVN/_Core/.packlist
    rm -r "${pkgdir}"/usr/lib/perl5/core_perl
 
-   ## svnserve
+   
+   # xinetd
+   install -D -m 644 "${srcdir}"/svn "${pkgdir}"/etc/xinetd.d/svn
+   
+   # svnserve
    install -D -m 644 "${srcdir}"/svnserve.conf "${pkgdir}"/etc/conf.d/svnserve
 
    # systemd
@@ -81,3 +102,4 @@ package() {
       ln -sf subversion "${pkgdir}"/usr/share/bash-completion/completions/${i}
    done
 }
+

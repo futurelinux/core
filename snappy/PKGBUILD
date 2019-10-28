@@ -1,0 +1,46 @@
+pkgname=snappy
+pkgver=1.1.7
+pkgrel=1
+pkgdesc='A fast compressor/decompressor library'
+arch=('x86_64')
+url="http://code.google.com/p/snappy/"
+license=('BSD')
+depends=('glibc' 'gcc-libs')
+checkdepends=('zlib')
+source=("https://github.com/google/snappy/archive/$pkgver.tar.gz"
+                snappy.pc)
+md5sums=('ee9086291c9ae8deb4dac5e0b85bf54a'
+         '4b491e29a8142fedd11472306f5c1192')
+
+build() {
+  cd "$pkgname-$pkgver"
+
+  # compile without assertions
+  CXXFLAGS+=\ -DNDEBUG
+
+  cmake \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+    -DBUILD_SHARED_LIBS=yes \
+    .
+
+  make
+}
+
+check() {
+  # compile without assertions
+  CXXFLAGS+=\ -DNDEBUG
+
+  make -C "$pkgname-$pkgver" test
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+
+  make DESTDIR="$pkgdir" install
+  install -m644 -D COPYING "$pkgdir/usr/share/licenses/snappy/LICENSE"
+
+  # remove this after the file exists upstream again
+  # https://github.com/google/snappy/pull/55
+  install -Dm644 "$srcdir/snappy.pc" "$pkgdir/usr/lib/pkgconfig/snappy.pc"
+}

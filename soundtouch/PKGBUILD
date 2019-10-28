@@ -1,0 +1,29 @@
+pkgname=soundtouch
+pkgver=2.0.0
+pkgrel=1
+pkgdesc="SoundTouch is an open-source audio processing library for changing the Tempo, Pitch and Playback Rates of audio streams or audio files."
+arch=('x86_64')
+url="http://www.surina.net/soundtouch/"
+license=('LGPL')
+depends=('gcc-libs')
+source=("http://www.surina.net/soundtouch/${pkgname}-${pkgver}.tar.gz")
+sha1sums=('a6829c6b00b8ea684a4998929b1ad05adac449f7')
+
+prepare() {
+  cd ${pkgname}
+  sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADER/' configure.ac
+}
+
+build() {
+  cd "${srcdir}/${pkgname}"
+
+  ./bootstrap
+  ./configure --prefix=/usr --enable-shared --with-pic 
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}"
+
+  make DESTDIR="${pkgdir}" pkgdocdir=/usr/share/doc/soundtouch install
+}

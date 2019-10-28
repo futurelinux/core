@@ -1,0 +1,42 @@
+
+pkgname=nvidia-390xx-lts
+pkgver=390.87
+pkgrel=2
+pkgdesc="NVIDIA drivers for linux-lts, 390xx legacy branch"
+arch=('x86_64')
+url="http://www.nvidia.com/"
+depends=("linux-lts=4.4.165"  "nvidia-390xx-utils=${pkgver}")
+makedepends=("linux-lts-headers=4.4.165")
+conflicts=('nvidia-340xx-lts' 'nvidia-lts')
+license=('custom')
+options=('!strip')
+_extramodules=extramodules-CHAKRA-LTS
+_pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
+source=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run")
+sha512sums=('91f8639718b8511f56e8c01caafc5a061a3ae1e84202ad261fae94bf83b2c9db8eb5910a9a2b35f668bb3c82dfb3978ca037930a71e396d105c4b4b25c269ed8')
+
+
+prepare() {
+    sh "${_pkg}.run" --extract-only
+    cd "${_pkg}"
+}
+
+build() {
+    KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+    msg2 "Kernel = $KERNEL_VERSION"
+    
+    cd "${_pkg}/kernel"
+    make SYSSRC=/usr/lib/modules/$KERNEL_VERSION/build module
+}
+
+package() {
+    install -Dt "${pkgdir}/usr/lib/modules/${_extramodules}" -m644 \
+      "${srcdir}/${_pkg}/kernel"/nvidia{,-modeset,-drm,-uvm}.ko
+
+    find "${pkgdir}" -name '*.ko' -exec gzip -n {} +
+
+    echo "blacklist nouveau" |
+      install -Dm644 /dev/stdin "${pkgdir}/usr/lib/modprobe.d/${pkgname}.conf"
+
+    install -Dt "${pkgdir}/usr/share/licenses/${pkgname}" -m644 "${srcdir}/${_pkg}/LICENSE"
+}

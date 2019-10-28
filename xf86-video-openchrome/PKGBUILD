@@ -1,0 +1,52 @@
+# Part of the X.org group
+# Maintainer: Neophytos Kolokotronis <tetris4 AT gmail DOT com>
+# contributor: abveritas@chakra-project.org
+
+source ../xorg.conf
+
+pkgname=xf86-video-openchrome
+pkgver=0.6.0
+pkgrel=2
+pkgdesc="X.Org Openchrome drivers"
+arch=('x86_64')
+license=('custom')
+url="http://www.freedesktop.org/wiki/Openchrome/"
+depends=('libdrm' 'libxvmc' 'systemd')
+optdepends=('unichrome-dri')
+makedepends=('xorg-server-devel' "X-ABI-VIDEODRV_VERSION=${X_ABI_VIDEODRV_VERSION}")
+conflicts=('xorg-server<1.16' "X-ABI-VIDEODRV_VERSION<${X_ABI_VIDEODRV_MAJOR}" "X-ABI-VIDEODRV_VERSION>=$((X_ABI_VIDEODRV_MAJOR+1))"
+           'xf86-video-via' 'xf86-video-unichrome' 'openchrome')
+replaces=('openchrome' 'xf86-video-via')
+groups=('xorg-drivers' 'xorg')
+options=('!emptydirs' '!makeflags')
+source=(http://xorg.freedesktop.org/archive/individual/driver/${pkgname}-${pkgver}.tar.bz2{,.sig})
+sha1sums=('2077181ded4d86e9cbe6d3e9b1245339692e848d'
+          'SKIP')
+validpgpkeys=('CDA92E38A7A7A82237E9AB61C922784178BFFDB0') # "Kevin Brace <kevinbrace@gmx.com>"
+
+build() {
+  cd ${pkgname}-${pkgver}
+
+  # Since pacman 5.0.2-2, hardened flags are now enabled in makepkg.conf
+  # With them, module fail to load with undefined symbol.
+  # See https://bugs.archlinux.org/task/55102 / https://bugs.archlinux.org/task/54845
+  export CFLAGS=${CFLAGS/-fno-plt}
+  export CXXFLAGS=${CXXFLAGS/-fno-plt}
+  export LDFLAGS=${LDFLAGS/,-z,now}
+
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd $pkgname-${pkgver}
+  make check
+}
+
+
+package() {
+  cd ${pkgname}-${pkgver}
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

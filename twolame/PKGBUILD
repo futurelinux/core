@@ -1,0 +1,26 @@
+# contribution from Arch https://www.archlinux.org/packages/community/x86_64/twolame/
+
+pkgname=twolame
+pkgver=0.3.13
+pkgrel=2
+pkgdesc="An optimized MPEG Audio Layer 2 (MP2) encoder"
+arch=('x86_64')
+url="http://www.twolame.org/"
+license=('LGPL')
+depends=('libsndfile')
+source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+md5sums=('4113d8aa80194459b45b83d4dbde8ddb')
+
+build() {
+  cd $pkgname-$pkgver
+
+  ./configure --prefix=/usr \
+              --disable-static
+  make
+}
+
+package() {
+  cd $pkgname-$pkgver
+
+  make DESTDIR=${pkgdir} install
+}

@@ -1,0 +1,39 @@
+pkgname=nvidia-lts
+pkgdesc="NVIDIA drivers for linux-lts"
+pkgver=410.78
+pkgrel=1
+arch=('x86_64')
+url="http://www.nvidia.com/"
+depends=("linux-lts=4.4.165" "nvidia-utils=${pkgver}" 'libglvnd')
+makedepends=("linux-lts-headers=4.4.165")
+_extramodules=extramodules-CHAKRA-LTS
+license=('custom')
+_pkg="NVIDIA-Linux-x86_64-${pkgver}"
+source=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run")
+md5sums=('5486d21e82fe16b88f43363981dc09d4')
+
+prepare() {
+    sh "${_pkg}.run" --extract-only
+    cd "${_pkg}"
+    # patches here
+}
+
+build() {
+    cd "${_pkg}/kernel"
+    KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+    msg2 "Kernel = $KERNEL_VERSION"
+    make SYSSRC=/usr/lib/modules/$KERNEL_VERSION/build module
+}
+
+package() {
+    install -Dt "${pkgdir}/usr/lib/modules/${_extramodules}" -m644 \
+      "${srcdir}/${_pkg}/kernel"/nvidia{,-modeset,-drm,-uvm}.ko
+
+    find "${pkgdir}" -name '*.ko' -exec gzip -n {} +
+
+    echo "blacklist nouveau" |
+        install -Dm644 /dev/stdin "${pkgdir}/usr/lib/modprobe.d/${pkgname}.conf"
+
+    install -Dt "${pkgdir}/usr/share/licenses/${pkgname}" -m644 "${srcdir}/${_pkg}/LICENSE"
+    echo "blacklist nouveau" >> "${pkgdir}/usr/lib/modprobe.d/nouveau_blacklist.conf"
+}

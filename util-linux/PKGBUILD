@@ -1,74 +1,68 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dog]org>
-# maintainer Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 pkgname=util-linux
-pkgver=2.22.1
-pkgrel=3
+_pkgmajor=2.33
+pkgver=${_pkgmajor}.2
+pkgrel=1
 pkgdesc="Miscellaneous system utilities for Linux"
-url="http://www.kernel.org/pub/linux/utils/util-linux/"
+url="https://www.kernel.org/pub/linux/utils/util-linux/"
 arch=('x86_64')
 groups=('base')
-depends=('pam' 'shadow' 'coreutils' 'glibc')
-makedepend=('bc')
-conflicts=('util-linux-ng' 'eject')
-provides=("util-linux-ng=${pkgver}" 'eject')
+depends=('pam' 'shadow' 'coreutils' 'glibc' 'ncurses')
+makedepends=('systemd' 'python3')
+optdepends=('python3: python bindings to libmount')
+conflicts=('util-linux-ng' 'eject' 'rfkill')
+provides=("util-linux-ng=${pkgver}" 'eject' 'rfkill')
+replaces=('rfkill')
 license=('GPL2')
-options=('!libtool')
-source=(ftp://ftp.kernel.org/pub/linux/utils/${pkgname}/v2.22/${pkgname}-${pkgver}.tar.xz
-        uuidd.tmpfiles
-        pam-login
-        pam-common
-        pam-su
-        system-auth
-        system-local-login
-        system-login
-        system-remote-login
-        system-services)
+options=('strip' 'debug')
+validpgpkeys=('B0C64D14301CC6EFAEDF60E4E4B71D5EEC39C284')  # Karel Zak
+source=("https://www.kernel.org/pub/linux/utils/util-linux/v$_pkgmajor/$pkgname-$pkgver.tar."{xz,sign}
+        pam-{login,common,su}
+        'util-linux.sysusers')
 backup=(etc/pam.d/chfn
         etc/pam.d/chsh
         etc/pam.d/login
         etc/pam.d/su
         etc/pam.d/su-l)
-install=util-linux.install
-md5sums=('730cf9932531ed09b53a04ca30fcb4c9'
-         'a39554bfd65cccfd8254bb46922f4a67'
+md5sums=('91653b90fcbe9c161153e39b8cc69fb5'
+         'SKIP'
          '4368b3f98abd8a32662e094c54e7f9b1'
          'a31374fef2cba0ca34dfc7078e2969e4'
          'fa85e5cce5d723275b14365ba71a8aad'
-         '5f169a4ffe7ed69f58e106cdd2d760df'
-         '477237985820117a0e6e1b13a86eb599'
-         '17c691f2da319df8fe851bc47cc1d662'
-         '477237985820117a0e6e1b13a86eb599'
-         '30fe7d41e054ee43fab7855bf88a07e5')
+         'dfc9904f67ebc54bb347ca3cc430ef2b')
+
+validpgpkeys=('B0C64D14301CC6EFAEDF60E4E4B71D5EEC39C284')  # Karel Zak
+
+#prepare() {
+#  cd "$pkgname-$pkgver"
+#  for patch in $(ls $srcdir/*.patch); do
+#  patch -Np1 -i $patch
+#  done
+#}
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "$pkgname-$pkgver"
 
   ./configure --prefix=/usr \
               --libdir=/usr/lib \
+              --bindir=/usr/bin \
+              --sbindir=/usr/sbin \
               --localstatedir=/run \
               --enable-fs-paths-extra=/usr/bin:/usr/sbin \
-              --enable-write \
               --enable-raw \
               --enable-vipw \
               --enable-newgrp \
               --enable-chfn-chsh \
+              --enable-write \
               --enable-mesg \
-              --enable-socket-activation
+	      --disable-tailf \
+              --enable-libmount-force-mountinfo \
+              --with-python=3
 
   make
 }
 
-# only bc test fails, leaving dep to test the rest
-#check() {
-#  make -C "${pkgname}-${pkgver}" check
-#}
-
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "$pkgname-$pkgver"
 
   make DESTDIR="${pkgdir}" install
 
@@ -76,19 +70,17 @@ package() {
   
   chmod 4755 "$pkgdir"/usr/bin/{newgrp,ch{sh,fn}}
 
+  # install PAM files for login-utils
   install -Dm644 "$srcdir/pam-common" "$pkgdir/etc/pam.d/chfn"
   install -m644 "$srcdir/pam-common" "$pkgdir/etc/pam.d/chsh"
   install -m644 "$srcdir/pam-login" "$pkgdir/etc/pam.d/login"
   install -m644 "$srcdir/pam-su" "${pkgdir}/etc/pam.d/su"
   install -m644 "$srcdir/pam-su" "${pkgdir}/etc/pam.d/su-l"
-  install -m644 "$srcdir/system-auth" "${pkgdir}/etc/pam.d/system-auth"
-  install -m644 "$srcdir/system-local-login" "${pkgdir}/etc/pam.d/system-local-login"
-  install -m644 "$srcdir/system-login" "${pkgdir}/etc/pam.d/system-login"
-  install -m644 "$srcdir/system-remote-login" "${pkgdir}/etc/pam.d/system-remote-login"
-  install -m644 "$srcdir/system-services" "${pkgdir}/etc/pam.d/system-services"
 
-  install -Dm644 "$srcdir/uuidd.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/uuidd.conf"
+  # TODO(dreisner): offer this upstream?
+  sed -i '/ListenStream/ aRuntimeDirectory=uuidd' "$pkgdir/usr/lib/systemd/system/uuidd.socket"
+
+  ### install systemd-sysusers
+  install -Dm644 "$srcdir/util-linux.sysusers" \
+    "$pkgdir/usr/lib/sysusers.d/util-linux.conf"
 }
-
-
-

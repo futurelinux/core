@@ -1,0 +1,31 @@
+pkgname=log4cxx
+pkgver=0.10.0
+pkgrel=4
+pkgdesc="A C++ port of Log4j"
+url="https://logging.apache.org/log4cxx"
+license=('APACHE')
+arch=('x86_64')
+depends=('apr-util' 'db' 'libxml2')
+makedepends=('autoconf' 'automake' 'libtool' 'patch' 'zip' 'gzip' 'sed')
+source=(https://archive.apache.org/dist/logging/$pkgname/$pkgver/apache-$pkgname-$pkgver.tar.gz
+        log4cxx-0.10.0-missing_includes.patch
+        log4cxx-0.10.0-narrowing-fixes-from-upstream.patch)
+md5sums=('b30ffb8da3665178e68940ff7a61084c'
+         'dfa17719a57b19f12cbef94419a2aac8'
+         'e44be5c21b8ec3b4fd573acf0c6df287')
+
+build() {
+  cd ${srcdir}/apache-$pkgname-$pkgver
+
+  patch -p1 < $startdir/log4cxx-0.10.0-missing_includes.patch
+  patch -p1 < $startdir/log4cxx-0.10.0-narrowing-fixes-from-upstream.patch
+
+  ./configure --prefix=/usr --disable-static
+  make 
+}
+
+package() {
+  cd ${srcdir}/apache-$pkgname-$pkgver
+
+  make DESTDIR=${pkgdir} install
+}

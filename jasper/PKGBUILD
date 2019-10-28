@@ -1,0 +1,53 @@
+# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/jasper
+
+pkgname=jasper
+pkgver=2.0.14
+pkgrel=1
+pkgdesc="A software-based implementation of the codec specified in the emerging JPEG-2000 Part-1 standard"
+arch=('x86_64')
+url="http://www.ece.uvic.ca/~frodo/jasper/"
+license=('custom:JasPer2.0')
+makedepends=('libjpeg' 'freeglut' 'libxmu' 'glu' 'cmake' 'doxygen' 'libxrandr')
+source=("http://www.ece.uvic.ca/~frodo/${pkgname}/software/${pkgname}-${pkgver}.tar.gz"
+        jasper-1.900.1-fix-filename-buffer-overflow.patch)
+md5sums=('23561b51da8eb5d0dc85b91eff3d9a7f'
+         '189277273af37012cac84d67c6c063de')
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+  patch -p1 -i "${srcdir}/jasper-1.900.1-fix-filename-buffer-overflow.patch"
+  sed -r 's|(CMAKE_SKIP_BUILD_RPATH) FALSE|\1 TRUE|g' -i CMakeLists.txt
+  mkdir -p build-shared build-static
+}
+
+build() {
+  cd ${pkgname}-${pkgver}
+
+  local options=(
+    -DCMAKE_INSTALL_PREFIX=/usr
+    -DCMAKE_INSTALL_LIBDIR=lib
+    -DCMAKE_BUILD_TYPE=Release
+    -DJAS_ENABLE_OPENGL=ON
+    -DJAS_ENABLE_LIBJPEG=ON
+    -DJAS_ENABLE_AUTOMATIC_DEPENDENCIES=OFF
+    -DCMAKE_SKIP_RPATH=ON
+  )
+  msg2 "Building static lib..."
+  (cd build-static
+    cmake ${options[@]} -DJAS_ENABLE_SHARED=OFF ..
+    make
+  )
+  msg2 "Building shared lib..."
+  (cd build-shared
+    cmake ${options[@]} -DJAS_ENABLE_SHARED=ON ..
+    make
+  )
+}
+
+package() {
+  cd ${pkgname}-${pkgver}
+
+  make -C build-static DESTDIR="${pkgdir}" install
+  make -C build-shared DESTDIR="${pkgdir}" install
+  install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}

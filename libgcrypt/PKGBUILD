@@ -1,25 +1,44 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
-
 pkgname=libgcrypt
-pkgver=1.5.0
-pkgrel=3
+pkgver=1.8.5
+pkgrel=1
 pkgdesc="a general purpose crypto library based on the code used"
-arch=('i686' 'x86_64')
-url="http://www.gnupg.org"
+arch=('x86_64')
+url="https://www.gnupg.org"
 license=('LGPL')
-depends=('libgpg-error>=1.8')
-options=(!libtool)
-source=("ftp://ftp.gnupg.org/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-sha1sums=('3e776d44375dc1a710560b98ae8437d5da6e32cf')
+depends=('libgpg-error')
+options=('!emptydirs' '!makeflags')
+source=(https://www.gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2{,.sig})
+# https://www.gnupg.org/download/integrity_check.html
+sha1sums=('2d8781e92f88706707a1e76fb628b499ad538a30'
+          'SKIP')
+validpgpkeys=('031EC2536E580D8EA286A9F22071B08A33BD3F06' # "NIIBE Yutaka (GnuPG Release Key) <gniibe@fsij.org>"
+              'D8692123C4065DEA5E0F3AB5249B39D24F25E3B6') # Werner Koch
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+  # tests fail due to systemd+libseccomp preventing memory syscalls when building in chroots
+  #  t-secmem: line 176: gcry_control (GCRYCTL_INIT_SECMEM, pool_size, 0) failed: General error
+  #  FAIL: t-secmem
+  #  t-sexp: line 1174: gcry_control (GCRYCTL_INIT_SECMEM, 16384, 0) failed: General error
+  #  FAIL: t-sexp
+  sed -i "s:t-secmem::" tests/Makefile.am
+  sed -i "s:t-sexp::" tests/Makefile.am
+  autoreconf -vfi
+}
+
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  ./configure --prefix=/usr --disable-padlock-support --disable-static
+  ./configure --prefix=/usr \
+    --disable-static \
+    --disable-padlock-support
   make
+}
+
+check() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make check
 }
 
 package() {

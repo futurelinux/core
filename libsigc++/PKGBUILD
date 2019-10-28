@@ -1,0 +1,40 @@
+pkgbase=libsigc++
+pkgname=('libsigc++' 'libsigc++-docs')
+pkgver=2.10.0
+pkgrel=2
+arch=('x86_64')
+license=('LGPL')
+url="http://libsigc.sourceforge.net/"
+source=(http://download.gnome.org/sources/${pkgname}/${pkgver:0:4}/${pkgname}-${pkgver}.tar.xz)
+makedepends=('gcc-libs>=4.5.0')
+options=(!emptydirs)
+sha256sums=('f843d6346260bfcb4426259e314512b99e296e8ca241d771d21ac64f28298d81')
+
+build() {
+  cd "${srcdir}/libsigc++-${pkgver}"
+  ./configure --prefix=/usr 
+  make 
+}
+
+package_libsigc++() {
+  pkgdesc="Libsigc++ implements a full callback system for use in widget libraries - V2."
+  depends=('gcc-libs')
+  provides=("libsigc++2.0=${pkgver}")
+  replaces=('libsigc++2.0')
+  conflicts=('libsigc++2.0')
+
+  cd "${srcdir}/libsigc++-${pkgver}"
+  sed -i -e 's/^doc_subdirs/#doc_subdirs/' Makefile 
+  make DESTDIR="${pkgdir}" install 
+}
+
+package_libsigc++-docs() {
+  pkgdesc="Developer documentation for libsigc++"
+  provides=("libsigc++2.0-docs=${pkgver}")
+  replaces=('libsigc++2.0-docs')
+  conflicts=('libsigc++2.0-docs')
+
+  cd "${srcdir}/libsigc++-${pkgver}/docs"
+  make DESTDIR="${pkgdir}" install 
+}
+

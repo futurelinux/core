@@ -1,0 +1,30 @@
+pkgname=xorg-util-macros
+pkgver=1.19.2
+pkgrel=1
+pkgdesc="X.Org Autotools macros"
+arch=('x86_64')
+license=('custom')
+url="https://xorg.freedesktop.org/"
+source=("https://ftp.x.org/pub/individual/util/util-macros-${pkgver}.tar.gz"{,.sig})
+sha1sums=('dfb86cc5f110eee27f21c4856224d4528e176bd5'
+          'SKIP')
+validpgpkeys=('3BB639E56F861FA2E86505690FDD682D974CA72A') # Matt Turner
+
+build() {
+  cd "${srcdir}/util-macros-${pkgver}"
+
+  ./configure --prefix=/usr 
+  make
+}
+
+package() {
+  cd "${srcdir}/util-macros-${pkgver}" 
+
+  make DESTDIR="${pkgdir}" install 
+  install -dm755 "${pkgdir}/usr/lib"
+
+  mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib/" 
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/" 
+}
+

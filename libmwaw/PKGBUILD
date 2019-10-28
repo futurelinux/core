@@ -1,0 +1,21 @@
+pkgname=libmwaw
+pkgver=0.3.14
+pkgrel=1
+pkgdesc="Library to extract valid data from within an Excel (.xls) spreadsheet."
+arch=('x86_64')
+depends=('librevenge')
+makedepends=('boost' 'doxygen')
+license=('LGPLv2')
+source=(https://downloads.sourceforge.net/libmwaw/${pkgname}-${pkgver}.tar.bz2)
+md5sums=('271c52cad27c92a02b0088c7d2d980db')
+
+build() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    ./configure --prefix=/usr
+    make
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make DESTDIR="$pkgdir/" install
+}

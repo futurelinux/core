@@ -1,0 +1,56 @@
+# NOTE: major version should be in sync with the Linux
+# kernel.
+
+pkgname=btrfs-progs
+pkgver=5.2.2
+pkgrel=1
+pkgdesc='Btrfs filesystem utilities'
+arch=('x86_64')
+depends=('glibc' 'util-linux' 'e2fsprogs' 'lzo2' 'zlib' 'zstd')
+makedepends=('git' 'asciidoc' 'xmlto' 'systemd' 'python3-setuptools')
+url='http://btrfs.wiki.kernel.org/'
+license=('GPL2')
+source=("https://github.com/kdave/${pkgname}/archive/v${pkgver}.tar.gz"
+        'initcpio-install-btrfs'
+        'initcpio-hook-btrfs'
+        'btrfs-scrub@.service'
+        'btrfs-scrub@.timer')
+md5sums=('a529357bef3ecdf51d8883bb2f41b181'
+         '7241ba3a4286d08da0d50b7176941112'
+         'b09688a915a0ec8f40e2f5aacbabc9ad'
+         '794b867e09451284c545bae112aa0cfd'
+         'a290e0ab88b7b4675cd20f5a2befc8cb')
+install=btrfs-progs.install
+options=(!staticlibs)
+
+build() {
+   cd $pkgname-$pkgver
+    ./autogen.sh
+   ./configure --prefix=/usr
+   make
+}
+
+check() {
+   cd $pkgname-$pkgver
+   ./btrfs filesystem show
+}
+
+package() {
+   cd $pkgname-$pkgver
+
+   make DESTDIR=${pkgdir} prefix=/usr install
+
+   # install bash completion (FS#44618)
+   install -Dm644 btrfs-completion "$pkgdir/usr/share/bash-completion/completions/btrfs"
+
+   # install mkinitcpio hooks
+   cd "$srcdir"
+   install -Dm644 initcpio-install-btrfs "$pkgdir/usr/lib/initcpio/install/btrfs"
+   install -Dm644 initcpio-hook-btrfs    "$pkgdir/usr/lib/initcpio/hooks/btrfs"
+
+   # install scrub service/timer
+   install -Dm644 btrfs-scrub@.service "$pkgdir/usr/lib/systemd/system/btrfs-scrub@.service"
+   install -Dm644 btrfs-scrub@.timer   "$pkgdir/usr/lib/systemd/system/btrfs-scrub@.timer"
+}
+
+

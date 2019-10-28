@@ -1,34 +1,42 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
 
-
-pkgname=gobject-introspection
-pkgver=1.32.1
+pkgbase=gobject-introspection
+pkgname=('gobject-introspection' 'gobject-introspection-runtime')
+pkgver=1.54.1
 pkgrel=1
-pkgdesc="Introspection system for GObject-based libraries"
-url="http://live.gnome.org/GObjectInstrospection"
-arch=('x86_64' 'i686')
+url="https://live.gnome.org/GObjectIntrospection"
+arch=('x86_64')
 license=('LGPL' 'GPL')
-depends=('libffi' 'glib2' 'python2')
-makedepends=('cairo')
-options=('!libtool')
-source=(http://ftp.gnome.org/pub/gnome/sources/${pkgname}/1.32/${pkgname}-${pkgver}.tar.xz)
-sha256sums=('44f3fb933f76e4728818cc360cb5f9e2edcbdf9bc8a8f9aded99b3e3ef5cb858')
+makedepends=('cairo' 'python3' 'python2-mako')
+source=(http://ftp.gnome.org/pub/gnome/sources/$pkgbase/${pkgver:0:4}/$pkgbase-$pkgver.tar.xz)
+sha256sums=('b88ded5e5f064ab58a93aadecd6d58db2ec9d970648534c63807d4f9a7bb877e')
 
+prepare() {
+  cd $pkgbase-$pkgver
+  sed -i '1s|#!/usr/bin/env python$|&2|' giscanner/*.py
+  
+  NOCONFIGURE=1 ./autogen.sh
+}
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  PYTHON=/usr/bin/python2 ./configure --prefix=/usr --disable-static
+  cd $pkgbase-$pkgver
+  PYTHON=/usr/bin/python2 ./configure --prefix=/usr --disable-static --enable-doctool
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
   make
 }
 
-package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  make DESTDIR="${pkgdir}" install
-
-  sed -i '1s|#!/usr/bin/env python$|&2|' \
-    "${pkgdir}"/usr/lib/gobject-introspection/giscanner/*.py
+package_gobject-introspection-runtime() {
+  pkgdesc="Introspection system for GObject-based libraries - runtime files"
+  depends=('glib2')
+  cd $pkgbase-$pkgver
+  make DESTDIR="$pkgdir" install-libLTLIBRARIES install-typelibsDATA
 }
 
+package_gobject-introspection() {
+  pkgdesc="Introspection system for GObject-based libraries"
+  depends=("gobject-introspection-runtime=$pkgver" 'python2-mako' 'python2')
+  options=('!emptydirs')
+
+  cd $pkgbase-$pkgver
+  make DESTDIR="$pkgdir" install
+  make DESTDIR="$pkgdir" uninstall-libLTLIBRARIES uninstall-typelibsDATA
+}

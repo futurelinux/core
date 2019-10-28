@@ -1,77 +1,85 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
-
 pkgname=git
-pkgver=1.8.0.2
-pkgrel=2
+pkgver=2.20.1
+pkgrel=1
 pkgdesc="Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency."
 arch=('x86_64')
-url="http://git-scm.com/"
+url="https://git-scm.com/"
 license=('GPL2')
-depends=('curl' 'expat>=2.0' 'perl-error' 'perl' 'pcre')
-makedepends=('python2' 'emacs')
+depends=('curl' 'expat>=2.0' 'perl-error' 'perl' 'openssl' 'pcre2' 'perl-mailtools' 'shadow' 'grep')
+makedepends=('python2' 'asciidoc' 'xmlto' 'asciidoc')
 optdepends=('tk: gitk and git gui'
             'perl-libwww: git svn'
             'perl-term-readkey: git svn'
             'perl-net-smtp-ssl: git send-email TLS support'
             'python2: various helper scripts'
-            'subversion: git svn'
-            'cvsps: git cvsimport')
-replaces=('git-core')
-provides=('git-core')
-backup=('etc/conf.d/git-daemon.conf')
+            'subversion: git svn')
 install="git.install"
-source=("http://git-core.googlecode.com/files/git-${pkgver}.tar.gz"
-        "http://git-core.googlecode.com/files/git-manpages-${pkgver}.tar.gz"
-        'git-daemon.conf'
+source=("https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar"{.xz,.sign}
         'git-daemon@.service'
-        'git-daemon.socket')
-md5sums=('1aca109d4a719fe5bc43d25927fbc7d9'
-         'ab83283a5b3c73ab711a9f02896ca12e'
-         '2e42bf97779a1c6411d89043334c9e78'
-         '042524f942785772d7bd52a1f02fe5ae'
-         'f67869315c2cc112e076f0c73f248002')
+        'git-daemon.socket'
+        'git-sysusers.conf')
+sha256sums=('9d2e91e2faa2ea61ba0a70201d023b36f54d846314591a002c610ea2ab81c3e9'
+            'SKIP'
+            '3bc3250d9e04b05c41975c01f85f512d3386d60b41475cbc7292bc88148852f6'
+            'ac4c90d62c44926e6d30d18d97767efc901076d4e0283ed812a349aece72f203'
+            '7630e8245526ad80f703fac9900a1328588c503ce32b37b9f8811674fcda4a45')
+validpgpkeys=('96E07AF25771955980DAD10020D04E5A713660A7') # Junio C Hamano
+
+_make_paths=(
+  prefix='/usr'
+  gitexecdir='/usr/lib/git-core'
+  perllibdir="$(/usr/bin/perl -MConfig -wle 'print $Config{installvendorlib}')"
+)
+
+_make_options=(
+  CFLAGS="$CFLAGS"
+  LDFLAGS="$LDFLAGS"
+  USE_LIBPCRE2=1
+  NO_CROSS_DIRECTORY_HARDLINKS=1
+  NO_PERL_CPAN_FALLBACKS=1
+  MAN_BOLD_LITERAL=1
+)
 
 build() {
   export PYTHON_PATH='/usr/bin/python2'
   cd "${srcdir}/${pkgname}-${pkgver}"
-  make prefix=/usr gitexecdir=/usr/lib/git-core \
-       USE_LIBPCRE=1 \
-       NO_CROSS_DIRECTORY_HARDLINKS=1 \
-       all
 
-  cd contrib/emacs
-  make prefix=/usr
+  make \
+    "${_make_paths[@]}" \
+    "${_make_options[@]}" \
+    all man
+
+  make -C contrib/subtree prefix=/usr gitexecdir=/usr/lib/git-core all man
 }
 
 check() {
   export PYTHON_PATH='/usr/bin/python2'
-  cd "${srcdir}/${pkgname}-${pkgver}"
-
-  local jobs="$(expr "$MAKEFLAGS" : '.*\(-j[0-9]*\).*')"
+  cd "$srcdir/$pkgname-$pkgver"
+  local jobs
+  jobs=$(expr "$MAKEFLAGS" : '.*\(-j[0-9]*\).*') || true
   mkdir -p /dev/shm/git-test
-  # We used to use this, but silly git regressions:
-  #GIT_TEST_OPTS="--root=/dev/shm/" \
-  # http://comments.gmane.org/gmane.comp.version-control.git/202020
-  make prefix=/usr gitexecdir=/usr/lib/git-core \
-       USE_LIBPCRE=1 \
-       NO_CROSS_DIRECTORY_HARDLINKS=1 \
-       NO_SVN_TESTS=y \
-       DEFAULT_TEST_TARGET=prove \
-       GIT_PROVE_OPTS="${jobs} -Q" \
-       GIT_TEST_OPTS="--root=/dev/shm/git-test" \
-       test
+  # explicitly specify SHELL to avoid a test failure in t/t9903-bash-prompt.sh
+  # which is caused by 'git rebase' trying to use builduser's SHELL inside the
+  # build chroot (i.e.: /usr/bin/nologin)
+  SHELL=/bin/sh \
+  make \
+    "${_make_paths[@]}" \
+    "${_make_options[@]}" \
+    NO_SVN_TESTS=y \
+    DEFAULT_TEST_TARGET=prove \
+    GIT_PROVE_OPTS="$jobs -Q" \
+    GIT_TEST_OPTS="--root=/dev/shm/git-test" \
+    test
 }
 
 package() {
   export PYTHON_PATH='/usr/bin/python2'
   cd "${srcdir}/${pkgname}-${pkgver}"
-  make prefix=/usr gitexecdir=/usr/lib/git-core \
-       USE_LIBPCRE=1 \
-       NO_CROSS_DIRECTORY_HARDLINKS=1 \
-       INSTALLDIRS=vendor DESTDIR="${pkgdir}" install 
+  make \
+    "${_make_paths[@]}" \
+    "${_make_options[@]}" \
+    DESTDIR="$pkgdir" \
+    install install-man
 
   # bash completion
   mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
@@ -79,37 +87,23 @@ package() {
   # fancy git prompt
   mkdir -p "${pkgdir}/usr/share/git/"
   install -m644 ./contrib/completion/git-prompt.sh "${pkgdir}/usr/share/git/git-prompt.sh"
-  # more contrib stuff
-  cp -a ./contrib/* "${pkgdir}/usr/share/git/"
+  # subtree installation
+  make -C contrib/subtree prefix=/usr gitexecdir=/usr/lib/git-core DESTDIR="$pkgdir" install install-man
+  # the rest of the contrib stuff
+  cp -a ./contrib/* $pkgdir/usr/share/git/
 
   # scripts are for python 2.x
-  find "${pkgdir}" -name '*.py' \
-       -exec sed -e 's|#![ ]*/usr/bin/env python|#!/usr/bin/env python2|' -i \{\} \+
+  sed -i 's|#![ ]*/usr/bin/env python$|#!/usr/bin/env python2|' \
+    $(find "$pkgdir" -name '*.py') \
+    "$pkgdir"/usr/share/git/remote-helpers/git-remote-bzr \
+    "$pkgdir"/usr/share/git/remote-helpers/git-remote-hg
+  sed -i 's|#![ ]*/usr/bin/python$|#!/usr/bin/python2|' \
+    "$pkgdir"/usr/share/git/svn-fe/svnrdump_sim.py
 
-  sed -e 's|#![ ]*/usr/bin/env python|#!/usr/bin/env python2|' \
-      -i "${pkgdir}/usr/lib/git-core/git-p4" \
-      -i "${pkgdir}/usr/share/git/gitview/gitview"
+  # git-daemon via systemd socket activation
+  install -D -m 0644 "$srcdir"/git-daemon@.service "$pkgdir"/usr/lib/systemd/system/git-daemon@.service
+  install -D -m 0644 "$srcdir"/git-daemon.socket "$pkgdir"/usr/lib/systemd/system/git-daemon.socket
 
-  # emacs interface
-  cd contrib/emacs
-  make prefix=/usr DESTDIR="${pkgdir}" install
-
-  # how 'bout some manpages?
-  for mansect in man1 man5 man7; do
-    for manpage in "${srcdir}/${mansect}"/*; do
-      install -D -m644 "${manpage}" "${pkgdir}/usr/share/man/${mansect}/$(basename ${manpage})"
-    done
-  done
-
-  # remove perllocal.pod, .packlist, and empty directories.
-  rm -rf "${pkgdir}/usr/lib/perl5"
-
-  # git daemon script
-  install -D -m644 "${srcdir}/git-daemon.conf" "${pkgdir}/etc/conf.d/git-daemon.conf"
-
-  # systemd stuff
-  install -D -m644 "${srcdir}/git-daemon@.service" "${pkgdir}/usr/lib/systemd/system/git-daemon@.service"
-  install -D -m644 "${srcdir}/git-daemon.socket" "${pkgdir}/usr/lib/systemd/system/git-daemon.socket"
+  # sysusers file
+  install -D -m 0644 "$srcdir"/git-sysusers.conf "$pkgdir"/usr/lib/sysusers.d/git.conf
 }
-
-# vim:set ts=2 sw=2 et:

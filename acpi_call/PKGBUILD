@@ -1,68 +1,55 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
-
-_kver="3.6.6-1-CHAKRA"
-
-pkgname=acpi_call
-pkgver=20120613
-pkgrel=6
+pkgbase=acpi_call
+pkgname=(acpi_call acpi_call-dkms)
+pkgver=1.1.0
+pkgrel=60
 pkgdesc="A kernel module that enables you to call parameterless ACPI methods by writing the method name to /proc/acpi/call, e.g. to turn off discrete graphics card in a dual graphics environment (like NVIDIA Optimus)."
 arch=('x86_64')
-url=("http://github.com/mkottman/acpi_call")
+url="http://github.com/mkottman/acpi_call"
 license=('GPL')
-depends=('linux>=3.6' 'linux<3.7' 'linux-headers')
-makedepends=('git')
-install=acpi_call.install
-source=("http://chakra-linux.org/sources/${pkgname}/${pkgname}-${pkgver}.tar.xz")
-md5sums=('fcee74cba78ff644b43d60e046864b9e')
+depends=("linux=5.2.11")
+makedepends=("linux-headers=5.2.11")
+_extramodules=extramodules-CHAKRA
+source=("https://github.com/mkottman/acpi_call/archive/v${pkgver}.tar.gz"
+            dkms.conf)
+md5sums=('f69d40e130b0e5ed17ce8adb19e6dda1'
+         'dbaf20d4ac8b02490a1b3526e4536687')
 
+prepare() {
+  cd $pkgbase-$pkgver
 
-# create tarball: source PKGBUILD && mksource
+  # Fix build with Linux >= 3.17
+  sed -i 's|acpi/acpi.h|linux/acpi.h|' acpi_call.c
 
-mksource() {
-  git clone http://github.com/mkottman/acpi_call.git
-  pushd acpi_call
-  popd
-  tar -cvJf ${pkgname}-${pkgver}.tar.xz acpi_call/*
-  md5sum ${pkgname}-${pkgver}.tar.xz
+  # Fix build with Linux >= 4.12
+  sed -i 's|asm/uaccess.h|linux/uaccess.h|' acpi_call.c
 }
 
 build() {
-  cd ${srcdir}
-
- ## Build
-  #rm -rf ${srcdir}/$pkgname-${pkgver}-build
-  #cp -r ${srcdir}/$pkgname-${pkgver} ${srcdir}/$pkgname${pkgver}-build
-  cd ${srcdir}/$pkgname-${pkgver}
-
-  make
+  cd $pkgbase-$pkgver
+  make KVERSION="$(cat /usr/lib/modules/$_extramodules/version)"
 }
-package() {
-  cd ${srcdir}/$pkgname-${pkgver}
-  install -d ${pkgdir}/usr/share/$pkgname 
-  install -d ${pkgdir}/usr/bin  
-  install -Dm755  ${srcdir}/$pkgname-${pkgver}/asus1215n.sh \
-    ${pkgdir}/usr/share/$pkgname 
-  install -Dm755  ${srcdir}/$pkgname-${pkgver}/m11xr2.sh \
-    ${pkgdir}/usr/share/$pkgname 
-  install -Dm755  ${srcdir}/$pkgname-${pkgver}/query_dsdt.pl \
-    ${pkgdir}/usr/share/$pkgname 
-  install -Dm755  ${srcdir}/$pkgname-${pkgver}/test_off.sh \
-    ${pkgdir}/usr/share/$pkgname 
-  ln -s /usr/share/$pkgname/test_off.sh \
-    ${pkgdir}/usr/bin/test_off.sh 
-  cp -R windump_hack \
-    ${pkgdir}/usr/share/$pkgname/
-  install -Dm644 README \
-    ${pkgdir}/usr/share/$pkgname/README
 
-    msg2 "Building module for $_kver..."
+package_acpi_call() {
+  cd $pkgbase-$pkgver
+  install -Dt "$pkgdir/usr/lib/modules/$_extramodules" -m644 *.ko
+  find "$pkgdir" -name '*.ko' -exec xz {} +
 
-  # KDIR is necessary even when cleaning
-  #make KDIR=/usr/src/linux-${_kver} clean
-  make KDIR=/usr/src/linux-${_kver}
+  echo acpi_call | install -Dm644 /dev/stdin "$pkgdir/usr/lib/modules-load.d/acpi_call.conf"
 
-  install -D -m644 acpi_call.ko $pkgdir/lib/modules/${_kver}/kernel/drivers/acpi/acpi_call.ko
+  mkdir -p "$pkgdir/usr/share/acpi_call"
+  cp -t "$pkgdir/usr/share/acpi_call" -dr --no-preserve=ownership examples support
+}
+
+package_acpi_call-dkms() {
+  depends=(dkms)
+  provides=("acpi_call=$pkgver-$pkgrel")
+  conflicts=(acpi_call)
+
+  cd $pkgbase-$pkgver
+  install -Dt "$pkgdir/usr/src/$pkgbase-$pkgver" -m644 Makefile acpi_call.c ../dkms.conf
+
+  echo acpi_call | install -Dm644 /dev/stdin "$pkgdir/usr/lib/modules-load.d/acpi_call.conf"
+
+  mkdir -p "$pkgdir/usr/share/acpi_call"
+  cp -t "$pkgdir/usr/share/acpi_call" -dr --no-preserve=ownership examples support
 }

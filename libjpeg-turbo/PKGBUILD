@@ -1,0 +1,73 @@
+# Maintainer:
+# Contributors: H W Tovetjärn (totte) <totte@tott.es>
+#               Anke Boersma (abveritas) <abveritas@chakra-project.org>
+#               Gaetan Bisson <bisson@archlinux.org>
+#               Allan McRae <allan@archlinux.org>
+#               Simone Sclavi 'Ito' <darkhado@gmail.com>
+
+pkgname=libjpeg-turbo
+pkgver=1.5.2
+pkgrel=1
+pkgdesc='JPEG image codec with accelerated baseline compression and decompression'
+arch=('x86_64')
+url='http://libjpeg-turbo.virtualgl.org/'
+license=('GPL'
+         'custom')
+makedepends=('nasm')
+provides=('libjpeg=8.1.2'
+          'libjpeg6')
+replaces=('libjpeg'
+          'libjpeg6')
+conflicts=('libjpeg'
+           'libjpeg6')
+options=('!libtool')
+source=("http://sourceforge.net/projects/$pkgname/files/$pkgver/$pkgname-$pkgver.tar.gz")
+sha512sums=('c7fe5cc77e38fad33af3f10e6db961c8edf033a86c09541121f49bfa20547179760924e6d3e397f0add7030459ff3babadd3457ab2da4a40a2147dc1574aa444')
+
+prepare() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    sed 's/Szathmáry/Szathmary/g' -i java/org/libjpegturbo/turbojpeg/*.java
+}
+
+build() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    # Create libjpeg6
+    ./configure \
+        --prefix=/usr \
+        --with-jpeg6 \
+	--without-simd \
+        --mandir=/usr/share/man
+    make
+    mkdir -p ${srcdir}/libjpeg6
+    cp -d .libs/libjpeg.so.6* ${srcdir}/libjpeg6
+    rm -R .libs
+
+    # Create libjpeg8
+    ./configure \
+        --prefix=/usr \
+        --with-jpeg8 \
+        --mandir=/usr/share/man
+    make
+}
+
+check() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make test
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    # Install libjpeg6
+    mkdir -p $pkgdir/usr/lib
+    cp -vd $srcdir/libjpeg6/libjpeg.so.6* $pkgdir/usr/lib
+
+    # Install libjpeg8
+    make DESTDIR="$pkgdir/" install
+
+    # Provide jpegint.h as it is required by various software
+    install -m644 jpegint.h $pkgdir/usr/include/
+
+    install -Dm644 README.md $pkgdir/usr/share/licenses/libjpeg-turbo/README
+}

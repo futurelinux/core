@@ -1,0 +1,42 @@
+pkgname=dnsmasq
+pkgver=2.78
+pkgrel=1
+pkgdesc="Lightweight, easy to configure DNS forwarder and DHCP server"
+url="http://www.thekelleys.org.uk/dnsmasq/doc.html"
+arch=('x86_64')
+license=('GPL')
+depends=('glibc' 'libdbus' 'libidn' 'gmp' 'nettle')
+install=$pkgname.install
+backup=('etc/dnsmasq.conf')
+source=("http://www.thekelleys.org.uk/$pkgname/$pkgname-$pkgver.tar.xz"
+        'dnsmasq.service')
+md5sums=('6d0241b72c79d2b510776ccc4ed69ca4'
+         '7ac45726cabef4145db40d758cc7fedf')
+
+build() {
+  cd "$pkgname-$pkgver"
+
+  make \
+    CFLAGS="$CPPFLAGS $CFLAGS" \
+    LDFLAGS="$LDFLAGS" \
+    COPTS="-DHAVE_DNSSEC -DHAVE_DBUS -DHAVE_IDN" \
+    all-i18n
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+
+  # need to pass COPTS here to avoid rebuilding the binary.
+  make \
+    COPTS="$_build_copts" \
+    BINDIR=/usr/bin PREFIX=/usr DESTDIR="$pkgdir" \
+    install install-i18n
+
+  install -Dm644 "dbus/dnsmasq.conf" "$pkgdir"/etc/dbus-1/system.d/dnsmasq.conf
+  install -Dm644 "dnsmasq.conf.example" "$pkgdir"/etc/dnsmasq.conf
+  install -Dm644 "$srcdir/dnsmasq.service" "$pkgdir"/usr/lib/systemd/system/dnsmasq.service
+
+  # DNSSEC setup
+  sed -i 's,%%PREFIX%%,/usr,' "$pkgdir"/etc/dnsmasq.conf
+  install -Dm644 "trust-anchors.conf" "$pkgdir"/usr/share/dnsmasq/trust-anchors.conf
+}

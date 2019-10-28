@@ -1,0 +1,64 @@
+pkgbase=qscintilla
+pkgname=('qscintilla-qt5' 'python3-qscintilla-qt5' 'python-qscintilla-qt5-common')
+pkgver=2.11.1
+pkgrel=1
+license=('GPL')
+arch=('x86_64')
+url="https://www.riverbankcomputing.com/software/qscintilla/intro"
+makedepends=('python3-pyqt5' 'qt5-tools' 'sip')
+options=('!buildflags') # Fix Qt Designer plugin
+source=("https://www.riverbankcomputing.com/static/Downloads/QScintilla/QScintilla_gpl-$pkgver.tar.gz")
+md5sums=('a7cb1293fd0aaa727ac6b160700e0f38')
+
+build() {
+    cd "$srcdir"/QScintilla_gpl-${pkgver}
+    export QMAKEFEATURES=$PWD/Qt4Qt5/features/
+
+    msg 'building qscintilla main'
+    cd Qt4Qt5
+    qmake-qt5 qscintilla.pro
+    make
+
+    msg 'build designer'
+    cd ../designer-Qt4Qt5
+    qmake-qt5 designer.pro INCLUDEPATH+=../Qt4Qt5 QMAKE_LIBDIR+=../Qt4Qt5
+    make
+
+    msg 'build python3'
+    cd ../Python
+    python3 configure.py --pyqt=PyQt5 -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c --qmake /usr/bin/qmake-qt5
+    make
+}
+
+package_qscintilla-qt5() {
+    pkgdesc="A port to Qt5 of Neil Hodgson's Scintilla C++ editor class"
+    depends=('qt5-base')
+
+    cd QScintilla_gpl-${pkgver}/Qt4Qt5
+    make DESTDIR="${pkgdir}" INSTALL_ROOT="${pkgdir}" install -j1
+
+    cd ../designer-Qt4Qt5
+    make DESTDIR="${pkgdir}" INSTALL_ROOT="${pkgdir}" install
+}
+
+package_python-qscintilla-qt5-common() {
+    pkgdesc="Common python qscintilla bindings files shared between python-qscintilla-qt5 and python2-qscintilla-qt5"
+    depends=('qscintilla-qt5')
+
+    cd QScintilla_gpl-${pkgver}/Python
+    make DESTDIR="${pkgdir}" INSTALL_ROOT="${pkgdir}" install -j1
+
+    # Provided by python-qscintilla
+    rm -r "${pkgdir}"/usr/lib
+}
+
+package_python3-qscintilla-qt5() {
+    pkgdesc="Python 3.x bindings for QScintilla2"
+    depends=('python-qscintilla-qt5-common' 'python3-pyqt5')
+
+    cd QScintilla_gpl-${pkgver}/Python
+    make DESTDIR="${pkgdir}" INSTALL_ROOT="${pkgdir}" install -j1
+
+    # Provided by python-qscintilla-common
+    rm -r "${pkgdir}"/usr/share
+}

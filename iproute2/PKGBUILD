@@ -1,49 +1,48 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 pkgname=iproute2
-pkgver=2.6.35
-pkgrel=2
+pkgver=4.19.0
+pkgrel=1
 pkgdesc="IP Routing Utilities"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('GPL2')
-url="http://www.linux-foundation.org/en/Net:Iproute2"
-depends=('linux-atm' 'perl')
+url="https://git.kernel.org/pub/scm/network/iproute2/iproute2.git"
+depends=('glibc' 'iptables' 'libelf')
+makedepends=('linux-atm')
+optdepends=('linux-atm: ATM support')
+groups=('base')
 provides=('iproute')
 conflicts=('iproute')
 replaces=('iproute')
-options=('!makeflags')
+options=('staticlibs')
 backup=('etc/iproute2/ematch_map' 'etc/iproute2/rt_dsfield' 'etc/iproute2/rt_protos' \
 	'etc/iproute2/rt_realms' 'etc/iproute2/rt_scopes' 'etc/iproute2/rt_tables')
-source=(http://devresources.linux-foundation.org/dev/iproute2/download/iproute2-${pkgver}.tar.bz2
-	'iproute2-fhs.patch' 'iproutegetfix.patch')
-sha1sums=('862b86ac73ea696867675765d119654553a22aeb'
-          '2416b11252364d7a6c742eabb4a6924a75637a46'
-          'cd8c969800a9bd1d4ebba0e1eae69d0892786d60')
+source=("http://www.kernel.org/pub/linux/utils/net/$pkgname/$pkgname-$pkgver.tar.xz"
+        iproute2-fhs.patch)
+sha256sums=('d9ec5ca1f47d8a85416fa26e7dc1cbf5d067640eb60e90bdc1c7e5bdc6a29984'
+            '7ab86ebccbdbd2e0218400588a3e6a8404e2ee0004794dacba2a01256540150e')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  # set correct fhs structure
+  patch -Np1 -i "$srcdir/iproute2-fhs.patch"
+
+  # do not treat warnings as errors
+  sed -i 's/-Werror//' Makefile
+}
 
 build() {
-  cd $srcdir/iproute2-${pkgver}
-  
-  # set correct fhs structure
-  patch -Np1 -i ${srcdir}/iproute2-fhs.patch
-
-  # fix ip route get breakage
-  patch -Np0 -i ${srcdir}/iproutegetfix.patch
+  cd "$srcdir/$pkgname-$pkgver"
 
   ./configure
-
   make
 }
 
 package() {
-  cd $srcdir/iproute2-${pkgver}
+  cd "$pkgname-$pkgver"
 
-  make DESTDIR=$pkgdir install
+  make DESTDIR="$pkgdir" SBINDIR="/usr/bin" install
 
   # libnetlink isn't installed, install it FS#19385
-  install -Dm644 include/libnetlink.h ${pkgdir}/usr/include/libnetlink.h
-  install -Dm644 lib/libnetlink.a ${pkgdir}/usr/lib/libnetlink.a
+  install -Dm644 include/libnetlink.h "$pkgdir/usr/include/libnetlink.h"
+  install -Dm644 lib/libnetlink.a "$pkgdir/usr/lib/libnetlink.a"
 }

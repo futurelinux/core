@@ -1,0 +1,29 @@
+# Arch contributor: https://projects.archlinux.org/svntogit/packages.git/plain/trunk/PKGBUILD?h=packages/re2
+
+pkgname=re2
+_re2ver=2019-03-01
+pkgver=${_re2ver//-}
+pkgrel=1
+pkgdesc='C++ library for fast, safe, thread-friendly alternative to backtracking regular expression engines like those used in PCRE, Perl, and Python'
+arch=('x86_64')
+url="https://github.com/google/re2"
+license=('BSD')
+depends=('gcc-libs')
+source=(re2-$pkgver.tar.gz::https://github.com/google/re2/archive/$_re2ver.tar.gz)
+sha256sums=('05dc21aafc1fa21161214c6145aeed8a6d108bde390584c762aa3e64df557d6d')
+
+build() {
+  cd $pkgname-$_re2ver
+  make
+}
+
+check() {
+  cd $pkgname-$_re2ver
+  make test
+}
+
+package() {
+  cd $pkgname-$_re2ver
+  make prefix=/usr DESTDIR="$pkgdir" install
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

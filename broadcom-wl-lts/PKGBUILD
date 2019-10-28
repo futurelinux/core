@@ -1,54 +1,54 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer : abveritas@chakra-project.org
-
-# Find the kernel name inside the chroot
-_extramodules=extramodules-3.0-lts
-_kver="$(cat /lib/modules/${_extramodules}/version)"
-
 pkgname=broadcom-wl-lts
-pkgver=5.100.82.112
-pkgrel=4
+pkgver=6.30.223.271
+pkgrel=12
 pkgdesc='Broadcom 802.11abgn hybrid Linux networking device driver'
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url='http://www.broadcom.com/support/802.11/linux_sta.php'
 license=('custom')
-depends=('linux-lts>=3.0' 'linux-lts<3.1')
-makedepends=('linux-lts-headers')
-
-[[ $CARCH = x86_64 ]] && ARCH=x86_64 || ARCH=x86_32
-source=("http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_${ARCH}-v${pkgver//./_}.tar.gz"
-        'modprobe.d'
-        'linux3.patch'
-        'license.patch'
-        'semaphore.patch')
-sha1sums=('01aa32f9e85621253a3f15cf4361bb80d41da3e8'
-          '89bf92286ede30dd85304c6c4e42e89cfdc0f60a'
-          '3e18f905bbe5e8b99a53d6ecb3b80a919f3531f2'
-          'ea7b67982ddc0f56fd3becb9914fd4458fe7d373'
-          '105f8e1d48ebe1f25d53859e5ab9326a27435c66')
-[[ $CARCH = x86_64 ]] && sha1sums[0]='5bd78c20324e6a4aa9f3fafdc6f0155e884d5131'
-
+depends=("linux-lts=4.4.165")
+makedepends=("linux-lts-headers=4.4.165")
 backup=('etc/modprobe.d/broadcom-wl-lts.conf')
-install=install
+_extramodules=extramodules-CHAKRA-LTS
+source=("https://docs.broadcom.com/docs-and-downloads/docs/linux_sta/hybrid-v35_64-nodebug-pcoem-${pkgver//./_}.tar.gz"
+         #"http://ftp.de.debian.org/debian/pool/non-free/b/broadcom-sta/broadcom-sta_5.100.82.112.orig.tar.gz" "http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_${ARCH}-v${pkgver//./_}.tar.gz" we need the debian version, because upstream URL doesn't exist anymore
+        'modprobe.d'
+        'license.patch'
+        '001-null-pointer-fix.patch'
+        '002-rdtscl.patch'
+        '005-debian-fix-kernel-warnings.patch')
+sha1sums=('1f568bb989d175813c5631c6629d9479eae6f3be'
+          '89bf92286ede30dd85304c6c4e42e89cfdc0f60a'
+          'ea7b67982ddc0f56fd3becb9914fd4458fe7d373'
+          '75300b4ad9fa0f7b8ad98dfa6fbd0159a3a4c222'
+          '80dc4aba85043dc56041040e423cfb3548c867bf'
+          'faca186c7c1f894240c46ffa53bece501fe58773')
+
+prepare() {
+    cd "${srcdir}"
+    patch -p1 -i license.patch
+    patch -p1 -i 001-null-pointer-fix.patch
+    patch -p1 -i 002-rdtscl.patch
+    patch -p1 -i 005-debian-fix-kernel-warnings.patch
+
+
+    sed -e "/BRCM_WLAN_IFNAME/s:eth:wlan:" \
+        -i src/wl/sys/wl_linux.c
+}
 
 build() {
-	cd "${srcdir}"
-
-	patch -p1 -i linux3.patch
-	patch -p1 -i license.patch
-	patch -p1 -i semaphore.patch
-
-	make -C /lib/modules/"${_kver}"/build M=`pwd`
+    cd "${srcdir}"
+    KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+    msg2 "Kernel = $KERNEL_VERSION"
+    
+    make -C /usr/lib/modules/"${KERNEL_VERSION}"/build M=`pwd`
 }
 
 package() {
-	cd "${srcdir}"
+    cd "${srcdir}"
 
-	install -D -m 755 wl.ko "${pkgdir}/lib/modules/${_extramodules}/wl.ko"
-	gzip "${pkgdir}/lib/modules/${_extramodules}/wl.ko"
+    install -Dm644 wl.ko "${pkgdir}/usr/lib/modules/$_extramodules/wl.ko"
+    gzip "${pkgdir}/usr/lib/modules/$_extramodules/wl.ko"
 
-	install -D -m 644 lib/LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-	install -D -m 644 modprobe.d "${pkgdir}"/etc/modprobe.d/broadcom-wl-lts.conf
+    install -Dm644 lib/LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+    install -Dm644 modprobe.d "${pkgdir}/usr/lib/modprobe.d/broadcom-wl.conf"
 }

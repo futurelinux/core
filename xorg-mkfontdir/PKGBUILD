@@ -1,0 +1,37 @@
+# Part of the X.org group
+# Maintainer: AlmAck <almack@chakraos.org>
+
+pkgname=xorg-mkfontdir
+pkgver=1.0.7
+pkgrel=2
+pkgdesc="Create an index of X font files in a directory"
+arch=(any)
+url="http://xorg.freedesktop.org/"
+license=('custom')
+depends=('sh' 'xorg-mkfontscale')
+makedepends=('xorg-util-macros')
+groups=('xorg' 'xorg-apps')
+install=xorg-mkfontdir.install
+source=(http://xorg.freedesktop.org/archive/individual/app/mkfontdir-${pkgver}.tar.bz2
+        xorg-mkfontdir.hook
+        xorg-mkfontdir.script)
+sha1sums=('3c06dad8a5fbf7362b51fb7d6b1ab805eba40336'
+          '3558e68a7101d2531d5ab05d4edd06f56d517c66'
+          '1049f214dc6a0dcc94d536ee43f58c0f4df4a294')
+
+build() {
+  cd "${srcdir}/mkfontdir-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/mkfontdir-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+
+  # pacman hook
+  install -Dm644 ../xorg-mkfontdir.hook "${pkgdir}/usr/share/libalpm/hooks/xorg-mkfontdir.hook"
+  install -D ../xorg-mkfontdir.script "${pkgdir}/usr/share/libalpm/scripts/xorg-mkfontdir"
+}

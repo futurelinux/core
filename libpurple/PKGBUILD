@@ -1,0 +1,47 @@
+_pkgbase='pidgin'
+pkgname='libpurple'
+pkgver=2.13.0
+pkgrel=1
+pkgdesc="IM library extracted from Pidgin"
+arch=('x86_64')
+url="http://pidgin.im/"
+license=('GPL')
+makedepends=('startup-notification' 'libxss' 'nss' 'libsasl' 'python3' 'silc-toolkit'
+             'avahi' 'tk' 'ca-certificates' 'intltool' 'networkmanager' 'farstream' 'gstreamer')
+depends=('libsasl' 'dbus-glib' 'silc-toolkit' 'nss>=3.17.1' 'nspr>=4.10.7')
+optdepends=('dbus-python: for purple-remote and purple-url-handler')
+source=("http://downloads.sourceforge.net/${_pkgbase}/${_pkgbase}-${pkgver}.tar.bz2"
+        "pidgin-2.10.11-gstreamer1-1.patch" # from Linux from Scratch
+       )
+md5sums=('423403494fe1951e47cc75231f743bb0'
+         'a06b910661f04143ae1c179896117ddd')
+
+prepare() {
+   cd "${srcdir}/${_pkgbase}-${pkgver}"
+   autoreconf -i
+}
+
+build() {
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    ./configure --prefix=/usr \
+                --sysconfdir=/etc \
+                --disable-schemas-install \
+                --disable-meanwhile \
+                --disable-gtkui \
+                --disable-screensaver \
+                --disable-sm \
+                --disable-gtkspell \
+                --disable-gnutls \
+                --enable-cyrus-sasl \
+                --disable-doxygen \
+                --with-system-ssl-certs=/etc/ssl/certs
+    make
+}
+
+package() {
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    for dir in libpurple share/sounds share/ca-certs m4macros po
+    do  make -C "${dir}" DESTDIR="${pkgdir}" install
+    done
+}
+

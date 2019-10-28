@@ -1,0 +1,44 @@
+
+pkgbase=glibmm
+pkgname=('glibmm' 'glibmm-docs')
+pkgver=2.58.0
+pkgrel=1
+pkgdesc="C++ bindings for GLib"
+arch=('x86_64')
+license=('LGPL')
+depends=(glib2 libsigc++)
+makedepends=(git mm-common perl-xml-parser clang)
+_commit=17ee1d96b852ff74ca85c05448afb63e02488594  # tags/2.58.0^0
+source=("git+https://git.gnome.org/browse/glibmm#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $pkgbase
+  git describe --tags | sed 's/-/+/g'
+}
+
+prepare() {
+  cd $pkgbase
+  NOCONFIGURE=1 ./autogen.sh
+}
+
+build() {
+  cd $pkgbase
+  ./configure --prefix=/usr --enable-maintainer-mode
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+package_glibmm() {
+  cd $pkgbase
+  sed -i -e 's/^doc_subdirs/#doc_subdirs/' Makefile
+  make DESTDIR="$pkgdir" install
+}
+
+package_glibmm-docs() {
+  pkgdesc+=" (documentation)"
+  depends=()
+
+  cd $pkgbase
+  make -C docs DESTDIR="$pkgdir" install
+}

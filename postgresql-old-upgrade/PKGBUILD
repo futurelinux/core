@@ -1,0 +1,48 @@
+
+pkgname=postgresql-old-upgrade
+pkgver=9.6.11
+_majorver=${pkgver%.*}
+pkgrel=1
+pkgdesc='PostgreSQL build for migrating between major versions with pg_upgrade'
+url='https://www.postgresql.org/'
+arch=('x86_64')
+license=('custom:PostgreSQL')
+depends=("postgresql-libs>=${_majorver}" 'libxml2' 'openssl>=1.0.0' 'pam' 'zlib')
+makedepends=('krb5' 'python2' 'perl' 'tcl>=8.6.0')
+source=(https://ftp.postgresql.org/pub/source/v${pkgver}/postgresql-${pkgver}.tar.bz2)
+sha256sums=('38250adc69a1e8613fb926c894cda1d01031391a03648894b9a6e13ff354a530')
+
+build() {
+  cd postgresql-${pkgver}
+  ./configure \
+    --prefix=/opt/pgsql-${_majorver} \
+    --with-gssapi \
+    --with-libxml \
+    --with-openssl \
+    --with-perl \
+    --with-python PYTHON=/usr/bin/python2 \
+    --with-tcl \
+    --with-pam \
+    --without-readline \
+    --with-system-tzdata=/usr/share/zoneinfo \
+    --with-uuid=e2fs \
+    --disable-nls \
+    --enable-thread-safety
+  make -C src all
+  make -C contrib all
+}
+
+package() {
+  cd postgresql-${pkgver}
+
+  # install
+  make -C src DESTDIR="${pkgdir}" install
+  make -C contrib DESTDIR="${pkgdir}" install
+
+  # install license
+  install -Dm 644 COPYRIGHT -t "${pkgdir}/usr/share/licenses/${pkgname}"
+
+  # clean up unneeded installed items
+  rm -rf "${pkgdir}/opt/pgsql-${_majorver}/include"
+}
+

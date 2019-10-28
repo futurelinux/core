@@ -1,0 +1,38 @@
+# Arch Maintainer:
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Dan McGee <dan@archlinux.org>
+
+pkgname=rdesktop
+pkgver=1.8.4
+pkgrel=1
+depends=('libao' 'libsamplerate' 'xorg-xrandr' 'pcsclite' 'libgssglue')
+pkgdesc="An open source client for Windows Remote Desktop Services"
+url="https://www.rdesktop.org/"
+license=('GPLv3')
+arch=('x86_64')
+source=("https://github.com/rdesktop/rdesktop/archive/v${pkgver}.tar.gz"
+        rdesktop-send_physical_buttons.diff)
+sha256sums=('516f04df92f16eba04c96bbf9aeb05b9da686689c2bb5c107e0941583e09f933'
+            'e0e5bc6e23941be0bc568198f413caf3319a06cbd292860d24c96243958c0275')
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+
+  # FS#15113
+  patch -i "${srcdir}/rdesktop-send_physical_buttons.diff"
+
+  ./bootstrap
+}
+
+build() {
+  cd ${pkgname}-${pkgver}
+  ./configure --prefix=/usr \
+    --enable-smartcard \
+    --with-ipv6
+  make
+}
+
+package() {
+  cd ${pkgname}-${pkgver}
+  make DESTDIR="${pkgdir}" install
+}

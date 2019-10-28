@@ -1,0 +1,32 @@
+# Contributor: Neophytos Kolokotronis <tetris4 AT gmail DOT com>
+# Maintainer: abveritas[at]chakra-project[dot]org>
+
+pkgname=frei0r-plugins
+pkgver=1.4.r41.g954fbe3
+pkgrel=2
+pkgdesc="A minimalistic plugin API for video sources and filters"
+arch=('x86_64')
+url="http://www.piksel.org/frei0r"
+license=('GPL')
+depends=('gcc-libs' 'gavl>=1.0.0' 'opencv>=2.4.3')
+makedepends=('doxygen')
+options=('!emptydirs')
+source=('git://code.dyne.org/frei0r.git#commit=954fbe3e324e05f36aa1ae84f7fed4f87d6c9176')
+md5sums=('SKIP')
+
+pkgver() {
+  cd "frei0r"
+  git describe --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g' | sed 's/v//g'
+}
+
+build() {
+  cd "$srcdir/frei0r"
+  NOCONFIGURE=1 ./autogen.sh
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "$srcdir/frei0r"
+  make DESTDIR="$pkgdir" install
+}

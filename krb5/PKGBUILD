@@ -1,10 +1,5 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
-
 pkgname=krb5
-pkgver=1.10.3
+pkgver=1.14.3
 pkgrel=1
 pkgdesc="The Kerberos network authentication system"
 arch=('i686' 'x86_64')
@@ -12,36 +7,41 @@ url="http://web.mit.edu/kerberos/"
 license=('custom')
 depends=('e2fsprogs' 'libldap' 'keyutils')
 makedepends=('perl')
-provides=('heimdal')
-replaces=('heimdal')
-conflicts=('heimdal')
 backup=('etc/krb5.conf' 'var/lib/krb5kdc/kdc.conf')
-source=("http://web.mit.edu/kerberos/dist/${pkgname}/1.10/${pkgname}-${pkgver}-signed.tar"
-        'krb5-1.10.1-gcc47.patch'
+source=("http://web.mit.edu/kerberos/dist/${pkgname}/1.14/${pkgname}-${pkgver}.tar.gz"{,.asc}
         'krb5-kadmind.service'
+        'krb5-config_LDFLAGS.patch'
         'krb5-kdc.service'
 	'krb5-kpropd.service'
 	'krb5-kpropd@.service'
 	'krb5-kpropd.socket')
-md5sums=('a31eaa949d663cccca6b790af4573368'
-         '88c7ffb6b2e28d1123eef2c94f42e7b1'
+md5sums=('f76e4f8a3c95bb59980dd5ef4b48aea9'
+         'SKIP'
          'd2c898d376ebe5c62b873da7cab0f7e7'
+         '656e242de9b5ada1edf398983db51eef'
          'f0245d33083337f95654f4caf1d32f57'
          '3dddf2f79ef74c4e736711e41228ee91'
          'babefac221331f7131a29faac33cc5bc'
          '5b9cee689e4f8085d39ef4e05f1ddd9a')
-options=('!emptydirs')
+validpgpkeys=('2C732B1C0DBEF678AB3AF606A32F17FD0055C305')
 
-build() {
-   tar zxvf ${pkgname}-${pkgver}.tar.gz
+prepare() {
+   # cf https://bugs.gentoo.org/show_bug.cgi?id=448778
+   # fix issue with krb5-conf --libs returning wrong output
+   cd "${srcdir}/${pkgname}-${pkgver}/src/build-tools"
+   patch -Np2 -i "${srcdir}"/krb5-config_LDFLAGS.patch
+
+   # fix for the bug described at https://bugs.archlinux.org/task/25384
    cd "${srcdir}/${pkgname}-${pkgver}/src"
-   
-   # gcc47 build error messages
-   patch -p2 -i ../../krb5-1.10.1-gcc47.patch
-   rm lib/krb5/krb/deltat.c
-
    sed -i "/KRB5ROOT=/s/\/local//" util/ac_check_krb5.m4
 
+   # Fix LDAP null deref on empty arg [CVE-2016-3119]
+   #cd "${srcdir}/${pkgname}-${pkgver}"
+   #patch -Np1 -i ${srcdir}/CVE-2016-3119.patch
+}
+
+build() {
+   cd ${pkgname}-${pkgver}/src
    export CFLAGS+=" -fPIC -fno-strict-aliasing -fstack-protector-all"
    export CPPFLAGS+=" -I/usr/include/et"
    ./configure --prefix=/usr \
@@ -71,6 +71,9 @@ package() {
    # Default configuration file
    install -dm 755 "${pkgdir}"/etc
    install -pm 644 config-files/krb5.conf "${pkgdir}"/etc/krb5.conf
+
+   install -dm 755 "${pkgdir}"/usr/share/aclocal
+   install -m 644 util/ac_check_krb5.m4 "${pkgdir}"/usr/share/aclocal
 
    install -Dm644 "${srcdir}"/${pkgname}-${pkgver}/NOTICE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 

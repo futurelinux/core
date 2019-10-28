@@ -1,0 +1,48 @@
+pkgname=qt5-declarative
+pkgver=5.13.1
+pkgrel=2
+arch=('x86_64')
+url='http://qt-project.org/'
+license=('GPL3' 'LGPL' 'FDL' 'custom')
+pkgdesc='Classes for QML and JavaScript languages'
+depends=('qt5-xmlpatterns')
+makedepends=('python3' 'cmake')
+conflicts=('qt5-declarative-render2d')
+replaces=('qt5-declarative-render2d')
+groups=('qt5')
+_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
+source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
+md5sums=('8bc90f2b14a6953091c2cdb7f84a644c')
+
+prepare() {
+  mkdir -p build
+
+  # Use python3
+  find -name '*.pro' -o -name '*.pri' | xargs sed -i -e 's|python -c|python3 -c|g' -e 's|python \$|python3 \$|g'
+}
+
+build() {
+  cd build
+
+  export PYTHON=python3
+  qmake-qt5 ../${_pkgfqn}
+  make
+}
+
+package() {
+  cd build
+  make INSTALL_ROOT="$pkgdir" install
+
+  # Useful symlinks
+  install -d "$pkgdir"/usr/bin
+  for b in "$pkgdir"/usr/lib/qt5/bin/*; do
+    ln -s /usr/lib/qt5/bin/$(basename $b) "$pkgdir"/usr/bin/$(basename $b)-qt5
+  done
+
+  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  find "${pkgdir}/usr/lib" -type f -name '*.prl' \
+    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+  install -d "$pkgdir"/usr/share/licenses
+  ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/${pkgname}
+}

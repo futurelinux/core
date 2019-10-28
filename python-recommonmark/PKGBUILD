@@ -1,0 +1,73 @@
+
+
+pkgbase=python-recommonmark
+pkgname=('python3-recommonmark' 'python2-recommonmark')
+pkgver=0.5.0
+pkgrel=1
+pkgdesc='Markdown parser for docutils'
+url='https://github.com/rtfd/recommonmark'
+arch=('any')
+license=('MIT')
+makedepends=('git'
+             'python3-setuptools' 'python3-commonmark' 'python3-docutils' 'python3-sphinx'
+             'python2-setuptools' 'python2-commonmark' 'python2-docutils' 'python2-sphinx')
+checkdepends=('python3-pytest' 'python2-pytest')
+source=("https://github.com/readthedocs/recommonmark/archive/${pkgver}.tar.gz")
+sha512sums=('e11a86961e477e9ae258df90c666fd0129a0ae858a8d5399b7f768b9e9ec5b4952ef5f9383ea91d8ccb1379e2753151387f7250588a98f43929bf3ebe78b7df9')
+
+
+prepare() {
+  #https://github.com/readthedocs/recommonmark/issues/93
+  sed -i "s/self.state_machine.run_role('math'/self.state_machine.run_role('any'/" recommonmark-$pkgver/recommonmark/transform.py
+
+  cp -a recommonmark-$pkgver{,-py2}
+  for tool in cm2{html,latex,man,pseudoxml,xetex,xml}; do
+    sed -r "s|(${tool}) |\12 |g" -i recommonmark-$pkgver-py2/setup.py
+  done
+}
+
+build() {
+  msg2 "Building python..."
+  (cd recommonmark-$pkgver
+    python3 setup.py build
+    make -j1 -C docs text man SPHINXBUILD=sphinx-build
+  )
+  msg2 "Building python2..."
+  (cd recommonmark-$pkgver-py2
+    python2 setup.py build
+    make -j1 -C docs text man SPHINXBUILD=sphinx-build2
+  )
+}
+
+check() {
+  msg2 "Checking python..."
+  (cd recommonmark-$pkgver
+    py.test
+  )
+  msg2 "Checking python2..."
+  (cd recommonmark-$pkgver-py2
+    py.test2
+  )
+}
+
+package_python3-recommonmark() {
+  depends=('python3-docutils' 'python3-commonmark' 'python3-setuptools' 'python3-sphinx')
+
+  cd recommonmark-$pkgver
+  python3 setup.py install --root="${pkgdir}" --skip-build -O1
+  install -Dm 644 license.md -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm 644 README.md CHANGELOG.md -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm 644 docs/_build/text/*.txt -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm 644 docs/_build/man/recommonmark.1 "${pkgdir}/usr/share/man/man1/${pkgname}.1"
+}
+
+package_python2-recommonmark() {
+  depends=('python2-docutils' 'python2-commonmark' 'python2-setuptools' 'python2-sphinx')
+
+  cd recommonmark-$pkgver-py2
+  python2 setup.py install --root="${pkgdir}" --skip-build -O1
+  install -Dm 644 license.md -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm 644 README.md CHANGELOG.md -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm 644 docs/_build/text/*.txt -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm 644 docs/_build/man/recommonmark.1 "${pkgdir}/usr/share/man/man1/${pkgname}.1"
+}

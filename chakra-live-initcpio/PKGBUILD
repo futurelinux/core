@@ -1,0 +1,34 @@
+#
+# Core Packages for Chakra, part of chakralinux.org
+#
+
+pkgname=chakra-live-initcpio
+_gitname=chakra-iso
+_gitsha=1827f296
+pkgver=1.0
+pkgrel=12
+pkgdesc="mkinitcpio hooks required for the live ISO"
+arch=('x86_64')
+url="https://www.chakralinux.org/"
+license=('GPL')
+depends=('mkinitcpio' 'linux')
+source=("mkinitcpio.tar.gz")
+source=("$pkgname"::"git://git.chakralinux.org/${_gitname}.git#commit=${_gitsha}")
+md5sums=('SKIP')
+
+package() {
+  cd ${srcdir}/${pkgname}/chakra-live-packages/chakra-live-initcpio/mkinitcpio
+  install -Dm 644 mkinitcpio.conf ${pkgdir}/etc/mkinitcpio-live.conf
+  msg "Installing hooks..."
+  install -Dm 755 -d ${pkgdir}/usr/lib/initcpio/hooks
+  for f in ./hooks/*; do \
+    echo $f
+    install -Dm 644 -t ${pkgdir}/usr/lib/initcpio/hooks  $f; \
+  done
+  msg "Installing install files..."
+  install -Dm 755 -d ${pkgdir}/usr/lib/initcpio/install
+  for f in ./install/*; do \
+    echo $f
+    install -Dm 644 -t ${pkgdir}/usr/lib/initcpio/install  $f; \
+  done
+}

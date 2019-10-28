@@ -1,37 +1,40 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
-pkgname=elfutils
-pkgver=0.154
+pkgbase=elfutils
+pkgname=(elfutils libelf)
+pkgver=0.176
 pkgrel=1
-pkgdesc="Collection of libraries and utilities for working with ELF object files and DWARF debugging information."
-arch=('i686' 'x86_64')
-url="https://fedorahosted.org/elfutils/"
-license=('GPL2')
-depends=('glibc')
-provides=('libelf')
-replaces=('libelf')
-conflicts=('libelf')
-source=("https://fedorahosted.org/releases/e/l/elfutils/${pkgver}/elfutils-${pkgver}.tar.bz2")
-md5sums=('e5b26ceaee67db40e742f13052087354')
+pkgdesc="Utilities to handle ELF object files and DWARF debugging information"
+arch=('x86_64')
+url="https://sourceware.org/elfutils/"
+license=('LGPL3' 'GPL' 'GPL3')
+depends=('gcc-libs' 'zlib' 'bzip2' 'xz')
+options=('staticlibs')
+source=(https://fedorahosted.org/releases/e/l/elfutils/${pkgver}/elfutils-${pkgver}.tar.bz2{,.sig})
+sha1sums=('6511203cae7225ae780501834a7ccd234b14889a'
+          'SKIP')
+validpgpkeys=('47CC0331081B8BC6D0FD4DA08370665B57816A6A')  # Mark J. Wielaard <mark@klomp.org>
+validpgpkeys+=('EC3CFE88F6CA0788774F5C1D1AA44BE649DE760A') # Mark Wielaard <mjw@gnu.org>
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr --program-prefix="eu-"
+  cd ${pkgbase}-${pkgver}
+
+  CFLAGS+=" -g"  # required for test-suite success
+  ./configure --prefix=/usr --program-prefix="eu-" --enable-deterministic-archives
+
   make
 }
 
-check() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  make check
+package_elfutils() {
+  depends=("libelf=$pkgver-$pkgrel")
+
+  cd ${pkgbase}-${pkgver}
+
+  make DESTDIR="${pkgdir}" install
+
+  mkdir "${srcdir}"/libelf
+  mv "${pkgdir}"/usr/{lib,include} "${srcdir}/libelf"
 }
 
-package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  make install DESTDIR="${pkgdir}"
+package_libelf() {
+  pkgdesc="Libraries to handle ELF object files and DWARF debugging information"
+  mv libelf "${pkgdir}/usr"
 }
-
-# vim:set ts=2 sw=2 et:

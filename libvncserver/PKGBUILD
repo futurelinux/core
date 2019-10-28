@@ -1,0 +1,30 @@
+# Maintainer: Neophytos Kolokotronis <tetris4@gmail.com>
+
+pkgname=libvncserver
+pkgver=0.9.11
+pkgrel=2
+pkgdesc="A cross-platform C libraries that allow you to easily implement VNC server"
+arch=('x86_64')
+url="https://libvnc.github.io/"
+license=('GPL')
+depends=('libpng' 'libjpeg' 'gnutls' 'libgcrypt' 'openssl')
+makedepends=('sdl')
+source=("https://github.com/LibVNC/libvncserver/archive/LibVNCServer-${pkgver}.tar.gz")
+md5sums=('7f06104d5c009813e95142932c4ddb06')
+
+prepare() {
+  cd ${pkgname}-LibVNCServer-${pkgver}
+}
+
+build() {
+  cd ${pkgname}-LibVNCServer-${pkgver}
+  ./autogen.sh
+  ./configure --prefix=/usr --without-libva
+  make
+}
+
+package() {
+  cd ${pkgname}-LibVNCServer-${pkgver}
+  make DESTDIR="${pkgdir}" install
+}
+

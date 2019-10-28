@@ -1,0 +1,21 @@
+# Contributions from Arch:
+# Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+
+pkgname=otf-source-serif-pro
+pkgver=3.001
+pkgrel=1
+pkgdesc="Serif typeface for setting text. Designed to complement Source Sans Pro"
+url="https://adobe-fonts.github.io/source-serif-pro/"
+arch=(any)
+license=(custom)
+_relver=${pkgver}R
+_tarname=source-serif-pro-$_relver
+source=("$_tarname.tar.gz::https://github.com/adobe-fonts/source-serif-pro/archive/$_relver.tar.gz")
+sha256sums=('84e08c9e870081e0fcda4d83b02e06a4a7f35e52f96491a2246eca8b82fc8a53')
+
+package() {
+  cd $_tarname
+  install -d "${pkgdir}/usr/share/fonts/OTF"
+  install -t "${pkgdir}/usr/share/fonts/OTF" -m644 OTF/*.otf
+  install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

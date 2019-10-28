@@ -1,0 +1,59 @@
+pkgname=laptop-mode-tools
+pkgver=1.72.2
+pkgrel=1
+pkgdesc="Laptop mode is a kernel mode that allows you to extend the battery life of your laptop"
+arch=('x86_64')
+url="https://github.com/rickysarraf/laptop-mode-tools"
+license=('GPL')
+depends=('bash')
+optdepends=('acpid: for ACPI support'
+            'bluez-utils: Bluetooth support'
+            'hdparm: hard disk power management'
+            'sdparm: SCSI disk power management'
+            'ethtool: ethernet support'
+            'wireless_tools: WiFi support'
+            'xorg-xset: DPMS standby support'
+	    'python3-pyqt5: for GUI support')
+backup=(etc/laptop-mode/conf.d/ac97-powersave.conf
+        etc/laptop-mode/conf.d/auto-hibernate.conf
+        etc/laptop-mode/conf.d/battery-level-polling.conf
+        etc/laptop-mode/conf.d/bluetooth.conf
+        etc/laptop-mode/conf.d/configuration-file-control.conf
+        etc/laptop-mode/conf.d/cpufreq.conf
+        etc/laptop-mode/conf.d/cpuhotplug.conf
+        etc/laptop-mode/conf.d/dpms-standby.conf
+        etc/laptop-mode/conf.d/eee-superhe.conf
+        etc/laptop-mode/conf.d/ethernet.conf
+        etc/laptop-mode/conf.d/exec-commands.conf
+        etc/laptop-mode/conf.d/hal-polling.conf
+        etc/laptop-mode/conf.d/intel-hda-powersave.conf
+        etc/laptop-mode/conf.d/intel-sata-powermgmt.conf
+        etc/laptop-mode/conf.d/intel_pstate.conf
+        etc/laptop-mode/conf.d/kbd-backlight.conf
+        etc/laptop-mode/conf.d/lcd-brightness.conf
+        etc/laptop-mode/conf.d/nmi-watchdog.conf
+        etc/laptop-mode/conf.d/pcie-aspm.conf
+        etc/laptop-mode/conf.d/radeon-dpm.conf
+        etc/laptop-mode/conf.d/runtime-pm.conf
+        etc/laptop-mode/conf.d/sched-mc-power-savings.conf
+        etc/laptop-mode/conf.d/sched-smt-power-savings.conf
+        etc/laptop-mode/conf.d/start-stop-programs.conf
+        etc/laptop-mode/conf.d/terminal-blanking.conf
+        etc/laptop-mode/conf.d/video-out.conf
+        etc/laptop-mode/conf.d/wireless-ipw-power.conf
+        etc/laptop-mode/conf.d/wireless-iwl-power.conf
+        etc/laptop-mode/conf.d/wireless-power.conf
+        etc/laptop-mode/laptop-mode.conf
+        etc/laptop-mode/lm-profiler.conf)
+install=laptop-mode.install
+source=("https://github.com/rickysarraf/$pkgname/releases/download/$pkgver/${pkgname}_${pkgver}.tar.gz")
+md5sums=('1c630ed63db14d644df2326bcd7c3f75')
+
+package() {
+  cd ${pkgname}_${pkgver}
+  make DESTDIR=$pkgdir INIT_D=none MAN_D=/usr/share/man LIB_D=/usr/lib install
+
+  cd gui/
+  sed -i '1s|^|#!/usr/bin/python \n|' LMT.py
+  install -Dm755 LMT.py $pkgdir/usr/sbin/$pkgname-gui  
+}

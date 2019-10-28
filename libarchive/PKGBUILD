@@ -1,29 +1,39 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
-
 pkgname=libarchive
-pkgver=3.0.4
-pkgrel=1
+pkgver=3.4.0
+pkgrel=2
 pkgdesc="library that can create and read several streaming archive formats"
 arch=('x86_64')
-url="http://libarchive.googlecode.com/"
+url="http://libarchive.org/"
 license=('BSD')
-depends=('zlib' 'bzip2' 'xz>=5.0.2' 'acl' 'openssl>=1.0.0' 'expat')
-source=("https://github.com/downloads/libarchive/libarchive/libarchive-${pkgver}.tar.gz")
-md5sums=('af443ca9a10ddbcbf00f7ae34ca7fc16')
+depends=('acl' 'attr' 'bzip2' 'expat' 'lzo' 'nettle' 'xz' 'zlib' 'zstd')
+provides=('libarchive.so')
+source=("http://libarchive.org/downloads/$pkgname-$pkgver.tar.gz")
+md5sums=('6046396255bd7cf6d0f6603a9bda39ac')
+
+prepare() {
+  cd $pkgname-$pkgver 
+  autoreconf -fi
+}
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd $pkgname-$pkgver 
 
-  ./configure --prefix=/usr --without-xml2
+  ./configure \
+      --prefix=/usr \
+      --without-xml2 \
+      --without-nettle \
+      --disable-static
+
   make
 }
 
-package() {
-  cd "$srcdir/$pkgname-$pkgver"
-  make DESTDIR="$pkgdir" install
+check() {
+  cd $pkgname-$pkgver
+  make check
+}
 
-  install -D -m644 COPYING "$pkgdir"/usr/share/licenses/libarchive/COPYING
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/libarchive/COPYING"
 }

@@ -1,24 +1,34 @@
 #
-# Core Packages for Chakra, part of chakra-project.org
+# Core Packages for Chakra, part of chakraos.org
 #
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
 
 pkgname=libpcap
-pkgver=1.1.1
-pkgrel=2
+pkgver=1.7.4
+pkgrel=1
 pkgdesc="A system-independent interface for user-level packet capture"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://www.tcpdump.org/"
 license=('BSD')
-depends=('glibc' 'libnl')
-makedepends=('flex')
-source=(http://www.tcpdump.org/release/libpcap-${pkgver}.tar.gz)
-sha256sums=('508cca15547e55d1318498b838456a21770c450beb2dc7d7d4a96d90816e5a85')
+depends=('glibc' 'libnl' 'sh' 'libusbx')
+makedepends=('flex' 'bluez-libs')
+source=("http://www.tcpdump.org/release/libpcap-${pkgver}.tar.gz"
+        'mgmt.h')
+md5sums=('b2e13142bbaba857ab1c6894aedaf547'
+         'aa0697d54248b0b728211d19d38c4b9a')
+validpgpkeys=('1F166A5742ABB9E0249A8D30E089DEF1D9C15D0D')  # The Tcpdump Group
+
+prepare() {
+  mkdir -p ${srcdir}/include/bluetooth
+  cp ${srcdir}/mgmt.h ${srcdir}/include/bluetooth/
+}
 
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
-  ./configure --prefix=/usr --enable-ipv6
+  CFLAGS="$CFLAGS -I${srcdir}/include $(pkg-config libnl-genl-3.0 --cflags)" \
+  ./configure --prefix=/usr \
+    --enable-ipv6 \
+    --enable-bluetooth \
+    --with-libnl
   make
 }
 
@@ -26,8 +36,6 @@ package() {
   cd ${srcdir}/${pkgname}-${pkgver}
   install -d -m755 ${pkgdir}/usr/bin
   make DESTDIR=${pkgdir} install
-  # remove static library
-  rm -rf ${pkgdir}/usr/lib/libpcap.a
   
   # backwards compatibility, programs often look for net/bpf.h
   mkdir -p ${pkgdir}/usr/include/net

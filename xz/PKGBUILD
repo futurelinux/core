@@ -1,17 +1,10 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
-
-# NOTE: create symbolic link after install: sudo ln -sfv /usr/lib/liblzma.so /usr/lib/liblzma.so.0
+# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/xz
 
 pkgname=xz
-pkgver=5.0.3
+pkgver=5.2.1
 pkgrel=1
 pkgdesc='Library and command line tools for XZ and LZMA compressed files'
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url='http://tukaani.org/xz/'
 license=('GPL' 'LGPL' 'custom')
 depends=('sh')
@@ -20,7 +13,7 @@ replaces=('lzma' 'lzma-utils' 'xz-utils')
 conflicts=('lzma' 'lzma-utils' 'xz-utils')
 options=('!libtool')
 source=("http://tukaani.org/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-md5sums=('fefe52f9ecd521de2a8ce38c21a27574')
+md5sums=('3e44c766c3fb4f19e348e646fcd5778a')
 
 build() {
         cd ${srcdir}/${pkgname}-${pkgver}

@@ -1,0 +1,28 @@
+pkgname=speex
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="A free codec for free speech"
+arch=('x86_64')
+url="https://www.speex.org/"
+license=(BSD)
+depends=(libogg speexdsp)
+source=(http://downloads.us.xiph.org/releases/$pkgname/$pkgname-$pkgver.tar.gz)
+md5sums=('8ab7bb2589110dfaf0ed7fa7757dc49c')
+
+build() {
+  cd $pkgname-$pkgver
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static \
+    --enable-binaries # Must be given or configure won't use pkg-config correctly
+  make
+}
+
+check() {
+  cd $pkgname-$pkgver
+  make -k check
+}
+
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

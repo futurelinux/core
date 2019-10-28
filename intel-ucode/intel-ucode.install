@@ -1,0 +1,12 @@
+## arg 1:  the new package version
+## arg 2:  the old package version
+post_upgrade() {
+  echo "Intel CPU ucode upgrades are no longer performed by the firmware loader."
+  echo "If you want to update the Intel CPU ucode on boot, add the file"
+  echo "Make sure you enable the 'microcode' hook in /etc/mkinitcpio.conf"
+  echo "And regenerate kernel image with mkinitcpio"
+  echo ""
+  if [ "$(vercmp $2 20151106)" -lt 0 ]; then
+    echo "If you're previously using grub, make sure you generate the new grub config file."
+  fi
+}

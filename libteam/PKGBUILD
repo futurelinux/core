@@ -1,0 +1,47 @@
+# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libteam
+
+pkgname=libteam
+pkgver=1.26
+pkgrel=1
+pkgdesc="Library for controlling team network device"
+arch=('x86_64')
+url="http://libteam.org/"
+license=(LGPL2.1)
+depends=(libnl libdaemon jansson dbus bash)
+makedepends=(python2 python3 swig)
+source=($url/files/$pkgname-$pkgver.tar.gz)
+sha256sums=('0ad5eae9e1a7835e784c5e21e8df323ca29ccc3ab8a8187fdc9ff3f6765c9b34')
+
+build() {
+  cd $pkgname-$pkgver
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+    --disable-static --libexecdir=/usr/lib
+  make
+
+  cp -aT binding/python binding/python2
+
+  cd binding/python
+  python3  ./setup.py build
+  cd ../python2
+  python2 ./setup.py build
+}
+
+check() {
+  cd $pkgname-$pkgver
+  make check
+}
+
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+
+  install -Dm644 teamd/redhat/systemd/teamd@.service \
+    "$pkgdir/usr/lib/systemd/system/teamd@.service"
+  install -Dm644 teamd/dbus/teamd.conf \
+    "$pkgdir/etc/dbus-1/system.d/teamd.conf"
+
+  cd binding/python
+  python3  ./setup.py install --root "$pkgdir" -O1
+  cd ../python2
+  python2 ./setup.py install --root "$pkgdir" -O1
+}

@@ -1,42 +1,35 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
-
-# Find the kernel name inside the chroot
-_extramodules=extramodules-3.0-lts
-_kver="$(cat /lib/modules/${_extramodules}/version)"
 
 pkgname=ndiswrapper-lts
 _pkgname=ndiswrapper
-pkgver=1.57
-pkgrel=5
-pkgdesc="Module for NDIS (Windows Network Drivers) drivers supplied by vendors. For linux-testing."
+pkgver=1.61
+pkgrel=10
+pkgdesc="Module for NDIS (Windows Network Drivers) drivers supplied by vendors. For linux-lts."
 license=('GPL')
-arch=(i686 x86_64)
+arch=('x86_64')
 url="http://ndiswrapper.sourceforge.net"
-install="ndiswrapper.install"
-depends=('linux-lts>=3.0' 'linux-lts<3.1' 'ndiswrapper')
-makedepends=('linux-lts-headers')
-source=(http://downloads.sourceforge.net/sourceforge/ndiswrapper/ndiswrapper-$pkgver.tar.gz)
-md5sums=('7a401dc540938bf07893c67f418b6152')
+depends=("linux-lts=4.4.165")
+makedepends=("linux-lts-headers=4.4.165")
+_extramodules=extramodules-CHAKRA-LTS
+source=("http://downloads.sourceforge.net/sourceforge/ndiswrapper/ndiswrapper-$pkgver.tar.gz")
+sha1sums=('213854ca8a83f9b5972db8fa873d346124e4bcb5')
+
+prepare() {
+  cd "$srcdir/$_pkgname-$pkgver" 
+  sed -i "/modinfo/s/s/usr\//" driver/Makefile
+}
 
 build() {
-  cd "$srcdir/$_pkgname-$pkgver"
+  KERNEL_VERSION=$(cat /usr/lib/modules/$_extramodules/version)
+  cd ndiswrapper-$pkgver
 
-  sed -i "/modinfo/s/s/usr\//" driver/Makefile
-
-  make KVERS=$_kver
+  make -C driver KVERS_UNAME=${KERNEL_VERSION}
+  make -C utils
 }
 
 package() {
-  cd "$srcdir/$_pkgname-$pkgver"
+  KERNEL_VERSION=$(cat /usr/lib/modules/$_extramodules/version)
+  cd ndiswrapper-$pkgver
 
-  make INST_DIR="lib/modules/$_extramodules" \
-    KVERS=$_kver DESTDIR="$pkgdir/" install
-
-  # rm ndiswrapper
-  rm -R "$pkgdir/usr" "$pkgdir/sbin"
-
-  gzip "$pkgdir/lib/modules/$_extramodules/$_pkgname.ko"
+  make sbindir=usr/sbin usrsbindir=usr/bin KBUILD="/usr/lib/modules/$KERNEL_VERSION/build/" INST_DIR="usr/lib/modules/$_extramodules" \
+        KVERS=$KERNEL_VERSION DESTDIR="$pkgdir/" install
 }

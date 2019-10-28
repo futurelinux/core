@@ -1,0 +1,27 @@
+# Contributions from Arch: https://projects.archlinux.org/svntogit/community.git/tree/trunk?h=packages/portaudio
+
+pkgname=portaudio
+pkgver=190600_20161030
+pkgrel=1
+pkgdesc="PortAudio is a free, cross platform, open-source, audio I/O library."
+arch=('x86_64')
+url="http://www.portaudio.com"
+license="custom"
+depends=('gcc-libs' 'jack')
+options=('!makeflags')
+source=("http://www.portaudio.com/archives/pa_stable_v$pkgver.tgz")
+md5sums=('4df8224e047529ca9ad42f0521bf81a8')
+
+build() {
+  cd "$srcdir/$pkgname"
+
+  ./configure --prefix=/usr --with-alsa --with-jack --enable-cxx
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+
+  make DESTDIR="$pkgdir" install
+  install -Dm0644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE.txt"
+}

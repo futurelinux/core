@@ -1,0 +1,28 @@
+pkgname=xdelta3
+pkgver=3.0.11
+pkgrel=1
+pkgdesc="A diff utility which works with binary files"
+arch=('x86_64')
+url="http://xdelta.org/"
+license=('GPL')
+depends=('xz')
+makedepends=('python2')
+optdepends=('python2: for python modules')
+source=("https://github.com/jmacd/xdelta-devel/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz")
+md5sums=('445d8be2ac512113d5ca601ae8359626')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "$srcdir/$pkgname-$pkgver"
+  ./xdelta3 test
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="${pkgdir}" install
+}

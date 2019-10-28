@@ -1,0 +1,56 @@
+
+pkgname=qt5-doc
+pkgver=5.13.1
+pkgrel=2
+arch=('x86_64')
+url='http://qt-project.org/'
+license=('GPL3' 'LGPL' 'FDL' 'custom')
+pkgdesc='A cross-platform application and UI framework (Documentation)'
+depends=('qt5-base')
+makedepends=('qt5-tools' 'python2' 'pciutils' 'libxtst' 'libxcursor' 'libxrandr' 'libxss' 'clang')
+groups=('qt5')
+_pkgfqn="qt-everywhere-src-${pkgver}"
+source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/single/${_pkgfqn}.tar.xz")
+md5sums=('d66b1da335d0c25325fdf493e9044c38')
+
+prepare() {
+  cd ${_pkgfqn} 
+
+  ln -s /usr/lib/qt5/bin qttools/
+  ln -s /usr/lib/qt5/bin/{rcc,uic,moc} qtbase/bin/
+
+  # Hack to force using python2
+  cd "$srcdir"
+  mkdir -p bin
+  ln -s /usr/bin/python2 bin/python
+}
+
+build() {
+  cd ${_pkgfqn} 
+
+  export PATH="$srcdir/bin:$PATH"
+  PYTHON=/usr/bin/python2 ./configure -confirm-license -opensource \
+    -prefix /usr \
+    -bindir /usr/lib/qt5/bin \
+    -docdir /usr/share/doc/qt5 \
+    -headerdir /usr/include/qt5 \
+    -archdatadir /usr/lib/qt5 \
+    -datadir /usr/share/qt5 \
+    -sysconfdir /etc/xdg \
+    -nomake examples \
+    -plugindir /usr/lib/qt5/plugins \
+    -importdir /usr/lib/qt5/imports \
+    -qmldir /usr/lib/qt5/qml \
+    -testsdir /usr/share/qt5/tests \
+    -translationdir /usr/share/qt5/translations
+
+  make docs
+}
+
+package() {
+  cd ${_pkgfqn} 
+  make INSTALL_ROOT="$pkgdir" install_docs
+
+  install -d "$pkgdir"/usr/share/licenses
+  ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/${pkgname}
+}

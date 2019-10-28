@@ -1,0 +1,33 @@
+#
+# Akabei Packages for Chakra, part of chakralinux.org
+#
+pkgname=akabeicore
+pkgver=alpha2.r167.g00e4bfc
+pkgrel=1
+pkgdesc='The core library of akabei'
+arch=('x86_64')
+url='https://code.chakralinux.org/tools/akabei/akabeicore'
+license=('LGPL')
+depends=('qt5-base' 'libarchive>=3.1.2' 'sqlite3' 'polkit-qt5')
+makedepends=(gmock qt5-tools translate-toolkit cmake)
+source=(git+https://code.chakralinux.org/tools/akabei/akabeicore.git)
+sha256sums=('SKIP')
+
+pkgver() {
+    cd $pkgname    
+    git describe --long --tags | sed 's/^akabeicore_//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+    cd $pkgname
+    mkdir -p build/
+    cd build/
+    cmake -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTS=OFF -DCMAKE_INSTALL_LIBDIR=lib ..
+    make
+}
+
+package() {
+    cd $pkgname/build
+    make DESTDIR=$pkgdir install 
+}
+

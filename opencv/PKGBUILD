@@ -1,0 +1,90 @@
+pkgbase=opencv
+pkgname=('opencv' 'opencv-samples')
+pkgver=3.4.6
+pkgrel=1
+pkgdesc="Open Source Computer Vision Library"
+arch=('x86_64')
+license=('BSD')
+url="https://opencv.org"
+depends=('cblas' 'gst-plugins-base' 'intel-tbb' 'libcl' 'libgphoto2' 'openblas' 'lapack'
+         'libdc1394' 'openexr' 'v4l-utils' 'ffmpeg' 'qt5-base' 'glu' 'python3' 'libgphoto2' 'xine-lib')
+makedepends=('pkgconfig' 'cmake' 'mesa' 'python3-numpy' 'eigen3' 'hdf5' 'glew')
+optdepends=('python3-numpy: Python 3.x interface'
+            'eigen3'
+            'hdf5: For hdf5 plugin to work')
+source=("opencv-$pkgver.zip::https://github.com/Itseez/opencv/archive/${pkgver}.zip"
+        "opencv_contrib-$pkgver.zip::https://github.com/Itseez/opencv_contrib/archive/${pkgver}.zip")
+sha1sums=('2fe8004a6899df9d61b1d3aa5b814f4b9f9e4f42'
+          '87e7288cf68d3f336dde06b7469d9e75974473e1')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+ 
+  # cmake's FindLAPACK doesn't add cblas to LAPACK_LIBRARIES, so we need to specify them manually
+  cmake ../$pkgname-$pkgver \
+    -DWITH_OPENCL=ON \
+    -DWITH_OPENGL=ON \
+    -DWITH_TBB=ON \
+    -DOpenGL_GL_PREFERENCE=GLVND \
+    -DBUILD_WITH_DEBUG_INFO=OFF \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_PERF_TESTS=OFF \
+    -DBUILD_EXAMPLES=ON \
+    -DINSTALL_C_EXAMPLES=ON \
+    -DINSTALL_PYTHON_EXAMPLES=ON \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCPU_BASELINE_DISABLE=SSE3 \
+    -DCPU_BASELINE_REQUIRE=SSE2 \
+    -DOPENCV_EXTRA_MODULES_PATH="$srcdir/opencv_contrib-$pkgver/modules" \
+    -DLAPACK_LIBRARIES="/usr/lib/liblapack.so;/usr/lib/libblas.so;/usr/lib/libopenblas.so" \
+    -DLAPACK_CBLAS_H="/usr/include/cblas.h" \
+    -DLAPACK_LAPACKE_H="/usr/include/lapacke.h" \
+    -DWITH_GTK=OFF \
+    -DWITH_QT=5
+  make
+}
+
+package_opencv() {
+  provides=('opencv-qt5')
+  conflicts=('opencv-qt5')
+  replaces=('opencv-qt5')
+  cd build
+
+  make DESTDIR="$pkgdir" install
+
+  # install license file
+  install -Dm644 "$srcdir/$pkgbase-$pkgver/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  # fix -lippicv not found
+  cd "$pkgdir/usr/share"
+  ln -s /usr/share/opencv/3rdparty/lib/libippicv.a "$pkgdir/usr/lib"
+
+  # separate samples package; also be -R friendly
+  if [[ -d OpenCV/samples ]]; then
+    mv OpenCV/samples "$srcdir/$pkgname-samples"
+    mv OpenCV $pkgname # otherwise folder naming is inconsistent
+  elif [[ ! -d OpenCV ]]; then
+    warning "Directory naming issue; samples package may not be built!"
+  fi
+}
+
+package_opencv-samples() {
+  pkgdesc+=" (samples)"
+  depends=("opencv=$pkgver")
+  unset optdepends
+
+  mkdir -p "$pkgdir/usr/share/opencv"
+  cp -r "$srcdir/opencv-samples" "$pkgdir/usr/share/opencv/samples"
+  # fix permissions
+  chmod 755 "$pkgdir"/usr/share/opencv/samples/*
+  
+  # install license file
+  install -Dm644 "$srcdir/opencv-$pkgver/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -1,0 +1,30 @@
+#
+# Platform Packages for Chakra, part of chakra-project.org
+#
+# maintainer: Neophytos Kolokotronis <tetris4@gmail.com>
+
+pkgname=libnice
+pkgver=0.1.14
+pkgrel=1
+pkgdesc="An implementation of the IETF's draft ICE (for p2p UDP data streams)"
+arch=('x86_64')
+url="http://nice.freedesktop.org"
+license=('LGPL')
+depends=('gstreamer')
+source=(http://nice.freedesktop.org/releases/${pkgname}-${pkgver}.tar.gz)
+md5sums=('c9b9b74b8ae1b3890e4bd93f1b70e8ff')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr \
+    --with-gstreamer \
+    --without-gstreamer-0.10 \
+    --disable-static
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR=${pkgdir} install
+}

@@ -1,0 +1,66 @@
+pkgname=xorg-utils
+pkgver=8.0
+pkgrel=3
+pkgdesc="Collection of client utilities used to query the X server"
+arch=(x86_64)
+url="https://xorg.freedesktop.org/"
+license=('custom')
+depends=('libxxf86dga' 'libxi' 'libxtst' 'libxinerama' 'libxv' 'libxrandr' 'xorgproto'
+         'libdmx' 'libxft' 'libxaw>=1.0.6' 'libgl' 'libxcomposite' 'xorg-util-macros' 'xcb-util')
+makedepends=('pkgconfig' 'mesa' 'glproto')
+groups=('xorg')
+source=(${url}/releases/individual/app/xdpyinfo-1.3.2.tar.bz2
+        ${url}/releases/individual/app/xdriinfo-1.0.6.tar.bz2
+        ${url}/releases/individual/app/xev-1.2.3.tar.bz2
+        ${url}/releases/individual/app/xlsatoms-1.1.3.tar.bz2
+        ${url}/releases/individual/app/xlsclients-1.1.4.tar.bz2
+        ${url}/releases/individual/app/xprop-1.2.4.tar.bz2
+        ${url}/releases/individual/app/xvinfo-1.1.4.tar.bz2
+        ${url}/releases/individual/app/xwininfo-1.1.5.tar.bz2
+        'LICENSE.xdpyinfo' 'LICENSE.xfd' 'LICENSE.xlsclients' 
+        'LICENSE.xprop' 'LICENSE.xwininfo' 'LICENSE.xev' 
+        'LICENSE.xlsatoms' 'LICENSE.xlsfonts' 'LICENSE.xvinfo')
+md5sums=('8809037bd48599af55dad81c508b6b39'
+         '480e63cd365f03eb2515a6527d5f4ca6'
+         'eec82a5d4b599736f0fa637e96136746'
+         '61671fee12535347db24ec3a715032a7'
+         '4fa92377e0ddc137cd226a7a87b6b29a'
+         'cc369c28383a5d7144e7197ee7d30bfa'
+         'b13afec137b9b331814a9824ab03ec80'
+         '26d46f7ef0588d3392da3ad5802be420'
+         'b43f731a9e2684728230ce8e33f63228'
+         '9e8a82b7e9898f36c378b80509f170a6'
+         '9e8a82b7e9898f36c378b80509f170a6'
+         '801f9850b29dad506e995d011efe2914'
+         '1c47d00801594a0e251694d70c7fb0b8'
+         'e84310edd65e120d85914350c795bfac'
+         '9ee99bda91248e945186090905db25d8'
+         '345d6e65d71fdde292cc27f93c15e4a1'
+         '67ea6bb3b11620c82ce4d24e78b4a0a9')
+
+build() {
+  cd "${srcdir}"
+  for i in *; do
+    if [ -d "${i}" ]; then
+      pushd "${i}"
+	msg "Making ${i}"
+	./configure --prefix=/usr --mandir=/usr/share/man
+	make
+      popd
+    fi
+  done
+}
+
+package() {
+  cd "${srcdir}"
+  for i in *; do
+    if [ -d "${i}" ]; then
+      pushd "${i}"
+	make DESTDIR="${pkgdir}" install
+	install -D -m644 COPYING "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE.${i%-*}
+      popd
+    fi
+  done
+# Replacing stub license files
+  install -Dm644 "${srcdir}"/LICENSE.* "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

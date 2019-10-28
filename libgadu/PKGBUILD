@@ -1,0 +1,25 @@
+pkgname=libgadu
+pkgver=1.12.2
+pkgrel=1
+pkgdesc="This library implements the client side of the Gadu-Gadu protocol"
+arch=('x86_64')
+url="http://toxygen.net/libgadu/"
+license=('LGPL2.1')
+depends=('gnutls' 'protobuf-c')
+options=('!libtool')
+source=("https://github.com/wojtekka/${pkgname}/archive/${pkgver}.tar.gz")
+md5sums=('1eecae8245d696adfbcfd40a2b36f0ca')
+
+build() {
+  cd "${srcdir}"/${pkgname}-${pkgver}
+  ./autogen.sh
+  ./configure --prefix=/usr \
+ 	 --disable-static \
+	 --disable-tests
+  make
+}
+
+package() {
+  cd "${srcdir}"/${pkgname}-${pkgver}
+  make DESTDIR="${pkgdir}" install
+}

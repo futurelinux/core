@@ -1,106 +1,241 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+_GRUB_EXTRAS_COMMIT="136763a4cc9ca3a4f59d05b79eede2159d6f441e"
+_GNULIB_COMMIT="9ce9be2ef0cb1180e35dfe9dfbbe90d774b374bd"
+_UNIFONT_VER="12.1.02"
 
-pkgname=grub
-pkgver=0.97
-pkgrel=18
-pkgdesc="A GNU multiboot boot loader"
-arch=('i686' 'x86_64')
-license=('GPL')
-url="http://www.gnu.org/software/grub/"
-depends=('ncurses' 'diffutils' 'sed')
-optdepends=('xfsprogs: freezing of xfs /boot in install-grub script')
-source=(ftp://alpha.gnu.org/gnu/grub/grub-$pkgver.tar.gz
-        menu.lst
-        install-grub
-        040_all_grub-0.96-nxstack.patch
-        05-grub-0.97-initrdaddr.diff
-        i2o.patch
-        special-devices.patch
-        more-raid.patch
-        intelmac.patch
-        grub-inode-size.patch
-	ext4.patch
-	grub-0.97-ldflags-objcopy-remove-build-id.patch)
-backup=('boot/grub/menu.lst')
-install=grub.install
-sha1sums=('2580626c4579bd99336d3af4482c346c95dac4fb'
-          '33d43d48000b2027f9baec8fc99d33e0c4500c96'
-          '60e8f7e4c113b85165fd5d9cd724e8413a337a12'
-          '157b81dbad3576536b08642242accfa1aeb093a9'
-          'adbb4685c98797ffb4dc83561ec75698991dddbd'
-          'f2e0dff29a7c8a45e90aa07298a1b2a9a9d29afc'
-          'c5e2c94ed0e759590b9eb38c9d979f075d19d7c0'
-          '45fe668a3779664fb292591f426976b6c784d6c8'
-          '066d7ab1ae442f88e94c9e4f1867ac6682965d06'
-          '0436aa6fa0b6f768289172f983a3f4b69384629e'
-          'a36f34e51efed540f1ddafd78e9c9f6d83e4c8d4'
-          '61c4b58d2eaa3c1561d8e9d8fc41341ce8882869')
+_EFI_ARCH="x86_64"
 
-#set destination architecture here
-DESTARCH="$_arch"
-#DESTARCH="x86_64"
+pkgname="grub"
+pkgdesc="GNU GRand Unified Bootloader (2)"
+pkgver=2.04
+pkgrel=1
+epoch=1
+url="https://www.gnu.org/software/grub/"
+arch=('x86_64')
+license=('GPL3')
+backup=('boot/grub/grub.cfg' 'etc/default/grub' 'etc/grub.d/40_custom')
+install="${pkgname}.install"
+options=('!makeflags')
 
+conflicts=('grub2-common' 'grub2-bios' 'grub2-efi64' 'grub2-efi32' "grub2-efi-${_EFI_ARCH}")
+replaces=('grub2-common' 'grub2-bios' 'grub2-efi64' 'grub2-efi32' "grub2-efi-${_EFI_ARCH}")
+provides=('grub2-common' 'grub2-bios' 'grub2-efi64' 'grub2-efi32' "grub2-efi-${_EFI_ARCH}")
 
-build() {
-  cd $srcdir/$pkgname-$pkgver
+makedepends=('git' 'rsync' 'xz' 'freetype2' 'ttf-dejavu' 'python3' 'autogen'
+             'texinfo' 'help2man' 'gettext' 'device-mapper' 'fuse2')
+depends=('sh' 'xz' 'gettext' 'device-mapper')
+optdepends=('freetype2: For grub-mkfont usage'
+            'fuse2: For grub-mount usage'
+            'dosfstools: For grub-mkrescue FAT FS and EFI support' 
+            'efibootmgr: For grub-install EFI support'
+            'libisoburn: Provides xorriso for generating grub rescue iso using grub-mkrescue'
+            'os-prober: To detect other OSes when generating grub.cfg in BIOS systems'
+            'mtools: For grub-mkrescue FAT FS support')
 
-  # optimizations break the build -- disable them
-  # adding special devices to grub, patches are from fedora
-  patch -Np1 -i ../special-devices.patch
-  patch -Np1 -i ../i2o.patch
-  patch -Np1 -i ../more-raid.patch
-  patch -Np1 -i ../intelmac.patch
-  # Add support for bigger inode size to e2fs_stage1_5
-  patch -Np1 -i ../grub-inode-size.patch
-  # Add ext4 support
-  # http://www.mail-archive.com/bug-grub@gnu.org/msg11458.html
-  patch -Np1 -i ../ext4.patch
-  # binutils fix
-  patch -Np1 -i ../grub-0.97-ldflags-objcopy-remove-build-id.patch
+source=("git+https://git.savannah.gnu.org/git/grub.git#tag=grub-${pkgver}?signed"
+        "git+https://git.savannah.gnu.org/git/grub-extras.git#commit=${_GRUB_EXTRAS_COMMIT}"
+        "git+https://git.savannah.gnu.org/git/gnulib.git#commit=${_GNULIB_COMMIT}"
+        "https://ftp.gnu.org/gnu/unifont/unifont-${_UNIFONT_VER}/unifont-${_UNIFONT_VER}.bdf.gz"{,.sig}
+        '0003-10_linux-detect-archlinux-initramfs.patch'
+        '0004-add-GRUB_COLOR_variables.patch'
+        'grub.default'
+        'update-grub')
 
-  sed -e'/^AC_PROG_CC/ a\AM_PROG_CC_C_O\ ' -i "${srcdir}/${pkgname}-${pkgver}/configure.ac"
-  sed -e'/^AC_PROG_CC/ a\AM_PROG_AS\ ' -i "${srcdir}/${pkgname}-${pkgver}/configure.ac"
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            '04d652be1e28a6d464965c75c71ac84633085cd0960c2687466651c34c94bd89'
+            'SKIP'
+            'b41e4438319136b5e74e0abdfcb64ae115393e4e15207490272c425f54026dd3'
+            'a5198267ceb04dceb6d2ea7800281a42b3f91fd02da55d2cc9ea20d47273ca29'
+            'd361e28ae624fdb1eae58713f940bed92e84b37dd5a4057b0ba7bf0ed12aba4a'
+            'a9d3e1b36d6143416cfce3276e867e10d775df6c8d65a645d10fae69cab7e00b')
+validpgpkeys=('E53D497F3FA42AD8C9B4D1E835A93B74E82E4209'  # Vladimir 'phcoder' Serbinenko <phcoder@gmail.com>
+              'BE5C23209ACDDACEB20DB0A28C8189F1988C2166'  # Daniel Kiper <dkiper@net-space.pl>
+              '95D2E9AB8740D8046387FD151A09227B1F435A33') # Paul Hardy <unifoundry@unifoundry.com>
 
-  ## recreate ./configure script with the required changes in LDFLAGS and objcopy
-  aclocal
-  autoconf
-  autoreconf
-  automake
+prepare() {	
+	cd "${srcdir}/grub/"
+	
+	msg "Patch to detect of Chakra Linux initramfs images by grub-mkconfig (same as Arch)"
+	patch -Np1 -i "${srcdir}/0003-10_linux-detect-archlinux-initramfs.patch"
+	
+	msg "Patch to enable GRUB_COLOR_* variables in grub-mkconfig"
+	## Based on http://lists.gnu.org/archive/html/grub-devel/2012-02/msg00021.html
+	patch -Np1 -i "${srcdir}/0004-add-GRUB_COLOR_variables.patch"
+	
+	msg "Fix DejaVuSans.ttf location so that grub-mkfont can create *.pf2 files for starfield theme"
+	sed 's|/usr/share/fonts/dejavu|/usr/share/fonts/dejavu /usr/share/fonts/TTF|g' -i "${srcdir}/grub/configure.ac"
+	
+	msg "Fix mkinitcpio 'rw' FS#36275"
+	sed 's| ro | rw |g' -i "${srcdir}/grub/util/grub.d/10_linux.in"
+	
+	msg "Fix OS naming FS#33393"
+	sed 's|GNU/Linux|Linux|' -i "${srcdir}/grub/util/grub.d/10_linux.in"
+	
+	msg "autogen.sh requires python (2/3). since bzr is in makedepends"
+	sed 's|python|python3|g' -i "${srcdir}/grub/autogen.sh"
+	
+	msg "Pull in latest language files"
+	./linguas.sh
+	
+	msg "Remove not working langs which need LC_ALL=C.UTF-8"
+	sed -e 's#en@cyrillic en@greek##g' -i "${srcdir}/grub/po/LINGUAS"
+	
+	msg "Avoid problem with unifont during compile of grub, http://savannah.gnu.org/bugs/?40330 and https://bugs.archlinux.org/task/37847"
+	cp "${srcdir}/unifont-${_UNIFONT_VER}.bdf" "${srcdir}/grub/unifont.bdf"
 
-  #arch64 fixes for static build
-  if [ "$CARCH" = "x86_64" ]; then  ## correcting problems for new wersion of autotools
-
-    echo "this package has to be built on i686, won't compile on x86_64"
-    sleep 5
-  else
-    if [ "$DESTARCH" = "x86_64" ]; then
-      # patch from gentoo for fixing a segfault
-      patch -Np1 -i ../040_all_grub-0.96-nxstack.patch
-      # patch from frugalware to make it boot when more than 2GB ram installed
-      patch -Np1 -i ../05-grub-0.97-initrdaddr.diff
-      CFLAGS="-static -fno-strict-aliasing" ./configure --prefix=/usr --bindir=/bin --sbindir=/sbin \
-                           --mandir=/usr/share/man --infodir=/usr/share/info
-    else
-      CFLAGS="-fno-strict-aliasing" ./configure --prefix=/usr --bindir=/bin --sbindir=/sbin \
-                  --mandir=/usr/share/man --infodir=/usr/share/info
-    fi
-  fi
+	msg "Run bootstrap..."
+	./bootstrap \
+		--gnulib-srcdir="${srcdir}/gnulib/" \
+		--no-git
 }
 
-package() {
-  cd $srcdir/$pkgname-$pkgver
-
-  CFLAGS= make
-  make DESTDIR=$pkgdir install
-  install -D -m644 ../menu.lst $pkgdir/boot/grub/menu.lst
-  install -D -m755 ../install-grub $pkgdir/sbin/install-grub
-
-  if [ "$DESTARCH" = "x86_64" ]; then
-    # fool makepkg into building a x86_64 package
-    export CARCH="x86_64"
-  fi
+_build_grub-common_and_bios() {
+	msg "Copy the source for building the bios part"
+	cp -r "${srcdir}/grub" "${srcdir}/grub-bios"
+	cd "${srcdir}/grub-bios/"
+	
+	msg "Add the grub-extra sources for bios build"
+	install -d "${srcdir}/grub-bios/grub-extras"
+	cp -r "${srcdir}/grub-extras/915resolution" "${srcdir}/grub-bios/grub-extras/915resolution"
+	export GRUB_CONTRIB="${srcdir}/grub-bios/grub-extras/"
+	
+	msg "Unset all compiler FLAGS for bios build"
+	unset CFLAGS
+	unset CPPFLAGS
+	unset CXXFLAGS
+	unset LDFLAGS
+	unset MAKEFLAGS
+	
+	cd "${srcdir}/grub-bios/"
+	
+	msg "Run ./configure for bios build"
+	./configure \
+		FREETYPE="pkg-config freetype2" \
+		--with-platform="pc" \
+		--target="i386" \
+		--enable-efiemu \
+		--enable-mm-debug \
+		--enable-nls \
+		--enable-device-mapper \
+		--enable-cache-stats \
+		--enable-boot-time \
+		--enable-grub-mkfont \
+		--enable-grub-mount \
+		--prefix="/usr" \
+		--bindir="/usr/bin" \
+		--sbindir="/usr/bin" \
+		--mandir="/usr/share/man" \
+		--infodir="/usr/share/info" \
+		--datarootdir="/usr/share" \
+		--sysconfdir="/etc" \
+		--program-prefix="" \
+		--with-bootdir="/boot" \
+		--with-grubdir="grub" \
+		--disable-silent-rules \
+		--disable-werror
+	
+	msg "Run make for bios build"
+	make
 }
 
+_build_grub-efi() {	
+	msg "Copy the source for building the ${_EFI_ARCH} efi part"
+	cp -r "${srcdir}/grub" "${srcdir}/grub-efi-${_EFI_ARCH}"
+	cd "${srcdir}/grub-efi-${_EFI_ARCH}/"
+	
+	msg "Unset all compiler FLAGS for ${_EFI_ARCH} efi build"
+	unset CFLAGS
+	unset CPPFLAGS
+	unset CXXFLAGS
+	unset LDFLAGS
+	unset MAKEFLAGS
+	
+	cd "${srcdir}/grub-efi-${_EFI_ARCH}/"
+	
+	msg "Run ./configure for ${_EFI_ARCH} efi build"
+	./configure \
+		FREETYPE="pkg-config freetype2" \
+		--with-platform="efi" \
+		--target="${_EFI_ARCH}" \
+		--disable-efiemu \
+		--enable-mm-debug \
+		--enable-nls \
+		--enable-device-mapper \
+		--enable-cache-stats \
+		--enable-boot-time \
+		--enable-grub-mkfont \
+		--enable-grub-mount \
+		--prefix="/usr" \
+		--bindir="/usr/bin" \
+		--sbindir="/usr/sbin" \
+		--mandir="/usr/share/man" \
+		--infodir="/usr/share/info" \
+		--datarootdir="/usr/share" \
+		--sysconfdir="/etc" \
+		--program-prefix="" \
+		--with-bootdir="/boot" \
+		--with-grubdir="grub" \
+		--disable-silent-rules \
+		--disable-werror
+	
+	msg "Run make for ${_EFI_ARCH} efi build"
+	make
+}
+
+build() {	
+	cd "${srcdir}/grub/"
+	
+	msg 'Build grub bios stuff'
+	_build_grub-common_and_bios
+	
+	msg "Build grub ${_EFI_ARCH} efi stuff"
+	_build_grub-efi
+
+	msg 'Build grub i386 efi stuff'
+	_EFI_ARCH='i386' _build_grub-efi
+}
+
+_package_grub-common_and_bios() {
+	
+	cd "${srcdir}/grub-bios/"
+	
+	msg "Run make install for bios build"
+	make DESTDIR="${pkgdir}/" bashcompletiondir="/usr/share/bash-completion/completions" install
+	
+	msg "Remove gdb debugging related files for bios build"
+	rm -f "${pkgdir}/usr/lib/grub/i386-pc"/*.module
+	rm -f "${pkgdir}/usr/lib/grub/i386-pc"/*.image
+	rm -f "${pkgdir}/usr/lib/grub/i386-pc"/{kernel.exec,gdb_grub,gmodule.pl}
+	
+	msg "Install /etc/default/grub (used by grub-mkconfig)"
+	install -D -m0644 "${srcdir}/grub.default" "${pkgdir}/etc/default/grub"
+	
+	msg "Install update-grub (Chakra helper script)"
+        install -D -m755 "${srcdir}/update-grub" "${pkgdir}/usr/sbin/update-grub"
+}
+
+_package_grub-efi() {
+	cd "${srcdir}/grub-efi-${_EFI_ARCH}/"
+	
+	msg "Run make install for ${_EFI_ARCH} efi build"
+	make DESTDIR="${pkgdir}/" bashcompletiondir="/usr/share/bash-completion/completions" install
+	
+	msg "Remove gdb debugging related files for ${_EFI_ARCH} efi build"
+	rm -f "${pkgdir}/usr/lib/grub/${_EFI_ARCH}-efi"/*.module
+	rm -f "${pkgdir}/usr/lib/grub/${_EFI_ARCH}-efi"/*.image
+	rm -f "${pkgdir}/usr/lib/grub/${_EFI_ARCH}-efi"/{kernel.exec,gdb_grub,gmodule.pl}
+}
+
+package() {	
+	cd "${srcdir}/grub/"
+	
+	msg "Package grub ${_EFI_ARCH} efi stuff"
+	_package_grub-efi
+
+	msg 'Package grub i386 efi stuff'
+	_EFI_ARCH="i386" _package_grub-efi
+	
+	msg 'Package grub bios stuff'
+	_package_grub-common_and_bios
+}

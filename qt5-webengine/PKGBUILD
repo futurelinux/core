@@ -1,0 +1,57 @@
+
+pkgname=qt5-webengine
+pkgver=5.13.1
+pkgrel=1
+arch=('x86_64')
+url='http://qt-project.org/'
+license=('LGPL3' 'LGPL2.1' 'BSD')
+pkgdesc='Provides support for web applications using the Chromium browser project'
+depends=('qt5-webchannel' 'qt5-location' 'libxcomposite' 'libxrandr' 'pciutils' 'libxss'
+         'libevent' 'snappy' 'nss' 'libxslt' 'minizip' 'ffmpeg' 're2' 'libvpx')
+makedepends=('python3' 'git' 'gperf' 'jsoncpp' 'ninja' 'qt5-tools' 'poppler')
+groups=('qt5')
+_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
+source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
+         qtbug-77037-workaround.patch
+         qtbug-76963-new-kernel.patch)
+md5sums=('0f6a3e3d9c1a17be769fca94d4a8f7cb'
+         '5def330a7e85081bc9bbfe04ec46df68'
+         '7831d1ab0e6f2fae9fe3583cf47f5e7c')
+
+prepare() {
+  mkdir -p build
+
+  # Hack to force using python3
+  mkdir -p bin
+  ln -s /usr/bin/python3 bin/python
+
+  cd ${_pkgfqn}
+  patch -p1 -i ../qtbug-77037-workaround.patch # Link to pulseaudio to avoid header mismatch
+  
+  cd src/3rdparty
+  patch -p1 -i "$srcdir"/qtbug-76963-new-kernel.patch #Fix build with recent linux kernel
+}
+
+build() {
+  cd build
+
+  export PATH="$srcdir/bin:$PATH"
+  qmake-qt5 ../${_pkgfqn} -- \
+    -proprietary-codecs \
+    -system-ffmpeg \
+    -webp \
+    -spellchecker
+#    -webengine-icu
+  make
+}
+
+package() {
+  cd build
+  make INSTALL_ROOT="$pkgdir" install
+
+  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  find "${pkgdir}/usr/lib" -type f -name '*.prl' \
+    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+  install -Dm644 "$srcdir"/${_pkgfqn}/src/3rdparty/chromium/LICENSE "$pkgdir"/usr/share/licenses/${pkgname}/LICENSE.chromium
+}

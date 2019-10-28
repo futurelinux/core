@@ -1,0 +1,77 @@
+# Contributions from Arch: https://projects.archlinux.org/svntogit/community.git/tree/trunk?h=packages/gdal
+
+pkgname=gdal
+pkgver=2.3.2
+pkgrel=1
+pkgdesc="A translator library for raster geospatial data formats"
+arch=('x86_64')
+url="http://www.gdal.org/"
+license=('custom')
+depends=('curl' 'geos' 'giflib' 'hdf5' 'libgeotiff' 'libjpeg' 'libpng' 'libtiff'
+         'netcdf' 'poppler' 'libspatialite' 'python2' 'python2-numpy' 'sqlite3' 'libmariadbclient' 'postgresql-libs' 'pcre')
+makedepends=('perl' 'swig' 'chrpath' 'doxygen')
+optdepends=('postgresql: postgresql database support'
+            'mariadb: mariadb database support'
+            'perl:  perl binding support'
+            'swig:  perl binding support')
+options=('!makeflags')
+source=("http://download.osgeo.org/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz"
+              'gdal-perl-vendor.patch')
+sha256sums=('3f6d78fe8807d1d6afb7bed27394f19467840a82bc36d65e66316fa0aa9d32a4'
+            'a41a0129a878a0d09b8ecf24b8a0b473856d929d52f535afdf4dca95ddd347d3')
+
+prepare() {
+  cd "${srcdir}"/$pkgname-$pkgver
+# python2 fixes
+  sed -i 's_python python1.5_python2 python python1.5_' configure
+  for file in swig/python/{,osgeo/,samples/,scripts/}*.py; do
+      sed -i 's_#!/usr/bin/env python_#!/usr/bin/env python2_' $file
+  done
+
+# Fix mandir
+  sed -i "s|^mandir=.*|mandir='\${prefix}/share/man'|" configure
+
+# Fix Perl bindings installation path
+  patch -Np1 -i ../gdal-perl-vendor.patch
+}
+
+build() {
+  export CFLAGS="$CFLAGS -fno-strict-aliasing"
+  export LDFLAGS="$LDFLAGS -Wl,--as-needed"
+
+  cd ${srcdir}/$pkgname-$pkgver
+
+  ./configure --prefix=/usr --with-netcdf --with-libtiff --with-sqlite3 \
+              --with-geotiff --with-mysql --with-python --with-curl \
+              --with-hdf5 --with-perl --with-geos --with-png --with-poppler --with-spatialite --with-openjpeg
+
+  # workaround for bug #13646
+  sed -i 's/PY_HAVE_SETUPTOOLS=1/PY_HAVE_SETUPTOOLS=/g' ./GDALmake.opt
+  sed -i 's/EXE_DEP_LIBS/KILL_EXE_DEP_LIBS/' apps/GNUmakefile
+
+  make
+  make man
+}
+
+package () {
+  cd ${srcdir}/$pkgname-$pkgver
+
+  install -d ${pkgdir}/usr/lib/python2.7/site-packages/
+  make DESTDIR=${pkgdir} install
+  make DESTDIR="${pkgdir}" install-man
+
+# install license
+  install -D -m644 LICENSE.TXT "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
+
+#FS15477 clean up junks
+  rm -f "${pkgdir}"/usr/bin/*.dox
+  rm -f "${pkgdir}"/usr/share/man/man1/_build_gdal_src_gdal-${pkgver}_apps_.1
+
+# Remove RPATH
+  eval local $(perl -V:vendorarch)
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/OSR/OSR.so
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/OGR/OGR.so
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/GDAL/GDAL.so
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/GDAL/Const/Const.so
+  chrpath --delete "${pkgdir}"${vendorarch}/auto/Geo/GNM/GNM.so
+}

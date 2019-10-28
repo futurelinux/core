@@ -1,0 +1,29 @@
+pkgname=vala
+pkgver=0.46.1
+pkgrel=1
+pkgdesc="Compiler for the GObject type system."
+arch=('x86_64')
+url="https://wiki.gnome.org/Projects/Vala"
+license=('LGPL')
+depends=('glib2' 'graphviz' 'ttf-font' 'pkg-config' 'gcc')
+makedepends=('libxslt' 'gtk-doc' 'help2man' 'autoconf-archive')
+checkdepends=('dbus' 'libx11' 'gobject-introspection')
+source=(https://ftp.gnome.org/pub/gnome/sources/$pkgname/${pkgver:0:4}/$pkgname-$pkgver.tar.xz)
+sha256sums=('14e579ab85739097849570b642cf09a91ed27765313a5ca6f94d474b199c9f81')
+
+build() {
+    cd $pkgname-$pkgver
+    ./configure --prefix=/usr
+    sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+    make
+}
+
+check() {
+    cd $pkgname-$pkgver
+    make check
+}
+
+package() {
+    cd $pkgname-$pkgver
+    make DESTDIR="$pkgdir" install
+}

@@ -1,49 +1,68 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
+# COntributions from Arch:
+# Maintainer:  Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Thomas Bächler <thomas@archlinux.org>
 
 pkgname=wpa_supplicant
-pkgver=0.7.3
-pkgrel=5
-pkgdesc="A utility providing key negotiation for WPA wireless networks"
-arch=('x86_64')
-depends=('openssl' 'dbus-core>=1.2.4' 'readline>=6.0' 'libnl')
-optdepends=('wpa_supplicant_gui: wpa_gui program')
-license=('GPL')
-groups=('base')
-backup=('etc/wpa_supplicant.conf')
-url="http://hostap.epitest.fi/wpa_supplicant"
-source=("http://hostap.epitest.fi/releases/wpa_supplicant-$pkgver.tar.gz"
-        config
-	wpa_supplicant.service)
-sha256sums=('d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443'
-            '54568aa6912a7e8ee0c28a71a79dd8d5b6f11368ca71733c26e41d1a142587ba'
-            '7473ff4479f7b40e9f1369f1ccbf8f514ae17729be18572801f80d3b4a4df3d0')
+pkgver=2.9
+pkgrel=1
+pkgdesc='A utility providing key negotiation for WPA wireless networks'
+url='https://w1.fi/wpa_supplicant/'
+arch=(x86_64)
+license=(GPL)
+depends=(openssl libdbus readline libnl)
+install=wpa_supplicant.install
+source=(https://w1.fi/releases/${pkgname}-${pkgver}.tar.gz{,.asc}
+        config)
+validpgpkeys=('EC4AA0A991A5F2464582D52D2B6EF432EFC895FA') # Jouni Malinen
+sha256sums=('fcbdee7b4a64bea8177973299c8c824419c413ec2e3a95db63dd6a5dc3541f17'
+            'SKIP'
+            '23aee0597750ec21b37654b5163e2f577c1204fc33bdfbf7bc2fb470e8a467db')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+  local i; for i in "${source[@]}"; do
+    case $i in
+      *.patch)
+        msg2 "Applying patch $i"
+        patch -p1 -i "$srcdir/$i"
+        ;;
+    esac
+  done
+
+  cd "$srcdir/$pkgname-$pkgver/$pkgname"
+  cp "$srcdir/config" ./.config
+}
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}/${pkgname}"
-  cp "${srcdir}/config" ./.config
-  sed -i 's@/usr/local@$(PREFIX)@g' Makefile
-  make
+  cd "$srcdir/$pkgname-$pkgver/$pkgname"
+
+  make LIBDIR=/usr/lib BINDIR=/usr/bin
+  make LIBDIR=/usr/lib BINDIR=/usr/bin eapol_test
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}/${pkgname}"
-  make PREFIX=/usr DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/etc"
-  install -m644 wpa_supplicant.conf "${pkgdir}/etc/wpa_supplicant.conf"
-  install -d -m755 "${pkgdir}/usr/share/man/man"{5,8}
-  install -m644 doc/docbook/*.5 "${pkgdir}/usr/share/man/man5/"
-  install -m644 doc/docbook/*.8 "${pkgdir}/usr/share/man/man8/"
-  rm -f "${pkgdir}/usr/share/man/man8/wpa_"{priv,gui}.8
+  cd "$srcdir/$pkgname-$pkgver/$pkgname"
+  make LIBDIR=/usr/lib BINDIR=/usr/bin DESTDIR="$pkgdir" install
+  install -Dm755 eapol_test "$pkgdir/usr/bin/eapol_test"
 
-  install -m755 -d "${pkgdir}/usr/share/dbus-1/system-services"
-  install -m644 dbus/{fi.epitest.hostap.WPASupplicant.service,fi.w1.wpa_supplicant1.service} "${pkgdir}/usr/share/dbus-1/system-services/"
-  sed -e 's/sbin/usr\/sbin/' -i "${pkgdir}/usr/share/dbus-1/system-services/"*.service
-  install -m755 -d "${pkgdir}/etc/dbus-1/system.d"
-  install -m644 dbus/dbus-wpa_supplicant.conf "${pkgdir}/etc/dbus-1/system.d/wpa_supplicant.conf"
+  install -d -m755 "$pkgdir/etc/wpa_supplicant"
+  install -Dm644 wpa_supplicant.conf \
+    "$pkgdir/usr/share/doc/wpa_supplicant/wpa_supplicant.conf"
 
-  # install systemd units
-  install -Dm644 "$srcdir/wpa_supplicant.service" "$pkgdir/usr/lib/systemd/system/wpa_supplicant.service"
+
+install -d -m755 "$pkgdir/usr/share/dbus-1/system-services"
+install -m644 \
+dbus/fi.w1.wpa_supplicant1.service \
+"$pkgdir/usr/share/dbus-1/system-services/"
+
+ install -Dm644 dbus/dbus-wpa_supplicant.conf \
+"$pkgdir/etc/dbus-1/system.d/wpa_supplicant.conf"
+
+  install -d -m755 "$pkgdir/usr/share/man/man"{5,8}
+  install -m644 doc/docbook/*.5 "$pkgdir/usr/share/man/man5/"
+  install -m644 doc/docbook/*.8 "$pkgdir/usr/share/man/man8/"
+  rm -f "$pkgdir/usr/share/man/man8/wpa_"{priv,gui}.8
+
+  install -d -m755 "$pkgdir/usr/lib/systemd/system"
+  install -m644 systemd/*.service "$pkgdir/usr/lib/systemd/system/"
 }

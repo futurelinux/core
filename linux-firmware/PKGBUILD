@@ -1,23 +1,23 @@
 #
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dog]org>
-# maintainer Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+# Chakra Packages for Chakra, part of chakralinux.org
 
 pkgname=linux-firmware
-pkgver=20121203
-_b43=4.178.10.4
+_commit=813fa1fc6fba6638decd974c4a6a2e485069ea15 # master
+pkgver=20181214.813fa1f
+_b43=6.30.163.46
+_classic=5.100.138
 _legacy=3.130.20.0
 pkgrel=1
 pkgdesc="Firmware files for Linux"
+makedepends=('b43-fwcutter' 'git')
 arch=('any')
-url="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=summary"
+url="http://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=summary"
 license=('GPL2' 'GPL3' 'custom')
-makedepends=('b43-fwcutter')
-provides=('kernel26-firmware=3.1.99' 'linux-firmware=3.1.99')
+provides=("b43-firmware"{,-{legacy,classic}}'amd-ucode')
 conflicts=('linux-firmware-git'
            'kernel26-firmware'
            'ar9170-fw'
+           'carl9170-fw'
            'iwlwifi-1000-ucode'
            'iwlwifi-3945-ucode'
            'iwlwifi-4965-ucode'
@@ -28,51 +28,62 @@ conflicts=('linux-firmware-git'
            'rt2x00-rt61-fw'
            'rt2x00-rt71w-fw'
            'b43-firmware'
-           'b43-firmware-legacy')
+           'b43-firmware-legacy'
+           'amd-ucode')
 replaces=('kernel26-firmware'
-           'ar9170-fw'
-           'iwlwifi-1000-ucode'
-           'iwlwifi-3945-ucode'
-           'iwlwifi-4965-ucode'
-           'iwlwifi-5000-ucode'
-           'iwlwifi-5150-ucode'
-           'iwlwifi-6000-ucode'
-           'rt2870usb-fw'
-           'rt2x00-rt61-fw'
-           'rt2x00-rt71w-fw'
-           'b43-firmware'
-           'b43-firmware-legacy')
-options=(!strip emptydirs)
-source=("http://chakra.sourceforge.net/sources/linux-firmware/$pkgname-$pkgver.tar.xz"
-        "http://mirror2.openwrt.org/sources/broadcom-wl-${_b43}.tar.bz2"
+          'ar9170-fw'
+          'carl9170'
+          'iwlwifi-1000-ucode'
+          'iwlwifi-3945-ucode'
+          'iwlwifi-4965-ucode'
+          'iwlwifi-5000-ucode'
+          'iwlwifi-5150-ucode'
+          'iwlwifi-6000-ucode'
+          'rt2870usb-fw'
+          'rt2x00-rt61-fw'
+          'rt2x00-rt71w-fw'
+          'b43-firmware'
+          'b43-firmware-legacy'
+          'amd-ucode')
+options=(!strip)
+source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git#commit=${_rev}"
+        "http://www.lwfinger.com/b43-firmware/"broadcom-wl-{$_b43,$_classic}.tar.bz2
         "http://downloads.openwrt.org/sources/wl_apsta-${_legacy}.o")
-sha256sums=('0725e22ec19689a59bca6872face3614ed577b26738cb126913fdbd67270b5b0'
-            '32f6ad98facbb9045646fdc8b54bb03086d204153253f9c65d0234a5d90ae53f'
+sha256sums=('SKIP'
+            'a07c3b6b277833c7dbe61daa511f908cd66c5e2763eb7a0859abc36cd9335c2d'
+            'f1e7067aac5b62b67b8b6e4c517990277804339ac16065eb13c731ff909ae46f'
             '7dba610b1d96dd14e901bcbce14cd6ecd1b1ac6f5c0035b0d6b6dc46a7c3ef90')
 
-# create tarball: source PKGBUILD && mksource
+pkgver() {
+  cd "${srcdir}/${pkgname}"
 
-mksource() {
-	  rm -vRf linux-firmware*
-	  git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
-	  pushd ${pkgname}
-          git archive --format=tar --prefix linux-firmware-$(date +%Y%m%d)/ master | xz -9 > ../linux-firmware-$(date +%Y%m%d).tar.xz
-	  popd
-	  sha256sum linux-firmware-$(date +%Y%m%d).tar.xz
+  # Commit date + short rev
+  echo $(TZ=UTC git show -s --pretty=%cd --date=format-local:%Y%m%d HEAD).$(git rev-parse --short HEAD)
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/${pkgname}"
 
-  install -d -m755 "${pkgdir}/usr/lib/firmware"
-  cp -a * "${pkgdir}/usr/lib/firmware/"
-  install -d -m755 "${pkgdir}/usr/share/licenses/linux-firmware/"
-  rm -f "${pkgdir}/usr/lib/firmware/GPL*"
-  mv "${pkgdir}/usr/lib/firmware"/{LICEN*,WHENCE} "${pkgdir}/usr/share/licenses/linux-firmware/"
+  make DESTDIR="${pkgdir}" FIRMWAREDIR=/usr/lib/firmware install
+  rm "${pkgdir}/usr/lib/firmware/"{Makefile,README,configure,GPL-3}
+
+  install -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm644 LICEN* WHENCE "${pkgdir}/usr/share/licenses/linux-firmware/"
 
   # install b43-firmware
-  b43-fwcutter -w "${pkgdir}/usr/lib/firmware/" ${srcdir}/broadcom-wl-${_b43}/linux/wl_apsta.o
+  b43-fwcutter -w "${pkgdir}/usr/lib/firmware/" ${srcdir}/broadcom-wl-${_b43}.wl_apsta.o
+
+  # install b43-classic-firmware
+  b43-fwcutter -w "${pkgdir}/usr/lib/firmware/" ${srcdir}/broadcom-wl-${_classic}/linux/wl_apsta.o
 
   # install b43-legacy-firmware
   b43-fwcutter -w "${pkgdir}/usr/lib/firmware/" ${srcdir}/wl_apsta-${_legacy}.o
+
+  # remove asc file from amd-ucode
+  rm "${pkgdir}"/usr/lib/firmware/amd-ucode/*.asc
+  
+  # Trigger a microcode reload for configurations not using early updates
+  install -d "${pkgdir}/usr/lib/tmpfiles.d"
+  echo 'w /sys/devices/system/cpu/microcode/reload - - - - 1' \
+    >"${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
 }

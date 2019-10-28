@@ -1,45 +1,56 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer: Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 pkgname=cmake
-pkgver=2.8.9
+pkgver=3.15.4
 pkgrel=1
-pkgdesc="A cross-platform open-source make system"
+pkgdesc='A cross-platform open-source make system'
 arch=('x86_64')
+url="http://www.cmake.org/"
 license=('custom')
-url="http://www.cmake.org"
-depends=('curl' 'libarchive' 'shared-mime-info')
-makedepends=('qt')
-install=${pkgname}.install
-source=("http://www.cmake.org/files/v2.8/${pkgname}-${pkgver}.tar.gz"
-        'fix-pkg-config.patch')
-md5sums=('801f4c87f8b604f727df5bf1f05a59e7'
-         '1d0e7fddd703a36df30262d7616a59be')
+depends=('curl' 'libarchive' 'shared-mime-info' 'jsoncpp' 'libuv' 'rhash')
+makedepends=('qt5-base' 'python3-sphinx' 'emacs')
+optdepends=('qt5-base: cmake-gui')
+source=("https://www.cmake.org/files/v${pkgver%.*}/${pkgname}-${pkgver}.tar.gz"
+        cmake-default-libdir.patch::"https://gitlab.kitware.com/cmake/cmake/commit/18365587.diff")
+sha256sums=('8a211589ea21374e49b25fc1fc170e2d5c7462b795f1b29c84dd0e984301ed7a'
+            'c2eb72c6f57e9b1697097f2d6b1f62fd826e225397ef9d4d38354f8bd671d4c5')
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+  patch -p1 -i ../cmake-default-libdir.patch # Set lib as default LIBDIR
+}
 
 build() {
-  cd "${srcdir}"/${pkgname}-${pkgver}
-
-  #patch -p1 -i "${srcdir}"/fix-pkg-config.patch
+  cd ${pkgname}-${pkgver}
 
   ./bootstrap --prefix=/usr \
     --mandir=/share/man \
     --docdir=/share/doc/cmake \
+    --sphinx-man \
     --system-libs \
     --qt-gui \
+    --qt-qmake=/usr/lib/qt5/bin/qmake \
     --parallel=$(/usr/bin/getconf _NPROCESSORS_ONLN)
   make
 }
 
 package() {
-  cd "${srcdir}"/${pkgname}-${pkgver}
+  cd ${pkgname}-${pkgver}
   make DESTDIR="${pkgdir}" install
 
-  vimpath="$pkgdir/usr/share/vim/vimfiles"
-  install -Dm644 Docs/cmake-indent.vim ${vimpath}/indent/cmake-indent.vim
-  install -Dm644 Docs/cmake-syntax.vim ${vimpath}/syntax/cmake-syntax.vim
-  install -Dm644 Docs/cmake-mode.el ${pkgdir}/usr/share/emacs/site-lisp/cmake-mode.el
+  vimpath="${pkgdir}/usr/share/vim/vimfiles"
+  install -d "${vimpath}"/{help,indent,syntax}
+  ln -s /usr/share/cmake-${pkgver%.*}/editors/vim/indent/cmake.vim \
+    "${vimpath}"/indent/
+  ln -s /usr/share/cmake-${pkgver%.*}/editors/vim/syntax/cmake.vim \
+    "${vimpath}"/syntax/
 
-  install -Dm644 Copyright.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
+  install -d "${pkgdir}"/usr/share/emacs/site-lisp/
+  emacs -batch -f batch-byte-compile \
+    "${pkgdir}"/usr/share/cmake-${pkgver%.*}/editors/emacs/cmake-mode.el
+  ln -s /usr/share/cmake-${pkgver%.*}/editors/emacs/cmake-mode.el \
+    "${pkgdir}"/usr/share/emacs/site-lisp/
+  ln -s /usr/share/cmake-${pkgver%.*}/editors/emacs/cmake-mode.elc \
+    "${pkgdir}"/usr/share/emacs/site-lisp/
+
+  install -Dm644 Copyright.txt \
+    "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 }

@@ -1,0 +1,44 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
+pkgname=bluez-qt
+pkgver=5.63.0
+pkgrel=2
+pkgdesc='Qt wrapper for Bluez 5 DBus API'
+arch=('x86_64')
+url='https://projects.kde.org/projects/kde/workspace/bluez-qt'
+license=(GPL2)
+depends=('qt5-declarative' 'bluez')
+makedepends=('extra-cmake-modules')
+groups=(kf5)
+options=("debug")
+source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
+sha256sums=('b0114b2f0605973b67cdc89ab2037a78d088abecab28597364352df859aa2a9d'
+            'SKIP')
+validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../${pkgname}-${pkgver} \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d ../${pkgname}-${pkgver}
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}
+

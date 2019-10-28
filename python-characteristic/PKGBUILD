@@ -1,0 +1,53 @@
+#
+# Platform Packages for Chakra, part of chakraos.org
+#
+pkgbase=python-characteristic
+pkgname=('python3-characteristic' 'python2-characteristic')
+pkgver=14.3.0
+pkgrel=1
+pkgdesc="Service identity verification for pyOpenSSL"
+arch=('any')
+license=('MIT')
+url="http://pypi.python.org/pypi/characteristic"
+makedepends=('python3-setuptools' 'python2-setuptools')
+checkdepends=('python3-pytest-runner' 'python2-pytest-runner')
+source=("http://pypi.python.org/packages/source/c/characteristic/characteristic-${pkgver}.tar.gz")
+md5sums=('b249368dd021fde1c06b4802867c0913')
+
+prepare() {
+   cp -a characteristic-${pkgver}{,-python2}
+}
+
+build() {
+   # Build python 3 module
+   cd characteristic-${pkgver}
+   python3 setup.py build
+ 
+   # Build python 2 module
+   cd ../characteristic-${pkgver}-python2
+   python2 setup.py build
+}
+
+check() {
+  cd "$srcdir"/characteristic-$pkgver
+  python setup.py test
+
+  cd ../characteristic-${pkgver}-python2
+  python2 setup.py test
+}
+ 
+package_python3-characteristic() {
+   depends=('python3')
+ 
+   cd characteristic-${pkgver}
+   python3 setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+ 
+package_python2-characteristic() {
+   depends=('python2')
+ 
+   cd characteristic-${pkgver}-python2
+   python2 setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -1,0 +1,97 @@
+pkgbase=ttf-noto
+# Please do not merge noto-color-emoji and noto-emoji for now. ColorEmoji
+# is likely to cause some crashes in application.
+pkgname=('ttf-noto' 'ttf-noto-extra' 'otf-noto-cjk' 'ttf-noto-emoji' 'ttf-noto-color-emoji' 'ttf-croscore')
+pkgver=20191019
+_commit=46eb8fa0c46d16a87eee3e763baa3efb7423a8b4  # master
+_commit_cjk=9326451d9b4f32ec7f8640581c5053cc192039f2
+_commit_emoji=f3b9faa83dedf51cd4d9d8ff30e13c17b8073211
+pkgrel=1
+arch=('any')
+url="http://www.google.com/get/noto"
+license=('custom:SIL')
+depends=(fontconfig)
+makedepends=(git)
+source=("noto-fonts::git+https://github.com/googlei18n/noto-fonts.git#commit=$_commit"
+        "noto-cjk::git+https://github.com/googlei18n/noto-cjk.git#commit=$_commit_cjk"
+        "noto-emoji::git+https://github.com/googlei18n/noto-emoji.git#commit=$_commit_emoji"
+        66-noto-sans.conf 66-noto-serif.conf 66-noto-mono.conf 70-noto-cjk.conf)
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            '65ff237a579d438eb1b1c90bf25b5818e15ab019dbbfed2fc283b9cd12e5177f'
+            '27419c0557d05e13edbb244cd06a62d921c271c6c2f07126856519869035776e'
+            '8c541eab8b44f6c7b02e981a4fbbd082eb6c1aa8285e11dede5f0a3ec0617772'
+            '5a5fa764efaca13a326998499d026b89e22217c12011074bf301ef8aa4a9bb37')
+
+pkgver() {
+  date +%Y%m%d
+}
+
+package_ttf-noto() {
+    pkgdesc="Google Noto TTF fonts"
+    provides=('ttf-font')
+
+    cd noto-fonts
+    install -Dm644 hinted/Noto*/*.tt[fc] -t "$pkgdir"/usr/share/fonts/noto
+
+    # in -extra
+    rm -f "$pkgdir"/usr/share/fonts/noto/Noto*{Condensed,SemiBold,Extra}*.tt[fc]
+
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+
+    install -Dm644 ../66-noto-{sans,serif,mono}.conf -t "$pkgdir"/etc/fonts/conf.avail/
+
+    install -dm755 "${pkgdir}"/etc/fonts/conf.d
+    pushd "${pkgdir}"/etc/fonts/conf.avail
+    for config in *; do
+        ln -sf ../conf.avail/${config} ../conf.d/${config}
+    done
+    popd
+}
+
+package_ttf-noto-extra() {
+    pkgdesc="Google Noto TTF fonts - additional variants"
+    depends=(ttf-noto)
+
+    cd noto-fonts
+    mkdir -p "$pkgdir"/usr/share/fonts/noto
+    cp hinted/Noto*/*{Condensed,SemiBold,Extra}*.tt[fc] "$pkgdir"/usr/share/fonts/noto
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
+
+package_otf-noto-cjk() {
+    pkgdesc="Google Noto CJK OTF fonts"
+    provides=('otf-noto' 'ttf-font')
+    replaces=('otf-noto')
+    cd noto-cjk
+    install -Dm644 *.ttc -t "$pkgdir"/usr/share/fonts/noto
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+
+    install -Dm644 $srcdir/70-noto-cjk.conf $pkgdir/etc/fonts/conf.avail/70-noto-cjk.conf
+    install -dm755 "${pkgdir}"/etc/fonts/conf.d
+    ln -s ../conf.avail/70-noto-cjk.conf $pkgdir/etc/fonts/conf.d/70-noto-cjk.conf
+}
+
+package_ttf-noto-emoji() {
+    pkgdesc="Google Noto Emoji TTF fonts"
+    cd noto-emoji
+    install -Dm644 fonts/NotoEmoji-Regular.ttf -t "$pkgdir"/usr/share/fonts/noto
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
+
+package_ttf-noto-color-emoji() {
+    pkgdesc="Google Noto Color Emoji TTF fonts"
+    cd noto-emoji
+    install -Dm644 fonts/NotoColorEmoji.ttf -t "$pkgdir"/usr/share/fonts/noto
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE
+}
+
+package_ttf-croscore() {
+  pkgdesc='Chrome OS core fonts'
+  provides=(ttf-font)
+
+  cd noto-fonts/
+  install -Dm644 hinted/{Arimo,Cousine,Tinos}/*.ttf -t "$pkgdir"/usr/share/fonts/croscore
+  install -Dm644 LICENSE -t "$pkgdir"/usr/share/licenses/ttf-croscore
+}

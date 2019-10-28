@@ -1,35 +1,52 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
+# maintainer (x86_64): AlmAck <almack[at]chakralinux[dot]org>
 
 pkgname=pcre
-pkgver=8.21
-pkgrel=1
+pkgver=8.41
+pkgrel=2
 pkgdesc="A library that implements Perl 5-style regular expressions"
 arch=('x86_64')
 url="http://www.pcre.org/"
 license=('BSD')
-depends=('gcc-libs')
-options=('!libtool')
-source=("ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/${pkgname}-${pkgver}.tar.bz2")
-md5sums=('0a7b592bea64b7aa7f4011fc7171a730')
+depends=('gcc-libs' 'readline' 'zlib' 'bzip2')
+validpgpkeys=('45F68D54BBE23FB3039B46E59766E084FB0F43D8') # Philip Hazel
+source=("https://ftp.pcre.org/pub/pcre/$pkgname-$pkgver.tar.bz2"{,.sig})
+md5sums=('c160d22723b1670447341b08c58981c1'
+         'SKIP')
+
+prepare() {
+  cd $pkgname-$pkgver
+  # apply patch from the source array (should be a pacman feature)
+  local filename
+  for filename in "${source[@]}"; do
+    if [[ "$filename" =~ \.patch$ ]]; then
+      msg2 "Applying patch ${filename##*/}"
+      patch -p1 -N -i "$srcdir/${filename##*/}"
+    fi
+  done
+  :
+}
 
 build() {
-  cd "${srcdir}"/${pkgname}-${pkgver}
-  
-  export CFLAGS="${CFLAGS} -fPIC"
-  ./configure --prefix=/usr --enable-utf8 --enable-unicode-properties --enable-jit
+  cd ${pkgname}-${pkgver}
+  ./configure --prefix=/usr \
+    --enable-unicode-properties \
+    --enable-utf8 \
+    --enable-pcre16 \
+    --enable-pcre32 \
+    --enable-jit \
+    --enable-pcregrep-libz \
+    --enable-pcregrep-libbz2 \
+    --enable-pcretest-libreadline
   make
 }
 
 check() {
-  cd "${srcdir}"/${pkgname}-${pkgver}
-  make check
+  cd ${pkgname}-${pkgver}
+  make -j1 check
 }
 
 package() {
-  cd "${srcdir}"/${pkgname}-${pkgver}
+  cd ${pkgname}-${pkgver}
   make DESTDIR="${pkgdir}" install
 
   install -Dm644 LICENCE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE

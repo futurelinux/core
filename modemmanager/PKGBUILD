@@ -1,0 +1,47 @@
+pkgname=modemmanager
+_realname=ModemManager
+pkgver=1.6.12
+pkgrel=1
+pkgdesc="Mobile broadband modem management service"
+arch=('x86_64')
+url="http://www.freedesktop.org/wiki/Software/$_realname/"
+license=('GPL2' 'LGPL2.1')
+depends=('systemd' 'libgudev' 'polkit' 'ppp' 'libqmi' 'libmbim')
+makedepends=('intltool' 'gobject-introspection' 'vala' 'autoconf-archive' 'git' 'gtk-doc')
+_commit=9059729a4cd4b4cbac0854e87122245c20567f1c  # tags/1.6.12
+source=("git://anongit.freedesktop.org/$_realname/$_realname#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $_realname
+  git describe --tags | sed 's/-/+/g'
+}
+
+prepare() {
+  cd $_realname
+  NOCONFIGURE=1 ./autogen.sh
+}
+
+build() {
+  cd $_realname
+  ./configure --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --sbindir=/usr/bin \
+        --with-dbus-sys-dir=/usr/share/dbus-1/system.d \
+        --with-udev-base-dir=/usr/lib/udev \
+        --with-polkit=permissive \
+        --with-suspend-resume=systemd \
+        --disable-gtk-doc \
+        --disable-static
+
+  # https://bugzilla.gnome.org/show_bug.cgi?id=655517
+#  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
+  make
+}
+
+package() {
+  cd $_realname
+  make DESTDIR=$pkgdir install
+}

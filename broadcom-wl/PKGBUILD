@@ -1,52 +1,68 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas@chakra-project.org
-
-# Find the kernel name inside the chroot
-_extramodules=extramodules-3.6-CHAKRA
-_kver="$(cat /lib/modules/${_extramodules}/version)"
 
 pkgname=broadcom-wl
-pkgver=5.100.82.112
-pkgrel=13
+pkgver=6.30.223.271
+pkgrel=36
 pkgdesc='Broadcom 802.11abgn hybrid Linux networking device driver'
-arch=('x86_64')
 url='http://www.broadcom.com/support/802.11/linux_sta.php'
+arch=('x86_64')
 license=('custom')
-depends=('linux>=3.6' 'linux<3.7')
-makedepends=('linux-headers')
-
-source=("http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_64-v${pkgver//./_}.tar.gz"
+depends=("linux=5.2.11")
+makedepends=("linux-headers=5.2.11")
+_extramodules=extramodules-CHAKRA
+source=("https://docs.broadcom.com/docs-and-downloads/docs/linux_sta/hybrid-v35_64-nodebug-pcoem-${pkgver//./_}.tar.gz"
+         #"http://ftp.de.debian.org/debian/pool/non-free/b/broadcom-sta/broadcom-sta_5.100.82.112.orig.tar.gz" "http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_${ARCH}-v${pkgver//./_}.tar.gz" we need the debian version, because upstream URL doesn't exist anymore
         'modprobe.d'
-        'license.patch'
-        'user-ioctl.patch'
-        'linux-recent.patch')
-sha1sums=('5bd78c20324e6a4aa9f3fafdc6f0155e884d5131'
-          '89bf92286ede30dd85304c6c4e42e89cfdc0f60a'
-          'ea7b67982ddc0f56fd3becb9914fd4458fe7d373'
-          'e0366dd15ea5b25aae0f61bec6be7a203dfca7e4'
-          'df3cd65e24beed349a40abcf476bdaa82bbc57d3')
+        '001-null-pointer-fix.patch'
+        '002-rdtscl.patch'
+        '003-linux47.patch'
+        '004-linux48.patch'
+        '005-debian-fix-kernel-warnings.patch'
+        '006-linux411.patch'
+        '007-linux412.patch'
+        '008-linux415.patch')
+sha1sums=('1f568bb989d175813c5631c6629d9479eae6f3be'
+          'a37c5dd9ab279372f0c68595bb2a8f1fe694cd13'
+          '75300b4ad9fa0f7b8ad98dfa6fbd0159a3a4c222'
+          '80dc4aba85043dc56041040e423cfb3548c867bf'
+          '6429084dc8476d1256f3735272815d94a2b9dc09'
+          '7ce912f606476b61d200e1051a27c9db66fcff61'
+          'faca186c7c1f894240c46ffa53bece501fe58773'
+          '4263937f6ec075b7c5461806771dd17261d56d54'
+          '1d3fb939df5ba3b04e2949df6c5ed24f4a3d1f48'
+          '0b14384c82fe2a511d4f0210a682871b8906ae6a')
 
-backup=('etc/modprobe.d/broadcom-wl.conf')
-install=install
+prepare() {
+    cd "${srcdir}"
+
+    patch -p1 -i 001-null-pointer-fix.patch
+    patch -p1 -i 002-rdtscl.patch
+    patch -p1 -i 003-linux47.patch
+    patch -p1 -i 004-linux48.patch
+    patch -p1 -i 005-debian-fix-kernel-warnings.patch
+    patch -p1 -i 006-linux411.patch
+    patch -p1 -i 007-linux412.patch
+    patch -p1 -i 008-linux415.patch
+
+    sed -i 's/get_ds()/KERNEL_DS/g' src/wl/sys/wl_iw.c
+    sed -i 's/get_ds()/KERNEL_DS/g' src/wl/sys/wl_cfg80211_hybrid.c
+    sed -e "/BRCM_WLAN_IFNAME/s:eth:wlan:" \
+        -i src/wl/sys/wl_linux.c
+}
 
 build() {
-	cd "${srcdir}"
-
-	patch -p1 -i license.patch
-	patch -p1 -i linux-recent.patch
-	patch -p1 -i user-ioctl.patch
-
-	make -C /lib/modules/"${_kver}"/build M=`pwd`
+    cd "${srcdir}"
+    KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+    msg2 "Kernel = $KERNEL_VERSION"
+    
+    make -C /usr/lib/modules/"${KERNEL_VERSION}"/build M=`pwd`
 }
 
 package() {
-	cd "${srcdir}"
+    cd "${srcdir}"
 
-	install -D -m 755 wl.ko "${pkgdir}/lib/modules/${_extramodules}/wl.ko"
-	gzip "${pkgdir}/lib/modules/${_extramodules}/wl.ko"
+    install -Dm644 wl.ko "${pkgdir}/usr/lib/modules/$_extramodules/wl.ko"
+    gzip "${pkgdir}/usr/lib/modules/$_extramodules/wl.ko"
 
-	install -D -m 644 lib/LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-	install -D -m 644 modprobe.d "${pkgdir}"/etc/modprobe.d/broadcom-wl.conf
+    install -Dm644 lib/LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+    install -Dm644 modprobe.d "${pkgdir}/usr/lib/modprobe.d/broadcom-wl.conf"
 }

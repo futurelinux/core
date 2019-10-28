@@ -1,0 +1,39 @@
+pkgname=virtualgl
+pkgver=2.6.1
+pkgrel=1
+pkgdesc="Redirects 3D commands from an OpenGL application onto a server-side 3D graphics card."
+arch=('x86_64')
+url="https://virtualgl.org"
+license=('LGPL')
+depends=('libxv' 'glu' 'libjpeg-turbo' 'xcb-util-keysyms')
+makedepends=('cmake' 'mesa' 'libxtst')
+source=("https://downloads.sourceforge.net/project/virtualgl/${pkgver}/VirtualGL-${pkgver}.tar.gz")
+sha1sums=('0b5db8cd90e658605a7e04bc694a7739ec3edce4')
+
+prepare() {
+  # FS#48403
+  export LDFLAGS="${LDFLAGS/--as-needed,}"
+
+  mkdir "VirtualGL-$pkgver"/build
+}
+
+build() {
+  cd "VirtualGL-$pkgver"/build
+
+  cmake .. \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DTJPEG_INCLUDE_DIR=/usr/include \
+      -DTJPEG_LIBRARY=/usr/lib/libturbojpeg.so \
+      -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+      -DCMAKE_INSTALL_BINDIR=/usr/bin \
+      -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/${pkgname} \
+      -DVGL_FAKEXCB=1
+  make
+}
+
+package() {
+  cd "VirtualGL-$pkgver/build"
+  make install DESTDIR="$pkgdir"
+
+  mv "$pkgdir"/usr/bin/glxinfo "$pkgdir"/usr/bin/vglxinfo
+}

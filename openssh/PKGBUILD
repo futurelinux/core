@@ -1,69 +1,68 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer abveritas[at]chakra-project[dot]org>
-
 pkgname=openssh
-pkgver=6.1p1
-pkgrel=1
-pkgdesc='Free version of the SSH connectivity tools'
-arch=('x86_64')
+pkgver=8.0p1
+pkgrel=2
+pkgdesc='Premier connectivity tool for remote login with the SSH protocol'
+url='https://www.openssh.com/portable.html'
 license=('custom:BSD')
-url='http://www.openssh.org/portable.html'
-backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config' 'etc/pam.d/sshd')
-depends=('krb5' 'openssl' 'libedit')
-source=("ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}.tar.gz"
-        'sshd.confd'
-        'sshd.pam'
-	'sshdgenkeys.service'
-	'sshd.service'
-	'sshd@.service'
-	'sshd.socket')
-md5sums=('3345cbf4efe90ffb06a78670ab2d05d5'
-         'e2cea70ac13af7e63d40eb04415eacd5'
-         '2fd20d311d2afbfc6e576883224d8c97'
-         'bc3e6736086598ebb648c4d960c59d44'
-         '4bbc5818d93a2ad336d7191ed35c69f7'
-         'fdc4a47b4b8d0f0e2c395c9edcee8c14'
-         '76f52c66fb3193f301fe0a666e047ab1')
+arch=('x86_64')
+makedepends=('linux-headers')
+depends=('krb5' 'openssl' 'libedit' 'ldns')
+optdepends=('xorg-xauth: X11 forwarding')
+source=("https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}.tar.gz"{,.asc}
+        'sshdgenkeys.service'
+        'sshd@.service'
+        'sshd.service'
+        'sshd.socket'
+        'sshd.conf'
+        'sshd.pam')
+sha1sums=('756dbb99193f9541c9206a667eaa27b0fa184a4f'
+          'SKIP'
+          'caaa801da59a5d14c0c29c43e9de5fef281ea03e'
+          'e577f88b28a613db702feeb8c2eb1f56ea8df13e'
+          'ec49c6beba923e201505f5669cea48cad29014db'
+          'e12fa910b26a5634e5a6ac39ce1399a132cf6796'
+          'c9b2e4ce259cd62ddb00364d3ee6f00a8bf2d05f'
+          'd93dca5ebda4610ff7647187f8928a3de28703f3')
+validpgpkeys=('59C2118ED206D927E667EBE3D3E5F56B6D920D30')
+
+backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config' 'etc/pam.d/sshd'
+        'usr/lib/systemd/system/sshd.socket'
+        'usr/lib/systemd/system/sshd.service') # listening port may differ, we need to assure user config doesn't break
 
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 
 	./configure \
 		--prefix=/usr \
+		--sbindir=/usr/bin \
 		--libexecdir=/usr/lib/ssh \
 		--sysconfdir=/etc/ssh \
-		--with-privsep-user=nobody \
-		--with-md5-passwords \
-		--with-pam \
-		--with-mantype=man \
-		--with-xauth=/usr/bin/xauth \
-		--with-kerberos5=/usr \
-		--with-ssl-engine \
+		--with-ldns \
 		--with-libedit \
+		--with-ssl-engine \
+		--with-pam \
+		--with-privsep-user=nobody \
+		--with-kerberos5=/usr \
+		--with-xauth=/usr/bin/xauth \
+		--with-mantype=man \
+		--with-md5-passwords \
 		--with-pid-dir=/run \
 
 	make
 }
 
-check() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
-
-	make tests ||
-	grep $USER /etc/passwd | grep -q /bin/false
-}
-
 package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
+
 	make DESTDIR="${pkgdir}" install
 
-	install -Dm644 ../sshd.pam "${pkgdir}"/etc/pam.d/sshd
-
+	ln -sf ssh.1.gz "${pkgdir}"/usr/share/man/man1/slogin.1.gz
 	install -Dm644 LICENCE "${pkgdir}/usr/share/licenses/${pkgname}/LICENCE"
 
-	rm "${pkgdir}"/usr/share/man/man1/slogin.1
-	ln -sf ssh.1.gz "${pkgdir}"/usr/share/man/man1/slogin.1.gz
+	# install systemd units
+	install -dm755 "$pkgdir/usr/lib/systemd/system/"
+	install -m644 "$srcdir"/sshd{{,@,genkeys}.service,.socket} "$pkgdir/usr/lib/systemd/system/"
+	install -Dm644 ../sshd.pam "${pkgdir}"/etc/pam.d/sshd
 
 	# additional contrib scripts that we like
 	install -Dm755 contrib/findssl.sh "${pkgdir}"/usr/bin/findssl.sh
@@ -72,10 +71,8 @@ package() {
 
 	# PAM is a common, standard feature to have
 	sed -i	-e '/^#ChallengeResponseAuthentication yes$/c ChallengeResponseAuthentication no' \
+		-e '/^#PrintMotd yes$/c PrintMotd no # pam does that' \
 		-e '/^#UsePAM no$/c UsePAM yes' \
 		"${pkgdir}"/etc/ssh/sshd_config
 
-	# install systemd units
-	install -dm755 "$pkgdir/usr/lib/systemd/system/"
-	install -m644 "$srcdir"/sshd{{,@,genkeys}.service,.socket} "$pkgdir/usr/lib/systemd/system/"
 }

@@ -1,41 +1,32 @@
-#
-# Chakra Packages for Chakra, part of chakra-project.org
-#
-# maintainer: Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 # toolchain build order: linux-api-headers->glibc->binutils->gcc->binutils->glibc
 
 pkgname=linux-api-headers
-pkgver=3.5.6
-_basever=3.5
+pkgver=5.2.11
 pkgrel=1
 pkgdesc="Kernel headers sanitized for use in userspace"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://www.gnu.org/software/libc"
 license=('GPL2')
-provides=("kernel-headers=${pkgver}")
-conflicts=('kernel-headers')
-replaces=('kernel-headers')
-source=(http://www.kernel.org/pub/linux/kernel/v3.x/linux-${_basever}.tar.xz
-	http://www.kernel.org/pub/linux/kernel/v3.x/patch-${pkgver}.xz)
-md5sums=('24153eaaa81dedc9481ada8cd9c3b83d'
-         'e9502f047c251db3b0c911e53344bad5')
+source=(https://www.kernel.org/pub/linux/kernel/v4.x/linux-${pkgver}.tar.{xz,sign})
+md5sums=('e6eda726e4a122b9f5d05b6fc97bbab5'
+         'SKIP')
+validpgpkeys=('ABAF11C65A2970B130ABE3C479BE3E4300411886'   # Linus Torvalds
+              '647F28654894E3BD457199BE38DBBDC86092693E')  # Greg Kroah-Hartman
 
 build() {
-  cd ${srcdir}/linux-${_basever}
-  [[ $pkgver != $_basever ]] && patch -p1 -i ${srcdir}/patch-${pkgver}
+  cd linux-$pkgver
 
   make mrproper
   make headers_check
 }
 
 package() {
-  cd ${srcdir}/linux-${_basever}
-  make INSTALL_HDR_PATH=${pkgdir}/usr headers_install
+  cd linux-$pkgver
+  make INSTALL_HDR_PATH="$pkgdir/usr" headers_install
 
   # use headers from libdrm
-  rm -r ${pkgdir}/usr/include/drm
+  rm -r "$pkgdir/usr/include/drm"
   
   # clean-up unnecessary files generated during install
-  find ${pkgdir} \( -name .install -o -name ..install.cmd \) -delete
+  find "$pkgdir" \( -name .install -o -name ..install.cmd \) -delete
 }

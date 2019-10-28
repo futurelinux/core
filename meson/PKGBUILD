@@ -1,0 +1,42 @@
+pkgname=meson
+pkgver=0.52.0
+pkgrel=1
+pkgdesc='High productivity build system'
+url='https://mesonbuild.com/'
+arch=('x86_64')
+license=('Apache')
+depends=('python3-setuptools' 'ninja')
+source=(https://github.com/mesonbuild/meson/releases/download/${pkgver}/meson-${pkgver}.tar.gz{,.asc}
+        chakra-meson
+        skip-test.diff)
+sha256sums=('d60f75f0dedcc4fd249dbc7519d6f3ce6df490033d276ef1cf27453ef4938d32'
+            'SKIP'
+            '4c336c0da4fc48c2c0704ee169fb93cf2578d2b3783dbd6d7c15b21f9ab99ad1'
+            'a4968c7b5372148fcc6ce9c5196ccb266844043e25d76917af8cf93767738bcc')
+validpgpkeys=('95181F4EED14FDF4E41B518D3BF4693BFEEB9428') # Jussi Pakkanen <jpakkane@gmail.com>
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+
+  # Our containers do not allow sanitizers to run
+  patch -Np1 -i ../skip-test.diff
+}
+
+build() {
+  cd ${pkgname}-${pkgver}
+  python3 setup.py build
+}
+
+package() {
+  cd ${pkgname}-${pkgver}
+  python3 setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+
+  install -d "${pkgdir}/usr/share/vim/vimfiles"
+  cp -rt "${pkgdir}/usr/share/vim/vimfiles" data/syntax-highlighting/vim/*/
+
+  install -Dt "${pkgdir}/usr/share/emacs/site-lisp" -m644 data/syntax-highlighting/emacs/*
+  install -Dt "${pkgdir}/usr/share/zsh/site-functions" -m644 data/shell-completions/zsh/*
+
+  # Chakra packaging helper
+  install -D ../chakra-meson -t "${pkgdir}/usr/bin"
+}

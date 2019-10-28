@@ -1,0 +1,24 @@
+pkgname=libdvdread
+pkgver=6.0.1
+pkgrel=1
+pkgdesc="Provides a simple foundation for reading DVD video disks"
+arch=('x86_64')
+url="https://www.videolan.org/developers/libdvdnav.html"
+license=('GPL')
+depends=('glibc')
+makedepends=('libdvdcss')
+optdepends=('libdvdcss: for decoding encrypted DVDs')
+source=(https://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2)
+sha256sums=('28ce4f0063883ca4d37dfd40a2f6685503d679bca7d88d58e04ee8112382d5bd')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}

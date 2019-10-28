@@ -1,0 +1,95 @@
+
+pkgbase=nvidia-340xx
+pkgname=('nvidia-340xx' 'chd-nvidia-340xx' 'nvidia-340xx-dkms')
+pkgver=340.107
+pkgrel=14
+arch=('x86_64')
+url="http://www.nvidia.com/"
+makedepends=("linux-headers=5.2.11")
+license=('custom')
+source=("https://code.chakralinux.org/tools/chakra-hardware-detection/raw/master/hwdb/nvidia_supported"
+               'kernel-4.11.patch'
+               'kernel-5.0.patch'
+               'kernel-5.2.patch')
+_ARCH='x86_64'
+_pkg="NVIDIA-Linux-${_ARCH}-${pkgver}-no-compat32"
+_extramodules=extramodules-CHAKRA
+source+=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run")
+md5sums=('62d0cdb856cfae64753c0f3acf729d47'
+         '1e5c198f53bf88b5160ebca8d3f602cb'
+         '0ff09b69db7d3da1a56d3455f6587679'
+         '164fac79ada52b2a8723ed30b529a624'
+         'ffca1879d77dfc491dfb0276ceb56cc1')
+
+prepare() {
+    sh "${_pkg}.run" --extract-only
+    cd "${_pkg}"
+    # patches here
+
+    #https://devtalk.nvidia.com/default/topic/1047179/linux/-solved-nvidia-340-107-linux-5-0-rc5-failed-to-build-kernel-module/
+    #https://gitlab.manjaro.org/packages/extra/linux52-extramodules/nvidia-340xx
+
+    # Fix compile problem with 4.11
+    (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-4.11.patch)
+
+    # Fix compile problem with 5.0
+    (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-5.0.patch)
+
+    (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-5.2.patch)
+
+
+
+    cp -a kernel kernel-dkms
+}
+
+build() {
+    KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+    msg2 "Kernel = $KERNEL_VERSION"
+    
+    cd "${_pkg}/kernel"
+    make SYSSRC=/usr/lib/modules/"${KERNEL_VERSION}/build" module
+
+    cd uvm
+    make SYSSRC=/usr/lib/modules/"${KERNEL_VERSION}/build" module
+}
+
+package_nvidia-340xx() {
+    pkgdesc="NVIDIA drivers for linux."
+    depends=("linux=5.2.11" "nvidia-340xx-libgl" "nvidia-340xx-utils=${pkgver}")
+    conflicts=('nvidia-96xx' 'nvidia-173xx' 'nvidia-304xx' 'nvidia-bumblebee')
+    install=nvidia.install
+    
+    install -D -m644 "${srcdir}/${_pkg}/kernel/nvidia.ko" \
+        "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia.ko"
+    install -D -m644 "${srcdir}/${_pkg}/kernel/uvm/nvidia-uvm.ko" \
+        "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia-uvm.ko"
+    gzip "${pkgdir}/usr/lib/modules/${_extramodules}/"*.ko
+    install -d -m755 "${pkgdir}/usr/lib/modprobe.d"
+    echo "blacklist nouveau" >> "${pkgdir}/usr/lib/modprobe.d/nouveau_blacklist.conf"
+    sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "${startdir}/nvidia.install"
+}
+
+package_nvidia-340xx-dkms() {
+    pkgdesc="NVIDIA driver sources for linux, 340xx legacy branch"
+    depends=('dkms' "nvidia-340xx-utils=$pkgver")
+    optdepends=('linux-headers: Build the module for Arch kernel'
+                'linux-lts-headers: Build the module for LTS Arch kernel')
+    conflicts+=('nvidia-340xx')
+
+    cd "${srcdir}/${_pkg}"
+    install -dm 755 "${pkgdir}"/usr/{lib/modprobe.d,src}
+    cp -dr --no-preserve='ownership' kernel-dkms "${pkgdir}"/usr/src/nvidia-${pkgver}
+    echo 'blacklist nouveau' > "${pkgdir}"/usr/lib/modprobe.d/nvidia.conf
+    cat "${pkgdir}"/usr/src/nvidia-${pkgver}/uvm/dkms.conf.fragment >> "${pkgdir}"/usr/src/nvidia-${pkgver}/dkms.conf
+}
+
+package_chd-nvidia-340xx() {
+    pkgdesc="CHD ids for nvidia $pkgver"
+    arch=('x86_64')
+
+    cd "${srcdir}/${_pkg}"
+
+    install -dm755 "${pkgdir}/opt/chakra/hwdb"
+    sh -e "${srcdir}/nvidia_supported" README.txt kernel/nv-kernel.o \
+        > "${pkgdir}/opt/chakra/hwdb/hw_nvidia340xx_hwdb"
+}

@@ -1,0 +1,35 @@
+#
+# Platform Packages for Chakra, part of chakralinux.org
+#
+
+pkgname=arpack
+pkgver=3.5.0
+pkgrel=2
+arch=('x86_64')
+pkgdesc="Fortran77 subroutines designed to solve large scale eigenvalue problems"
+url="http://forge.scilab.org/index.php/p/arpack-ng/"
+license=('BSD')
+depends=('lapack' 'openmpi' 'openblas')
+makedepends=('openmpi' 'gcc-fortran')
+provides=('arpack-ng')
+source=("https://github.com/opencollab/arpack-ng/archive/${pkgver}.tar.gz")
+sha256sums=('50f7a3e3aec2e08e732a487919262238f8504c3ef927246ec3495617dde81239')
+
+
+build() {
+  cd "$pkgname-ng-$pkgver"
+
+  sh bootstrap
+  ./configure --prefix=/usr --enable-mpi --with-blas="openblas" 
+  make \
+    F77="mpif77" \
+    CFLAGS+=" $(pkg-config --cflags ompi) " \
+    LIBS+=" $(pkg-config --libs ompi) "
+}
+
+package() {
+  cd "$srcdir/$pkgname-ng-$pkgver"
+
+  make DESTDIR="$pkgdir/" install
+  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

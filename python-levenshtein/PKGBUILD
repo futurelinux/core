@@ -1,0 +1,35 @@
+# COntributions from Arch:
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Thomas S Hatch <thatch45@gmail.com>
+# Contributor: shamrok <szamrok@gmail.com>
+# Contributor: scj <scj archlinux us>
+
+pkgbase=python-levenshtein
+pkgname=(python3-levenshtein python2-levenshtein)
+pkgver=0.12.0
+pkgrel=1
+pkgdesc="Python extension for computing string edit distances and similarities"
+url="https://pypi.python.org/pypi/python-Levenshtein/"
+license=('GPL')
+arch=('x86_64')
+makedepends=('python3-setuptools' 'python2-setuptools')
+source=("https://files.pythonhosted.org/packages/source/p/python-Levenshtein/python-Levenshtein-$pkgver.tar.gz")
+sha256sums=('033a11de5e3d19ea25c9302d11224e1a1898fe5abd23c61c7c360c25195e3eb1')
+
+prepare() {
+  cp -a python-Levenshtein-$pkgver python2-Levenshtein-$pkgver
+}
+
+package_python3-levenshtein() {
+  depends=('python3')
+
+  cd python-Levenshtein-$pkgver
+  python3 setup.py build install -O1 --prefix=/usr --root="$pkgdir"
+}
+
+package_python2-levenshtein() {
+  depends=('python2')
+
+  cd python2-Levenshtein-$pkgver
+  python2 setup.py build install -O1 --prefix=/usr --root="$pkgdir"
+}

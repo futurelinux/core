@@ -1,0 +1,42 @@
+pkgname=groff
+pkgver=1.22.4
+pkgrel=1
+pkgdesc="GNU troff text-formatting system"
+arch=('x86_64')
+url="https://www.gnu.org/software/groff/groff.html"
+license=('GPL')
+groups=('base-devel')
+depends=('perl' 'gcc-libs')
+makedepends=('netpbm' 'psutils' 'libxaw')
+optdepends=('netpbm: for use together with man -H command interaction in browsers'
+            'psutils: for use together with man -H command interaction in browsers'
+            'libxaw: for gxditview')
+source=("ftp://ftp.gnu.org/gnu/groff/groff-$pkgver.tar.gz"
+        'site.tmac')
+options=('!docs' '!emptydirs' '!makeflags')
+md5sums=('08fb04335e2f5e73f23ea4c3adbf0c5f'
+         'a1fedafd7863b37968d32ad9ae1d8c13')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+  
+  ./configure --prefix=/usr --without-x --with-appresdir=/usr/share/X11/app-defaults
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+  make DESTDIR=$pkgdir install
+
+  # add compatibility symlinks
+  ln -s eqn $pkgdir/usr/bin/geqn
+  ln -s tbl $pkgdir/usr/bin/gtbl
+  ln -s soelim $pkgdir/usr/bin/zsoelim
+
+  # Fix some issues when encoding to utf8 man pages
+  #  The output chars don't match keyboard chars...
+  cat $srcdir/site.tmac >> \
+    $pkgdir/usr/share/groff/site-tmac/man.local
+  cat $srcdir/site.tmac >> \
+    $pkgdir/usr/share/groff/site-tmac/mdoc.local
+}

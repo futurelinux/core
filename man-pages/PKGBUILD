@@ -1,22 +1,16 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 pkgname=man-pages
-pkgver=3.32
-_posixver=2003-a
-pkgrel=2
+pkgver=5.03
+_posixver=2013-a
+pkgrel=1
 pkgdesc="Linux man pages"
 arch=('any')
 license=('GPL')
-url="http://www.kernel.org/doc/man-pages/"
+url="http://man7.org/linux/man-pages/index.html"
 groups=('base')
 depends=()
-source=(http://www.kernel.org/pub/linux/docs/man-pages/$pkgname-$pkgver.tar.gz
-	http://www.kernel.org/pub/linux/docs/man-pages/man-pages-posix/$pkgname-posix-${_posixver}.tar.bz2)
-md5sums=('cc6c2d4d4eb364fd8da718c412db09d4'
+source=(http://www.kernel.org/pub/linux/docs/man-pages/$pkgname-$pkgver.tar.xz
+        http://www.kernel.org/pub/linux/docs/man-pages/man-pages-posix/$pkgname-posix-${_posixver}.tar.xz)
+sah256sums=('3401eb0020c56639070d199c3e59a4f8'
          '7c78aff03c0a6767ba483d34f19e4b09')
 
 build() {
@@ -35,8 +29,12 @@ package() {
 
   make prefix=${pkgdir}/usr install
 
+  # posix pages have a custom license
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 ${srcdir}/$pkgname-posix-${_posixver}/POSIX-COPYRIGHT "${pkgdir}/usr/share/licenses/${pkgname}/POSIX-COPYRIGHT"
+
   cd ${pkgdir}/usr/share/man
-  # these are included in coreutils || return 1
+  # these are included in coreutils
   rm -f man1/{chgrp,chmod,chown,cp,dir,dd}.1
   rm -f man1/{df,dircolors,du,install,ln,ls}.1
   rm -f man1/{mkdir,mkfifo,mknod,mv,rm,rmdir}.1
@@ -48,4 +46,14 @@ package() {
   rm -f man1/diff.1
   # this is included in xf86-input-mouse
   rm -f man4/mouse.4
+  # this is included in attr
+  rm -f man5/attr.5 
+  # included in lirc
+  rm -f man4/lirc.4
+  # included in keyutils
+  rm -f man7/{keyrings.7,persistent-keyring.7,process-keyring.7,session-keyring.7,thread-keyring.7,user-keyring.7,user-session-keyring.7}
+  # included in tzdata
+  rm -f man5/tzfile.5 man8/{tzselect,zdump,zic}.8
 }
+md5sums=('4a85d16759c883048a1d27c741dadf17'
+         '825fde78e6fddd02426ecdd50e2cbe0d')

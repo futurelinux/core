@@ -1,21 +1,14 @@
-#
-# Core Packages for Chakra, part of chakra-project.org
-#
-# maintainer (i686): Phil Miller <philm[at]chakra-project[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
-
 pkgname=libpipeline
-pkgver=1.2.0
-pkgrel=2
+pkgver=1.5.1
+pkgrel=1
 pkgdesc="a C library for manipulating pipelines of subprocesses in a flexible and convenient way"
-arch=('i686' 'x86_64')
-url="http://libpipeline.nongnu.org/"
+arch=('x86_64')
+url="https://nongnu.org/libpipeline/"
 license=('GPL')
 groups=('base')
 depends=('glibc')
-options=('!libtool')
-source=(http://download.savannah.gnu.org/releases/libpipeline/$pkgname-$pkgver.tar.gz)
-md5sums=('dd3a987a0d2b594716baee2f73d61ae3')
+source=(https://download.savannah.gnu.org/releases/libpipeline/$pkgname-$pkgver.tar.gz)
+sha256sums=('d633706b7d845f08b42bc66ddbe845d57e726bf89298e2cee29f09577e2f902f')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
