@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=plasma-desktop
-pkgver=5.17.1
+pkgver=5.17.2
 pkgrel=1
 pkgdesc='KDE Plasma Desktop'
 arch=('x86_64')
@@ -20,7 +20,7 @@ groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
 source+=( chakra_defaultPanel.patch::https://bugsfiles.kde.org/attachment.cgi?id=102600 )
-sha256sums=('0bc6622f1d359f748b0d29e3ec69fed99f313258243b25344a729383abda6f8a'
+sha256sums=('9ab540c31240f97495500a50f3ecc052a894ea7607e125204e85d75a52d6d4d3'
             'SKIP'
             'af2856ae7904726e6e8cfb3616a51f82fbfee10dc7edc85b579be684601a554c')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

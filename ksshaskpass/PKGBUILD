@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=ksshaskpass
-pkgver=5.17.1
+pkgver=5.17.2
 pkgrel=1
 pkgdesc="ssh-add helper that uses kwallet and kpassworddialog"
 arch=('x86_64')
@@ -17,7 +17,7 @@ groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig}
         "$pkgname.sh")
-sha256sums=('ce003264a9a756924bf6c360fd20bf0f5f212f5469fc5d291de2269d10764f24'
+sha256sums=('a20aac7ba5c1df6c72fa9cfc9573698c9c54e8f8f6b4727f3a50ac5f0faf4093'
             'SKIP'
             'cba50feec8b0d058d0967407e79573b225c53dc1fe5461b3b2ddfbfbb2aff809')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
