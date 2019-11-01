@@ -35,6 +35,8 @@ qt5-webengine
 qt5-networkauth
 qt5-speech
 qt5-webview
+qt5-lottie
+qt5-purchasing
 
 # manual rebuild, pkgrel++
 #qt5-webkit
