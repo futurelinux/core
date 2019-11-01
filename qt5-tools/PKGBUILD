@@ -1,25 +1,33 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-tools
-pkgver=5.13.1
-pkgrel=2
+_qtver=5.13.2
+pkgver=${_qtver/-/}
+pkgrel=1
 arch=('x86_64')
-url='http://qt-project.org/'
+url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='A cross-platform application and UI framework (Development Tools, QtHelp)'
-depends=('qt5-base' 'hicolor-icon-theme')
-makedepends=('qt5-declarative' 'qt5-webkit' 'vulkan-headers' 'clang')
-optdepends=('clang: for qdoc' 'qt5-webkit: for Qt Assistant')
+depends=('qt5-base'
+         'hicolor-icon-theme')
+makedepends=('qt5-declarative'
+             'qt5-webkit'
+             'vulkan-headers'
+             'clang')
+optdepends=('clang: for qdoc'
+            'qt5-webkit: for Qt Assistant')
 groups=('qt5')
 options=('debug')
-_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
+_pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
         {assistant,designer,linguist,qdbusviewer}-qt5.desktop)
-md5sums=('c57db5b2c95aa0ccf5637d9807a2f914'
-         '892d3632bdcd9a22f191aa8f28a3c0e1'
-         '208921efc9e4c11fae762e9580ca23aa'
-         '59cbeef3e6090dcb7d2a7d32cd62ea08'
-         '7b93fdff30e7e0389b648ad68dd61355')
-
+sha256sums=('919a2713b6d2d7873a09ad85bd93cf4282606e5bf84d5884250f665a253ec06e'
+           'd0f9846f08720d0967368ecbeefe725b9eaf7e59ff89d4115ab423c0b4cd7171'
+           'fe959f3a39989af7568b5b9ddbeea53710b1c244f9e83157d2aa6d3722c11ae6'
+           '17fd986fcf6ab626eb4f8daaa30101a6605967a84673e2992bf558e8e44e06db'
+           '2009ab9bc2123ad1b9b94f724375ef03940b5a12d699675c191486ef4b27d746')
 
 prepare() {
   mkdir -p build
@@ -64,7 +72,7 @@ package() {
     ln -s /usr/lib/qt5/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
   done
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
   find "${pkgdir}/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 

@@ -1,23 +1,26 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
 pkgname=qt5-declarative
-pkgver=5.13.1
-pkgrel=2
+_qtver=5.13.2
+pkgver=${_qtver/-/}
+pkgrel=1
 arch=('x86_64')
-url='http://qt-project.org/'
+url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='Classes for QML and JavaScript languages'
-depends=('qt5-xmlpatterns')
-makedepends=('python3' 'cmake')
-conflicts=('qt5-declarative-render2d')
-replaces=('qt5-declarative-render2d')
+depends=('qt5-base')
+makedepends=('python3')
 groups=('qt5')
-_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('8bc90f2b14a6953091c2cdb7f84a644c')
+_pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
+sha256sums=('d9a524f45fe9e136cda2252f9d7013ec17046d907e3f39606db920987c22d1fd')
 
 prepare() {
   mkdir -p build
 
-  # Use python3
+  # Use Python 3
   find -name '*.pro' -o -name '*.pri' | xargs sed -i -e 's|python -c|python3 -c|g' -e 's|python \$|python3 \$|g'
 }
 
@@ -39,7 +42,7 @@ package() {
     ln -s /usr/lib/qt5/bin/$(basename $b) "$pkgdir"/usr/bin/$(basename $b)-qt5
   done
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
   find "${pkgdir}/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 

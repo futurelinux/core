@@ -1,23 +1,25 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-quickcontrols
-pkgver=5.13.1
-pkgrel=2
+_qtver=5.13.2
+pkgver=${_qtver/-/}
+pkgrel=1
 arch=('x86_64')
-url='http://qt-project.org/'
+url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='Reusable Qt Quick based UI controls to create classic desktop-style user interfaces'
 depends=('qt5-declarative')
 makedepends=()
 groups=('qt5')
 options=('debug')
-_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('9be2dd310791d0870a13fcd40ac18443')
+_pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
+sha256sums=('d6e64d8db13ada55fcb0d5e8ca26097085680087d931435c6c6db859d87493ea')
 
 prepare() {
   mkdir -p build
-
-  cd $_pkgfqn
 }
 
 build() {
@@ -31,8 +33,8 @@ package() {
   cd build
   make INSTALL_ROOT="$pkgdir" install
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
-  find "${pkgdir}/usr/lib" -type f -name '*.prl' \
+  # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
+  find "$pkgdir/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 
   install -d "$pkgdir"/usr/share/licenses

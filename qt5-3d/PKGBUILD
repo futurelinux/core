@@ -1,19 +1,21 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>Andrea Scarpino <andrea@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-3d
-pkgver=5.13.1
-pkgrel=2
+_qtver=5.13.2
+pkgver=${_qtver/-/}
+pkgrel=1
 arch=('x86_64')
-url='http://qt-project.org/'
+url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='C++ and QML APIs for easy inclusion of 3D graphics'
-depends=('qt5-declarative') #assimp
-makedepends=()
+depends=('qt5-declarative')
 groups=('qt5')
 options=('debug')
-replaces=(qt5-qt3d)
-_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('e68c56d9d6ddda088bf383d43adda269')
+_pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
+sha256sums=('d1b9fc0be82264b5f76c3a5330901dff95c1f2bcb67916c3fac6bad4ff69adc9')
 
 prepare() {
   mkdir -p build
@@ -30,7 +32,7 @@ package() {
   cd build
   make INSTALL_ROOT="$pkgdir" install
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
   find "${pkgdir}/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 

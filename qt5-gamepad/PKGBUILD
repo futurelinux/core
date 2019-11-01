@@ -1,19 +1,25 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-gamepad
-pkgver=5.13.1
-pkgrel=2
+_qtver=5.13.2
+pkgver=${_qtver/-/}
+pkgrel=1
 arch=('x86_64')
-url='http://qt-project.org/'
+url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='Adds support for getting events from gamepad devices'
-depends=('qt5-base' 'sdl2' 'libevdev')
+depends=('qt5-base'
+         'sdl2'
+         'libevdev') # TODO: Is this necessary?
 makedepends=('qt5-declarative')
 optdepends=('qt5-declarative: QML bindings')
 groups=('qt5')
 options=('debug')
-_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('9209bfadfd0d8794c71859f0eefc3b0a')
+_pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
+sha256sums=('75164885433e36a90b557aa7f319ff3d6278c3616469f67b42dda6eb8b92e76e')
 
 prepare() {
   mkdir -p build
@@ -30,7 +36,7 @@ package() {
   cd build
   make INSTALL_ROOT="$pkgdir" install
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
   find "${pkgdir}/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 

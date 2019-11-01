@@ -1,35 +1,46 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-webengine
-pkgver=5.13.1
+_qtver=5.13.2
+pkgver=${_qtver/-/}
 pkgrel=1
 arch=('x86_64')
-url='http://qt-project.org/'
+url='https://www.qt.io'
 license=('LGPL3' 'LGPL2.1' 'BSD')
 pkgdesc='Provides support for web applications using the Chromium browser project'
-depends=('qt5-webchannel' 'qt5-location' 'libxcomposite' 'libxrandr' 'pciutils' 'libxss'
-         'libevent' 'snappy' 'nss' 'libxslt' 'minizip' 'ffmpeg' 're2' 'libvpx')
-makedepends=('python3' 'git' 'gperf' 'jsoncpp' 'ninja' 'qt5-tools' 'poppler')
+depends=('qt5-webchannel'
+         'qt5-location'
+         'libxcomposite'
+         'libxrandr'
+         'pciutils'
+         'libxss'
+         'libevent'
+         'snappy'
+         'nss'
+         'libxslt'
+         'minizip'
+         'ffmpeg'
+         're2'
+         'libvpx')
+makedepends=('python3'
+             'gperf'
+             'jsoncpp'
+             'ninja'
+             'qt5-tools'
+             'poppler')
 groups=('qt5')
-_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz"
-         qtbug-77037-workaround.patch
-         qtbug-76963-new-kernel.patch)
-md5sums=('0f6a3e3d9c1a17be769fca94d4a8f7cb'
-         '5def330a7e85081bc9bbfe04ec46df68'
-         '7831d1ab0e6f2fae9fe3583cf47f5e7c')
+_pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
+sha256sums=('adcf56b5de6f34744bba2307b696fc75611884f4270e87dfa760d6e99dd711bb')
 
 prepare() {
   mkdir -p build
 
-  # Hack to force using python3
+  # Hack to force using Python 3
   mkdir -p bin
   ln -s /usr/bin/python3 bin/python
-
-  cd ${_pkgfqn}
-  patch -p1 -i ../qtbug-77037-workaround.patch # Link to pulseaudio to avoid header mismatch
-  
-  cd src/3rdparty
-  patch -p1 -i "$srcdir"/qtbug-76963-new-kernel.patch #Fix build with recent linux kernel
 }
 
 build() {
@@ -49,7 +60,7 @@ package() {
   cd build
   make INSTALL_ROOT="$pkgdir" install
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
   find "${pkgdir}/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 

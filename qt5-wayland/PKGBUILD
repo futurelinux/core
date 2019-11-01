@@ -1,42 +1,39 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-wayland
-pkgver=5.13.1
-pkgrel=2
+_qtver=5.13.2
+pkgver=${_qtver/-/}
+pkgrel=1
 arch=('x86_64')
-url='http://qt-project.org/'
+url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='Provides APIs for Wayland'
-depends=('qt5-declarative' 'libxcomposite')
+depends=('qt5-declarative'
+         'libxcomposite')
 makedepends=()
 groups=('qt5')
-_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('071e8a8c8c28cdb9c6cddda49037546b')
+_pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
+sha256sums=('3c9b2358d9cee02552b875db93b56f3b9bc3b0f4df7a2ff7e8b72f2a8f2ca952')
 
 prepare() {
   mkdir -p build
 }
 
 build() {
-  #cd build
+  cd build
   
-  # build bug: https://bugreports.qt.io/browse/QTBUG-54148
-  #- out-of-tree build fails
-
-  #qmake-qt5 ../${_pkgfqn}
-  #qmake-qt5 ../${_pkgfqn}/src/plugins
-  
-  cd ${_pkgfqn}
-  qmake-qt5 .
+  qmake-qt5 ../${_pkgfqn}
   make
 }
 
 package() {
-  #cd build
-  cd ${_pkgfqn}
+  cd build
   make INSTALL_ROOT="$pkgdir" install
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
   find "${pkgdir}/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 

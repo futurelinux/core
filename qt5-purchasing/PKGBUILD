@@ -2,22 +2,21 @@
 # Contributors: Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
-pkgname=qt5-datavis3d
+pkgname=qt5-purchasing
 _qtver=5.13.2
 pkgver=${_qtver/-/}
 pkgrel=1
 arch=('x86_64')
 url='https://www.qt.io'
-license=('GPL3' 'LGPL' 'FDL' 'custom')
-pkgdesc='Qt Data Visualization module'
+license=('GPL3' 'LGPL3' 'FDL' 'custom')
+pkgdesc='Qt In-App Purchasing API'
 depends=('qt5-base')
 makedepends=('qt5-declarative')
 optdepends=('qt5-declarative: QML bindings')
 groups=('qt5')
-options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
 source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('ecf934c3eb07173505781734f95cfc2cf9d89e6b1b98516ac98a137797f4ef28')
+sha256sums=('e9ef800b7d79f660c72f7024f82a2915b1111b47417f93c3dc2354b9bf307ff4')
 
 prepare() {
   mkdir -p build
@@ -35,7 +34,7 @@ package() {
   make INSTALL_ROOT="$pkgdir" install
 
   # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
-  find "${pkgdir}/usr/lib" -type f -name '*.prl' \
+  find "$pkgdir/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 
   install -d "$pkgdir"/usr/share/licenses

@@ -1,16 +1,4 @@
-#
-# Chakra GNU/Linux Buildscript Config file
-#
-# QT5
-#
-# These are the "package lists"
-#
-# The buildscript will build from the top to 
-# the bottom. Be aware that you must insert the 
-# packages in the right order to solve 
-# the dependencies correctly
-#
-# GitLab-CI:1
+# Dummy variable to change in order for this file to be included in commits:1
 
 qt5-base
 qt5-svg
@@ -50,3 +38,11 @@ qt5-webview
 
 # manual rebuild, pkgrel++
 #qt5-webkit
+
+# From rebuild.list
+#fcitx-qt5
+#plasma-integration
+#gcin
+#calibre
+#akonadi
+#skrooge

@@ -1,17 +1,33 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+#               Michael Hansen <zrax0111@gmail.com>
 
-pkgname=qt5-doc
-pkgver=5.13.1
-pkgrel=2
-arch=('x86_64')
-url='http://qt-project.org/'
+pkgbase=qt5-doc
+pkgname=(qt5-doc qt5-examples)
+_qtver=5.13.2
+pkgver=${_qtver/-/}
+pkgrel=1
+arch=('any')
+url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='A cross-platform application and UI framework (Documentation)'
-depends=('qt5-base')
-makedepends=('qt5-tools' 'python2' 'pciutils' 'libxtst' 'libxcursor' 'libxrandr' 'libxss' 'clang')
+makedepends=('qt5-tools'
+             'python2'
+             'python3'
+             'pciutils'
+             'libxtst'
+             'libxcursor'
+             'libxrandr'
+             'libxss'
+             'libxcomposite'
+             'gperf'
+             'nss'
+             'clang')
 groups=('qt5')
-_pkgfqn="qt-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/single/${_pkgfqn}.tar.xz")
-md5sums=('d66b1da335d0c25325fdf493e9044c38')
+_pkgfqn="qt-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/single/${_pkgfqn}.tar.xz")
+sha256sums=('55e8273536be41f4f63064a79e552a22133848bb419400b6fa8e9fc0dc05de08')
 
 prepare() {
   cd ${_pkgfqn} 
@@ -19,7 +35,8 @@ prepare() {
   ln -s /usr/lib/qt5/bin qttools/
   ln -s /usr/lib/qt5/bin/{rcc,uic,moc} qtbase/bin/
 
-  # Hack to force using python2
+  # Hack to force using Python 2
+  # TODO: Why is this necessary?
   cd "$srcdir"
   mkdir -p bin
   ln -s /usr/bin/python2 bin/python
@@ -47,10 +64,41 @@ build() {
   make docs
 }
 
-package() {
-  cd ${_pkgfqn} 
+package_qt5-doc() {
+  pkgdesc='A cross-platform application and UI framework (Documentation)'
+  depends=('qt5-base')
+
+  cd ${_pkgfqn}
   make INSTALL_ROOT="$pkgdir" install_docs
 
   install -d "$pkgdir"/usr/share/licenses
   ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/${pkgname}
+}
+
+package_qt5-examples() {
+  pkgdesc='Examples and demos from qt5 documentation'
+  depends=('qt5-doc')
+
+  _base="$pkgdir"/usr/share/doc/qt5/examples
+
+  # The various example dirs have conflicting .pro files, but
+  # QtCreator requires them to be in the same top-level directory.
+  # Matching the Qt5 installer, only the qtbase project is kept.
+  mkdir -p $_base
+  cp ${_pkgfqn}/qtbase/examples/examples.pro $_base
+
+  _fdirs=$(find "${_pkgfqn}" -maxdepth 2 -type d -name examples)
+  for _dir in $_fdirs; do
+      _mod=$(basename ${_dir%/examples})
+
+      if [ -e "$_dir/README" ]; then
+        cp $_dir/README $_dir/README.$_mod
+      fi
+
+      # Don't overwrite existing examples.pro file
+      # TODO: Is this necessary?
+      #mkdir $_base/$_mod
+      #cp -rn $_dir/* $_base/$_mod
+      cp -rn $_dir/* $_base
+  done
 }

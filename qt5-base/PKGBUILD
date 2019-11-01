@@ -1,27 +1,60 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
 
 pkgbase=qt5-base
 pkgname=(qt5-base qt5-xcb-private-headers)
-pkgver=5.13.1
-pkgrel=2
+_qtver=5.13.2
+pkgver=${_qtver/-/}
+pkgrel=1
 arch=('x86_64')
-url='http://qt-project.org/'
+url='https://www.qt.io'
 license=('GPL3' 'LGPL3' 'FDL' 'custom')
 pkgdesc='A cross-platform application and UI framework'
-depends=('libjpeg-turbo' 'xcb-util-keysyms' 'xcb-util-renderutil' 'libgl' 'fontconfig' 'xdg-utils' 'shared-mime-info'
-         'xcb-util-wm' 'libxrender' 'libxi' 'sqlite' 'xcb-util-image' 'icu' 'pcre2'
-         'tslib' 'libinput' 'libsm' 'libxkbcommon-x11' 'libproxy' 'libcups' 'double-conversion' 'mesa' 'qt5-translations')
-makedepends=('mtdev' 'libmariadbclient' 'sqlite' 'unixodbc' 'postgresql-libs' 'alsa-lib' 'gst-plugins-base-libs'
-             'libpulse' 'cups' 'freetds' 'vulkan-headers')
+depends=('libjpeg-turbo'
+         'xcb-util-keysyms'
+         'xcb-util-renderutil'
+         'libgl'
+         'fontconfig'
+         'xdg-utils'
+         'shared-mime-info'
+         'xcb-util-wm'
+         'libxrender'
+         'libxi'
+         'sqlite'
+         'xcb-util-image'
+         'mesa'
+         'tslib'
+         'libinput'
+         'libxkbcommon-x11'
+         'libproxy'
+         'libcups'
+         'double-conversion'
+         'icu' # TODO: Is this necessary?
+         'pcre2' # TODO: Is this necessary?
+         'libsm') # TODO: Is this necessary?
+makedepends=('mtdev' # TODO: Is this necessary?
+             'libmariadbclient' # Note: Named 'mariadb-libs' in Arch Linux
+             'sqlite'
+             'unixodbc'
+             'postgresql-libs'
+             'alsa-lib'
+             'gst-plugins-base-libs'
+             'libpulse'
+             'cups'
+             'freetds'
+             'vulkan-headers')
 optdepends=('qt5-svg: to use SVG icon themes'
+            'qt5-translations: for some native UI translations'
             'postgresql-libs: PostgreSQL driver'
             'libmariadbclient: MariaDB driver'
             'unixodbc: ODBC driver'
             'freetds: MS SQL driver'
-            'mtdev: evdev plugin')
+            'mtdev: evdev plugin') # TODO: Is this necessary?
 groups=('qt5')
-_pkgfqn="${pkgname/5-/}-everywhere-src-${pkgver}"
-source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${_pkgfqn}.tar.xz")
-md5sums=('0a1761145531b74fff5b4d9a80c7b1c2')
+_pkgfqn="${pkgbase/5-/}-everywhere-src-${_qtver}"
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
+sha256sums=('26b6b686d66a7ad28eaca349e55e2894e5a735f3831e45f2049e93b1daa92121')
 
 prepare() {
   cd ${_pkgfqn}
@@ -33,10 +66,9 @@ prepare() {
   sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
     mkspecs/common/g++-unix.conf
 
-  # Use python3
+  # Use Python 3
   find . -name '*.py' -exec sed -i \
     's|#![ ]*/usr/bin/python$|&2|;s|#![ ]*/usr/bin/env python$|&3|' {} +
-
 }
 
 build() {
@@ -78,11 +110,11 @@ package_qt5-base() {
 
   install -Dm644 LICENSE* -t "$pkgdir"/usr/share/licenses/$pkgbase
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+  # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
   find "${pkgdir}/usr/lib" -type f -name '*.prl' \
     -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 
-  # Fix wrong qmake path in pri file
+  # Fix wrong qmake path in .pri file
   sed -i "s|${srcdir}/${_pkgfqn}|/usr|" \
     "${pkgdir}"/usr/lib/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri
 
@@ -95,7 +127,6 @@ package_qt5-base() {
 
 package_qt5-xcb-private-headers() {
   pkgdesc='Private headers for Qt5 Xcb'
-
   depends=("qt5-base=$pkgver")
   optdepends=()
   groups=()
