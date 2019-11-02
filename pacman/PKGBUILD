@@ -1,14 +1,14 @@
 
 pkgname=pacman
 pkgver=5.2.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A library-based package manager with dependency support"
 arch=('x86_64')
 url="https://www.archlinux.org/pacman/"
 license=('GPL')
 groups=('base' 'base-devel')
 depends=('bash' 'glibc' 'libarchive' 'curl'
-         'gpgme' 'pacman-mirrorlist')
+         'gpgme' 'pacman-mirrorlist' 'chakra-keyring')
 checkdepends=('python3' 'fakechroot')
 makedepends=('asciidoc')
 optdepends=('perl-locale-gettext: translation support in makepkg-template')
@@ -21,7 +21,7 @@ source=(https://sources.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz{,.sig
         makepkg.conf)
 sha256sums=('4df564447abba9236e0ad3228b781a95f6375a96693b9ae6558dc144b6ecb440'
             'SKIP'
-            'a3ad746e06c5de3e2e7c5a71528b61d21fffe3df6efade0c5527a962c0de1871'
+            '4c48570a8cd8950b979871b2f17129ee88310dfdcf6d0e34425f0bdaad0d9779'
             '028a833e6c58616f39a15ea0a9b346ec5dfdd258c7bdcd4816d03d16d5fa681e')
 validpgpkeys=('6645B0A8C7005E78DB1D7864F99FFE0FEAE999BD'  # Allan McRae <allan@archlinux.org>
               'B8151B117037781095514CA7BBDFFC92306B1121') # Andrew Gregory (pacman) <andrew@archlinux.org>
@@ -60,4 +60,3 @@ package() {
   install -m644 "$srcdir/pacman.conf" "$pkgdir/etc"
   install -m644 "$srcdir/makepkg.conf" "$pkgdir/etc"
 }
-
