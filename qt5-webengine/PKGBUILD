@@ -39,6 +39,9 @@ sha256sums=('adcf56b5de6f34744bba2307b696fc75611884f4270e87dfa760d6e99dd711bb'
 
 prepare() {
   mkdir -p build
+
+  cd $_pkgfqn/src/3rdparty
+  patch -p1 -i "$srcdir"/CVE-2019-13720.patch
 }
 
 build() {
