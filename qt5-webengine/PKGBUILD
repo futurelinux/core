@@ -5,7 +5,7 @@
 pkgname=qt5-webengine
 _qtver=5.13.2
 pkgver=${_qtver/-/}
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
 url='https://www.qt.io'
 license=('LGPL3' 'LGPL2.1' 'BSD')
@@ -24,7 +24,7 @@ depends=('qt5-webchannel'
          'ffmpeg'
          're2'
          'libvpx')
-makedepends=('python3'
+makedepends=('python2'
              'gperf'
              'jsoncpp'
              'ninja'
@@ -32,27 +32,24 @@ makedepends=('python3'
              'poppler')
 groups=('qt5')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
-source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('adcf56b5de6f34744bba2307b696fc75611884f4270e87dfa760d6e99dd711bb')
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
+        CVE-2019-13720.patch::"https://code.qt.io/cgit/qt/qtwebengine-chromium.git/patch/?id=d6e5fc10")
+sha256sums=('adcf56b5de6f34744bba2307b696fc75611884f4270e87dfa760d6e99dd711bb'
+            '3b2ce75214e757f5d0d268fbb1009c2e0c660d19620ae27e8d92a0e492e5d9da')
 
 prepare() {
   mkdir -p build
-
-  # Hack to force using Python 3
-  mkdir -p bin
-  ln -s /usr/bin/python3 bin/python
 }
 
 build() {
   cd build
 
-  export PATH="$srcdir/bin:$PATH"
   qmake-qt5 ../${_pkgfqn} -- \
     -proprietary-codecs \
     -system-ffmpeg \
     -webp \
     -spellchecker
-#    -webengine-icu
+    #-webengine-icu
   make
 }
 
