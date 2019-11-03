@@ -1,6 +1,6 @@
 
 pkgname=libevent
-pkgver=2.1.8
+pkgver=2.1.11
 pkgrel=1
 pkgdesc="An event notification library"
 license=('BSD')
@@ -8,11 +8,18 @@ arch=('x86_64')
 url="http://libevent.org/"
 depends=('openssl')
 optdepends=('python2: to use event_rpcgen.py')
-source=(https://github.com/libevent/$pkgname/releases/download/release-$pkgver-stable/$pkgname-$pkgver-stable.tar.gz{,.asc})
-md5sums=('f3eeaed018542963b7d2416ef1135ecc'
-         'SKIP')
+source=(https://github.com/libevent/libevent/releases/download/release-$pkgver-stable/$pkgname-$pkgver-stable.tar.gz{,.asc}
+        0001-Warn-if-forked-from-the-event-loop-during-event_reinit.patch)
+md5sums=('7f35cfe69b82d879111ec0d7b7b1c531'
+         'SKIP'
+         'ce342d9bc5131f0d08e5d4ab467c74cc')
 validpgpkeys=('B35BF85BF19489D04E28C33C21194EBB165733EA'
               '9E3AC83A27974B84D1B3401DB86086848EF8686D')
+
+prepare() {
+  cd ${pkgname}-${pkgver}-stable
+  patch -Np1 -R < ../0001-Warn-if-forked-from-the-event-loop-during-event_reinit.patch
+}
 
 build() {
   cd $pkgname-$pkgver-stable
