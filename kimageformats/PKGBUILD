@@ -4,14 +4,14 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kimageformats
-pkgver=5.63.0
-pkgrel=2
+pkgver=5.64.0
+pkgrel=1
 pkgdesc='Image format plugins for Qt5'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kimageformats'
 license=('LGPL')
 depends=("qt5-base" 'jasper' 'openexr' 'karchive')
-makedepends=("extra-cmake-modules>=5.63.0")
+makedepends=("extra-cmake-modules>=5.64.0")
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})

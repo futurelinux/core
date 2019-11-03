@@ -4,14 +4,14 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=modemmanager-qt
-pkgver=5.63.0
-pkgrel=2
+pkgver=5.64.0
+pkgrel=1
 pkgdesc="Plasma Workspace"
 arch=('x86_64')
 url='http://projects.kde.org'
 license=('LGPL')
 depends=('qt5-base' 'networkmanager')
-makedepends=("extra-cmake-modules>=5.63.0" 'kapidox')
+makedepends=("extra-cmake-modules>=5.64.0" 'kapidox')
 provides=("libmm-qt5=${pkgver}")
 replaces=("libmm-qt5<=5.2.2")
 conflicts=("libmm-qt5<=5.2.2")
