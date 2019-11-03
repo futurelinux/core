@@ -1,24 +1,23 @@
 pkgname=openssh
-pkgver=8.0p1
-pkgrel=2
+pkgver=8.1p1
+pkgrel=1
 pkgdesc='Premier connectivity tool for remote login with the SSH protocol'
 url='https://www.openssh.com/portable.html'
 license=('custom:BSD')
 arch=('x86_64')
 makedepends=('linux-headers')
 depends=('krb5' 'openssl' 'libedit' 'ldns')
-optdepends=('xorg-xauth: X11 forwarding')
+optdepends=('xorg-xauth: X11 forwarding'
+            'x11-ssh-askpass: input passphrase in X')
 source=("https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}.tar.gz"{,.asc}
         'sshdgenkeys.service'
-        'sshd@.service'
         'sshd.service'
         'sshd.socket'
         'sshd.conf'
         'sshd.pam')
-sha1sums=('756dbb99193f9541c9206a667eaa27b0fa184a4f'
+sha1sums=('c44b96094869f177735ae053d92bd5fcab1319de'
           'SKIP'
           'caaa801da59a5d14c0c29c43e9de5fef281ea03e'
-          'e577f88b28a613db702feeb8c2eb1f56ea8df13e'
           'ec49c6beba923e201505f5669cea48cad29014db'
           'e12fa910b26a5634e5a6ac39ce1399a132cf6796'
           'c9b2e4ce259cd62ddb00364d3ee6f00a8bf2d05f'
@@ -47,6 +46,7 @@ build() {
 		--with-mantype=man \
 		--with-md5-passwords \
 		--with-pid-dir=/run \
+		--with-default-path='/usr/local/sbin:/usr/local/bin:/usr/bin' \
 
 	make
 }
@@ -59,9 +59,9 @@ package() {
 	ln -sf ssh.1.gz "${pkgdir}"/usr/share/man/man1/slogin.1.gz
 	install -Dm644 LICENCE "${pkgdir}/usr/share/licenses/${pkgname}/LICENCE"
 
-	# install systemd units
-	install -dm755 "$pkgdir/usr/lib/systemd/system/"
-	install -m644 "$srcdir"/sshd{{,@,genkeys}.service,.socket} "$pkgdir/usr/lib/systemd/system/"
+	install -Dm644 ../sshdgenkeys.service "${pkgdir}"/usr/lib/systemd/system/sshdgenkeys.service
+	install -Dm644 ../sshd.service "${pkgdir}"/usr/lib/systemd/system/sshd.service
+	install -Dm644 ../sshd.conf "${pkgdir}"/usr/lib/tmpfiles.d/sshd.conf
 	install -Dm644 ../sshd.pam "${pkgdir}"/etc/pam.d/sshd
 
 	# additional contrib scripts that we like

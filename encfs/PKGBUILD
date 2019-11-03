@@ -1,6 +1,6 @@
 pkgname=encfs
-pkgver=1.9.2
-pkgrel=3
+pkgver=1.9.5
+pkgrel=2
 pkgdesc='Encrypted filesystem in user-space'
 arch=('x86_64')
 url='https://vgough.github.io/encfs/'
@@ -10,7 +10,7 @@ makedepends=('cmake')
 source=(https://github.com/vgough/$pkgname/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz{,.asc})
 # validpgpkeys=('E583187B2E26D6EF8BF4556333C65E29813C14DF') # Valient Gough
 validpgpkeys=('FFF3E01444FED7C316A3545A895F5BC123A02740') # Jakob Unterwurzacher <jakobunt@gmail.com>
-sha256sums=('cd9e972cd9565cdc26473c86d2c77c98de31fc6f604fa7d149dd5d6e35d46eaa'
+sha256sums=('4709f05395ccbad6c0a5b40a4619d60aafe3473b1a79bafb3aa700b1f756fd63'
             'SKIP')
 
 

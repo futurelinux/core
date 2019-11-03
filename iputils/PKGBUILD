@@ -1,12 +1,13 @@
 #
 # Chakra Packages for Chakra, part of chakra-project.org
 #
-# maintainer : AlmAck <almack[at]chakraos[dog]org>
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+# maintainer : AlmAck <almack[at]chakralinux[dog]org>
 
 pkgname=iputils
-pkgver=20121221
-pkgrel=4
+# Commit date + git rev-parse --short origin/master
+_rev=13e0084
+pkgver=20190709
+pkgrel=2
 pkgdesc="Network monitoring tools, including ping"
 arch=('x86_64')
 license=('GPL')
@@ -14,47 +15,28 @@ url="http://www.skbuff.net/iputils/"
 groups=('base')
 depends=('openssl' 'sysfsutils' 'libcap')
 optdepends=('xinetd: for tftpd')
-makedepends=('docbook2x' 'opensp')
+makedepends=('perl-sgmls' 'git' 'docbook-xsl' 'meson')
 conflicts=('netkit-base' 'arping' 'netkit-tftpd')
 replaces=('netkit-base')
 backup=(etc/xinetd.d/tftp)
 install=${pkgname}.install
-source=(http://www.skbuff.net/${pkgname}/${pkgname}-s${pkgver}.tar.bz2
+source=("git+https://github.com/iputils/iputils.git#commit=${_rev}"
         tftp.xinetd)
-sha1sums=('4d56d8c75d6a5d58f052e4056e975f01ebab9ba9'
+sha1sums=('SKIP'
           'fc2ae26f5609725e3f4aeaf4ab82dfa6d2e378fd')
 
 build() {
-  cd "${srcdir}/${pkgname}-s${pkgver}"
+  mkdir -p build
+  cd build
 
-  make USE_GNUTLS=no CCOPTOPT="$CFLAGS"
-
-  cd doc
-  for file in *.sgml; do
-    xf=${file/.sgml/.xml}
-    osx -xlower -xno-nl-in-tag $file > $xf || true
-    sed -i "s|<refname>\(.*\), \(.*\)</refname>|<refname>\1</refname>, <refname>\2</refname>|g" $xf
-    docbook2man $xf
-  done
+  chakra-meson ../$pkgname -DBUILD_RARPD=true
+  ninja
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-s${pkgver}"
+  cd build
 
-  # keep these in sbin
-  install -dm755 "${pkgdir}"/usr/sbin
-  install -m755 arping clockdiff rarpd rdisc tftpd tracepath tracepath6 "${pkgdir}"/usr/sbin/
-
-  install -dm755 "${pkgdir}"/usr/bin
-  install -m755 ipg ping{,6} "${pkgdir}"/usr/bin/
-
-  install -dm755 "${pkgdir}"/usr/share/man/man8
-  install -m644 doc/{pg3,arping,clockdiff,ping,rarpd,rdisc,tftpd,tracepath}.8 \
-     "${pkgdir}"/usr/share/man/man8/
-
-  cd "${pkgdir}"/usr/share/man/man8
-  ln -sf ping.8.gz  ping6.8.gz
-  ln -sf tracepath.8.gz tracepath6.8.gz
+  DESTDIR="$pkgdir" ninja install
 
   # FS#24768
   install -dm755 "${pkgdir}"/etc/xinetd.d/
