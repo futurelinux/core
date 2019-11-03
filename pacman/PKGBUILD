@@ -19,7 +19,7 @@ options=('strip')
 source=(https://sources.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz{,.sig}
         pacman.conf
         makepkg.conf)
-sha256sums=('4df564447abba9236e0ad3228b781a95f6375a96693b9ae6558dc144b6ecb440'
+sha256sums=('1930c407265fd039cb3a8e6edc82f69e122aa9239d216d9d57b9d1b9315af312'
             'SKIP'
             '4c48570a8cd8950b979871b2f17129ee88310dfdcf6d0e34425f0bdaad0d9779'
             '028a833e6c58616f39a15ea0a9b346ec5dfdd258c7bdcd4816d03d16d5fa681e')
