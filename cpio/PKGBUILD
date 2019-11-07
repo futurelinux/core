@@ -1,27 +1,18 @@
 pkgname=cpio
-pkgver=2.12
+pkgver=2.13
 pkgrel=1
 pkgdesc="A tool to copy files into or out of a cpio or tar archive"
 arch=(x86_64)
 license=('GPL')
-url="http://www.gnu.org/software/cpio"
+url="https://www.gnu.org/software/cpio"
 depends=('glibc')
-source=("ftp://ftp.gnu.org/gnu/cpio/cpio-${pkgver}.tar.gz"
-        'CVE-2016-2037.patch')
-install=cpio.install
-md5sums=('fc207561a86b63862eea4b8300313e86'
-         '8a9dde38d04acc08993beb2d7ead9d23')
+source=("https://ftp.gnu.org/gnu/cpio/cpio-${pkgver}.tar.gz")
+sha256sums=('e87470d9c984317f658567c03bfefb6b0c829ff17dbf6b0de48d71a4c8f3db88')
 
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
-  patch -Np1 -i ${srcdir}/CVE-2016-2037.patch
   ./configure --prefix=/usr --mandir=/usr/share/man
   make 
-}
-
-check() {
-  cd ${srcdir}/${pkgname}-${pkgver}
-  make check
 }
 
 package() {
