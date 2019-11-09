@@ -1,22 +1,27 @@
 pkgname=perl
-pkgver=5.18.0
+pkgver=5.30.0
 pkgrel=1
 pkgdesc="A highly capable, feature-rich programming language"
-arch=(i686 x86_64)
+arch=(x86_64)
 license=('GPL' 'PerlArtistic')
 url="http://www.perl.org"
 groups=('base')
 depends=('gdbm' 'db' 'coreutils' 'glibc' 'sh')
-source=(http://www.cpan.org/src/5.0/perl-${pkgver}.tar.bz2
+source=(https://www.cpan.org/src/5.0/perl-${pkgver}.tar.xz
+        https://rt.perl.org/Public/Ticket/Attachment/1640272/838796/0001-perl-134194-fix-parsing-supplemental-groups-from.patch
         perlbin.sh
         perlbin.csh
-        provides.pl)
-install=perl.install
+        perlbin.fish
+        detect-old-perl-modules.sh
+        detect-old-perl-modules.hook)
 options=('makeflags' '!purge')
-md5sums=('a832e928adfd36d162d2a5d3b631265c'
-         '5ed2542fdb9a60682f215bd33701e61a'
-         '1f0cbbee783e8a6d32f01be5118e0d5e'
-         '999c3eea6464860704abbb055a0f0896')
+md5sums=('037c35000550bdcb47552ad0f6d3064d'
+         '10c8f1cf6373d61b70b63ed618d1eae5'
+         'f2a1ee55a05e84652cb10cab17a4c546'
+         'd8153ad4a43bb4142d1bdeaa9fcdd95b'
+         '1217244e4d3dc5c1e525acd002d00c6d'
+         '2fa12aa0f924e8dccb4dab84ca3e0db3'
+         '80bc41c440de5fd36fb5bb199ad2a314')
 
 # workaround to let the integrity check find the correct provides array
 if [[ ${0##*/} = "parse_pkgbuilds.sh" ]]; then
@@ -26,22 +31,18 @@ fi
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
 
-  if [ "${CARCH}" = "x86_64" ]; then
-    # for x86_64
-    arch_opts="-Dcccdlflags='-fPIC'"
-  else
-    # for i686
-    arch_opts=""
-  fi
+  # for x86_64
+  arch_opts="-Dcccdlflags='-fPIC'"
+
 
   ./Configure -des -Dusethreads -Duseshrplib -Doptimize="${CFLAGS}" \
     -Dprefix=/usr -Dvendorprefix=/usr \
     -Dprivlib=/usr/share/perl5/core_perl \
-    -Darchlib=/usr/lib/perl5/core_perl \
+    -Darchlib=/usr/lib/perl5/$_baseversion/core_perl \
     -Dsitelib=/usr/share/perl5/site_perl \
-    -Dsitearch=/usr/lib/perl5/site_perl \
+    -Dsitearch=/usr/lib/perl5/$_baseversion/site_perl \
     -Dvendorlib=/usr/share/perl5/vendor_perl \
-    -Dvendorarch=/usr/lib/perl5/vendor_perl \
+    -Dvendorarch=/usr/lib/perl5/$_baseversion/vendor_perl \
     -Dscriptdir=/usr/bin/core_perl \
     -Dsitescript=/usr/bin/site_perl \
     -Dvendorscript=/usr/bin/vendor_perl \
@@ -58,10 +59,6 @@ check() {
 }
 
 package() {
-  # hack to work around makepkg running the subshell in check_sanity()
-  new_provides=($(cd "$srcdir/perl-$pkgver"; LD_PRELOAD=./libperl.so ./perl -Ilib "$srcdir/provides.pl" .))
-  provides=(${new_provides[@]})
-
   cd ${srcdir}/${pkgname}-${pkgver}
   make DESTDIR="$pkgdir" install
 
@@ -72,7 +69,7 @@ package() {
   sed -e '/^man1ext=/ s/1perl/1p/' -e '/^man3ext=/ s/3perl/3pm/' \
       -e "/^cf_email=/ s/'.*'/''/" \
       -e "/^perladmin=/ s/'.*'/''/" \
-      -i ${pkgdir}/usr/lib/perl5/core_perl/Config_heavy.pl
+      -i ${pkgdir}/usr/lib/perl5/$_baseversion/core_perl/Config_heavy.pl
 
   ### CPAN Settings ###
   # Set CPAN default config to use the site directories.
@@ -80,30 +77,27 @@ package() {
       -e '/(mbuildpl_arg =>/ s/""/"installdirs=site"/' \
       -i ${pkgdir}/usr/share/perl5/core_perl/CPAN/FirstTime.pm
 
-  ### CPANPLUS Settings ###
-  # Set CPANPLUS default config to use the site directories.
-  sed -e "/{'makemakerflags'}/ s/'';/'INSTALLDIRS=site';/" \
-      -e "/{'buildflags'}/     s/'';/'installdirs=site';/" \
-      -i ${pkgdir}/usr/share/perl5/core_perl/CPANPLUS/Config.pm
-
   # Profile script to set paths to perl scripts.
-  install -D -m755 ${srcdir}/perlbin.sh \
+  install -D -m644 ${srcdir}/perlbin.sh \
                    ${pkgdir}/etc/profile.d/perlbin.sh
   # Profile script to set paths to perl scripts on csh. (FS#22441)
-  install -D -m755 ${srcdir}/perlbin.csh \
+  install -D -m644 ${srcdir}/perlbin.csh \
                   ${pkgdir}/etc/profile.d/perlbin.csh
+  # Profile script to set paths to perl scripts on fish. (FS#51191)
+  install -D -m 755 "$srcdir/perlbin.fish" \
+                  "$pkgdir/usr/share/fish/vendor_conf.d/perlbin.fish"
 
-  (cd ${pkgdir}/usr/bin; mv perl${pkgver} perl)
-  (cd ${pkgdir}/usr/bin/core_perl;  ln -sf c2ph pstruct; ln -sf s2p psed)
+  # Add the dirs so new installs will already have them in PATH once they
+  # install their first perl programm
+  install -d -m755 "$pkgdir/usr/bin/vendor_perl"
+  install -d -m755 "$pkgdir/usr/bin/site_perl"
 
-  # Remove all pod files *except* those under /usr/share/perl5/core_perl/pod/
-  # (FS#16488)
-  rm -f $pkgdir/usr/share/perl5/core_perl/*.pod
-  for d in $pkgdir/usr/share/perl5/core_perl/*; do
-    if [ -d $d -a $(basename $d) != "pod" ]; then
-      find $d -name *.pod -delete
-    fi
-  done
-  find $pkgdir/usr/lib -name *.pod -delete
+  #(cd ${pkgdir}/usr/bin; mv perl${pkgver} perl)
+  rm "$pkgdir/usr/bin/perl$pkgver"
+
+  install -D -m755 -t "$pkgdir/usr/share/libalpm/scripts" "$srcdir/detect-old-perl-modules.sh"
+  install -D -m644 -t "$pkgdir/usr/share/libalpm/hooks" "$srcdir/detect-old-perl-modules.hook"
+
+  find $pkgdir -name perllocal.pod -delete
   find $pkgdir -name .packlist -delete
 }

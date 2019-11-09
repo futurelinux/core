@@ -1,5 +1,5 @@
 pkgname=python3
-pkgver=3.6.7
+pkgver=3.6.9
 pkgrel=1
 _pybasever=3.6
 pkgdesc="Next generation of the python high-level scripting language"
@@ -17,7 +17,7 @@ optdepends=('python3-setuptools'
 options=('!makeflags')
 source=("http://www.python.org/ftp/python/${pkgver%rc*}/Python-${pkgver}.tar.xz"
         dont-make-libpython-readonly.patch)
-sha1sums=('dd2b0a8bf9b9617c57a0070b53065286c2142994'
+sha1sums=('3cd8b0e814b753fcce4fdf7edc823d8fb0da9208'
           'c22b24324b8e53326702de439c401d97927ee3f2')
 
 prepare() {
