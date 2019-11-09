@@ -1,16 +1,16 @@
 # Maintainer: Neophytos Kolokotronis <tetris4@gmail.com>
 
 pkgname=libvncserver
-pkgver=0.9.11
-pkgrel=2
+pkgver=0.9.12
+pkgrel=1
 pkgdesc="A cross-platform C libraries that allow you to easily implement VNC server"
 arch=('x86_64')
 url="https://libvnc.github.io/"
 license=('GPL')
-depends=('libpng' 'libjpeg' 'gnutls' 'libgcrypt' 'openssl')
-makedepends=('sdl')
+depends=('libpng' 'libjpeg' 'gnutls' 'libgcrypt' 'openssl' 'libnsl')
+makedepends=('sdl' 'cmake')
 source=("https://github.com/LibVNC/libvncserver/archive/LibVNCServer-${pkgver}.tar.gz")
-md5sums=('7f06104d5c009813e95142932c4ddb06')
+md5sums=('dc2ae6433d2ce45b9f60034c7fb9c10a')
 
 prepare() {
   cd ${pkgname}-LibVNCServer-${pkgver}
@@ -18,8 +18,7 @@ prepare() {
 
 build() {
   cd ${pkgname}-LibVNCServer-${pkgver}
-  ./autogen.sh
-  ./configure --prefix=/usr --without-libva
+  cmake -DCMAKE_INSTALL_PREFIX=/usr .
   make
 }
 

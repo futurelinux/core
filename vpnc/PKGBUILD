@@ -2,54 +2,61 @@
 # contributor: <abveritas[at]chakra-project[dot]org>
 
 pkgname=vpnc
-pkgver=0.5.3.1
-_svnver=550
-_git=6f87b0fe7b20d802a0747cc310217920047d58d3
-pkgrel=6
+_vpnc_commit=101208be5b74039ea70b9e007ce0d6c9fbe44d82
+_vpncscripts_commit=c84fb8e5a523a647a01a1229a9104db934e19f00
+pkgver=0.5.3.r462.r78
+pkgrel=1
 pkgdesc="VPN client for cisco3000 VPN Concentrators"
 url="http://www.unix-ag.uni-kl.de/~massar/vpnc/"
 license=('GPL')
 depends=('libgcrypt' 'openssl' 'iproute2')
 optdepends=('openresolv: Let vpnc manage resolv.conf')
-makedepends=('subversion')
+makedepends=('git')
 arch=('x86_64')
-source=("$pkgname::svn+http://svn.unix-ag.uni-kl.de/vpnc/trunk/#revision=$_svnver"
-        "http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/$_git:/vpnc-script"
-        'vpnc.conf'
-        'vpnc@.service'
-        'bug_799429.patch')
+source=("vpnc::git+https://github.com/streambinder/vpnc#commit=${_vpnc_commit}"
+        "vpnc-scripts::git://git.infradead.org/users/dwmw2/vpnc-scripts.git#commit=${_vpncscripts_commit}"
+        vpnc.conf
+        vpnc@.service
+        vpnc-systemd-resolved.patch)
 md5sums=('SKIP'
-         '70198474faf36a84beaa11136f6c4d9c'
+         'SKIP'
          'a3f4e0cc682f437e310a1c86ae198e45'
          '09cfded435c43dd2adb5a8863bd74cfc'
-         '14083b1cc67a517b52d617fcde6efad9')
+         '140c777825780cc502dc95961a05eeba')
 backup=(etc/vpnc/default.conf)
 
+pkgver() {
+  cd ${pkgname}
+  printf "%s.r%s.r%s" "$(cat VERSION)" \
+    "$(git -C ../vpnc rev-list --count HEAD)" \
+    "$(git -C ../vpnc-scripts rev-list --count HEAD)"
+}
+
 prepare() {
-  cd $pkgname
-  # http://lists.unix-ag.uni-kl.de/pipermail/vpnc-devel/2015-June/004160.html
-  patch -Np1 -i $srcdir/bug_799429.patch
+  cd vpnc-scripts
+  patch -Np1 < ../vpnc-systemd-resolved.patch
+
+  cd ../${pkgname}
+  # Build hybrid support
+  sed 's|^#OPENSSL|OPENSSL|g' -i Makefile
+  # fix resolvconf location for community/openresolv
+  sed 's|/sbin/resolvconf|/usr/bin/resolvconf|g' -i ../vpnc-scripts/vpnc-script
+  ln -sf ../../vpnc-scripts/vpnc-script src
+  ln -sf ../../vpnc.conf src
 }
 
 build() {
-  cd $pkgname
+  make -C ${pkgname}
+}
 
-  # Build hybrid support
-  sed -i 's|^#OPENSSL|OPENSSL|g' Makefile
-
-  # fix resolvconf location for anyone using openresolv
-  sed -i 's|/sbin/resolvconf|/usr&|g' "$srcdir/vpnc-script"
-
-  make
+check() {
+  make -C ${pkgname} test
 }
 
 package() {
-  cd $pkgname
-
-  make DESTDIR="$pkgdir" PREFIX=/usr install
-
-  install -Dm644 "$srcdir"/vpnc.conf "$pkgdir"/etc/vpnc/default.conf
-  install -Dm755 "$srcdir"/vpnc-script "$pkgdir"/etc/vpnc/vpnc-script
-
-  install -Dm644 "$srcdir"/vpnc@.service "$pkgdir"/usr/lib/systemd/system/vpnc@.service
+  cd ${pkgname}
+  make DESTDIR="${pkgdir}" PREFIX=/usr SBINDIR=/usr/bin install
+  install -Dm 644 ../vpnc@.service -t "${pkgdir}/usr/lib/systemd/system"
+  install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -Dm 644 README.md -t "${pkgdir}/usr/share/doc/${pkgname}"
 }
