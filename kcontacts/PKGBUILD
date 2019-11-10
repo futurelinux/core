@@ -6,7 +6,7 @@
 pkgname=kcontacts
 epoch=1
 pkgver=5.64.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Address book API for KDE"
 arch=('x86_64')
 url="https://community.kde.org/Frameworks"

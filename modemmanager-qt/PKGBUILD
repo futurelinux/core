@@ -5,7 +5,7 @@
 
 pkgname=modemmanager-qt
 pkgver=5.64.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Plasma Workspace"
 arch=('x86_64')
 url='http://projects.kde.org'

@@ -5,7 +5,7 @@
 
 pkgname=breeze-icons
 pkgver=5.64.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Breeze icon themes'
 arch=('any')
 url='https://projects.kde.org/projects/kde/workspace/breeze'
