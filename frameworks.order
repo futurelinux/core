@@ -79,3 +79,5 @@ kholidays
 syndication
 kcalendarcore
 kcontacts
+
+# Dummy line for the CI to build all the packages
