@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=plasma-workspace-wallpapers
-pkgver=5.17.2
+pkgver=5.17.3
 pkgrel=1
 pkgdesc='Additional wallpapers for the Plasma Workspace'
 arch=('x86_64')
@@ -14,7 +14,7 @@ makedepends=(extra-cmake-modules qt5-base)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('fd35ccae41085091d8898b5d119004ab96a799cee9cf8faa838d8baa7df0333e'
+sha256sums=('44d0f93a09db2703d526903b6da1330c6290645022bf72352bde08f61a1339ed'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

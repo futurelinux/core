@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=breeze-gtk
-pkgver=5.17.2
+pkgver=5.17.3
 pkgrel=1
 pkgdesc="Breeze port for GTK. (GIT version)"
 arch=('x86_64')
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules sassc python3-cairo)
 group=('gtk-integration' 'plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('d89fd00df51d8631d14b99138393a9daf679599ade1d1b299407dc96c1640c02'
+sha256sums=('9b72b49a872b204522f6b65aff0504d3c40f568f3c8217d725a6c8a3867f1174'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

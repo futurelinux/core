@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=breeze
-pkgver=5.17.2
+pkgver=5.17.3
 pkgrel=1
 pkgdesc='Artwork, styles and assets for the Breeze visual style for the Plasma Desktop'
 arch=('x86_64')
@@ -13,7 +13,7 @@ license=('LGPL')
 makedepends=(extra-cmake-modules frameworkintegration kdecoration kcmutils plasma-framework python3 fftw)
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('042d41c0b12afa47a0fe6fe72cb23eb2261312955307ab905ba55201d814b095'
+sha256sums=('89dde39b69e857d102e60e7b33cc5dd3481539484678ff8cdb30393d5a4d28c6'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

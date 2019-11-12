@@ -4,8 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kgamma5
-_pkgname=kgamma
-pkgver=5.17.2
+pkgver=5.17.3
 pkgrel=1
 pkgdesc="Adjust your monitor's gamma settings"
 arch=(x86_64)
@@ -18,7 +17,7 @@ conflicts=('kdegraphics-kgamma')
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('fca731f2abc82566ec5f15d697171de00efe74c0b44a414787724246bd5adf5c'
+sha256sums=('5f2428fdd7365cc2b99f3974b6155fbec28dcf2863dbb7caab421c5bc1156003'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

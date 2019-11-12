@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=drkonqi
-pkgver=5.17.2
+pkgver=5.17.3
 pkgrel=1
 pkgdesc='The KDE crash handler'
 arch=(x86_64)
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules)
 groups=(plasma)
 options=(debug)
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('a133ab23403e4f92844769f842afbe1116cda7fd15f0588f1fe610f6fc3f2ce5'
+sha256sums=('ceda42c9f53ae58b0e983d881d66acaf0b409c4e2cb55e9aa2e18ded714415e4'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

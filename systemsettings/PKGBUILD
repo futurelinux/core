@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=systemsettings
-pkgver=5.17.2
+pkgver=5.17.3
 pkgrel=1
 pkgdesc='KDE system settings'
 arch=('x86_64')
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules kdoctools khtml)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('9a195e8132df84b3ea7da3f864feee81cfe175fddd0bbd4822ca8cd9a5c2979e'
+sha256sums=('df28ef37abc904155ddd2895e014f3a98e6ea8571c3b07ca5d4e605f0490ca94'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
