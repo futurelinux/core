@@ -1,0 +1,43 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
+pkgname=kimap
+pkgver=19.08.3
+pkgrel=1
+pkgdesc="Job-based API for interacting with IMAP servers"
+url="https://kontact.kde.org"
+arch=(x86_64)
+license=(LGPL)
+depends=(kmime kio)
+makedepends=(extra-cmake-modules)
+options=(debug)
+source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('46ca8d265b7191d75db8c6a4d988624385c9ab8eae702a42e6eb4b81be581051'
+            'SKIP')
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+              F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}

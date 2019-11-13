@@ -1,0 +1,40 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
+pkgname=kipi-plugins
+pkgver=19.08.3
+pkgrel=1
+pkgdesc="A collection of plugins extending the KDE graphics and image applications"
+url="https://userbase.kde.org/KIPI"
+arch=(x86_64)
+license=(GPL)
+depends=(kio libkipi)
+optdepends=('libmediawiki: MediaWiki Export plugin'
+            'libkvkontakte: VKontakte.ru Exporter plugin'
+            'qt5-xmlpatterns: rajce.net plugin')
+makedepends=(extra-cmake-modules qt5-xmlpatterns libmediawiki libkvkontakte)
+options=(debug)
+source=("http://download.kde.org/stable/$pkgname/$pkgname-$pkgver.tar.xz")
+sha256sums=('f540e517421503b54e906633c71c2f688bb920c5aefe7d05a13d0eeaf0356a9b')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DBUILD_TESTING=OFF
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}

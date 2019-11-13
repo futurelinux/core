@@ -1,0 +1,53 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
+pkgname=kde-dev-scripts
+pkgver=19.08.3
+pkgrel=1
+pkgdesc="Scripts and setting files useful during development of KDE software"
+url="https://www.kde.org/applications/development/"
+arch=(x86_64)
+license=(GPL LGPL FDL)
+makedepends=(extra-cmake-modules kdoctools)
+options=(debug)
+source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('c7998753f67c6efbe818ca1f96c5681c7abe3078ce6beeb307562309ca243c28'
+            'SKIP')
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+              F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+
+  # Fix Python 2 path
+  sed -i 's|#!/usr/bin/env python|#!/usr/bin/env python2|' \
+    "$pkgdir"/usr/bin/{zonetab2pot.py,kde-systemsettings-tree.py,reviewboard-am}
+  sed -i 's|#! /usr/bin/env python|#!/usr/bin/env python2|' \
+    "$pkgdir"/usr/bin/{kdelnk2desktop.py,kde_generate_export_header}
+
+  # Install additional files
+  cd "$srcdir"/$pkgname-$pkgver
+  mkdir -p "$pkgdir"/usr/share/kde-dev-scripts
+  cp -r kde-devel-* gdb "$pkgdir"/usr/share/kde-dev-scripts
+}

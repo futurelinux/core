@@ -1,0 +1,48 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
+pkgname=lskat
+pkgver=19.08.3
+pkgrel=1
+pkgdesc="Lieutenant Skat is a fun and engaging card game for two players"
+arch=('x86_64')
+url='http://kde.org/applications/games/lskat/'
+screenshot='https://www.kde.org/images/screenshots/lskat.png'
+license=('GPL' 'LGPL' 'FDL')
+groups=('kdegames' 'kde' 'kde-applications')
+depends=(libkdegames hicolor-icon-theme)
+makedepends=(extra-cmake-modules kdoctools knotifyconfig)
+conflicts=(kdegames-lskat)
+replaces=(kdegames-lskat)
+provides=(kdegames-lskat)
+options=('docs' 'debug')
+source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('499334ffff57a46973caa4f8571b06ae482bccff9e17dcd9ba82ac7f448365e2'
+            'SKIP')
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+              F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}

@@ -1,0 +1,55 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
+pkgname=kio-extras
+pkgver=19.08.3
+pkgrel=1
+pkgdesc="Additional components to increase the functionality of KIO"
+url="https://www.kde.org/applications/internet/"
+arch=(x86_64)
+license=(LGPL)
+depends=(kio kdnssd libssh smbclient exiv2 openexr libmtp kpty kactivities syntax-highlighting)
+optdepends=('qt5-imageformats: thumbnails for additional image formats'
+            'kimageformats: thumbnails for additional image formats' 'taglib: audio file thumbnails'
+            'khtml: man kioslave' 'phonon-qt5: audio file previews' 'libappimage: AppImage thumbnails')
+makedepends=(extra-cmake-modules kdoctools gperf taglib khtml)
+options=(debug)
+source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig}
+        kio-extras-rpc.patch
+        kio-extras-libssh-0.9.patch)
+sha256sums=('e38e872f78ff24fe512ec7ff9ed4f6b6a8e1fef6111fdb0222c133bed0a8861f'
+            'SKIP'
+            '5bbce26c59bac7f39b943116155bd746d2630d46acc01427fbae8a6eaa563fac'
+            'dc7b3206fccc3e4192e9104f05ffdc29727a414cd7627d58ccebbefe2e76b545')
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+              F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
+
+prepare() {
+  mkdir -p build
+
+  cd $pkgname-$pkgver
+  patch -p1 -i ../kio-extras-rpc.patch # fix build of kio-nfs with glibc 2.27
+  patch -p1 -i ../kio-extras-libssh-0.9.patch  # fix build with libssh 0.9
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@" \
+    -DPYTHON_EXECUTABLE=/usr/bin/python3
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}

@@ -1,0 +1,47 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+
+pkgname=minuet
+pkgver=19.08.3
+pkgrel=1
+pkgdesc="A KDE Software for Music Education"
+arch=('x86_64')
+url='https://github.com/KDE/pimcommon'
+license=('LGPL')
+depends=('ki18n' 'kxmlgui' 'kio' 'kcrash' 'drumstick' 'timidity++' 'qt5-quickcontrols2')
+optdepends=('soundfont-fluidr3: for MIDI sound'
+            'soundfont-personalcopy: for MIDI sound'
+            'soundfont-unison: for MIDI sound')
+makedepends=('extra-cmake-modules' 'kdoctools')
+groups=(kde kde-applications kdeedu kde-uninstall)
+options=('docs' 'debug')
+source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('8af3e0b5fd17d7043499391273232a1649ea3dec5e69faab5a4dc4452080605c'
+            'SKIP')
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+              F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}

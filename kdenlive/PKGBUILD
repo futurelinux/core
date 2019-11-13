@@ -1,0 +1,58 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Andrea Scarpino <andrea@archlinux.org>
+#               Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+#               Sergej Pupykin <pupykin.s+arch@gmail.com>
+#               Zuf <kontakt.zuf@gmail.com>
+#               Darwin Bautista <djclue917@gmail.com>
+#               Gustavo Alvarez <sl1pkn07@gmail.com>
+
+pkgname=kdenlive
+pkgver=19.08.3
+pkgrel=1
+pkgdesc="A non-linear video editor for Linux using the MLT video framework"
+url="https://www.kdenlive.org/"
+arch=(x86_64)
+license=(GPL)
+depends=(knewstuff knotifyconfig kfilemetadata purpose mlt breeze-icons frei0r-plugins)
+optdepends=("ffmpeg: for FFmpeg plugin"
+            "cdrtools: for creation of DVD ISO images"
+            "dvdauthor: for creation of DVD"
+            "dvgrab: for FireWire (IEEE 1394) capture"
+            "recordmydesktop: for screen capture"
+            "xine-ui: for DVD preview"
+            "vlc: for DVD preview"
+            "plasma-desktop: for theme configuration"
+            "libdv: for webcam capture (if FFmpeg is not installed)"
+            "vid.stab: for video stabilization plugin")
+makedepends=(extra-cmake-modules kdoctools v4l-utils)
+options=(debug)
+source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('64ab3cf06222b95f021941d8c430c70918c04c3ea988f7ccf5ef87c6b69b4465'
+            'SKIP')
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+              F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
+
+prepare(){
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_SYSCONFDIR=/etc \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@"
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}
+
