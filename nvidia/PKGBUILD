@@ -1,27 +1,21 @@
 pkgbase=nvidia
 pkgname=(nvidia nvidia-dkms chd-nvidia)
-pkgver=430.40
-pkgrel=2
+pkgver=440.31
+pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
-makedepends=("linux-headers=5.2.11" 'libglvnd' "nvidia-utils=${pkgver}")
+makedepends=("linux-headers=5.3.11" 'libglvnd' "nvidia-utils=${pkgver}")
 license=('custom')
 options=('!strip')
 _pkg="NVIDIA-Linux-x86_64-${pkgver}"
-_extramodules=extramodules-CHAKRA
-source=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run"
-         "https://code.chakralinux.org/tools/chakra-hardware-detection/raw/master/hwdb/nvidia_supported_new"
-         fs62142.patch)
-sha256sums=('f700899f48ba711b7e1598014e8db9a93537d7baa3d6a64067ed08578387dfd7'
-            '94db1b11de33b0299da021fee8c21e4442656fe76452ac582b556e3f96365d5d'
-            '24a3082688ee4d60d27f601d535b1e6ced7537b46cc83fc9bb6da0f76e07e017')
+source=("https://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run"
+         "https://code.chakralinux.org/tools/chakra-hardware-detection/raw/master/hwdb/nvidia_supported_new")
+sha256sums=('cd592f385c9bfb798f973225dfd086654973984762b669c7d765b074c0d8850f'
+            '94db1b11de33b0299da021fee8c21e4442656fe76452ac582b556e3f96365d5d')
 
 prepare() {
     sh "${_pkg}.run" --extract-only
     cd "${_pkg}"
-
-    # Fix https://bugs.archlinux.org/task/62142
-    patch -Np1 -i ../fs62142.patch
 
     cp -a kernel kernel-dkms
     cd kernel-dkms
@@ -43,17 +37,18 @@ DEST_MODULE_LOCATION[3]="/kernel/drivers/video"' dkms.conf
 
 build() {
     cd "${_pkg}/kernel"
-    KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+    KERNEL_VERSION="$(</usr/src/linux/version)"
     msg2 "Kernel = $KERNEL_VERSION"
     make SYSSRC=/usr/lib/modules/$KERNEL_VERSION/build module
 }
 
 package_nvidia() {
     pkgdesc="NVIDIA drivers for linux"
-    depends=("linux=5.2.11" "nvidia-utils=${pkgver}" 'libglvnd')
+    depends=("linux=5.3.11" "nvidia-utils=${pkgver}" 'libglvnd')
     conflicts=('nvidia-96xx' 'nvidia-173xx' 'nvidia-304xx')
 
-    install -Dt "${pkgdir}/usr/lib/modules/${_extramodules}" -m644 \
+    _extradir="/usr/lib/modules/$(</usr/src/linux/version)/extramodules"
+    install -Dt "${pkgdir}${_extradir}" -m644 \
       "${srcdir}/${_pkg}/kernel"/nvidia{,-modeset,-drm,-uvm}.ko
 
     find "${pkgdir}" -name '*.ko' -exec gzip -n {} +

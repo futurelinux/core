@@ -3,7 +3,7 @@ pkgname=('linux' 'linux-headers' 'linux-docs')
 pkgver=5.3.11
 _kernelbasever=${pkgver:0:4}
 _srcname=linux-$pkgver
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL2')
@@ -168,6 +168,10 @@ package_linux-headers() {
         strip -v $STRIP_SHARED "$file" ;;
     esac
   done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
+
+  msg2 "Adding symlink..."
+  mkdir -p "$pkgdir/usr/src"
+  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 
   msg2 "Fixing permissions..."
   chmod -Rc u=rwX,go=rX "$pkgdir"

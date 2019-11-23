@@ -2,7 +2,7 @@
 # kernel.
 
 pkgname=btrfs-progs
-pkgver=5.2.2
+pkgver=5.3.1
 pkgrel=1
 pkgdesc='Btrfs filesystem utilities'
 arch=('x86_64')
@@ -15,7 +15,7 @@ source=("https://github.com/kdave/${pkgname}/archive/v${pkgver}.tar.gz"
         'initcpio-hook-btrfs'
         'btrfs-scrub@.service'
         'btrfs-scrub@.timer')
-md5sums=('a529357bef3ecdf51d8883bb2f41b181'
+md5sums=('66b7643c082da0979ac4523cfefecf62'
          '7241ba3a4286d08da0d50b7176941112'
          'b09688a915a0ec8f40e2f5aacbabc9ad'
          '794b867e09451284c545bae112aa0cfd'

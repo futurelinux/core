@@ -13,13 +13,13 @@ pkgname=(
   'usbip'
   'x86_energy_perf_policy'
 )
-pkgver=5.2.11
+pkgver=5.3.11
 pkgrel=1
 license=('GPL2')
 arch=('x86_64')
 url='http://www.kernel.org'
 options=('!strip')
-makedepends=('git' "linux=5.2.11")
+makedepends=('git' "linux=5.3.11")
 # split packages need all package dependencies set manually in makedepends
 # kernel source deps
 makedepends+=('asciidoc' 'xmlto')
@@ -32,12 +32,12 @@ makedepends+=('glib2' 'sysfsutils' 'udev')
 # tmon deps
 makedepends+=('ncurses')
 groups=("$pkgbase")
-source=("http://www.kernel.org/pub/linux/kernel/v4.x/linux-${pkgver}.tar.xz"
+source=("http://www.kernel.org/pub/linux/kernel/v5.x/linux-${pkgver}.tar.xz"
         'cpupower.default'
         'cpupower.systemd'
         'cpupower.service'
         'usbipd.service')
-sha256sums=('0c2a831f993dc8a8a8e1ca4186b467de72ff173c6f5855e2aab70f6f7fb033f9'
+sha256sums=('6e7156946d1d72e24786d09a47511e44c3abe5d4da757f4f68f2da482880aeb7'
             '4fa509949d6863d001075fa3e8671eff2599c046d20c98bb4a70778595cd1c3f'
             'fbf6e0ce6eb0ef15703fe212958de6ca46e62188900b5e9f9272ed3cc9cfd54e'
             'a89284d0ecb556ca53a66d1c2087b5fd6d0a901ab2769cd3aebb93f4478905dc'

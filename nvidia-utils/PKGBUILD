@@ -2,8 +2,8 @@ pkgbase=nvidia-utils
 pkgname=(nvidia-utils opencl-nvidia)
 # Edit chakra-hardware-detection/hooks/hwdetect_7_graphics on version jump from 3xx.xx
 # Update nvidia-settings too
-pkgver=430.40
-pkgrel=2
+pkgver=440.31
+pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
 license=('custom')
@@ -14,7 +14,7 @@ source=('nvidia-drm-outputclass.conf'
         "https://download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run")
 sha512sums=('4157ea4217791a307844040bb2ba72705438c20bd9e4c024851e8ee78c1e07e8f7e9e1c50b7eeed42a7733d8f3fc12376cafae5257bb03a6370d44a21247396a'
             '4b3ad73f5076ba90fe0b3a2e712ac9cde76f469cd8070280f960c3ce7dc502d1927f525ae18d008075c8f08ea432f7be0a6c3a7a6b49c361126dcf42f97ec499'
-            '68e6187fe74b43e92de6159589463db5f74eba09652b0f55d5fcc790c315405df6cd27129185f4dbe18790abdbb61e79b52977d47c6407e74d3372b5511a4e1b')
+            '5598d362f21fb4e75a07d77167e24411b5a550e3f1329b39fe004987e2bcb191c9bbf1b3d1a43a8754a9ba00faef57a943c7778999a4e3121c13c30f912fae38')
 
 
 create_links() {
@@ -31,8 +31,6 @@ prepare() {
     sh "${_pkg}.run" --extract-only
     cd "${_pkg}"
     bsdtar -xf nvidia-persistenced-init.tar.bz2
-
-    sed -i 's/__NV_VK_ICD__/libGLX_nvidia.so.0/' nvidia_icd.json.template
 }
 
 package_opencl-nvidia() {
@@ -97,7 +95,7 @@ package_nvidia-utils() {
     install -D -m755 "libnvidia-glvkspirv.so.${pkgver}" "${pkgdir}/usr/lib/libnvidia-glvkspirv.so.${pkgver}"
 
     # Vulkan ICD
-    install -D -m644 "nvidia_icd.json.template" "${pkgdir}/usr/share/vulkan/icd.d/nvidia_icd.json"
+    install -D -m644 "nvidia_icd.json" "${pkgdir}/usr/share/vulkan/icd.d/nvidia_icd.json"
 
     # VDPAU
     install -D -m755 "libvdpau_nvidia.so.${pkgver}" "${pkgdir}/usr/lib/vdpau/libvdpau_nvidia.so.${pkgver}"

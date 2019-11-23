@@ -1,17 +1,15 @@
 pkgbase=vhba-module
 pkgname=(vhba-module vhba-module-dkms)
-pkgver=20190410
-pkgrel=2
+pkgver=20190831
+pkgrel=1
 pkgdesc="Kernel module that emulates SCSI devices"
 arch=('x86_64')
 url="http://cdemu.sourceforge.net/"
 license=('GPL')
-depends=("linux=5.2.11")
-makedepends=("linux-headers=5.2.11")
-_extramodules=extramodules-CHAKRA
-source=("http://downloads.sourceforge.net/cdemu/$pkgname-$pkgver.tar.bz2"
-        60-vhba.rules  dkms.conf)
-md5sums=('dc2323bd121a0f5e389f00d7e0aa97aa'
+makedepends=("linux-headers=5.3.11")
+source=("https://downloads.sourceforge.net/cdemu/$pkgbase-$pkgver.tar.bz2"
+              60-vhba.rules  dkms.conf)
+md5sums=('e78ce00b01fd9691e2328818f9bb8a16'
          '4dc37dc348b5a2c83585829bde790dcc'
          '7da9314812d9ea665df0db33052c7452')
 
@@ -22,12 +20,15 @@ prepare() {
 
 build() {
   cd $pkgbase-$pkgver
-  make KERNELRELEASE="$(cat /usr/lib/modules/$_extramodules/version)"
+  make KERNELRELEASE="$(</usr/src/linux/version)"
 }
 
 package_vhba-module() {
+  depends=(linux)
+
+  local extradir="/usr/lib/modules/$(</usr/src/linux/version)/extramodules"
   cd $pkgbase-$pkgver
-  install -Dt "$pkgdir/usr/lib/modules/$_extramodules" -m644 *.ko
+  install -Dt "$pkgdir$extradir" -m644 *.ko
   install -Dt "$pkgdir/usr/lib/udev/rules.d" -m644 ../60-vhba.rules
   echo 'g cdemu - -' | install -Dm644 /dev/stdin "$pkgdir/usr/lib/sysusers.d/cdemu.conf"
 

@@ -2,16 +2,15 @@
 pkgbase=nvidia-390xx
 pkgname=(nvidia-390xx nvidia-390xx-dkms chd-nvidia-390xx)
 pkgver=390.129
-pkgrel=2
+pkgrel=3
 pkgdesc="NVIDIA drivers for linux, 390xx legacy branch"
 arch=('x86_64')
 url="http://www.nvidia.com/"
-makedepends=("linux-headers=5.2.11" "nvidia-390xx-utils=${pkgver}")
+makedepends=("linux-headers=5.3.11" 'libglvnd' "nvidia-390xx-utils=${pkgver}")
 license=('custom')
 options=('!strip')
 source=("https://code.chakralinux.org/tools/chakra-hardware-detection/raw/master/hwdb/nvidia_supported_new")
 _pkg="NVIDIA-Linux-x86_64-${pkgver}"
-_extramodules=extramodules-CHAKRA
 source+=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run"
         'kernel-4.16.patch')
 sha256sums=('94db1b11de33b0299da021fee8c21e4442656fe76452ac582b556e3f96365d5d'
@@ -46,7 +45,7 @@ DEST_MODULE_LOCATION[3]="/kernel/drivers/video"' dkms.conf
 }
 
 build() {
-    KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+    KERNEL_VERSION="$(</usr/src/linux/version)"
     msg2 "Kernel = $KERNEL_VERSION"
     
     cd "${_pkg}/kernel"
@@ -55,10 +54,11 @@ build() {
 
 package_nvidia-390xx() {
     pkgdesc="NVIDIA drivers for linux, 390xx legacy branch"
-    depends=("linux=5.2.11" "nvidia-390xx-utils=${pkgver}" 'libgl')
+    depends=("linux=5.3.11" "nvidia-390xx-utils=${pkgver}" 'libgl')
     conflicts=('nvidia-96xx' 'nvidia-173xx' 'nvidia-304xx' 'nvidia-340xx')
 
-    install -Dt "${pkgdir}/usr/lib/modules/${_extramodules}" -m644 \
+    _extradir="/usr/lib/modules/$(</usr/src/linux/version)/extramodules"
+    install -Dt "${pkgdir}${_extradir}" -m644 \
       "${srcdir}/${_pkg}/kernel"/nvidia{,-modeset,-drm,-uvm}.ko
 
     find "${pkgdir}" -name '*.ko' -exec gzip -n {} +

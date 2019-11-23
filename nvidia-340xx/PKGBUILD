@@ -2,23 +2,24 @@
 pkgbase=nvidia-340xx
 pkgname=('nvidia-340xx' 'chd-nvidia-340xx' 'nvidia-340xx-dkms')
 pkgver=340.107
-pkgrel=14
+pkgrel=15
 arch=('x86_64')
 url="http://www.nvidia.com/"
-makedepends=("linux-headers=5.2.11")
+makedepends=("linux-headers=5.3.11")
 license=('custom')
 source=("https://code.chakralinux.org/tools/chakra-hardware-detection/raw/master/hwdb/nvidia_supported"
                'kernel-4.11.patch'
                'kernel-5.0.patch'
-               'kernel-5.2.patch')
+               'kernel-5.2.patch'
+               'kernel-5.3.patch')
 _ARCH='x86_64'
 _pkg="NVIDIA-Linux-${_ARCH}-${pkgver}-no-compat32"
-_extramodules=extramodules-CHAKRA
 source+=("http://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run")
 md5sums=('62d0cdb856cfae64753c0f3acf729d47'
          '1e5c198f53bf88b5160ebca8d3f602cb'
          '0ff09b69db7d3da1a56d3455f6587679'
          '164fac79ada52b2a8723ed30b529a624'
+         '4d8b6717a9be8f9f1633a37e1d932cad'
          'ffca1879d77dfc491dfb0276ceb56cc1')
 
 prepare() {
@@ -36,6 +37,8 @@ prepare() {
     (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-5.0.patch)
 
     (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-5.2.patch)
+    
+    (cd kernel; patch -p1 --no-backup-if-mismatch -i "$srcdir"/kernel-5.3.patch)
 
 
 
@@ -43,7 +46,7 @@ prepare() {
 }
 
 build() {
-    KERNEL_VERSION=$(</usr/lib/modules/$_extramodules/version)
+    KERNEL_VERSION="$(</usr/src/linux/version)"
     msg2 "Kernel = $KERNEL_VERSION"
     
     cd "${_pkg}/kernel"
@@ -55,17 +58,19 @@ build() {
 
 package_nvidia-340xx() {
     pkgdesc="NVIDIA drivers for linux."
-    depends=("linux=5.2.11" "nvidia-340xx-libgl" "nvidia-340xx-utils=${pkgver}")
+    depends=("linux=5.3.11" "nvidia-340xx-libgl" "nvidia-340xx-utils=${pkgver}")
     conflicts=('nvidia-96xx' 'nvidia-173xx' 'nvidia-304xx' 'nvidia-bumblebee')
     install=nvidia.install
     
-    install -D -m644 "${srcdir}/${_pkg}/kernel/nvidia.ko" \
-        "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia.ko"
-    install -D -m644 "${srcdir}/${_pkg}/kernel/uvm/nvidia-uvm.ko" \
-        "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia-uvm.ko"
-    gzip "${pkgdir}/usr/lib/modules/${_extramodules}/"*.ko
-    install -d -m755 "${pkgdir}/usr/lib/modprobe.d"
-    echo "blacklist nouveau" >> "${pkgdir}/usr/lib/modprobe.d/nouveau_blacklist.conf"
+    _extradir="/usr/lib/modules/$(</usr/src/linux/version)/extramodules"
+    install -Dt "${pkgdir}${_extradir}" -m644 \
+    "${srcdir}/${_pkg}/kernel"/{nvidia,uvm/nvidia-uvm}.ko
+
+    find "${pkgdir}" -name '*.ko' -exec gzip -n {} +
+
+    echo "blacklist nouveau" |
+        install -Dm644 /dev/stdin "${pkgdir}/usr/lib/modprobe.d/${pkgname}.conf"
+
     sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "${startdir}/nvidia.install"
 }
 
@@ -77,10 +82,12 @@ package_nvidia-340xx-dkms() {
     conflicts+=('nvidia-340xx')
 
     cd "${srcdir}/${_pkg}"
-    install -dm 755 "${pkgdir}"/usr/{lib/modprobe.d,src}
-    cp -dr --no-preserve='ownership' kernel-dkms "${pkgdir}"/usr/src/nvidia-${pkgver}
-    echo 'blacklist nouveau' > "${pkgdir}"/usr/lib/modprobe.d/nvidia.conf
+    install -dm 755 "${pkgdir}"/usr/src
+    cp -dr --no-preserve='ownership' kernel-dkms "${pkgdir}/usr/src/nvidia-${pkgver}"
     cat "${pkgdir}"/usr/src/nvidia-${pkgver}/uvm/dkms.conf.fragment >> "${pkgdir}"/usr/src/nvidia-${pkgver}/dkms.conf
+
+    echo "blacklist nouveau" |
+        install -Dm644 /dev/stdin "${pkgdir}/usr/lib/modprobe.d/${pkgname}.conf"
 }
 
 package_chd-nvidia-340xx() {

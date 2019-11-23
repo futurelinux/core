@@ -1,14 +1,13 @@
 pkgbase=acpi_call
 pkgname=(acpi_call acpi_call-dkms)
 pkgver=1.1.0
-pkgrel=60
+pkgrel=61
 pkgdesc="A kernel module that enables you to call parameterless ACPI methods by writing the method name to /proc/acpi/call, e.g. to turn off discrete graphics card in a dual graphics environment (like NVIDIA Optimus)."
 arch=('x86_64')
 url="http://github.com/mkottman/acpi_call"
 license=('GPL')
-depends=("linux=5.2.11")
-makedepends=("linux-headers=5.2.11")
-_extramodules=extramodules-CHAKRA
+depends=("linux=5.3.11")
+makedepends=("linux-headers=5.3.11")
 source=("https://github.com/mkottman/acpi_call/archive/v${pkgver}.tar.gz"
             dkms.conf)
 md5sums=('f69d40e130b0e5ed17ce8adb19e6dda1'
@@ -26,12 +25,13 @@ prepare() {
 
 build() {
   cd $pkgbase-$pkgver
-  make KVERSION="$(cat /usr/lib/modules/$_extramodules/version)"
+  make KVERSION="$(</usr/src/linux/version)"
 }
 
-package_acpi_call() {
+package_acpi_call() { 
+  local extradir="/usr/lib/modules/$(</usr/src/linux/version)/extramodules"
   cd $pkgbase-$pkgver
-  install -Dt "$pkgdir/usr/lib/modules/$_extramodules" -m644 *.ko
+  install -Dt "$pkgdir$extradir" -m644 *.ko
   find "$pkgdir" -name '*.ko' -exec xz {} +
 
   echo acpi_call | install -Dm644 /dev/stdin "$pkgdir/usr/lib/modules-load.d/acpi_call.conf"
