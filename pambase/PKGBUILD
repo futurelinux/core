@@ -1,9 +1,9 @@
 pkgname=pambase
-pkgver=20130928
+pkgver=20190105
 pkgrel=1
 pkgdesc="Base PAM configuration for services"
 arch=('any')
-url="http://www.archlinux.org"
+url="http://www.chakralinux.org"
 license=('GPL')
 source=('system-auth'
         'system-local-login'
@@ -19,10 +19,10 @@ backup=('etc/pam.d/system-auth'
         'etc/pam.d/other')
 md5sums=('6116b8e199a3dfd26a085a67a718435d'
          '477237985820117a0e6e1b13a86eb599'
-         '7464f86d346b22dd07b433c341a33aab'
+         '8c2fcb3dc209b86885970842f3ff2e20'
          '477237985820117a0e6e1b13a86eb599'
          '6969307eef026979703a6eba33c2e3eb'
-         '6e6c8719e5989d976a14610f340bd33a')
+         'cd547dd7cf93fffcf02eef49c5009044')
 
 package() {
   install -dm755 "$pkgdir/etc/pam.d"
