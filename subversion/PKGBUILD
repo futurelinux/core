@@ -1,12 +1,12 @@
 pkgname=subversion
-pkgver=1.12.0
+pkgver=1.13.0
 pkgrel=1
 pkgdesc="A Modern Concurrent Version Control System"
 arch=('x86_64')
 url="https://subversion.apache.org/"
 license=('apache')
 depends=('sqlite' 'libutf8proc' 'file' 'serf' 'systemd')
-makedepends=('krb5' 'apache' 'python2' 'perl' 'swig' 'ruby' 'java-runtime' 
+makedepends=('apache' 'python2' 'perl' 'swig' 'ruby' 'java-runtime' 
              'autoconf' 'kwallet' 'kdelibs4support' 'openjdk')
 optdepends=('kwallet: for KWallet for auth credentials'
             'bash-completion: for svn bash completion'
@@ -17,45 +17,45 @@ backup=('etc/xinetd.d/svn' 'etc/conf.d/svnserve')
 provides=('svn')
 options=('!makeflags' '!emptydirs')
 source=(https://www.apache.org/dist/subversion/subversion-${pkgver}.tar.bz2{,.asc}
-        apr-1.7.patch::https://github.com/apache/subversion/commit/d67979e61f.patch
         svn
         svnserve.conf 
 	svnserve.tmpfiles
 	svnserve.service
         subversion.rpath.fix.patch
         ruby-frozen-nil.patch)
-sha1sums=('2dfecac56f18951182dbee4a4f14d27f27ebcdb7'
-          'SKIP'
-          '9869963ba349eb5b6d3561ef92c3a21e0b088e38'
-          '73b36c046c09cec2093354911c89e3ba8056af6c'
-          'ad117bf3b2a838a9a678a93fd8db1a066ad46c41'
-          '00cc36e69077a8c45674ead6dd62a7647b3a3b6d'
-          'd299e1612d5e48afb877bd3ae18338d198f89dfa'
-          'afdf311e7422131fab1c068d7153b5c4b3bb318e'
-          '53c209b2ad958aa1c4f9d563ffe7ade901a5ed98')
+sha256sums=('bc50ce2c3faa7b1ae9103c432017df98dfd989c4239f9f8270bb3a314ed9e5bd'
+            'SKIP'
+            'ad2a082421c0c8b42ef5638ca3bfb9bcacac8bcab9b31ca519a108b02cecd760'
+            '3b8e8d938daedc895804e136eef68e01072210e7686fdb98fb15cb8df24570dd'
+            '6ac5c1d0e149178fbf478e0e8273e6350e1de95a197f13c7aa61b108a8f3b123'
+            '9efc61a525494f8db70fb39447ffb55b3d5eb3b5bfdad186d96d999e155877ba'
+            '138d8b1ff7adb4519c5790eb80c69b441abd9b5ad79d75a8fd7c226e6ba21deb'
+            'e6846ca6b5136a3d217244dbebdcc8d8b449aaf61d09541e4f0aa76bee6c3845')
 validpgpkeys=('19BBCAEF7B19B280A0E2175E62D48FAD16A0DE01'
               '8BC4DAE0C5A4D65F404401074F7DBAA99A59B973'
               'BA3C15B1337CF0FB222BD41A1BCA6586A347943F'
               'E7B2A7F4EC28BE9FF8B38BA4B64FFF1209F9FA74'
-              '3D1DC66D6D2E0B9039528138C4A6C625CCC8E1DF')
-# Ben Reser / Stefan Sperling / Branko Čibej / Evgeny Kotkov / Bert Huijben
+              '3D1DC66D6D2E0B9039528138C4A6C625CCC8E1DF'
+              'A844790FB5743606EE95920776D788E1ED1A599C'
+              '7B8CA7F6451AD89C8ADC077B376A3CFD110B1C95'
+              '056F8016D9B87B1BDE41746799EC741B57921ACC'
+              '3F8E467CB3366E3013E1120D583F00ADF981C39F')
+# Ben Reser / Stefan Sperling / Branko Čibej / Evgeny Kotkov / Bert Huijben / Philip Martin /
+# Stefan Fuhrmann / Stefan Hett (CODE SIGNING KEY) /Nathan Hartman (CODE SIGNING KEY)
 
 prepare() {
    cd ${pkgname}-${pkgver}
-   patch -p1 -i ../apr-1.7.patch
    patch -Np0 -i ../subversion.rpath.fix.patch
    patch -p1 -i ../ruby-frozen-nil.patch
    sed -i 's|/usr/bin/env python|/usr/bin/env python2|' tools/hook-scripts/{,mailer/{,tests/}}*.py subversion/tests/cmdline/*.py
+   rm subversion/bindings/swig/proxy/*.swg
 
    ./autogen.sh
 }
 
 build() {
    cd ${pkgname}-${pkgver}
-
    export PYTHON=/usr/bin/python2
-
-   # configure
    ./configure --prefix=/usr --with-apr=/usr --with-apr-util=/usr \
                --with-zlib=/usr --with-serf=/usr --with-apxs \
                --with-sqlite=/usr --with-jdk=/usr/lib/jvm/java-8-openjdk \
@@ -63,7 +63,7 @@ build() {
                --with-apache-libexecdir=/usr/lib/httpd/modules \
                --disable-static
 
-   make LT_LDFLAGS="-L$Fdestdir/usr/lib" local-all
+   make LT_LDFLAGS="-L$Fdestdir/usr/lib"
    make swig_pydir=/usr/lib/python2.7/site-packages/libsvn \
      swig_pydir_extra=/usr/lib/python2.7/site-packages/svn swig-py swig-pl javahl swig-rb
 }
