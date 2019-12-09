@@ -1,5 +1,5 @@
 pkgname=meson
-pkgver=0.52.0
+pkgver=0.52.1
 pkgrel=1
 pkgdesc='High productivity build system'
 url='https://mesonbuild.com/'
@@ -9,9 +9,9 @@ depends=('python3-setuptools' 'ninja')
 source=(https://github.com/mesonbuild/meson/releases/download/${pkgver}/meson-${pkgver}.tar.gz{,.asc}
         chakra-meson
         skip-test.diff)
-sha256sums=('d60f75f0dedcc4fd249dbc7519d6f3ce6df490033d276ef1cf27453ef4938d32'
+sha256sums=('0c277472e49950a5537e3de3e60c57b80dbf425788470a1a8ed27446128fc035'
             'SKIP'
-            '4c336c0da4fc48c2c0704ee169fb93cf2578d2b3783dbd6d7c15b21f9ab99ad1'
+            '0998d9f6c35494c55e70695e5ae6eca275f0536ca3e730e1f052e9092a47d841'
             'a4968c7b5372148fcc6ce9c5196ccb266844043e25d76917af8cf93767738bcc')
 validpgpkeys=('95181F4EED14FDF4E41B518D3BF4693BFEEB9428') # Jussi Pakkanen <jpakkane@gmail.com>
 
@@ -26,6 +26,12 @@ build() {
   cd ${pkgname}-${pkgver}
   python3 setup.py build
 }
+
+check() (
+  cd ${pkgname}-${pkgver}
+  export LC_CTYPE=en_US.UTF-8 CPPFLAGS= CFLAGS= CXXFLAGS= LDFLAGS=
+  python3 ./run_tests.py
+)
 
 package() {
   cd ${pkgname}-${pkgver}

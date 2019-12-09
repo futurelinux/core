@@ -15,9 +15,10 @@ exec meson setup \
   --sysconfdir     /etc \
   --localstatedir  /var \
   --sharedstatedir /var/lib \
-  --buildtype      release \
+  --buildtype      plain \
+  --auto-features  enabled \
   --warnlevel      2 \
-  --wrap-mode      nofallback \
+  --wrap-mode      nodownload \
   -D               b_lto=true \
   -D               b_pie=true \
   "$@"
