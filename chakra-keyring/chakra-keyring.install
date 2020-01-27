@@ -5,7 +5,7 @@ post_upgrade() {
 		echo " >>> Run \`pacman-key --init\` to set up your pacman keyring."
 		echo " >>> Then run \`pacman-key --populate chakra\` to install the Chakra keyring."
                 usr/bin/pacman-key --init
-                /usr/bin/pacman-key --populate chakra
+                usr/bin/pacman-key --populate chakra
 	fi
 }
 

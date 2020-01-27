@@ -4,8 +4,8 @@
 # Maintainer: Luca Giambonini <almack@chakralinux.org>
 
 pkgname=chakra-keyring
-pkgver=20190324
-pkgrel=4
+pkgver=20200127
+pkgrel=1
 pkgdesc='Chakra PGP keyring'
 arch=('any')
 groups=('base')
