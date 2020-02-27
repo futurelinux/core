@@ -1,20 +1,17 @@
 _pkgbase='pidgin'
 pkgname='libpurple'
 pkgver=2.13.0
-pkgrel=1
+pkgrel=2
 pkgdesc="IM library extracted from Pidgin"
 arch=('x86_64')
 url="http://pidgin.im/"
 license=('GPL')
 makedepends=('startup-notification' 'libxss' 'nss' 'libsasl' 'python3' 'silc-toolkit'
              'avahi' 'tk' 'ca-certificates' 'intltool' 'networkmanager' 'farstream' 'gstreamer')
-depends=('libsasl' 'dbus-glib' 'silc-toolkit' 'nss>=3.17.1' 'nspr>=4.10.7')
+depends=('libsasl' 'dbus-glib' 'silc-toolkit' 'nss>=3.17.1' 'nspr>=4.10.7' 'libidn')
 optdepends=('dbus-python: for purple-remote and purple-url-handler')
-source=("http://downloads.sourceforge.net/${_pkgbase}/${_pkgbase}-${pkgver}.tar.bz2"
-        "pidgin-2.10.11-gstreamer1-1.patch" # from Linux from Scratch
-       )
-md5sums=('423403494fe1951e47cc75231f743bb0'
-         'a06b910661f04143ae1c179896117ddd')
+source=("http://downloads.sourceforge.net/${_pkgbase}/${_pkgbase}-${pkgver}.tar.bz2")
+md5sums=('423403494fe1951e47cc75231f743bb0')
 
 prepare() {
    cd "${srcdir}/${_pkgbase}-${pkgver}"
