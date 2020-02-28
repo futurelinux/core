@@ -1,25 +1,25 @@
 pkgname=('mesa-demos')
 pkgver=8.4.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 pkgdesc="Mesa demos and tools"
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 depends=('glew' 'freeglut' 'libgl')
-source=(https://mesa.freedesktop.org/archive/demos/${pkgname}-${pkgver}.tar.bz2
+source=(https://mesa.freedesktop.org/archive/demos/$pkgname-$pkgver.tar.bz2
         LICENSE)
 md5sums=('6b65a02622765522176d00f553086fa3'
          '5c65a0fe315dd347e09b1f2826a1df5a')
 
 build() {
-  cd "${srcdir}/mesa-demos-${pkgver}"
+  cd mesa-demos-$pkgver
   ./configure --prefix=/usr
   make
 }
 
 package() {
-  cd "${srcdir}/mesa-demos-${pkgver}"
-  make DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/share/licenses/mesa-demos"
-  install -m755 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa-demos/"
+  cd mesa-demos-$pkgver
+  make DESTDIR=$pkgdir install
+  install -m755 -d $pkgdir/usr/share/licenses/mesa-demos
+  install -m755 ../LICENSE $pkgdir/usr/share/licenses/mesa-demos/
 }
