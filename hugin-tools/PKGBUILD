@@ -1,6 +1,6 @@
 pkgname=hugin-tools
 _pkgname=hugin
-pkgver=2018.0.0
+pkgver=2019.2.0
 pkgrel=1
 pkgdesc="Hugin libs and tools to be used by Kipi-plugins"
 arch=('x86_64')
@@ -10,14 +10,17 @@ depends=('boost-libs' 'enblend-enfuse' 'exiv2>=0.25' 'fftw' 'perl-exiftool' 'ope
          'sqlite3' 'lapack' 'glew' 'desktop-file-utils' 'icu' 'libxt' 'libpng' 'libxrandr' 'openexr')
 makedepends=('zip' 'cmake' 'boost' 'mesa' 'tclap' 'swig' )
 source=("http://downloads.sourceforge.net/${_pkgname}/${_pkgname}-${pkgver}.tar.bz2"
-            noWxWidgets.patch)
-sha1sums=('bf62cc597015f8fcbddb52590fe3f8eac497449f'
-          '66645cebd74bff5eeb5f4436923aa50956ffff73')
+            noWxWidgets.patch
+            noWxWidgets2.patch)
+sha1sums=('e91bfbb286d0d5f40cd93ecb961eb55a37f3f5bb'
+          '030149781f5589c088854dac0a4617baf433fe9f'
+          '35c22f214fe4b27f5a74c2e7f098516a3759ed6d')
 
 prepare() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
   
   patch -Np1 -i ../noWxWidgets.patch
+  patch --binary -Np1 -i ../noWxWidgets2.patch
 }
 
 build() {

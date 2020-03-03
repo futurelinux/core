@@ -1,7 +1,15 @@
-diff -r 7434a0f80b91 -r 9bcca0a49d44 CMakeLists.txt
---- a/CMakeLists.txt	Wed Sep 06 18:14:21 2017 +0200
-+++ b/CMakeLists.txt	Wed Sep 06 18:08:36 2017 +0200
-@@ -170,15 +170,21 @@
+--- a/CMakeLists.txt	2020-03-03 12:07:50.430000000 +0100
++++ b/CMakeLists.txt	2020-03-03 12:16:06.400000000 +0100
+@@ -162,7 +162,7 @@
+   FIND_PACKAGE(wxWidgets REQUIRED base core aui xrc html xml adv gl qa)
+ ELSE()
+ # Unix needs also wxWidgets net library
+-  FIND_PACKAGE(wxWidgets REQUIRED base core aui xrc html xml adv gl net qa)
++  FIND_PACKAGE(wxWidgets COMPONENTS base core aui xrc html xml adv gl net qa)
+ ENDIF()
+ 
+ # hugin requires wxwidgets 3.0 or above
+@@ -170,7 +170,8 @@
    EXEC_PROGRAM(sh ARGS "${wxWidgets_CONFIG_EXECUTABLE} --version" OUTPUT_VARIABLE wxWidgets_VERSION)
    STRING(REGEX REPLACE "^([0-9]+\\.[0-9]+)\\..*" "\\1"  wxWidgets_VERSION ${wxWidgets_VERSION})
    IF(wxWidgets_VERSION VERSION_LESS "3.0")
@@ -9,6 +17,9 @@ diff -r 7434a0f80b91 -r 9bcca0a49d44 CMakeLists.txt
 +    SET(wxWidgets_FOUND FALSE)
 +    MESSAGE("At least wxWidgets 3.0 is required")
    ENDIF()
+   IF(wxWidgets_VERSION VERSION_GREATER "3.1.0")
+     SET(USE_XDG_DIRS 1)
+@@ -180,9 +181,13 @@
    # Ubuntu has 2 different devel packages, we need the GUI version
    EXEC_PROGRAM(sh ARGS "${wxWidgets_CONFIG_EXECUTABLE} --query-toolkit" OUTPUT_VARIABLE wxWidgets_TOOLKIT)
    IF(wxWidgets_TOOLKIT STREQUAL "base")
@@ -17,36 +28,20 @@ diff -r 7434a0f80b91 -r 9bcca0a49d44 CMakeLists.txt
 +    MESSAGE("wxWidgets is as non-GUI package configured. Check you wxWidgets installation (maybe wxgtkXX-devel is missing)")
    ENDIF()
  ENDIF (UNIX)
- 
 +IF(NOT wxWidgets_FOUND)
 +  MESSAGE("wxWidgets was not found, GUI programs (hugin, nona_gui) disabled")
-+ENDIF(NOT wxWidgets_FOUND) 
-+
++ENDIF(NOT wxWidgets_FOUND)
+ 
  ##
  ## Graphics libraries
- ##
-diff -r 7434a0f80b91 -r 9bcca0a49d44 src/CMakeLists.txt
---- a/src/CMakeLists.txt	Wed Sep 06 18:14:21 2017 +0200
-+++ b/src/CMakeLists.txt	Wed Sep 06 18:08:36 2017 +0200
-@@ -35,4 +35,8 @@
- 
- add_subdirectory(hugin_cpfind)
- add_subdirectory(translations)
--add_subdirectory(hugin1)
-+
-+# build gui only if wxWidgets was found
-+IF(wxWidgets_FOUND)
-+  add_subdirectory(hugin1)
-+ENDIF(wxWidgets_FOUND)
-diff -r 7434a0f80b91 -r 9bcca0a49d44 src/hugin1/CMakeLists.txt
---- a/src/hugin1/CMakeLists.txt	Wed Sep 06 18:14:21 2017 +0200
-+++ b/src/hugin1/CMakeLists.txt	Wed Sep 06 18:08:36 2017 +0200
-@@ -1,17 +1,21 @@
+--- a/src/hugin1/CMakeLists.txt	2020-03-03 11:10:11.620000000 +0100
++++ b/src/hugin1/CMakeLists.txt	2020-03-03 11:10:32.760000000 +0100
+@@ -1,28 +1,32 @@
  
  include_directories( ${CMAKE_SOURCE_DIR}/src/hugin1 )
  
--INCLUDE(${wxWidgets_USE_FILE})
 +# build gui only if wxWidgets was found
+ INCLUDE(${wxWidgets_USE_FILE})
 +IF(wxWidgets_FOUND)
 +  INCLUDE(${wxWidgets_USE_FILE})
  
@@ -58,6 +53,26 @@ diff -r 7434a0f80b91 -r 9bcca0a49d44 src/hugin1/CMakeLists.txt
 +  IF(WIN32)
 +    ADD_DEFINITIONS(-D_UNICODE -DUNICODE)
 +  ENDIF(WIN32)
+ 
+-# populate correct dpi aware manifest from wxWidgets
+-IF(WIN32)
+-  IF(CMAKE_SIZEOF_VOID_P EQUAL 8) 
+-    # 64 bit build
+-    SET(WINDOWS_DPI_MANIFEST "${wxWidgets_ROOT_DIR}/include/wx/msw/amd64-dpi-aware-pmv2.manifest")
+-  ELSE()
+-    # 32 bit built
+-    SET(WINDOWS_DPI_MANIFEST "${wxWidgets_ROOT_DIR}/include/wx/msw/wx-dpi-aware-pmv2.manifest")
++  # populate correct dpi aware manifest from wxWidgets
++  IF(WIN32)
++    IF(CMAKE_SIZEOF_VOID_P EQUAL 8) 
++      # 64 bit build
++      SET(WINDOWS_DPI_MANIFEST "${wxWidgets_ROOT_DIR}/include/wx/msw/amd64-dpi-aware-pmv2.manifest")
++    ELSE()
++      # 32 bit built
++      SET(WINDOWS_DPI_MANIFEST "${wxWidgets_ROOT_DIR}/include/wx/msw/wx-dpi-aware-pmv2.manifest")
++    ENDIF()
+   ENDIF()
+-ENDIF()
  
 -add_subdirectory(base_wx)
 -add_subdirectory(stitch_project)
@@ -74,4 +89,3 @@ diff -r 7434a0f80b91 -r 9bcca0a49d44 src/hugin1/CMakeLists.txt
 +  add_subdirectory(ptbatcher)
 +  add_subdirectory(calibrate_lens)
 +ENDIF(wxWidgets_FOUND)
-+
