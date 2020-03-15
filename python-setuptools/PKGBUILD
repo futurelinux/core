@@ -6,17 +6,17 @@
 
 pkgbase=python-setuptools
 pkgname=('python3-setuptools' 'python2-setuptools')
-pkgver=36.6.0
+pkgver=46.0.0
 pkgrel=1
 pkgdesc="Easily download, build, install, upgrade, and uninstall Python packages"
-arch=('any')
+arch=('x86_64')
 license=('PSF')
 url="http://pypi.python.org/pypi/setuptools"
 makedepends=('python3-packaging' 'python2-packaging' 'python3-appdirs' 'python2-appdirs' 'python3-pip'
              'python2-pip' 'python2-six' 'python3-six' 'python2-appdirs' 'python3-appdirs')
 #checkdepends=('python3-mock' 'python2-mock')
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/pypa/setuptools/archive/v$pkgver.tar.gz")
-md5sums=('fa7051421f1e27c61f84067c5a86ca5e')
+md5sums=('b7c1f66e43c964cfe57211bcdcad2d75')
 
 prepare() {
   # Don't download and install deps
