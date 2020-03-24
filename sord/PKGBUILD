@@ -1,31 +1,31 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/sord
 
 pkgname=sord
-pkgver=0.14.0
+pkgver=0.16.4
 pkgrel=1
 pkgdesc="A lightweight C library for storing RDF data in memory."
 arch=('x86_64')
 url="http://drobilla.net/software/$pkgname/"
 license=('custom:ISC')
 depends=('serd' 'pcre')
-makedepends=('python2')
+makedepends=('python3')
 source=("http://download.drobilla.net/$pkgname-$pkgver.tar.bz2")
-md5sums=('7ffda283ad0a5716f196f650edd25713')
+md5sums=('c80bcaf8e411ceeff5ac7fd14da27ace')
  
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd $pkgname-$pkgver
 
   # remove ldconfig --speps
   sed -i "/ldconfig/d" wscript
 
-  python2 waf configure --prefix=/usr
-  python2 waf build $MAKEFLAGS
+  python3 waf configure --prefix=/usr
+  python3 waf build $MAKEFLAGS
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd $pkgname-$pkgver
 
-  python2 waf install --destdir="$pkgdir"
+  python3 waf install --destdir="$pkgdir"
 
   # license
   install -Dm644 COPYING \
