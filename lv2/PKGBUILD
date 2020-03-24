@@ -1,30 +1,30 @@
 pkgname=lv2
-pkgver=1.12.0
+pkgver=1.16.0
 pkgrel=1
 pkgdesc="Successor to the LADSPA audio plug-in standard"
 url="http://lv2plug.in/"
 license=('LGPL' 'custom')
 arch=('x86_64')
-makedepends=('python2' 'libsndfile')
+makedepends=('python3' 'libsndfile')
 optdepends=('libsndfile: Example sampler'
-            'python2: Scripts')
+            'python3: Scripts')
 provides=('lv2core')
 conflicts=('lv2core')
 replaces=('lv2core')
 source=("http://lv2plug.in/spec/$pkgname-$pkgver.tar.bz2")
-md5sums=('665580dc761de40b0d335001a204496a')
+md5sums=('14b614a0e3d06df6b81ebbe8a15ee431')
 
 build() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd $pkgname-$pkgver
 
-	python2 waf configure --prefix=/usr
-	python2 waf build $MAKEFLAGS
+	python3 waf configure --prefix=/usr --libdir=/usr/lib
+	python3 waf build $MAKEFLAGS
 }
 
 package() {
-	cd "$srcdir/$pkgname-$pkgver"
+	cd $pkgname-$pkgver
 
-	python2 waf install --destdir="$pkgdir"
+	python3 waf install --destdir="$pkgdir"
 
 	install -Dm644 COPYING \
     "$pkgdir/usr/share/licenses/$pkgname/COPYING"
