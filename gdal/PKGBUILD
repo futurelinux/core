@@ -1,7 +1,7 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/community.git/tree/trunk?h=packages/gdal
 
 pkgname=gdal
-pkgver=2.3.2
+pkgver=2.4.4
 pkgrel=1
 pkgdesc="A translator library for raster geospatial data formats"
 arch=('x86_64')
@@ -17,17 +17,11 @@ optdepends=('postgresql: postgresql database support'
 options=('!makeflags')
 source=("http://download.osgeo.org/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz"
               'gdal-perl-vendor.patch')
-sha256sums=('3f6d78fe8807d1d6afb7bed27394f19467840a82bc36d65e66316fa0aa9d32a4'
-            'a41a0129a878a0d09b8ecf24b8a0b473856d929d52f535afdf4dca95ddd347d3')
+sha256sums=('a383bd3cf555d6e1169666b01b5b3025b2722ed39e834f1b65090f604405dcd8'
+            '9aae00cdb8804dabc0d5d1921e874377daa2fc16677d743845e7b96f2901c1ea')
 
 prepare() {
-  cd "${srcdir}"/$pkgname-$pkgver
-# python2 fixes
-  sed -i 's_python python1.5_python2 python python1.5_' configure
-  for file in swig/python/{,osgeo/,samples/,scripts/}*.py; do
-      sed -i 's_#!/usr/bin/env python_#!/usr/bin/env python2_' $file
-  done
-
+  cd $pkgname-$pkgver
 # Fix mandir
   sed -i "s|^mandir=.*|mandir='\${prefix}/share/man'|" configure
 
@@ -39,7 +33,7 @@ build() {
   export CFLAGS="$CFLAGS -fno-strict-aliasing"
   export LDFLAGS="$LDFLAGS -Wl,--as-needed"
 
-  cd ${srcdir}/$pkgname-$pkgver
+  cd $pkgname-$pkgver
 
   ./configure --prefix=/usr --with-netcdf --with-libtiff --with-sqlite3 \
               --with-geotiff --with-mysql --with-python --with-curl \
@@ -54,7 +48,7 @@ build() {
 }
 
 package () {
-  cd ${srcdir}/$pkgname-$pkgver
+  cd $pkgname-$pkgver
 
   install -d ${pkgdir}/usr/lib/python2.7/site-packages/
   make DESTDIR=${pkgdir} install
