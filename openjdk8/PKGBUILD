@@ -1,0 +1,182 @@
+pkgname=('openjdk8' 'openjdk8-src' 'openjdk8-doc')
+pkgbase='openjdk'
+_java_ver=8
+_jdk_update=242
+_jdk_build=08
+# check latest release: http://jdk.java.net/8/
+pkgver=${_java_ver}.u${_jdk_update}	
+_repo_ver=jdk${_java_ver}u${_jdk_update}-b${_jdk_build}
+pkgrel=1
+pkgdesc="An open-source implementation of the seventh edition of the Java SE Platform."
+arch=('x86_64')
+url="http://icedtea.classpath.org/"
+license=('GPL2 with Classpath exception')
+makedepends=('java-environment=8' 'apache-ant>=1.6.5' 'zip' 'unzip'
+             'fastjar' 'cpio' 'cups' 'orbit2' 'coreutils'
+             'wget' 'gzip' 'alsa-lib' 'pulseaudio' 'zlib' 'libjpeg-turbo'
+             'libpng' 'giflib' 'lcms2' 'freetype2' 'rhino' 'nss' 'libxt'
+             'libxtst' 'libxp' 'libxrender' 'ca-certificates-java' 'eclipse-ecj')
+
+_url_src=http://hg.openjdk.java.net/jdk8u/jdk8u
+source=(jdk8u-${_repo_ver}.tar.gz::${_url_src}/archive/${_repo_ver}.tar.gz
+        corba-${_repo_ver}.tar.gz::${_url_src}/corba/archive/${_repo_ver}.tar.gz
+        hotspot-${_repo_ver}.tar.gz::${_url_src}/hotspot/archive/${_repo_ver}.tar.gz
+        jdk-${_repo_ver}.tar.gz::${_url_src}/jdk/archive/${_repo_ver}.tar.gz
+        jaxws-${_repo_ver}.tar.gz::${_url_src}/jaxws/archive/${_repo_ver}.tar.gz
+        jaxp-${_repo_ver}.tar.gz::${_url_src}/jaxp/archive/${_repo_ver}.tar.gz
+        langtools-${_repo_ver}.tar.gz::${_url_src}/langtools/archive/${_repo_ver}.tar.gz
+        nashorn-${_repo_ver}.tar.gz::${_url_src}/nashorn/archive/${_repo_ver}.tar.gz
+        openjdk.profile.sh
+        openjdk.profile.csh
+	add-fontconfig.patch)
+md5sums=('e0a43f1de71f7450f924f595e003368c'
+         '4bb9af3d191ea5956cd28607aa3e0172'
+         '23e3e659adbb5e79a4032b2205810b7e'
+         'a3faca3fca2baf5c8e39a004275a9daa'
+         'b1bc6809a8b665b9d3c69fa1d424cd16'
+         '9fcac53167aebae3ad8042599d4930be'
+         '5089fc438eb39a1465b066512dec4de0'
+         'cff24c5a8124be85fde8b24fc445dd06'
+         '65fecbcbadfa455f35cb6fef7d1fc553'
+         'b839efffcbdb4f630b52d92ee1565c90'
+         '4615ccfc1731f49d27d17bda79f9a82f')
+
+_jdkname=openjdk8
+_jvmdir=/usr/lib/jvm/java-8-openjdk
+_prefix="jdk8u-${_repo_ver}/image"
+_imgdir="${_prefix}/jvm/openjdk-1.8.0_$(printf '%.2d' ${_jdk_update})"
+_nonheadless=(bin/policytool
+              lib/amd64/libjsound.so
+              lib/amd64/libjsoundalsa.so
+              lib/amd64/libsplashscreen.so)
+
+prepare() {
+  cd "${srcdir}/jdk8u-${_repo_ver}"
+
+  for subrepo in corba hotspot jdk jaxws jaxp langtools nashorn
+  do
+    ln -sf ../${subrepo}-${_repo_ver} ${subrepo}
+  done
+
+  cd "${srcdir}/jdk-${_repo_ver}"
+  patch -p1 -i ${srcdir}/add-fontconfig.patch
+}
+
+
+build() {
+  cd "${srcdir}/jdk8u-${_repo_ver}"
+  
+  
+  unset JAVA_HOME
+  # http://icedtea.classpath.org/bugzilla/show_bug.cgi?id=1346
+  export MAKEFLAGS=${MAKEFLAGS/-j*}
+  
+  # Avoid optimization of HotSpot being lowered from O3 to O2
+  export CFLAGS="${CFLAGS//-O2/-O3} ${CPPFLAGS} -Wno-error=deprecated-declarations -Wno-error=stringop-overflow= -Wno-error=return-type -Wno-error=cpp -fno-lifetime-dse -fno-delete-null-pointer-checks"
+  export CXXFLAGS="${CXXFLAGS} ${CPPFLAGS}"
+
+  install -d -m 755 "${srcdir}/${_prefix}/"
+  sh configure \
+    --prefix="${srcdir}/${_prefix}" \
+    --with-update-version="${_jdk_update}" \
+    --with-build-number="b${_jdk_build}" \
+    --with-milestone="fcs" \
+    --disable-zip-debug-info \
+    --enable-unlimited-crypto \
+    --with-zlib=system \
+    --with-stdc++lib=dynamic \
+    --with-extra-cflags="${CFLAGS}" \
+    --with-extra-cxxflags="${CXXFLAGS}" \
+    --with-extra-ldflags="${LDFLAGS}"
+
+    # TODO OpenJDK does not want last version of giflib (add 'giflib' as dependency once fixed)
+    #--with-giflib=system \
+
+  make DEBUG_BINARIES=false
+  make docs
+  # FIXME sadly 'DESTDIR' is not used here!
+  make install
+
+  cd "${srcdir}/${_imgdir}"
+
+  # A lot of build stuff were directly taken from
+  # http://pkgs.fedoraproject.org/cgit/java-1.8.0-openjdk.git/tree/java-1.8.0-openjdk.spec
+
+  # http://icedtea.classpath.org/bugzilla/show_bug.cgi?id=1437
+  find . -iname '*.jar' -exec chmod ugo+r {} \;
+  chmod ugo+r lib/ct.sym
+
+  # remove redundant *diz and *debuginfo files
+  find . -iname '*.diz' -exec rm {} \;
+  find . -iname '*.debuginfo' -exec rm {} \;
+}
+
+package_openjdk8() {
+pkgdesc="An open-source implementation of the seventh edition of the Java SE Platform."
+install="openjdk.install"
+conflicts=('openjdk6' 'openjdk7' 'openjdk')
+provides=("java-environment=${_java_ver}" "java-runtime=${_java_ver}" 'openjdk')
+replaces=('openjdk6' 'openjdk7' 'openjdk')
+depends=('alsa-lib' 'pulseaudio' 'giflib' 'libjpeg-turbo' 'libpng' 'freetype2'
+         'ca-certificates-java')
+optdepends=('icedtea-web: web browser plugin and Java Web Start support'
+            'gtk2: for the GTK+ Look And Feel')
+
+  cd "${srcdir}/${_imgdir}"
+
+  # Copy the built OpenJDK image to the target directory
+  install -d -m 755 "${pkgdir}${_jvmdir}"
+  cp -a * "${pkgdir}${_jvmdir}"
+  # Remove the .zip file which is going to be inside openjdk-src
+  rm "${pkgdir}${_jvmdir}/src.zip"
+
+  # Symlink the binaries into /usr/bin
+  install -d -m755 "${pkgdir}/usr/bin"
+  pushd bin
+    for executable in *; do
+      ln -s "${_jvmdir}/bin/${executable}" \
+            "${pkgdir}/usr/bin"
+    done
+  popd
+
+  # Move the manual pages in the right place
+  install -d -m755 "${pkgdir}/usr/share"
+  mv "${pkgdir}/${_jvmdir#/}/man" \
+     "${pkgdir}/usr/share/man"
+  rm "${pkgdir}/usr/share/man/ja" # avoid conflicts with man-db
+
+  # link JKS keystore from ca-certificates-java
+  rm -f "${pkgdir}/${_jvmdir#/}/jre/lib/security/cacerts"
+  ln -s /etc/ssl/certs/java/cacerts \
+        "${pkgdir}/${_jvmdir#/}/jre/lib/security/cacerts"
+
+  # Setup the shell profile dropin configuration
+  install -D -m755 "${srcdir}/openjdk.profile.sh" \
+                   "${pkgdir}/etc/profile.d/openjdk.sh"
+  install -D -m755 "${srcdir}/openjdk.profile.csh" \
+                   "${pkgdir}/etc/profile.d/openjdk.csh"
+
+  # Install the license file
+  install -D -m644 "LICENSE" \
+                   "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+package_openjdk8-src() {
+  pkgdesc='OpenJDK Java 8 sources'
+  provides=('openjdk-src')
+  conflicts=('openjdk-src')
+  replaces=('openjdk-src')
+
+  install -D "${srcdir}/${_imgdir}/src.zip" "${pkgdir}${_jvmdir}/src.zip"
+}
+
+package_openjdk8-doc() {
+  pkgdesc='OpenJDK Java 8 documentation'
+  provides=('openjdk-doc')
+  conflicts=('openjdk-doc')
+  replaces=('openjdk-doc')
+
+  install -d -m 755 "${pkgdir}/usr/share/doc/${pkgbase}/"
+  cp -r "${srcdir}"/jdk8u-${_repo_ver}/build/linux-x86_64-normal-server-release/docs/* \
+    "${pkgdir}/usr/share/doc/${pkgbase}/"
+}
