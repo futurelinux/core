@@ -1,0 +1,12 @@
+--- a/src/CMakeLists.txt	2020-03-03 12:00:46.030000000 +0100
++++ b/src/CMakeLists.txt	2020-03-03 12:01:04.050000000 +0100
+@@ -35,4 +35,8 @@
+ 
+ add_subdirectory(hugin_cpfind)
+ add_subdirectory(translations)
+-add_subdirectory(hugin1)
++
++# build gui only if wxWidgets was found
++IF(wxWidgets_FOUND)
++  add_subdirectory(hugin1)
++ENDIF(wxWidgets_FOUND)
