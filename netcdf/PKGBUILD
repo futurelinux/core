@@ -1,32 +1,27 @@
-# maintainer (x86_64): Giuseppe Calà <jiveaxe@gmail.com>
 
 pkgname=netcdf
-pkgver=4.4.0
-pkgrel=4
+_pkgname=netcdf-c
+pkgver=4.7.3
+pkgrel=1
 pkgdesc="Network Common Data Form interface for array-oriented data access and corresponding library."
 arch=("x86_64")
 url="http://www.unidata.ucar.edu/downloads/netcdf/index.jsp"
-depends=('gcc-libs' 'hdf5' 'gcc-fortran')
+depends=('gcc-libs' 'hdf5' 'gcc-fortran' 'curl')
 options=('!libtool' '!makeflags')
 license=('custom')
-source=(http://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-${pkgver}.tar.gz)
-sha1sums=('cb7de8f14ddeef5e66cbc688e0a127a405d580af')
+source=(https://github.com/Unidata/$_pkgname/archive/v$pkgver.tar.gz)
+sha1sums=('a78018c377c843cf7b941c2cdad0190920192179')
 
 build() {
-  cd ${srcdir}/${pkgname}-${pkgver}
-  ./configure --prefix=/usr --enable-shared --disable-netcdf-4
+  cd $_pkgname-$pkgver
+  ./configure --prefix=/usr --enable-shared --disable-netcdf-5
   make
 }
 
-#check() {
-# cd ${srcdir}/${pkgname}-${pkgver}
-# make check
-#}
-
 package() {
-  cd ${srcdir}/${pkgname}-${pkgver}
-  make DESTDIR=${pkgdir} install
+  cd $_pkgname-$pkgver
+  make DESTDIR=$pkgdir install
 
-  install -Dm644 ${srcdir}/${pkgname}-${pkgver}/COPYRIGHT \
-        ${pkgdir}/usr/share/licenses/${pkgname}/COPYRIGHT
+  install -Dm644 ../$_pkgname-$pkgver/COPYRIGHT \
+        $pkgdir/usr/share/licenses/$pkgname/COPYRIGHT
 }
