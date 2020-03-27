@@ -3,19 +3,20 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-declarative
-_qtver=5.13.2
+_qtver=5.14.1
 pkgver=${_qtver/-/}
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
 url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='Classes for QML and JavaScript languages'
 depends=('qt5-base')
-makedepends=('python3')
+makedepends=('python3' 'vulkan-headers')
 groups=('qt5')
+options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
 source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('d9a524f45fe9e136cda2252f9d7013ec17046d907e3f39606db920987c22d1fd')
+sha256sums=('762fe495d2f97fd70f06dc7d3929506ea3b5e3151ad813e0629209b7bc504c8a')
 
 prepare() {
   mkdir -p build
@@ -28,7 +29,7 @@ build() {
   cd build
 
   export PYTHON=python3
-  qmake-qt5 ../${_pkgfqn}
+  qmake ../${_pkgfqn}
   make
 }
 
@@ -36,10 +37,9 @@ package() {
   cd build
   make INSTALL_ROOT="$pkgdir" install
 
-  # Useful symlinks
-  install -d "$pkgdir"/usr/bin
-  for b in "$pkgdir"/usr/lib/qt5/bin/*; do
-    ln -s /usr/lib/qt5/bin/$(basename $b) "$pkgdir"/usr/bin/$(basename $b)-qt5
+  # Symlinks for backwards compatibility
+  for b in "$pkgdir"/usr/bin/*; do
+    ln -s $(basename $b) "$pkgdir"/usr/bin/$(basename $b)-qt5
   done
 
   # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory

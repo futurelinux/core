@@ -1,29 +1,27 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Felix Yan <felixonmars@archlinux.org>
+#               Andrea Scarpino <andrea@archlinux.org>
+#               Douglas Soares de Andrade <douglas@archlinux.org>
+#               riai <riai@bigfoot.com>, Ben <ben@benmazer.net>
+
 pkgbase=sip
-pkgname=('sip' 'python2-sip' 'python3-sip' 'python3-sip-pyqt5' 'python2-sip-pyqt5')
-pkgver=4.19.19
-pkgrel=2
+pkgname=('sip' 'python3-sip' 'python2-sip-pyqt5')
+pkgver=4.19.21
+pkgrel=1
 arch=('x86_64')
 url="https://www.riverbankcomputing.com/software/sip/"
 license=('custom:"sip"')
 makedepends=('python2' 'python3')
 source=("https://www.riverbankcomputing.com/static/Downloads/sip/${pkgver}/sip-${pkgver}.tar.gz")
-md5sums=('98111479309dc472410f26080d6d4a88')
+sha256sums=('6af9979ab41590e8311b8cc94356718429ef96ba0e3592bdd630da01211200ae')
 
 prepare() {
-  mkdir -p build{,-py2,-pyqt5,-pyqt5-py2}
+  mkdir -p build{,-pyqt5-py2}
 }
 
 build() {
   cd "$srcdir"/build
   python3 ../sip-$pkgver/configure.py CFLAGS="$CFLAGS" LFLAGS="$LDFLAGS"
-  make
-
-  cd "$srcdir"/build-py2
-  python2 ../sip-$pkgver/configure.py CFLAGS="$CFLAGS" LFLAGS="$LDFLAGS"
-  make
-
-  cd "$srcdir"/build-pyqt5
-  python3 ../sip-$pkgver/configure.py CFLAGS="$CFLAGS" LFLAGS="$LDFLAGS" --sip-module PyQt5.sip --no-tools
   make
 
   cd "$srcdir"/build-pyqt5-py2
@@ -34,9 +32,6 @@ build() {
 package_sip() {
     pkgdesc="A tool that makes it easy to create Python bindings for C and C++ libraries"
     depends=('glibc')
-    conflicts=('python-sip-common')
-    replaces=('python-sip-common')
-    provides=('python-sip-common')
 
     cd build
     make DESTDIR="$pkgdir" install -C sipgen
@@ -54,27 +49,6 @@ package_python3-sip() {
   cd build
   make DESTDIR="$pkgdir" install
   rm -r "$pkgdir"/usr/{bin,include} # conflicts with sip
-
-  install -Dm644 ../sip-$pkgver/LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
-}
-
-package_python2-sip() {
-  pkgdesc="Python 2.x SIP bindings for C and C++ libraries"
-  depends=('python2')
-
-  cd build-py2
-  make DESTDIR="$pkgdir" install
-  rm -r "$pkgdir"/usr/{bin,include} # conflicts with sip
-
-  install -Dm644 ../sip-$pkgver/LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
-}
-
-package_python3-sip-pyqt5() {
-  pkgdesc="Python 3.x SIP bindings for C and C++ libraries (PyQt5 version)"
-  depends=('python3')
-
-  cd build-pyqt5
-  make DESTDIR="$pkgdir" install
 
   install -Dm644 ../sip-$pkgver/LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
 }
