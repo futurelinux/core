@@ -10,6 +10,7 @@ pkgdesc='Plasma applet for audio volume management using PulseAudio'
 arch=(x86_64)
 url='https://projects.kde.org/plasma-pa'
 license=(LGPL)
+# TODO: Remove gconf dependency, check libcanberra and perl dependencies
 depends=(plasma-workspace pulseaudio libcanberra gconf)
 makedepends=(extra-cmake-modules python3 kdoctools)
 groups=('plasma')

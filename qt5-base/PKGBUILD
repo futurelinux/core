@@ -4,9 +4,9 @@
 
 pkgbase=qt5-base
 pkgname=(qt5-base qt5-xcb-private-headers)
-_qtver=5.13.2
+_qtver=5.14.1
 pkgver=${_qtver/-/}
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
 url='https://www.qt.io'
 license=('GPL3' 'LGPL3' 'FDL' 'custom')
@@ -33,6 +33,7 @@ depends=('libjpeg-turbo'
          'icu' # TODO: Is this necessary?
          'pcre2' # TODO: Is this necessary?
          'libsm') # TODO: Is this necessary?
+         # TODO: Add md4c? https://www.archlinux.org/packages/extra/x86_64/md4c/
 makedepends=('mtdev' # TODO: Is this necessary?
              'libmariadbclient' # Note: Named 'mariadb-libs' in Arch Linux
              'sqlite'
@@ -46,25 +47,26 @@ makedepends=('mtdev' # TODO: Is this necessary?
              'vulkan-headers')
 optdepends=('qt5-svg: to use SVG icon themes'
             'qt5-translations: for some native UI translations'
+            'qt5-wayland: to run Qt applications in a Wayland session'
             'postgresql-libs: PostgreSQL driver'
             'libmariadbclient: MariaDB driver'
             'unixodbc: ODBC driver'
             'freetds: MS SQL driver'
+            'gtk3: GTK platform plugin'
             'mtdev: evdev plugin') # TODO: Is this necessary?
 groups=('qt5')
+options=('debug')
 _pkgfqn="${pkgbase/5-/}-everywhere-src-${_qtver}"
-source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('26b6b686d66a7ad28eaca349e55e2894e5a735f3831e45f2049e93b1daa92121')
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
+        qt5-base-cflags.patch)
+sha256sums=('d9d423a6e7bcf1055c0372fc029f14a6fe67dd62c67b83095cde68b60b762cf7'
+            'c70640499637314df68cc7a56519f0bf8b65dd808dd982c96c6f045bba993adf')
 
 prepare() {
   cd ${_pkgfqn}
 
-  # Build qmake using Chakra {C,LD}FLAGS
-  # This also sets default {C,CXX,LD}FLAGS for projects built using qmake
-  sed -i -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${CFLAGS}|" \
-    mkspecs/common/gcc-base.conf
-  sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
-    mkspecs/common/g++-unix.conf
+  # Use system CFLAGS
+  patch -p1 -i ../qt5-base-cflags.patch
 
   # Use Python 3
   find . -name '*.py' -exec sed -i \
@@ -76,28 +78,22 @@ build() {
 
   PYTHON=/usr/bin/python3 ./configure -confirm-license -opensource -v \
     -prefix /usr \
-    -bindir /usr/lib/qt5/bin \
-    -docdir /usr/share/doc/qt5 \
-    -headerdir /usr/include/qt5 \
-    -archdatadir /usr/lib/qt5 \
-    -datadir /usr/share/qt5 \
+    -docdir /usr/share/doc/qt \
+    -headerdir /usr/include/qt \
+    -archdatadir /usr/lib/qt \
+    -datadir /usr/share/qt \
     -sysconfdir /etc/xdg \
-    -examplesdir /usr/share/doc/qt5/examples \
-    -plugindir /usr/lib/qt5/plugins \
-    -importdir /usr/lib/qt5/imports \
-    -qmldir /usr/lib/qt5/qml \
-    -testsdir /usr/share/qt5/tests \
-    -translationdir /usr/share/qt5/translations \
+    -examplesdir /usr/share/doc/qt/examples \
     -plugin-sql-{psql,mysql,sqlite,odbc} \
     -system-sqlite \
     -openssl-linked \
-    -nomake tests \
     -nomake examples \
     -no-rpath \
-    -optimized-qmake \
     -dbus-linked \
     -system-harfbuzz \
     -journald \
+    -no-mimetype-database \
+    -no-use-gold-linker \
     -reduce-relocations
   make
 }
@@ -116,12 +112,11 @@ package_qt5-base() {
 
   # Fix wrong qmake path in .pri file
   sed -i "s|${srcdir}/${_pkgfqn}|/usr|" \
-    "${pkgdir}"/usr/lib/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri
+    "${pkgdir}"/usr/lib/qt/mkspecs/modules/qt_lib_bootstrap_private.pri
 
-  # Useful symlinks
-  install -d "${pkgdir}"/usr/bin
-  for b in "${pkgdir}"/usr/lib/qt5/bin/*; do
-    ln -s /usr/lib/qt5/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
+  # Symlinks for backwards compatibility
+  for b in "${pkgdir}"/usr/bin/*; do
+    ln -s $(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
   done
 }
 

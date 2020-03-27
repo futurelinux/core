@@ -3,9 +3,9 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-scxml
-_qtver=5.13.2
+_qtver=5.14.1
 pkgver=${_qtver/-/}
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
 url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
@@ -16,7 +16,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
 source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('e489dff21e18c1e7f72ffd31af82404f845bd90824c6b978140591366398a9d9')
+sha256sums=('6dbcf012cc11931050c8d9422cbf478ee173dfb0c5b8aebf0f829b6f74d741aa')
 
 prepare() {
   mkdir -p build
@@ -25,7 +25,7 @@ prepare() {
 build() {
   cd build
 
-  qmake-qt5 ../${_pkgfqn}
+  qmake ../${_pkgfqn}
   make
 }
 

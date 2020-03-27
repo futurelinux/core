@@ -3,9 +3,9 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-tools
-_qtver=5.13.2
+_qtver=5.14.1
 pkgver=${_qtver/-/}
-pkgrel=1
+pkgrel=5
 arch=('x86_64')
 url='https://www.qt.io'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
@@ -22,12 +22,12 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
 source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
-        {assistant,designer,linguist,qdbusviewer}-qt5.desktop)
-sha256sums=('919a2713b6d2d7873a09ad85bd93cf4282606e5bf84d5884250f665a253ec06e'
-           'd0f9846f08720d0967368ecbeefe725b9eaf7e59ff89d4115ab423c0b4cd7171'
-           'fe959f3a39989af7568b5b9ddbeea53710b1c244f9e83157d2aa6d3722c11ae6'
-           '17fd986fcf6ab626eb4f8daaa30101a6605967a84673e2992bf558e8e44e06db'
-           '2009ab9bc2123ad1b9b94f724375ef03940b5a12d699675c191486ef4b27d746')
+        {assistant,designer,linguist,qdbusviewer}.desktop)
+sha256sums=('7f5e6370cf4ed59f2bdd6517870cdcb1df9a055bbd885d056d90938ab302c70c'
+            '2cc5c2ed8c281a52e164e5552ebaa0002daa3b7fa043ab6349246666773bbafb'
+            '41014db487da59208cc3f2ccf7ec4b3130220599715c8559633aef3dd634a10b'
+            'e77b365f842b0a881630cb65dc7892c9962d14e8081357dc6160bf7d7e3bdef6'
+            '309917aee2c0b0649f4043eb93c5dc1739640e741379214d2c684978e8eab6e9')
 
 prepare() {
   mkdir -p build
@@ -36,7 +36,7 @@ prepare() {
 build() {
   cd build
 
-  qmake-qt5 ../${_pkgfqn} 
+  qmake ../${_pkgfqn}
   make
 }
 
@@ -49,27 +49,26 @@ package() {
   for icon in src/linguist/linguist/images/icons/linguist-*-32.png ; do
     size=$(echo $(basename ${icon}) | cut -d- -f2)
     install -p -D -m644 ${icon} \
-      "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/linguist-qt5.png"
+      "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/linguist.png"
   done
 
   install -D -m644 src/assistant/assistant/images/assistant.png \
-    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/assistant-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/assistant.png"
   install -D -m644 src/assistant/assistant/images/assistant-128.png \
-    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/assistant-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/assistant.png"
   install -D -m644 src/designer/src/designer/images/designer.png \
-    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/QtProject-designer-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/QtProject-designer.png"
   install -D -m644 src/qdbus/qdbusviewer/images/qdbusviewer.png \
-    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/qdbusviewer-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/qdbusviewer.png"
   install -D -m644 src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
-    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/qdbusviewer-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/qdbusviewer.png"
   install -d "${pkgdir}/usr/share/applications"
-  install -m644 "${srcdir}"/{linguist-qt5,designer-qt5,assistant-qt5,qdbusviewer-qt5}.desktop \
+  install -m644 "${srcdir}"/{linguist,designer,assistant,qdbusviewer}.desktop \
     "${pkgdir}/usr/share/applications/"
 
-  # Useful symlinks
-  install -d "${pkgdir}"/usr/bin
-  for b in "${pkgdir}"/usr/lib/qt5/bin/*; do
-    ln -s /usr/lib/qt5/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
+  # Symlinks for backwards compatibility
+  for b in "${pkgdir}"/usr/bin/*; do
+    ln -s $(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
   done
 
   # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory

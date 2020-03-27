@@ -1,0 +1,24 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
+
+pkgname=pyqt-builder
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="The PEP 517 compliant PyQt build system"
+arch=(any)
+url="https://pypi.org/project/PyQt-builder/"
+license=(GPL3)
+depends=(python3)
+makedepends=(python3-setuptools)
+source=("https://pypi.io/packages/source/P/PyQt-builder/PyQt-builder-$pkgver.tar.gz")
+sha256sums=('e449480cb8484945232fdb4b4c577056b7f4c2c44a9000960f6d4222d80f4a71')
+
+build() {
+  cd PyQt-builder-$pkgver
+  python3 setup.py build
+}
+
+package() {
+  cd PyQt-builder-$pkgver
+  python3 setup.py install --root="$pkgdir"
+}
