@@ -4,10 +4,10 @@ pkgbase=postgresql
 pkgname=('postgresql-libs'
          'postgresql-docs'
          'postgresql')
-pkgver=10.6
+pkgver=12.2
 _majorver=${pkgver%.*}
 # When upgrading to a major version, remember to update the postgresql-check-db-dir file accordingly!!
-pkgrel=4
+pkgrel=1
 arch=('x86_64')
 url='https://www.postgresql.org/'
 license=('custom:PostgreSQL')
@@ -20,8 +20,8 @@ source=("https://ftp.postgresql.org/pub/source/v${pkgver}/postgresql-${pkgver}.t
         'postgresql.pam'
         'postgresql.service'
         'postgresql.tmpfiles.conf')
-sha256sums=('68a8276f08bda8fbefe562faaf8831cb20664a7a1d3ffdbbcc5b83e08637624b'
-            '888a1d44f03fccfa4bf344ee45824fefb846ae3c1c0c40113ad6020b4be3b0cf'
+sha256sums=('ad1dcc4c4fc500786b745635a9e1eba950195ce20b8913f50345bb7d5369b5de'
+            'eadda1035b062cb24d2c78517dade6cf04ba0a2eca1f0b095626ec0f818f956e'
             '8538619cb8bea51078b605ad64fe22abd6050373c7ae3ad6595178da52f6a7d9'
             '419550699aae3d19715e87e51f32d1ad50cbb5d3175794f5476697572383b4e3'
             '6abb842764bbed74ea4a269d24f1e73d1c0b1d8ecd6e2e6fb5fb10590298605e'
