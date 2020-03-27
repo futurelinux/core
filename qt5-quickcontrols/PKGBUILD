@@ -16,7 +16,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
 source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('d6e64d8db13ada55fcb0d5e8ca26097085680087d931435c6c6db859d87493ea')
+sha256sums=('54519e7c6748bb9af46435a7ba2ce1c53e4ad164a70e88915fe0e61277540a1a')
 
 prepare() {
   mkdir -p build
