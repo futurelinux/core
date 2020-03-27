@@ -1,6 +1,6 @@
 
 pkgname=postgresql-old-upgrade
-pkgver=9.6.11
+pkgver=10.6
 _majorver=${pkgver%.*}
 pkgrel=1
 pkgdesc='PostgreSQL build for migrating between major versions with pg_upgrade'
@@ -8,9 +8,9 @@ url='https://www.postgresql.org/'
 arch=('x86_64')
 license=('custom:PostgreSQL')
 depends=("postgresql-libs>=${_majorver}" 'libxml2' 'openssl>=1.0.0' 'pam' 'zlib')
-makedepends=('krb5' 'python2' 'perl' 'tcl>=8.6.0')
+makedepends=('krb5' 'python3' 'perl' 'tcl>=8.6.0')
 source=(https://ftp.postgresql.org/pub/source/v${pkgver}/postgresql-${pkgver}.tar.bz2)
-sha256sums=('38250adc69a1e8613fb926c894cda1d01031391a03648894b9a6e13ff354a530')
+sha256sums=('68a8276f08bda8fbefe562faaf8831cb20664a7a1d3ffdbbcc5b83e08637624b')
 
 build() {
   cd postgresql-${pkgver}
@@ -20,7 +20,7 @@ build() {
     --with-libxml \
     --with-openssl \
     --with-perl \
-    --with-python PYTHON=/usr/bin/python2 \
+    --with-python PYTHON=/usr/bin/python3 \
     --with-tcl \
     --with-pam \
     --without-readline \
