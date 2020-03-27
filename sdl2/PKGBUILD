@@ -1,5 +1,5 @@
 pkgname=sdl2
-pkgver=2.0.10
+pkgver=2.0.12
 pkgrel=1
 pkgdesc="A library for portable low-level access to a video framebuffer, audio output, mouse, and keyboard (Version 2.0)"
 arch=('x86_64')
@@ -11,7 +11,7 @@ makedepends=('alsa-lib' 'mesa' 'libpulse' 'libxrandr' 'libxinerama' 'wayland' 'l
 optdepends=('alsa-lib: ALSA audio driver'
             'libpulse: PulseAudio audio driver')
 source=("https://www.libsdl.org/release/SDL2-${pkgver}.tar.gz"{,.sig})
-sha256sums=('b4656c13a1f0d0023ae2f4a9cf08ec92fffb464e0f24238337784159b8b91d57'
+sha256sums=('349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863'
             'SKIP')
 validpgpkeys=('1528635D8053A57F77D1E08630A59377A7763BE6') # Sam Lantinga
 
