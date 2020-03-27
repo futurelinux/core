@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-webkit
-_pkgver=5.212.0-alpha3
+_pkgver=5.212.0-alpha4
 pkgver=${_pkgver/-/}
 pkgrel=3
 arch=(x86_64)
