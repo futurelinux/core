@@ -23,11 +23,11 @@ options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
 source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
         {assistant,designer,linguist,qdbusviewer}-qt5.desktop)
-sha256sums=('919a2713b6d2d7873a09ad85bd93cf4282606e5bf84d5884250f665a253ec06e'
-           'd0f9846f08720d0967368ecbeefe725b9eaf7e59ff89d4115ab423c0b4cd7171'
-           'fe959f3a39989af7568b5b9ddbeea53710b1c244f9e83157d2aa6d3722c11ae6'
-           '17fd986fcf6ab626eb4f8daaa30101a6605967a84673e2992bf558e8e44e06db'
-           '2009ab9bc2123ad1b9b94f724375ef03940b5a12d699675c191486ef4b27d746')
+sha256sums=('7f5e6370cf4ed59f2bdd6517870cdcb1df9a055bbd885d056d90938ab302c70c'
+            'd0f9846f08720d0967368ecbeefe725b9eaf7e59ff89d4115ab423c0b4cd7171'
+            'fe959f3a39989af7568b5b9ddbeea53710b1c244f9e83157d2aa6d3722c11ae6'
+            '17fd986fcf6ab626eb4f8daaa30101a6605967a84673e2992bf558e8e44e06db'
+            '2009ab9bc2123ad1b9b94f724375ef03940b5a12d699675c191486ef4b27d746')
 
 prepare() {
   mkdir -p build
