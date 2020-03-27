@@ -33,6 +33,7 @@ depends=('libjpeg-turbo'
          'icu' # TODO: Is this necessary?
          'pcre2' # TODO: Is this necessary?
          'libsm') # TODO: Is this necessary?
+         # TODO: Add md4c? https://www.archlinux.org/packages/extra/x86_64/md4c/
 makedepends=('mtdev' # TODO: Is this necessary?
              'libmariadbclient' # Note: Named 'mariadb-libs' in Arch Linux
              'sqlite'
@@ -46,15 +47,19 @@ makedepends=('mtdev' # TODO: Is this necessary?
              'vulkan-headers')
 optdepends=('qt5-svg: to use SVG icon themes'
             'qt5-translations: for some native UI translations'
+            'qt5-wayland: to run Qt applications in a Wayland session'
             'postgresql-libs: PostgreSQL driver'
             'libmariadbclient: MariaDB driver'
             'unixodbc: ODBC driver'
             'freetds: MS SQL driver'
+            'gtk3: GTK platform plugin'
             'mtdev: evdev plugin') # TODO: Is this necessary?
 groups=('qt5')
 _pkgfqn="${pkgbase/5-/}-everywhere-src-${_qtver}"
-source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz")
-sha256sums=('26b6b686d66a7ad28eaca349e55e2894e5a735f3831e45f2049e93b1daa92121')
+source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
+        qt5-base-cflags.patch)
+sha256sums=('d9d423a6e7bcf1055c0372fc029f14a6fe67dd62c67b83095cde68b60b762cf7'
+            'c70640499637314df68cc7a56519f0bf8b65dd808dd982c96c6f045bba993adf')
 
 prepare() {
   cd ${_pkgfqn}
