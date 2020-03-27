@@ -1,9 +1,10 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Antonio Rojas <arojas@archlinux.org>Andrea Scarpino <andrea@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
+#               Andrea Scarpino <andrea@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-3d
-_qtver=5.13.2
+_qtver=5.14.1
 pkgver=${_qtver/-/}
 pkgrel=1
 arch=('x86_64')
