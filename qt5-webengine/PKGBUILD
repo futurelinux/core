@@ -3,7 +3,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=qt5-webengine
-pkgver=5.14.1
+_qtver=5.14.1
 pkgver=${_qtver/-/}
 pkgrel=3
 arch=('x86_64')
