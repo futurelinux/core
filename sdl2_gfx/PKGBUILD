@@ -1,16 +1,16 @@
 pkgname=sdl2_gfx
-pkgver=1.0.1
-pkgrel=2
+pkgver=1.0.4
+pkgrel=1
 pkgdesc="SDL Graphic Primitives (Version 2)"
 arch=('x86_64')
 url="http://www.libsdl.org"
 license=('zlib')
 depends=('sdl2')
 source=("http://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-${pkgver}.tar.gz")
-md5sums=('9c96816618e3e086d885d1d214e59d87')
+md5sums=('15f9866c6464ca298f28f62fe5b36d9f')
 
 build() {
-  cd "${srcdir}/SDL2_gfx-${pkgver}"
+  cd SDL2_gfx-$pkgver
   
   ./autogen.sh
   ./configure --disable-static --prefix=/usr
@@ -18,7 +18,7 @@ build() {
 }
 
 package() {
-  cd "${srcdir}/SDL2_gfx-${pkgver}"
-  make DESTDIR="${pkgdir}/" install
-  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  cd SDL2_gfx-$pkgver
+  make DESTDIR=$pkgdir install
+  install -Dm644 COPYING $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
