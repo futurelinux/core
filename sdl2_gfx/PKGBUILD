@@ -1,6 +1,6 @@
 pkgname=sdl2_gfx
 pkgver=1.0.4
-pkgrel=1
+pkgrel=2
 pkgdesc="SDL Graphic Primitives (Version 2)"
 arch=('x86_64')
 url="http://www.libsdl.org"
