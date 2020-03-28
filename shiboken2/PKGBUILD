@@ -31,7 +31,7 @@ build() {
 }
 
 package_shiboken2() {
-  depends=('clang=$_clangver' 'llvm' 'libxslt' 'qt5-xmlpatterns')
+  depends=("clang=$_clangver" 'llvm' 'libxslt' 'qt5-xmlpatterns')
 
   cd build
   make DESTDIR="$pkgdir" install
