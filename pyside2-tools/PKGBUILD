@@ -31,6 +31,7 @@ build() {
 
 package() {
   cd build
+  ls -la "$pkgdir"/usr/bin
   make DESTDIR="$pkgdir" install
   ls -la "$pkgdir"/usr/bin
   rm "$pkgdir"/usr/bin/{rcc,uic} # provided by qt5-base
