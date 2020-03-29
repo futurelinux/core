@@ -9,7 +9,7 @@ pkgrel=1
 arch=(x86_64)
 url='https://www.qt.io/'
 license=(LGPL)
-pkgdesc='lupdate, rcc and uic tools for PySide2'
+pkgdesc='Tools for PySide2'
 depends=('pyside2')
 makedepends=('cmake' 'shiboken2')
 _pkgfqn=pyside-setup-opensource-src-${_qtver}
@@ -24,8 +24,7 @@ build() {
   cd build
   cmake ../${_pkgfqn}/sources/pyside2-tools \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DBUILD_TESTS=OFF \
-    -DCMAKE_BUILD_TYPE=None # https://bugreports.qt.io/browse/PYSIDE-980
+    -DBUILD_TESTS=OFF
   make
 }
 
