@@ -44,7 +44,7 @@ build() {
   cmake ../${_pkgfqn}/sources/pyside2 \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DBUILD_TESTS=OFF \
-    -DPYTHON_EXECUTABLE=/usr/bin/python3 \
+    -DPYTHON_EXECUTABLE=/usr/bin/python3
   make
 }
 
