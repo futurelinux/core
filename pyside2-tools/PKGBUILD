@@ -3,9 +3,9 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=pyside2-tools
-_qtver=5.12.5
+_qtver=5.12.6
 pkgver=${_qtver/-/}
-pkgrel=2
+pkgrel=1
 arch=(x86_64)
 url='https://www.qt.io/'
 license=(LGPL)
@@ -14,7 +14,7 @@ depends=('pyside2')
 makedepends=('cmake' 'shiboken2')
 _pkgfqn=pyside-setup-everywhere-src-${_qtver}
 source=("https://download.qt.io/official_releases/QtForPython/pyside2/PySide2-$pkgver-src/${_pkgfqn}.tar.xz")
-sha256sums=('130a4abc9ef206e5e363e0ea91ce17c106bc1bd5bd6f6ecc5e6a7c4cb9a7800d')
+sha256sums=('53379f43891a6bc72fc344f5963d77de0916344637132aae634677dfbba185d8')
 
 prepare() {
   mkdir -p build
@@ -32,5 +32,5 @@ build() {
 package() {
   cd build
   make DESTDIR="$pkgdir" install
-  rm "$pkgdir"/usr/bin/{rcc,uic} # provided by qt5-base
+  #rm "$pkgdir"/usr/bin/{rcc,uic} # provided by qt5-base
 }
