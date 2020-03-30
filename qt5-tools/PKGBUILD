@@ -22,7 +22,7 @@ groups=('qt5')
 options=('debug')
 _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
 source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
-        {assistant,designer,linguist,qdbusviewer}-qt5.desktop)
+        {assistant,designer,linguist,qdbusviewer}.desktop)
 sha256sums=('7f5e6370cf4ed59f2bdd6517870cdcb1df9a055bbd885d056d90938ab302c70c'
             'd0f9846f08720d0967368ecbeefe725b9eaf7e59ff89d4115ab423c0b4cd7171'
             'fe959f3a39989af7568b5b9ddbeea53710b1c244f9e83157d2aa6d3722c11ae6'
