@@ -6,7 +6,7 @@ pkgbase=qt5-base
 pkgname=(qt5-base qt5-xcb-private-headers)
 _qtver=5.14.1
 pkgver=${_qtver/-/}
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url='https://www.qt.io'
 license=('GPL3' 'LGPL3' 'FDL' 'custom')
@@ -65,12 +65,8 @@ sha256sums=('d9d423a6e7bcf1055c0372fc029f14a6fe67dd62c67b83095cde68b60b762cf7'
 prepare() {
   cd ${_pkgfqn}
 
-  # Build qmake using Chakra {C,LD}FLAGS
-  # This also sets default {C,CXX,LD}FLAGS for projects built using qmake
-  sed -i -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${CFLAGS}|" \
-    mkspecs/common/gcc-base.conf
-  sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
-    mkspecs/common/g++-unix.conf
+  # Use system CFLAGS
+  patch -p1 -i ../qt5-base-cflags.patch
 
   # Use Python 3
   find . -name '*.py' -exec sed -i \
@@ -82,28 +78,22 @@ build() {
 
   PYTHON=/usr/bin/python3 ./configure -confirm-license -opensource -v \
     -prefix /usr \
-    -bindir /usr/lib/qt5/bin \
-    -docdir /usr/share/doc/qt5 \
-    -headerdir /usr/include/qt5 \
-    -archdatadir /usr/lib/qt5 \
-    -datadir /usr/share/qt5 \
+    -docdir /usr/share/doc/qt \
+    -headerdir /usr/include/qt \
+    -archdatadir /usr/lib/qt \
+    -datadir /usr/share/qt \
     -sysconfdir /etc/xdg \
-    -examplesdir /usr/share/doc/qt5/examples \
-    -plugindir /usr/lib/qt5/plugins \
-    -importdir /usr/lib/qt5/imports \
-    -qmldir /usr/lib/qt5/qml \
-    -testsdir /usr/share/qt5/tests \
-    -translationdir /usr/share/qt5/translations \
+    -examplesdir /usr/share/doc/qt/examples \
     -plugin-sql-{psql,mysql,sqlite,odbc} \
     -system-sqlite \
     -openssl-linked \
-    -nomake tests \
     -nomake examples \
     -no-rpath \
-    -optimized-qmake \
     -dbus-linked \
     -system-harfbuzz \
     -journald \
+    -no-mimetype-database \
+    -no-use-gold-linker \
     -reduce-relocations
   make
 }
@@ -124,10 +114,9 @@ package_qt5-base() {
   sed -i "s|${srcdir}/${_pkgfqn}|/usr|" \
     "${pkgdir}"/usr/lib/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri
 
-  # Useful symlinks
-  install -d "${pkgdir}"/usr/bin
-  for b in "${pkgdir}"/usr/lib/qt5/bin/*; do
-    ln -s /usr/lib/qt5/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
+  # Symlinks for backwards compatibility
+  for b in "${pkgdir}"/usr/bin/*; do
+    ln -s $(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
   done
 }
 
