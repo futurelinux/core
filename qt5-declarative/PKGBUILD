@@ -29,7 +29,7 @@ build() {
   cd build
 
   export PYTHON=python3
-  qmake-qt5 ../${_pkgfqn}
+  qmake ../${_pkgfqn}
   make
 }
 
@@ -37,10 +37,9 @@ package() {
   cd build
   make INSTALL_ROOT="$pkgdir" install
 
-  # Useful symlinks
-  install -d "$pkgdir"/usr/bin
-  for b in "$pkgdir"/usr/lib/qt5/bin/*; do
-    ln -s /usr/lib/qt5/bin/$(basename $b) "$pkgdir"/usr/bin/$(basename $b)-qt5
+  # Symlinks for backwards compatibility
+  for b in "$pkgdir"/usr/bin/*; do
+    ln -s $(basename $b) "$pkgdir"/usr/bin/$(basename $b)-qt5
   done
 
   # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
