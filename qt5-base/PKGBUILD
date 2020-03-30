@@ -112,7 +112,7 @@ package_qt5-base() {
 
   # Fix wrong qmake path in .pri file
   sed -i "s|${srcdir}/${_pkgfqn}|/usr|" \
-    "${pkgdir}"/usr/lib/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri
+    "${pkgdir}"/usr/lib/qt/mkspecs/modules/qt_lib_bootstrap_private.pri
 
   # Symlinks for backwards compatibility
   for b in "${pkgdir}"/usr/bin/*; do
