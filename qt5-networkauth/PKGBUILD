@@ -24,7 +24,7 @@ prepare() {
 build() {
   cd build
 
-  qmake-qt5 ../${_pkgfqn}
+  qmake ../${_pkgfqn}
   make
 }
 
