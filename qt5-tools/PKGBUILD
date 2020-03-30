@@ -36,7 +36,7 @@ prepare() {
 build() {
   cd build
 
-  qmake-qt5 ../${_pkgfqn} 
+  qmake ../${_pkgfqn}
   make
 }
 
@@ -49,27 +49,26 @@ package() {
   for icon in src/linguist/linguist/images/icons/linguist-*-32.png ; do
     size=$(echo $(basename ${icon}) | cut -d- -f2)
     install -p -D -m644 ${icon} \
-      "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/linguist-qt5.png"
+      "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/linguist.png"
   done
 
   install -D -m644 src/assistant/assistant/images/assistant.png \
-    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/assistant-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/assistant.png"
   install -D -m644 src/assistant/assistant/images/assistant-128.png \
-    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/assistant-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/assistant.png"
   install -D -m644 src/designer/src/designer/images/designer.png \
-    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/QtProject-designer-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/QtProject-designer.png"
   install -D -m644 src/qdbus/qdbusviewer/images/qdbusviewer.png \
-    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/qdbusviewer-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/32x32/apps/qdbusviewer.png"
   install -D -m644 src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
-    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/qdbusviewer-qt5.png"
+    "${pkgdir}/usr/share/icons/hicolor/128x128/apps/qdbusviewer.png"
   install -d "${pkgdir}/usr/share/applications"
-  install -m644 "${srcdir}"/{linguist-qt5,designer-qt5,assistant-qt5,qdbusviewer-qt5}.desktop \
+  install -m644 "${srcdir}"/{linguist,designer,assistant,qdbusviewer}.desktop \
     "${pkgdir}/usr/share/applications/"
 
-  # Useful symlinks
-  install -d "${pkgdir}"/usr/bin
-  for b in "${pkgdir}"/usr/lib/qt5/bin/*; do
-    ln -s /usr/lib/qt5/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
+  # Symlinks for backwards compatibility
+  for b in "${pkgdir}"/usr/bin/*; do
+    ln -s $(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
   done
 
   # Drop QMAKE_PRL_BUILD_DIR because of reference to the build directory
