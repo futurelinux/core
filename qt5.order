@@ -37,7 +37,7 @@ qt5-purchasing
 qt5-webkit
 #shiboken2
 #pyside2
-#pyside2-tools
+#pyside2-tools           (drop this?)
 #graphviz                (from desktop.git)
 #signond                 (from desktop.git, "signon")
 #signon-plugin-oauth2    (from desktop.git)
