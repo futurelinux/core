@@ -5,7 +5,7 @@
 pkgname=pyside2-tools
 _qtver=5.14.1
 pkgver=${_qtver/-/}
-pkgrel=2
+pkgrel=3
 arch=(x86_64)
 url='https://www.qt.io/'
 license=(LGPL)
@@ -33,5 +33,6 @@ package() {
   cd build
   make DESTDIR="$pkgdir" install
 
-  rm "$pkgdir"/usr/bin/{rcc,uic} # provided by qt5-base
+  mv "$pkgdir"/usr/bin/rcc "$pkgdir"/usr/bin/pyside2-rcc
+  mv "$pkgdir"/usr/bin/uic "$pkgdir"/usr/bin/pyside2-uic
 }
