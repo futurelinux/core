@@ -24,10 +24,10 @@ _pkgfqn="${pkgname/5-/}-everywhere-src-${_qtver}"
 source=("https://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
         {assistant,designer,linguist,qdbusviewer}.desktop)
 sha256sums=('7f5e6370cf4ed59f2bdd6517870cdcb1df9a055bbd885d056d90938ab302c70c'
-            'd0f9846f08720d0967368ecbeefe725b9eaf7e59ff89d4115ab423c0b4cd7171'
-            'fe959f3a39989af7568b5b9ddbeea53710b1c244f9e83157d2aa6d3722c11ae6'
-            '17fd986fcf6ab626eb4f8daaa30101a6605967a84673e2992bf558e8e44e06db'
-            '2009ab9bc2123ad1b9b94f724375ef03940b5a12d699675c191486ef4b27d746')
+            '2cc5c2ed8c281a52e164e5552ebaa0002daa3b7fa043ab6349246666773bbafb'
+            '41014db487da59208cc3f2ccf7ec4b3130220599715c8559633aef3dd634a10b'
+            'e77b365f842b0a881630cb65dc7892c9962d14e8081357dc6160bf7d7e3bdef6'
+            '309917aee2c0b0649f4043eb93c5dc1739640e741379214d2c684978e8eab6e9')
 
 prepare() {
   mkdir -p build
