@@ -1,14 +1,22 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
+#               Felix Yan <felixonmars@archlinux.org>
+#               Andrea Scarpino <andrea@archlinux.org>
+#               Yichao Yu <yyc1992@gmail.com>
+#               Douglas Soares de Andrade <douglas@archlinux.org>
+#               riai <riai@bigfoot.com> Ben <ben@benmazer.net>
+
 pkgbase=pyqt5
-pkgname=('python-pyqt5-common' 'python3-pyqt5' 'python2-pyqt5')
-pkgver=5.13.1
-pkgrel=2
+pkgname=('python3-pyqt5' 'python2-pyqt5')
+pkgver=5.14.1
+pkgrel=1
 arch=('x86_64')
 url="https://riverbankcomputing.com/software/pyqt/intro"
 license=('GPL')
 makedepends=('sip'
+             'sip5'
+             'pyqt-builder'
              'python3-sip'
-             'python2-sip'
-             'python3-sip-pyqt5'
              'python2-sip-pyqt5'
              'python3-opengl'
              'python2-opengl'
@@ -26,8 +34,8 @@ makedepends=('sip'
              'qt5-networkauth'
              'qt5-xmlpatterns'
              'qt5-remoteobjects')
-source=("https://www.riverbankcomputing.com/static/Downloads/PyQt5/$pkgver/PyQt5_gpl-$pkgver.tar.gz")
-sha256sums=('54b7f456341b89eeb3930e786837762ea67f235e886512496c4152ebe106d4af')
+source=("https://pypi.python.org/packages/source/P/PyQt5/PyQt5-$pkgver.tar.gz")
+sha256sums=('2f230f2dbd767099de7a0cb915abdf0cbc3256a0b5bb910eb09b99117db7a65b')
 
 prepare() {
   # Support new versions of Qt - don't remove, needs to be reapplied after every new Qt release
