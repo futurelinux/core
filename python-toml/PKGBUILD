@@ -37,7 +37,7 @@ check() {
   py.test2 tests -k 'not test_invalid_tests and not test_valid_tests'
 }
 
-package_python-toml() {
+package_python3-toml() {
   cd "$pkgname-$pkgver"
   depends=('python3')
   python3 setup.py install --skip-build \
