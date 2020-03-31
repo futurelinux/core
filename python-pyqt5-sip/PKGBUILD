@@ -15,10 +15,10 @@ sha256sums=('e6078f5ee7d31c102910d0c277a110e1c2a20a3fc88cd017a39e170120586d3f')
 
 build() {
   cd PyQt5_sip-$pkgver
-  python setup.py build
+  python3 setup.py build
 }
 
 package()  {
   cd PyQt5_sip-$pkgver
-  python setup.py install --root="$pkgdir"
+  python3 setup.py install --root="$pkgdir"
 }
