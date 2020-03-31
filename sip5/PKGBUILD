@@ -1,0 +1,23 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
+
+pkgname=sip5
+pkgver=5.1.1
+pkgrel=1
+arch=(x86_64)
+pkgdesc="A tool that makes it easy to create Python bindings for C and C++ libraries"
+url='https://www.riverbankcomputing.com/software/sip/intro'
+license=('custom:"sip"')
+depends=(python3-setuptools python3-toml)
+source=("https://pypi.python.org/packages/source/s/sip/sip-$pkgver.tar.gz")
+sha256sums=('3b600dd1c8293bb7cf002a20dbbc736010c6a5e161241d73b16685744ffe57c2')
+
+build() {
+  cd sip-$pkgver
+  python3 setup.py build
+}
+
+package() {
+  cd sip-$pkgver
+  python3 setup.py install --skip-build --root="$pkgdir" --optimize=1
+}
