@@ -37,3 +37,9 @@
 #qt5-webkit
 shiboken2
 pyside2
+python-toml # Remove after initial build
+sip
+python-pyqt5-sip
+sip5
+pyqt-builder
+python-pyqt5
