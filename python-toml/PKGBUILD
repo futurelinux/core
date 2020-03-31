@@ -27,14 +27,6 @@ build() {
   python3 setup.py build
 }
 
-check() {
-  cd "$pkgname-$pkgver"
-  export PYTHONPATH="../build/lib/:${PYTHONPATH}"
-  # disable useless tests
-  py.test tests -k 'not test_invalid_tests and not test_valid_tests'
-  py.test2 tests -k 'not test_invalid_tests and not test_valid_tests'
-}
-
 package() {
   cd "$pkgname-$pkgver"
   depends=('python3')
