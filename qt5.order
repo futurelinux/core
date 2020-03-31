@@ -37,9 +37,9 @@
 #qt5-webkit
 #shiboken2
 #pyside2
-sip
-python-pyqt5-sip
-sip5
-pyqt-builder
+#sip
+#python-pyqt5-sip
+#sip5
+#pyqt-builder
 #python-pyqt5
-#pyqtwebengine
+pyqtwebengine
