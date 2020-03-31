@@ -33,7 +33,7 @@ build() {
   make
 }
 
-package_python-pyqtwebengine() {
+package_python3-pyqtwebengine() {
   pkgdesc="Python bindings for QtWebEngine"
   groups=(pyqt5)
   depends=(python3-pyqt5 qt5-webengine)
