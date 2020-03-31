@@ -41,5 +41,5 @@ sip
 python-pyqt5-sip
 sip5
 pyqt-builder
-#python-pyqt5
-#pyqtwebengine
+python-pyqt5
+pyqtwebengine
