@@ -37,7 +37,6 @@
 #qt5-webkit
 #shiboken2
 #pyside2
-python-toml
 sip
 python-pyqt5-sip
 sip5
