@@ -39,17 +39,11 @@ kinit
 kded
 kparts
 kplotting
-kdewebkit
-kdesignerplugin
 kpty
 kdesu
 kemoticons
-kjs
-kjsembed
-kmediaplayer
 knotifyconfig
 knewstuff
-kross
 kidletime
 kitemmodels
 threadweaver
@@ -66,8 +60,6 @@ syntax-highlighting
 ktexteditor
 frameworkintegration
 kimageformats
-kdelibs4support
-khtml
 bluez-qt
 kfilemetadata
 baloo
@@ -79,5 +71,4 @@ kholidays
 syndication
 kcalendarcore
 kcontacts
-
-# Dummy line for the CI to build all the packages
+kquickcharts
