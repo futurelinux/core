@@ -4,8 +4,8 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kxmlgui
-pkgver=5.64.0
-pkgrel=2
+pkgver=5.68.0
+pkgrel=1
 pkgdesc='User configurable main windows'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kxmlgui'
@@ -15,7 +15,7 @@ makedepends=('extra-cmake-modules' 'doxygen' 'qt5-tools' 'qt5-doc' 'python3')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('faa95b92b3b03130022841a6797d5beb3efb6a0d757afaefe038889af76a1dd1'
+sha256sums=('6310e9a725a982d3b70672367c5858727437fe08c8e409458e48b6015c7bf10e'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 

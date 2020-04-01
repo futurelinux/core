@@ -4,8 +4,8 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kded
-pkgver=5.64.0
-pkgrel=2
+pkgver=5.68.0
+pkgrel=1
 pkgdesc='Extensible deamon for providing system level services'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kded'
@@ -15,7 +15,7 @@ makedepends=("extra-cmake-modules>=5.64.0" 'kdoctools' 'python3')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('2e8bda93918ac174254c8f70a71c9d6966a4721e14a631760e1b912d108001be'
+sha256sums=('b03afe48fbdbd7d92c46b3b60bdb4b825f77e1a9d00c16a5f236b24a0135e4b7'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 

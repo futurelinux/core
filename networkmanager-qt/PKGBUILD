@@ -4,8 +4,8 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=networkmanager-qt
-pkgver=5.64.0
-pkgrel=2
+pkgver=5.68.0
+pkgrel=1
 pkgdesc='Qt wrapper for NetworkManager API'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/networkmanager-qt'
@@ -18,7 +18,7 @@ conflicts=('libnm-qt5')
 provides=("libnm-qt5=${pkgver}")
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
-sha256sums=('369d0391e199d059dd2faa554324cbd45334f7864ccfc462699b06c89af04bbf'
+sha256sums=('6a9bea5e6d58f5322848114e4e827edadee6b5a890a3549446ff23a568325e2c'
             'SKIP')
 validpgpkeys=(53E6B47B45CEA3E0D5B7457758D0EE648A48B3BB) # David Faure <faure@kde.org>
 

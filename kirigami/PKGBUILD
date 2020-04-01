@@ -5,8 +5,8 @@
 
 pkgname=kirigami
 _pkgname=kirigami2
-pkgver=5.64.0
-pkgrel=3
+pkgver=5.68.0
+pkgrel=1
 pkgdesc="A QtQuick based components set"
 url="https://projects.kde.org/projects/frameworks/kirigami"
 arch=(x86_64)
