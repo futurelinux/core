@@ -48,27 +48,27 @@ kidletime
 kitemmodels
 threadweaver
 kunitconversion
-kdnssd
-kwayland
-kirigami
-plasma-framework
-qqc2-desktop-style
-networkmanager-qt
-modemmanager-qt
-krunner
-syntax-highlighting
-ktexteditor
-frameworkintegration
-kimageformats
-bluez-qt
-kfilemetadata
-baloo
-oxygen-icons
-breeze-icons
-prison
-purpose
-kholidays
-syndication
-kcalendarcore
-kcontacts
-kquickcharts
+# kdnssd
+# kwayland
+# kirigami
+# plasma-framework
+# qqc2-desktop-style
+# networkmanager-qt
+# modemmanager-qt
+# krunner
+# syntax-highlighting
+# ktexteditor
+# frameworkintegration
+# kimageformats
+# bluez-qt
+# kfilemetadata
+# baloo
+# oxygen-icons
+# breeze-icons
+# prison
+# purpose
+# kholidays
+# syndication
+# kcalendarcore
+# kcontacts
+# kquickcharts
