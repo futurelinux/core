@@ -1,5 +1,5 @@
 pkgname=apache
-pkgver=2.4.41
+pkgver=2.4.43
 pkgrel=1
 pkgdesc='A high performance Unix-based HTTP server'
 arch=('x86_64')
@@ -28,7 +28,7 @@ source=(https://www.apache.org/dist/httpd/httpd-${pkgver}.tar.bz2
         httpd.service
         chakra.layout
         openssl-malloc-init.patch)
-sha256sums=('133d48298fe5315ae9366a0ec66282fa4040efa5d566174481077ade7d18ea40'
+sha256sums=('a497652ab3fc81318cdc2a203090a999150d86461acff97c1065dc910fe10f43'
             '16caf534bd54b7ce2203a085ddf844b8297eb63f91f2f3d09b2a8c971f8acc10'
             '875903831634edf35d8d57e9a51bacb818255ecb3bfff29627f03e43d1ab65c3'
             '14d0a775eea7f8c66ba55399a9ad1e4fd29e0302f479a15b28bbfc754c5aa347'
