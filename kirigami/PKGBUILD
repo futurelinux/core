@@ -18,7 +18,7 @@ provides=(kirigami2)
 conflicts=(kirigami2)
 groups=(kf5)
 options=(debug)
-source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig}
+source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/$_pkgname-$pkgver.tar.xz"{,.sig}
          kirigami-qt5.15.patch::"https://cgit.kde.org/kirigami.git/patch/?id=6223aa66")
 sha256sums=('ad5f78afc916e9cb26f23918a6eb1983d4a57aa7e4f7314a8c23fb81e0fcaf4b'
             'SKIP'
