@@ -39,11 +39,8 @@ breeze-plymouth
 breeze-grub
 drkonqi
 plasma-vault
-xdg-desktop-portal-kde
+#xdg-desktop-portal-kde
 #discover
 #plasma-tests
 #plasma-thunderbolt # need to add 'bolt'
 #plymouth-kcm
-
-# foo
-
