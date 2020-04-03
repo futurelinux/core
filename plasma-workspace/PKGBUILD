@@ -13,7 +13,7 @@ url='https://projects.kde.org/projects/kde/workspace/plasma-workspace'
 license=('LGPL')
 depends=(kjsembed knotifyconfig libksysguard ktexteditor libqalculate qt5-tools kde-cli-tools bc
          xorg-xrdb xorg-xsetroot kactivitymanagerd kholidays xorg-utils milou prison kwin
-         plasma-integration kdelibs4support kpeople kactivities-stats knotifyconfig libkscreen)
+         plasma-integration kpeople kactivities-stats knotifyconfig libkscreen)
 makedepends=(extra-cmake-modules kdoctools gpsd baloo krunner networkmanager-qt kdesignerplugin)
 groups=('plasma')
 options=("debug")
