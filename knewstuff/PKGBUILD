@@ -5,7 +5,7 @@
 
 pkgname=knewstuff
 pkgver=5.68.0
-pkgrel=1
+pkgrel=2
 pkgdesc='KNewStuff'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/knewstuff'

@@ -5,7 +5,7 @@
 
 pkgname=kidletime
 pkgver=5.68.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Monitoring user activity'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kidletime'

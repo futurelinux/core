@@ -5,7 +5,7 @@
 
 pkgname=kguiaddons
 pkgver=5.68.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Higher level user interface components for common tasks'
 arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kguiaddons'
