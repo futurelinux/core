@@ -4,7 +4,6 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=polkit-kde-agent
-_pkgname=${pkgname}-1
 pkgver=5.18.4.1
 pkgrel=1
 pkgdesc='Daemon providing a polkit authentication UI for KDE'
@@ -13,7 +12,7 @@ url='https://projects.kde.org/projects/extragear/base/polkit-kde-agent-1/'
 license=('LGPL')
 depends=(kiconthemes kdbusaddons kcrash)
 makedepends=(extra-cmake-modules kdoctools python)
-source=("https://download.kde.org/stable/plasma/$pkgver/$_pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-1-$pkgver.tar.xz"{,.sig}
 sha256sums=('b1e20048d1f917dfeabb150d1147a6add02e7cfb333df8d73f9fabf0a643ff48'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
