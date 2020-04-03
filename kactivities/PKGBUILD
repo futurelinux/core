@@ -11,7 +11,7 @@ arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kactivities'
 license=('LGPL')
 depends=('kcmutils' 'kdeclarative' 'kactivitymanagerd>=5.5.95')
-makedepends=("extra-cmake-modules>=5.64.0" 'boost' 'python3')
+makedepends=("extra-cmake-modules>=5.68.0" 'boost' 'python3')
 provides=("kactivities-frameworks=${pkgver}" 'libkactivities4')
 replaces=("kactivities-frameworks" 'kactivities4' 'libkactivities4')
 conflicts=('kactivities4' 'kactivities-frameworks' 'libkactivities4')

@@ -11,7 +11,7 @@ arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kauth'
 license=('LGPL')
 depends=('kcoreaddons' 'polkit-qt5')
-makedepends=("extra-cmake-modules>=5.64.0" 'qt5-tools')
+makedepends=("extra-cmake-modules>=5.68.0" 'qt5-tools')
 groups=('kf5')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})

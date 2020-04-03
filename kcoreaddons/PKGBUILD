@@ -11,7 +11,7 @@ arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kcoreaddons'
 license=('LGPL')
 depends=("qt5-base" 'shared-mime-info' 'gamin')
-makedepends=("extra-cmake-modules>=5.64.0" 'qt5-tools')
+makedepends=("extra-cmake-modules>=5.68.0" 'qt5-tools')
 groups=('kf5')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
 sha256sums=('c578ae30b4161e45e672d613d2d9c5575a849d21909d9817f90a441044df65d7'

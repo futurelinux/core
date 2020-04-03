@@ -11,7 +11,7 @@ arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/networkmanager-qt'
 license=('LGPL')
 depends=('networkmanager' 'qt5-base')
-makedepends=("extra-cmake-modules>=5.64.0")
+makedepends=("extra-cmake-modules>=5.68.0")
 groups=('kf5')
 replaces=('libnm-qt5')
 conflicts=('libnm-qt5')

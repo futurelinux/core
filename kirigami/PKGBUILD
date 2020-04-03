@@ -12,7 +12,7 @@ url="https://projects.kde.org/projects/frameworks/kirigami"
 arch=(x86_64)
 license=(LGPL)
 depends=(qt5-quickcontrols2)
-makedepends=("extra-cmake-modules>=5.64.0" qt5-tools qt5-svg kpackage doxygen)
+makedepends=("extra-cmake-modules>=5.68.0" qt5-tools qt5-svg kpackage doxygen)
 replaces=(kirigami2)
 provides=(kirigami2)
 conflicts=(kirigami2)

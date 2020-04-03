@@ -11,7 +11,7 @@ arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/krunner'
 license=('LGPL')
 depends=('plasma-framework' 'threadweaver')
-makedepends=("extra-cmake-modules>=5.64.0" 'kdoctools')
+makedepends=("extra-cmake-modules>=5.68.0" 'kdoctools')
 groups=('kf5-aids')
 options=("debug")
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})

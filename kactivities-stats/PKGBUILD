@@ -11,7 +11,7 @@ arch=('x86_64')
 url='https://projects.kde.org/projects/frameworks/kactivities-stats'
 license=('LGPL')
 depends=('kactivities')
-makedepends=("extra-cmake-modules>=5.64.0" 'boost' 'python3')
+makedepends=("extra-cmake-modules>=5.68.0" 'boost' 'python3')
 options=("debug")
 groups=('kf5')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig})
