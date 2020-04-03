@@ -72,11 +72,11 @@
 #kcalendarcore
 #kcontacts
 #kquickcharts
-kdelibs4support
-kdesignerplugin
 kdewebkit
-khtml
+kdesignerplugin
 kjs
 kjsembed
 kmedialplayer
 kross
+kdelibs4support
+khtml
