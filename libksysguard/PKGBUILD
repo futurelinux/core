@@ -14,7 +14,7 @@ depends=(libxres qt5-webengine kio)
 makedepends=(extra-cmake-modules kdoctools plasma-framework)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('357be91db541876fa257b9be903484beb6577502a05f1610480ed0b198d16824'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

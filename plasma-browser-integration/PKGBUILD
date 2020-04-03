@@ -14,7 +14,7 @@ depends=(krunner purpose kfilemetadata)
 makedepends=(extra-cmake-modules)
 options=("debug")
 groups=('plasma')
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('5b37e9e84435d1dc77e4b68c97042be60da0ba66e7dc2ef7d60d210785154c90'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

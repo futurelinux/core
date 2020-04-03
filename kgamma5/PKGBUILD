@@ -16,7 +16,7 @@ replaces=('kdegraphics-kgamma')
 conflicts=('kdegraphics-kgamma')
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('08b5c447edc0210eaab7244cec640863f9097556d97bf010a525d8184705d2fd'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

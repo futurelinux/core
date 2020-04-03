@@ -14,7 +14,7 @@ depends=(plasma-workspace)
 makedepends=(extra-cmake-modules kdoctools python3 kdesignerplugin)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('272f83576ab3b13203400854431e891c27d027684eebc720f2009734d3b7221f'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

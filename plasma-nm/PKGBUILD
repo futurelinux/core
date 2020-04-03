@@ -16,7 +16,7 @@ optdepends=('mobile-broadband-provider-info: Database of mobile broadband servic
             'openconnect: Cisco AnyConnect VPN plugin')
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('a7ae36b47c2ee85590b01a1e03fae179d243bb4e718417be0b8e93e7dfc77e6a'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

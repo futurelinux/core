@@ -18,7 +18,7 @@ replaces=('kde-workspace')
 conflicts=('kde-workspace')
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 source+=( chakra_defaultPanel.patch::https://bugsfiles.kde.org/attachment.cgi?id=102600 )
 sha256sums=('19c50781ced6608b8efb3d94e94575a397f58a159d63bba64c27a6c6d72e0af3'
             'SKIP'

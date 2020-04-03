@@ -14,7 +14,7 @@ depends=(krunner kitemmodels)
 makedepends=(extra-cmake-modules kdoctools python3)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('51008aaac65876c83346261c9b89637ad2ac613e3b57bdb9b936d3dc661e4014'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

@@ -14,7 +14,7 @@ depends=('qt5-base' 'ki18n')
 makedepends=('extra-cmake-modules')
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('b5a2d810498fe8723e630d07710ba8643220e028a6bc9ab25c6117f82e81adca'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

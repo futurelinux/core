@@ -14,7 +14,7 @@ depends=(socat kwallet)
 makedepends=(extra-cmake-modules qt5-base)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('dcdfd4d699e0afe4d5f2193366b8e0c9cb9b7fe01fa5481203d1eac6f66e91eb'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

@@ -14,7 +14,7 @@ depends=(kpty knotifications kdbusaddons)
 makedepends=(extra-cmake-modules kdoctools python3)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('ac8f45fbec8b11dd9c56d58c72dd3bb580d7791088c4f6c71522619dd74ff531'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

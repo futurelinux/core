@@ -18,7 +18,7 @@ depends=(kjsembed knotifyconfig libksysguard ktexteditor libqalculate qt5-tools 
 makedepends=(extra-cmake-modules kdoctools gpsd baloo krunner networkmanager-qt kdesignerplugin)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig}
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig}
         "kde.pam")
 sha256sums=('924d8401c3d1fe5d107b6d3facaf96c292f1d4972529831993056982f28b1601'
             'SKIP'

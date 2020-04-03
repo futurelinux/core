@@ -14,7 +14,7 @@ depends=(ki18n knotifications libepoxy kwayland kwidgetsaddons)
 makedepends=(extra-cmake-modules python3 kio)
 provides=(xdg-desktop-portal-impl)
 groups=(plasma)
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('e860b6b11282747a8ce97f89a67d2e51ebe9ca717e7cd9aa65c3349266d64188'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

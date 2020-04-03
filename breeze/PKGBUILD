@@ -12,7 +12,7 @@ url='https://projects.kde.org/projects/kde/workspace/breeze'
 license=('LGPL')
 makedepends=(extra-cmake-modules frameworkintegration kdecoration kcmutils plasma-framework python3 fftw)
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('b809be5c434aa974e529a296a5a602b3b2c659613f59d23034da812dc21eeebd'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

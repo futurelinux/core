@@ -15,7 +15,7 @@ options=("debug")
 depends=(plasma-workspace  networkmanager-qt)
 makedepends=(extra-cmake-modules python3)
 optdepends=('encfs: to use encFS for encryption' 'cryfs: to use cryFS for encryption')
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('09e2536a437f15eaed7c550cfd5ceb0fb7555cf0de8e6b7d6f728f5e2ed40c2b'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

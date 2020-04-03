@@ -14,7 +14,7 @@ depends=(plasma-workspace pulseaudio libcanberra gconf)
 makedepends=(extra-cmake-modules python3 kdoctools)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('dc137b769f0c8aadcb93f12fda16582a0c899684fdffb29c257385ee4f72a7ba'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

@@ -14,7 +14,7 @@ depends=(kxmlgui libkscreen qt5-graphicaleffects hicolor-icon-theme)
 makedepends=(extra-cmake-modules python3 plasma-framework)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('dc0d61e46189d0f76d33a92c1253d7d2f7d7f2d0043d5e411a5a067915d0f5e4'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

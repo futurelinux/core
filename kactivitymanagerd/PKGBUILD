@@ -14,7 +14,7 @@ depends=(kio)
 makedepends=(extra-cmake-modules boost python3)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('8378c37f0ddfa918dec1e6576277f92b0d8c78a972dc947a445c2f8695ceac63'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

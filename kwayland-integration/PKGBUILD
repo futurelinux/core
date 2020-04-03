@@ -14,7 +14,7 @@ depends=(kwindowsystem kidletime kwayland kguiaddons)
 makedepends=(extra-cmake-modules)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('81ffda6822ceff6c241a84a5fac7643e0c42edf880810de84247fffcb3835950'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

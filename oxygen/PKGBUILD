@@ -13,7 +13,7 @@ url='https://projects.kde.org/projects/kde/workspace/oxygen'
 license=('LGPL')
 makedepends=(frameworkintegration kcmutils kdecoration extra-cmake-modules kdoctools python3)
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('530e7f8594a96500fe8d501ea0f742e77925646389c4f6eb4cfea477ea751621'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

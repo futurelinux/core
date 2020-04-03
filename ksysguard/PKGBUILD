@@ -14,7 +14,7 @@ depends=(knewstuff libksysguard lm_sensors hicolor-icon-theme kinit)
 makedepends=(extra-cmake-modules kdoctools python3)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('2c9fdd60ff76f4fbfd96b3d5862fe42a9bc0c7cb6b795472eadcda75d2889777'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

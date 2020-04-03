@@ -13,7 +13,7 @@ license=('LGPL')
 makedepends=(extra-cmake-modules qt5-base)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('1a7239b5d3eee20c30a406b4890a70e0aa8b870c6291698916b310fcafbf6754'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

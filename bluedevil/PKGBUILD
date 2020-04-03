@@ -14,7 +14,7 @@ depends=(bluez-qt kio)
 makedepends=(extra-cmake-modules plasma-framework kded python3)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('bbb589b25e7da47cdbb13e4f9ccd8b6d66a01024a6ef5a01561c01266f3b1829'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

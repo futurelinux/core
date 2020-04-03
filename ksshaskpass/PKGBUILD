@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules kdoctools python3)
 provides=(x11-ssh-askpass)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig}
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig}
         "$pkgname.sh")
 sha256sums=('57d7792f66ffa0df835fcbb5e7c1411c289157a6e0e3cd4be16f81fb4733afea'
             'SKIP'

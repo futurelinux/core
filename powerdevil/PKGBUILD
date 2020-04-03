@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules kdoctools python kdesignerplugin)
 optdepends=('bluez-qt' 'networkmanager-qt')
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('ccda33366be7bac6e8a0d551d9501a7c394ddda281c806720582630c075fd1ca'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

@@ -14,7 +14,7 @@ depends=(kactivities-stats plasma-workspace)
 makedepends=(extra-cmake-modules kdoctools khtml)
 groups=('plasma')
 options=("debug")
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('33ea03459bdc656237a229dfb02116d5a328ac3bdf2860f1c60953aedd891d77'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell

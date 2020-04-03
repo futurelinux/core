@@ -14,7 +14,7 @@ depends=(kio kwayland libxcursor ttf-noto ttf-hack qqc2-desktop-style)
 makedepends=(extra-cmake-modules python3 breeze)
 options=("debug")
 groups=('plasma')
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('1cf85885b4684d5c9c35c563e7dba6ba5da61d38fbf4ce900de99961cf4b01af'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
