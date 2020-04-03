@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=plasma-sdk
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc='Applications useful for Plasma Development'
 url="https://cgit.kde.org/plasma-sdk.git/"
@@ -15,7 +15,7 @@ optdepends=('kirigami: for look and feel explorer')
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('8d2ce9c6120d2c194000c665489771bd71aea6188d78abfec855dabe125f2c89'
+sha256sums=('aa93ef34bcc8e24e8c183a327522e08ab5772b97b86c6c83d247a6333b328ea3'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

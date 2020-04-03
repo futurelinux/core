@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kdeplasma-addons
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc='A series of addons to enhance your Plasma 5 experience'
 arch=('x86_64')
@@ -19,7 +19,7 @@ optdepends=('kross: comic applet'
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('ae1e88249558a40413a31ea97599aa7534fff6c018096435cd15d514f20b499f'
+sha256sums=('09a4ff1e4384f4e77998bc45a9c2ed3c56746a8e114967013d25b08b2a5b6a99'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

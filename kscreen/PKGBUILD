@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kscreen
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc="KDE's screen management software"
 arch=('x86_64')
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules python3 plasma-framework)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('fe387d0a51236de1c24947d4b3e6de6cdfd9d36133ae5b2f66eca321ec12095e'
+sha256sums=('dc0d61e46189d0f76d33a92c1253d7d2f7d7f2d0043d5e411a5a067915d0f5e4'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

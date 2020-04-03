@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=user-manager
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc="KDE's user manager"
 arch=('x86_64')
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules python3 kcmutils)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('c226ce0648d8a11a1ee10a89fafee131770096fd7d977fbacd37d0ac621c614f'
+sha256sums=('4bc1c38cec0b6869e43c20d88d0d66178f29c1ea2802fa9c6df1ec2fcf093e08'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

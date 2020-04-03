@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=xdg-desktop-portal-kde
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc='A backend implementation for xdg-desktop-portal using Qt/KF5'
 arch=(x86_64)
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules python3 kio)
 provides=(xdg-desktop-portal-impl)
 groups=(plasma)
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('4a6ad77a9b8b7f2dc8d8a24326d5ea1c6b26ab83df520660c48c02f9142ffb32'
+sha256sums=('e860b6b11282747a8ce97f89a67d2e51ebe9ca717e7cd9aa65c3349266d64188'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

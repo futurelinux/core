@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=bluedevil
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc="Integrate the Bluetooth technology within KDE workspace and applications"
 arch=('x86_64')
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules plasma-framework kded python3)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('7725e3e747a7c8b4288d8b76395c141346c8afc7e68790a3bb9ba5d6bbb32b11'
+sha256sums=('bbb589b25e7da47cdbb13e4f9ccd8b6d66a01024a6ef5a01561c01266f3b1829'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

@@ -42,5 +42,5 @@ plasma-vault
 xdg-desktop-portal-kde
 #discover
 #plasma-tests
-#plasma-thunderbolt
+#plasma-thunderbolt # need to add 'bolt'
 #plymouth-kcm

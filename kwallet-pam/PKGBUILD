@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kwallet-pam
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc='KWallet PAM integration'
 arch=(x86_64)
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules qt5-base)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('7b3f20bf1a1ed35293fe82359ec069879dcca6b71f8622e2706c6f48477100f0'
+sha256sums=('dcdfd4d699e0afe4d5f2193366b8e0c9cb9b7fe01fa5481203d1eac6f66e91eb'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

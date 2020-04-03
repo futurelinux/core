@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kmenuedit
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc='KDE menu editor'
 arch=('x86_64')
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules kdoctools python3 kdesignerplugin)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('a49946813e681a9a06db48dc81d44229255ab5879091a804596a3d3f47804e07'
+sha256sums=('55dceadb91356c42c80ebbea7190251cb90d74abaeda88137863747b17d2ca69'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>

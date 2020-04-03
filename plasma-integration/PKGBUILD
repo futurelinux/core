@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=plasma-integration
-pkgver=5.17.3
+pkgver=5.18.4.1
 pkgrel=1
 pkgdesc="Qt Platform Theme integration plugins for the Plasma workspaces"
 arch=(x86_64)
@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules python3 breeze)
 options=("debug")
 groups=('plasma')
 source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('66d8aab85e24897e58ddcf2333e471cac7def8b1f26668fe2263fb4c80116f80'
+sha256sums=('1cf85885b4684d5c9c35c563e7dba6ba5da61d38fbf4ce900de99961cf4b01af'
             'SKIP')
 validpgpkeys=('2D1D5B0588357787DE9EE225EC94D18F7F05997E'  # Jonathan Riddell
               '0AAC775BB6437A8D9AF7A3ACFE0784117FBCE11D'  # Bhushan Shah <bshah@kde.org>
