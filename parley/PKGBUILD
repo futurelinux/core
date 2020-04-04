@@ -8,18 +8,12 @@ pkgver=19.12.3
 pkgrel=1
 pkgdesc="Vocabulary trainer"
 url="http://kde.org/applications/education/parley/"
-screenshot="https://www.kde.org/images/screenshots/parley.png"
 arch=('x86_64')
 license=('GPL' 'LGPL' 'FDL')
-depends=('kross' 'knewstuff' 'libkeduvocdocument' 'khtml' 'qt5-multimedia' 'kcmutils' 'qt5-webengine' 'lcms2')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-replaces=('kdeedu-parley')
-conflicts=('kdeedu-parley')
-provides=('kdeedu-parley')
-groups=("kde" "kdeedu" "kde-uninstall")
-categories=('education')
+depends=('kross' 'knewstuff' 'libkeduvocdocument' 'qt5-webengine' 'kcmutils')
+makedepends=('extra-cmake-modules' 'kdoctools')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('a3d11ddf5a6c8244e5a22c10f6e256ad8bd857802d994550549c7f73f8ed8da8'
+sha256sums=('ebf9fdec981abca988d83d8a77e921e7ce871eb010b6cf4ea9065ee6d45f5089'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
