@@ -11,14 +11,11 @@ arch=('x86_64')
 url='http://kde.org/applications/games/kollision/'
 screenshot='https://www.kde.org/images/screenshots/kollision.png'
 license=('GPL' 'LGPL' 'FDL')
-depends=('knotifyconfig' 'libkdegames')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdegames')
-replaces=('kdegames-kollision')
-conflicts=('kdegames-kollision')
+depends=('libkdegames' 'hicolor-icon-theme')
+makedepends=('extra-cmake-modules' 'kdoctools')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('2240563774c22bf0552504a501710e37eb468afcbc4c3313db7779d086cdf8dc'
+sha256sums=('ce0bb077e8db8a959f965d463bb25bac02c91585b422af6c9249ad8a8f25eaab'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
