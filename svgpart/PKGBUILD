@@ -11,13 +11,10 @@ url="https://www.kde.org/applications/graphics/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
 depends=(kparts)
-makedepends=(extra-cmake-modules python3)
-conflicts=(kdegraphics-svgpart)
-replaces=(kdegraphics-svgpart)
+makedepends=(extra-cmake-modules)
 options=(docs debug)
-groups=(kde kde-uninstall kde-applications kdegraphics)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('1ad667fc6988b64fd379cfb79d00a7c04c97de530e4b61a9ae8a525971ea2a94'
+sha256sums=('942d877a516d8407ef2782d7c6869ab688274fee6cde9b23ab1061bcbddf2cc9'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
