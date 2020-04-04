@@ -1,0 +1,33 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
+
+pkgname=elisa
+pkgver=19.12.3
+pkgrel=1
+pkgdesc='A simple music player aiming to provide a nice experience for its users'
+url='https://community.kde.org/Elisa'
+arch=(x86_64)
+license=(LGPL3)
+depends=(baloo kirigami kcmutils vlc) # upnp-player-qt
+makedepends=(extra-cmake-modules kdoctools)
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('28ad795c1d993969d49ab71514129589a71ee6fe8a2de785e22f17f5af7c3d32'
+            'SKIP')
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+              F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DBUILD_TESTING=OFF
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}
