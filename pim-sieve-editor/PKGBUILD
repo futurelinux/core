@@ -8,15 +8,13 @@ pkgver=19.12.3
 pkgrel=1
 pkgdesc="Mail sieve editor"
 arch=(x86_64)
-url="https://community.kde.org/KDE_PIM"
+url="https://kontact.kde.org"
 license=(GPL2)
-depends=(libksieve messagelib)
-makedepends=(extra-cmake-modules kdoctools boost python3)
-conflicts=('kdepim<16.11')
+depends=(libksieve)
+makedepends=(extra-cmake-modules kdoctools boost)
 options=(docs debug)
-groups=(kde kde-uninstall kde-applications kdepim)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('5e8aa5d71ea923baf4376986db77b6dee16d6e281caf22855e97cfeebfb4c1fe'
+sha256sums=('641ea56304df079a80e098fb253c173b63266990856f8795af093c144c3883ae'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
