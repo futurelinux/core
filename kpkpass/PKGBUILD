@@ -12,10 +12,9 @@ url="https://community.kde.org/KDE_PIM"
 license=(LGPL)
 depends=(karchive)
 makedepends=(extra-cmake-modules)
-groups=('kde' 'kde-applications' 'kdepim' 'kde-uninstall')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('6d70d3bcc949e83543ae7cf9d22280c270107bd9c9cb2882d6b37f6d036f5126'
+sha256sums=('45723989170e86c6739c8a377c54b3ba7456a8dc3ed6cf52eef884074c2df189'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
