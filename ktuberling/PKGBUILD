@@ -10,14 +10,11 @@ pkgdesc="A simple constructor game suitable for children and adults alike"
 url="http://kde.org/applications/games/ktuberling/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-groups=(kde kde-applications kdegames kde-uninstall)
-depends=(hicolor-icon-theme libkdegames knotifyconfig)
-makedepends=(extra-cmake-modules kdoctools kdelibs4support)
-conflicts=(kdegames-ktuberling)
-replaces=(kdegames-ktuberling)
+depends=(hicolor-icon-theme libkdegames)
+makedepends=(extra-cmake-modules kdoctools)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('5204b6eee57554e90d542dc4eca45fbbf0246f261fb1c231b53440c90d26aee1'
+sha256sums=('c4d74d18173d5761f7e6f8adf6178713a726c671aaa2eda4e6c77115484e9e55'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
