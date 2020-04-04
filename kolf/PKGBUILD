@@ -12,15 +12,11 @@ pkgdesc="A miniature golf game with 2d top-down view"
 url="https://kde.org/applications/games/kolf/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-groups=(kde-applications kdegames)
-depends=(libkdegames hicolor-icon-theme kdelibs4support)
-makedepends=(extra-cmake-modules kdesignerplugin kdoctools)
-conflicts=(kdegames-kolf)
-replaces=(kdegames-kolf)
-provides=(kdegames-kolf)
+depends=(libkdegames hicolor-icon-theme)
+makedepends=(extra-cmake-modules kdoctools)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('1c864f1abb31b168fd1402217ffc4c00d495f8ebece61ddc1f8c954c29684e1b'
+sha256sums=('2ba1f781d7d98ca0b10231e4f963b27d043c726f44da662b6c77105da4f9cffc'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
