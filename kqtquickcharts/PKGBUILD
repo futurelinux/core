@@ -13,9 +13,8 @@ license=(GPL LGPL FDL)
 depends=(qt5-declarative)
 makedepends=(extra-cmake-modules)
 options=(docs debug)
-groups=(kde kde-uninstall kde-applications)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('f1c54caccbcc97219f8666bdf97cfecdb008c532f1453f27a6971ca54ec5994f'
+sha256sums=('94669a7add0cef9a1c0969a92ece8e60a67fbb0ff32826cc49ce87bd890c976c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
