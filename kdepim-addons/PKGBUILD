@@ -10,11 +10,12 @@ pkgdesc="Addons for KDE PIM applications"
 url="https://kontact.kde.org"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-depends=(incidenceeditor ktnef libksieve akonadi-notes akonadi-import-wizard poppler-qt5 kitinerary kontactinterface)
+depends=(incidenceeditor ktnef libksieve akonadi-notes akonadi-import-wizard poppler-qt5 kitinerary kontactinterface) # discount
 makedepends=(extra-cmake-modules kdoctools boost)
+optdepends=('grammalecte: French grammar plugin')
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('8c85cec6b827da6025364ec6bbccdf2ab22c73380933aed69cf3c86be52cff24'
+sha256sums=('f33bc70ac54ab56eea7bd8ca4c0ac98d9612acc4ddc9ce989d06b99f04f62c19'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
