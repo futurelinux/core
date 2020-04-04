@@ -9,7 +9,6 @@ pkgrel=1
 pkgdesc="Based on the famous Rubik's Cube"
 arch=('x86_64')
 url='http://kde.org/applications/games/kubrick/'
-screenshot='https://www.kde.org/images/screenshots/kubrick.png'
 license=('GPL' 'LGPL' 'FDL')
 depends=(libkdegames glu hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
