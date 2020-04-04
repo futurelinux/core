@@ -7,17 +7,17 @@ pkgname="krdc"
 arch=('x86_64')
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="Desktop Sharing Client"
+pkgdesc="Remote Desktop Client"
 url="http://kde.org/applications/internet/krdc/"
 license=('GPL' 'LGPL' 'FDL')
-groups=(kde kde-applications kdenetwork kde-uninstall)
-depends=('kcmutils' 'kdnssd' 'knotifyconfig' 'libvncserver' 'rdesktop' 'telepathy-qt5' 'freerdp')
-makedepends=(extra-cmake-modules kdoctools)
-conflicts=(kdenetwork-krdc)
-replaces=(kdenetwork-krdc)
+depends=('kcmutils' 'kdnssd' 'knotifyconfig')
+makedepends=(extra-cmake-modules kdoctools libvncserver freerdp)
+optdepends=('libvncserver: VNC support'
+            'freerdp: RDP support'
+            'keditbookmarks: to edit bookmarks')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('d4cbaebaa3cd56ef5ec728a1d09edf72e8dfc18174e59f954a5f7ec8494acfdc'
+sha256sums=('12602912abbc22e061067b6b5048d37a7cbdaaf99d203829d3f52fdf7319acce'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
