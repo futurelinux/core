@@ -1,10 +1,9 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=akonadiconsole
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Akonadi management and debugging console"
 url="https://kontact.kde.org"
@@ -14,7 +13,7 @@ depends=(calendarsupport messagelib)
 makedepends=(extra-cmake-modules kdoctools boost)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('37253a4b56afc34e52a05b58f63d1cdce221a11432c713f159b5c033a6018947'
+sha256sums=('0dedcccfcfd7e6ad9a5af0aa61ce05f26cbb625d8bf6b6d210ac6e3c5813487f'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
