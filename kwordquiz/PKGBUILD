@@ -9,16 +9,12 @@ pkgrel=1
 pkgdesc="Flash card trainer"
 url="http://kde.org/applications/education/kwordquiz/"
 arch=('x86_64')
-screenshot='https://www.kde.org/images/screenshots/kwordquiz.png'
 license=('GPL' 'LGPL' 'FDL')
-depends=('knotifyconfig' 'libkeduvocdocument' 'knewstuff' 'kdelibs4support' 'kdeclarative')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdeedu')
-replaces=('kdeedu-kwordquiz')
-conflicts=('kdeedu-kwordquiz')
+depends=('knotifyconfig' 'libkeduvocdocument' 'knewstuff')
+makedepends=('extra-cmake-modules' 'kdoctools')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('9561e4817b5b273f74e7591d1ecb82db45140eea2ea36ab3e2f21d81faa1b66d'
+sha256sums=('6965a3b3c171c3f62aeecf4ccdddde14d23062ab914b1860822546a5770b80fc'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
