@@ -14,7 +14,7 @@ depends=(kio)
 makedepends=(extra-cmake-modules)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('d9ea38255c967dcf0de820e6ad663e721188f5541c18c459e611f6d72ddc8e8f'
+sha256sums=('c459f9f04cf98cdc88a6763da8880f418e0c33b3cbd1d06b9a7347ebb470d835'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
