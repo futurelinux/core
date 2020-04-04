@@ -1,10 +1,9 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=akregator
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A Feed Reader by KDE"
 url="https://kontact.kde.org"
@@ -15,7 +14,7 @@ makedepends=(extra-cmake-modules boost kdoctools)
 optdepends=('kdepim-addons: additional plugins')
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('c3aab6ebba25eab8c76b113a900af33a90222257f957650d0bbc0c47d5cf4bc9'
+sha256sums=('63db0f6c75bffe9235122201445d151f4eaa7061d2a8df4eb924bca1a4600f68'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
