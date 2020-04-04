@@ -10,14 +10,11 @@ pkgdesc='System log viewer tool'
 url='http://kde.org/applications/system/ksystemlog/'
 arch=(x86_64)
 license=(GPL LGPL FDL)
-groups=(kde kde-applications kdeadmin kde-uninstall)
 depends=(kio)
 makedepends=(extra-cmake-modules kdoctools)
-conflicts=(kdeadmin-ksystemlog)
-replaces=(kdeadmin-ksystemlog)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('97fca55ae5481d77628531482da99ece40cef2c81de633fe4c1e99206d17391d'
+sha256sums=('8225b1308ace76ebbf9bb805a2b6fae9bf8a425d0b09518645234c1b2df522dc'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
