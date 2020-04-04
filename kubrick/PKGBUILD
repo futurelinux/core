@@ -11,15 +11,11 @@ arch=('x86_64')
 url='http://kde.org/applications/games/kubrick/'
 screenshot='https://www.kde.org/images/screenshots/kubrick.png'
 license=('GPL' 'LGPL' 'FDL')
-groups=('kdegames' 'kde' 'kde-applications')
 depends=(libkdegames glu hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
-conflicts=(kdegames-kubrick)
-replaces=(kdegames-kubrick)
-provides=(kdegames-kubrick)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('fd11e0969ae08e42316044535008511b3fcae7752c7a86b2ae9ae24c94e44855'
+sha256sums=('8fc0a0e68d255481c6efb3f4ff894c5e376367b29958c4738bd72d3f4b1ff557'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
