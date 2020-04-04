@@ -12,10 +12,8 @@ url="https://community.kde.org/Real-Time_Communication_and_Collaboration"
 license=('GPL')
 depends=('ktp-common-internals')
 makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-groups=('kde-telepathy')
-categories=('communication')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('508085b52fff2e542ea28acb853f1cb3fcdf99d1f72ed99bc42991784fb2efd6'
+sha256sums=('093544e84ca12169966837be5f01d339ddc59e5f031d78e68ddf7be4dd890efd'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
