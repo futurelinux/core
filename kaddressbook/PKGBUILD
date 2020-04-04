@@ -1,6 +1,5 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kaddressbook
@@ -14,7 +13,7 @@ depends=(kontactinterface kdepim-runtime kdepim-apps-libs)
 makedepends=(extra-cmake-modules kdoctools boost)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('e343187628af4b6142cc7177ea67a3460b6f2b96c608a5b4bd469f2d314bf4ae'
+sha256sums=('1dede421e6fef2b1abc7d36dd1855cef43cc82de909a432cd38cff42d4168fba'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
