@@ -1,7 +1,5 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
-#               Felix Yan <felixonmars@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 
 pkgname=calendarsupport
 pkgver=19.12.3
@@ -14,7 +12,7 @@ depends=(kdepim-apps-libs kholidays akonadi-calendar)
 makedepends=(extra-cmake-modules boost qt5-tools)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('2406dd3387383cc58eb0e6f10bf50cc1b206c75096c6c6af27c1102c6d818ec3'
+sha256sums=('ecbd194b5aa39284d33f7f2ddca75175f8699efee1bfbd5000ea10076567bae8'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
