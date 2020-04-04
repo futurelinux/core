@@ -12,7 +12,7 @@ license=(GPL LGPL FDL)
 makedepends=(extra-cmake-modules kdoctools plasma-framework knewstuff kitemmodels ktexteditor threadweaver kactivities)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgbase-$pkgver.tar.xz"{,.sig})
-sha256sums=('ab9f076e7e825fca64252b366e637e34157f1f875aa573bdae333fc240e0ec71'
+sha256sums=('f60b52e5a6a78920ac703a458f1eaf0ced02ffcd8b5f2d49de9a48674eeb007c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
@@ -38,7 +38,7 @@ build() {
 package_kwrite() {
   pkgdesc="Text editor"
   url="https://www.kde.org/applications/utilities/kwrite/"
-  depends=(ktexteditor kactivities hicolor-icon-theme)
+  depends=(ktexteditor hicolor-icon-theme)
 
   cd build
   make DESTDIR="$pkgdir" install
@@ -54,8 +54,12 @@ package_kwrite() {
 package_kate() {
   pkgdesc="Advanced text editor"
   url="https://www.kde.org/applications/utilities/kate/"
-  depends=(knewstuff ktexteditor threadweaver kactivities hicolor-icon-theme)
-  optdepends=('konsole: open a terminal in Kate')
+  depends=(knewstuff ktexteditor threadweaver kactivities kitemmodels hicolor-icon-theme)
+  optdepends=('konsole: open a terminal in Kate'
+              'clang: C and C++ LSP support'
+              'python-language-server: Python LSP support'
+              'texlab: LaTeX LSP support'
+              'rust: Rust LSP support')
 
   cd build
   make DESTDIR="$pkgdir" install
