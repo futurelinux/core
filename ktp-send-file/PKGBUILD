@@ -6,15 +6,14 @@
 pkgname=ktp-send-file
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="A File manager plugin to launch a file transfer job with a specified contact"
+pkgdesc="A file manager plugin to launch a file transfer job with a specified contact"
 arch=('x86_64')
 url="https://community.kde.org/Real-Time_Communication_and_Collaboration"
 license=('GPL')
 depends=('ktp-common-internals')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-groups=('kde-telepathy')
+makedepends=('extra-cmake-modules' 'kdoctools')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('db03d482f7bb101e1655262cd99d46e4a551141b8784bae67162d941fb13644f'
+sha256sums=('566d9dccc0c2fa7c23c95051c25543d3aabe76065ddff7dff9d8a37683d2022b'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
