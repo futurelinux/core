@@ -14,7 +14,7 @@ depends=(kdbusaddons ki18n kitemviews kcompletion kcoreaddons)
 makedepends=(extra-cmake-modules)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('10ccbc85c36a81ba7fdf3230f16c3b9974d240d17347d21aa7b67e9b5f85c78d'
+sha256sums=('ad18d13dd0943a3651ec4729441899b103bd2dc743a4a373ce7bd14fb38dd3e0'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
