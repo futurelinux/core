@@ -9,16 +9,12 @@ pkgrel=1
 pkgdesc="Mathematical function plotter"
 url="http://kde.org/applications/education/kmplot/"
 arch=('x86_64')
-screenshot='https://www.kde.org/images/screenshots/kmplot.png'
 license=('GPL' 'LGPL' 'FDL')
-depends=('kdelibs4support')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdeedu')
-replaces=('kdeedu-kmplot')
-conflicts=('kdeedu-kmplot')
+depends=('kparts' 'hicolor-icon-theme')
+makedepends=('extra-cmake-modules' 'kdoctools')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('777408873baa5d6ce236d71bc2935a89fa414fb9f59049ba6e1ae88d581f580e'
+sha256sums=('2743e3a472ccf40281f5afd9c6110dde6fb9bc437e8e291beba484d405d8152e'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
