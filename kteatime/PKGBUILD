@@ -3,23 +3,18 @@
 #               Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
-pkgname="kteatime"
-arch=('x86_64')
+pkgname=kteatime
 pkgver=19.12.3
 pkgrel=1
-url="http://kde.org/applications/games/kteatime/"
-screenshot='https://www.kde.org/images/screenshots/kteatime.png'
-license=('GPL' 'LGPL' 'FDL')
 pkgdesc="System tray applet that makes sure your tea doesn't get too strong"
-depends=('knotifyconfig')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-conflicts=('kdetoys-kteatime')
-replaces=('kdetoys-kteatime')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdetoys')
-categories=('accessories')
+url="http://kde.org/applications/games/kteatime/"
+arch=('x86_64')
+license=('GPL' 'LGPL' 'FDL')
+depends=('knotifyconfig' 'hicolor-icon-theme')
+makedepends=('extra-cmake-modules' 'kdoctools')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('dbe96fdd20545dc5ebe8103aed878dbbca5e015a42827129485a32fdcbf0d592'
+sha256sums=('0ab5fb6e33583e6d627b8f9dfaba5ce59e2b363e8045dfc66a4f65236d56542f'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
