@@ -14,7 +14,7 @@ depends=(kxmlrpcclient syndication kcalendarcore)
 makedepends=(extra-cmake-modules)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('7b030a13c79a6add2b6f46b840e347609b39099c937d5bc5fb9310e2da987164'
+sha256sums=('3fba584c4c217c5b5b3be52752f8f3c371fb877fe3b730a48711028fedc6b3d4'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
