@@ -1,6 +1,5 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kalzium
@@ -10,12 +9,12 @@ pkgdesc="Periodic Table of Elements"
 url="https://kde.org/applications/education/kalzium/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-depends=(khtml knewstuff kplotting kunitconversion qt5-script avogadrolibs openbabel hicolor-icon-theme)
-makedepends=(extra-cmake-modules kdoctools eigen3 ocaml python3)
+depends=(kparts knewstuff kplotting kunitconversion qt5-script avogadrolibs openbabel vtk hicolor-icon-theme)
+makedepends=(extra-cmake-modules kdoctools eigen3 ocaml facile python3)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig}
         kalzium-openbabel3.patch)
-sha256sums=('5dc3423a0f2646b59233f92b6a6e81b4a0bcdb819aa543c83270fe4cc5592933'
+sha256sums=('e44f359d1343c30cf1993a3970a3e610d0d5782f92a6b331b035cf4fef104195'
             'SKIP'
             '7410f8450a20b2878eeb08f38ce04adeb1222e58fb25506908a5efe0e2515f87')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
