@@ -12,9 +12,8 @@ url="https://community.kde.org/Real-Time_Communication_and_Collaboration"
 license=('GPL')
 depends=('ktp-common-internals' 'kdewebkit' 'qca-qt5')
 makedepends=('extra-cmake-modules')
-groups=('kde-telepathy')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('6275ea746a28857cc77cc031a75a5f2278cf85dd1ef3c04e47006c4316975659'
+sha256sums=('40822e78879d97c3cc1d16f44f7d3b581980c4e249a273d7471b291adf3b9225'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
