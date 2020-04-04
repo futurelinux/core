@@ -8,16 +8,13 @@ pkgver=19.12.3
 pkgrel=1
 pkgdesc="A nonogram logic game for KDE"
 arch=('x86_64')
-url='http://www.kde.org'
+url="https://kde.org/applications/games/picmi/"
 license=('GPL' 'LGPL' 'FDL')
 depends=('libkdegames' 'hicolor-icon-theme')
 makedepends=('extra-cmake-modules' 'kdoctools')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdegames')
-conflicts=('kdegames-picmi')
-replaces=('kdegames-picmi')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('6ed444d40a388e5c1f5f7bda24d35fa119fa5b5ee488def02321f14476bd357d'
+sha256sums=('04a69125fc76b1fcd58d873452e4a4e642ee9ee672cdb7656214d8cd854fc178'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
