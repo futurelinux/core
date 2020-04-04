@@ -13,9 +13,14 @@ arch=(x86_64)
 license=(LGPL)
 depends=(baloo-widgets knewstuff kio-extras kcmutils kparts kinit phonon-qt5)
 makedepends=(extra-cmake-modules kdoctools)
+optdepends=('ffmpegthumbs: video thumbnails'
+            'kde-cli-tools: for editing file type options'
+            'kdegraphics-thumbnailers: PDF and PS thumbnails'
+            'konsole: terminal panel'
+            'purpose: share context menu')
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('de71f52324c15d692448ac4c79c1e0fcf35df5c03349a8bcbebfae20d9f69d4e'
+sha256sums=('ba16f4d5be5ccc3c135a913f2e3c7dd3b7a492cfc9ec9ae518f714fcd7c2ab47'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
