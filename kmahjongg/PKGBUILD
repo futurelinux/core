@@ -10,14 +10,11 @@ pkgdesc="Mahjongg solitaire"
 arch=('x86_64')
 url='http://kde.org/applications/games/kmahjongg/'
 license=('GPL' 'LGPL' 'FDL')
-groups=(kde kde-applications kdegames kde-uninstall)
-depends=(libkdegames libkmahjongg)
+depends=(libkdegames libkmahjongg hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
-conflicts=(kdegames-kmahjongg)
-replaces=(kdegames-kmahjongg)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('d74446083f6ead6d7571e0ca4ff37af3f8167cc16ed7f67576155a000b41ca22'
+sha256sums=('41a07f74cc4e3bf05f6a57a380d4e093b0303528cb703369981b262a0b1787c8'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
