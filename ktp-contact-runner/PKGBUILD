@@ -9,12 +9,11 @@ pkgrel=1
 arch=('x86_64')
 url="https://community.kde.org/Real-Time_Communication_and_Collaboration"
 license=('GPL')
-pkgdesc='Finds entries from your KDE-Telepathy Contacts'
+pkgdesc='KRunner plugin for KDE Telepathy'
 depends=('ktp-common-internals' 'krunner')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-groups=('kde-telepathy')
+makedepends=('extra-cmake-modules' 'kdoctools')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('fe343560b80a4d9734f0160c8257fffe762801364e5dcbb9cf82edd6ded5683c'
+sha256sums=('50646e8670449d6f6a9b107e36f18174b5ec37052a7b4f471617f4f53fecc96b'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
