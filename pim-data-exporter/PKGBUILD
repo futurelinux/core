@@ -8,15 +8,13 @@ pkgver=19.12.3
 pkgrel=1
 pkgdesc="Import and export KDE PIM settings"
 arch=(x86_64)
-url="https://community.kde.org/KDE_PIM"
+url="https://kontact.kde.org"
 license=(GPL2)
-depends=(calendarsupport kalarmcal mailcommon)
-makedepends=(extra-cmake-modules kdoctools boost python3 kdesignerplugin)
-conflicts=(kdepim-common)
+depends=(calendarsupport mailcommon akonadi-notes)
+makedepends=(extra-cmake-modules kdoctools boost)
 options=(docs debug)
-groups=(kde kde-uninstall kde-applications kdepim)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('f89b6588822dd5501e1b93ed3abd9b822725944246ab834777ed0f91f5ab6b91'
+sha256sums=('8e9961fcc4f1ed0305d589e3a417f8924657d89d798a77c53956d73f6bf19938'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
