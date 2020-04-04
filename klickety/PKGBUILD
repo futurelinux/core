@@ -10,15 +10,11 @@ pkgdesc="An adaptation of the Clickomania game"
 url="http://kde.org/applications/games/klickety/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-groups=(kde kde-applications kdegames kde-uninstall)
-depends=(libkdegames knotifyconfig hicolor-icon-theme)
+depends=(libkdegames hicolor-icon-theme perl)
 makedepends=(extra-cmake-modules kdoctools)
-conflicts=(kdegames-klickety)
-replaces=(kdegames-klickety)
-
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('7e4509d47c363173630d536b401d8f1ccb7db4c62d75dd4a449e89dc56c9632e'
+sha256sums=('351e421ecca5fc80955ed614453c81d8b790200185db16f56be1e0ca9325ad39'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
