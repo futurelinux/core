@@ -15,10 +15,9 @@ depends=('kconfig' 'kdeclarative' 'kiconthemes' 'ki18n' 'knotifications' 'kxmlgu
          'telepathy-mission-control' 'telepathy-gabble' 'gst-plugins-base'
          'gst-plugins-good' 'qt5-gstreamer' 'gst-libav')
 makedepends=('boost' 'extra-cmake-modules' 'kdoctools')
-groups=(kde kde-applications kde-telepathy kde-uninstall)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('9245d11a28c2022ec98de6368d03ba8d9a53d8364d4f87efb142a0f843eea67d'
+sha256sums=('96b1dd64b0f87228d76f12b6cad3677afeb4c44d6f18645c3001555506573fb1'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
