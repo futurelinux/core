@@ -20,12 +20,10 @@ optdepends=('qt5-imageformats: thumbnails for additional image formats'
             'libappimage: AppImage thumbnails')
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig}
-        kio-extras-rpc.patch
-        kio-extras-libssh-0.9.patch)
+        kio-extras-rpc.patch)
 sha256sums=('413cb21479fedf1421a6e2585b4df813c3a3fadaa77c248a9f810021f58cea4b'
             'SKIP'
-            '5bbce26c59bac7f39b943116155bd746d2630d46acc01427fbae8a6eaa563fac'
-            'dc7b3206fccc3e4192e9104f05ffdc29727a414cd7627d58ccebbefe2e76b545')
+            '5bbce26c59bac7f39b943116155bd746d2630d46acc01427fbae8a6eaa563fac')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
 
@@ -34,7 +32,6 @@ prepare() {
 
   cd $pkgname-$pkgver
   patch -p1 -i ../kio-extras-rpc.patch # fix build of kio-nfs with glibc 2.27
-  patch -p1 -i ../kio-extras-libssh-0.9.patch  # fix build with libssh 0.9
 }
 
 build() {
