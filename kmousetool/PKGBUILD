@@ -10,15 +10,11 @@ pkgrel=1
 pkgdesc="Automatic mouse clicker"
 url="https://kde.org/applications/utilities/$pkgname"
 license=('GPL' 'FDL')
-groups=("kdeaccessibility" 'kde' 'kde-applications')
-depends=(knotifications kxmlgui hicolor-icon-theme)
-makedepends=(extra-cmake-modules kdoctools python3 libxt)
-conflicts=(kdeaccessibility-kmousetool)
-provides=(kdeaccessibility-kmousetool)
-replaces=(kdeaccessibility-kmousetool)
+depends=(knotifications kxmlgui phonon-qt5 hicolor-icon-theme)
+makedepends=(extra-cmake-modules kdoctools libxt)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('0434d4883d5478168c696ec1a43164ff09a15999416ff198b749d45981983399'
+sha256sums=('3741aff20c778bb704c76df7ff005da36ef6c41b07fca35f257ba440741b8413'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
