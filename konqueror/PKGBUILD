@@ -10,16 +10,13 @@ pkgdesc="KDE File Manager & Web Browser"
 arch=(x86_64)
 url="https://konqueror.org/"
 license=(LGPL)
-depends=(dolphin keditbookmarks qt5-webengine lcms2)
-makedepends=(extra-cmake-modules kdoctools python3 tidy kdesignerplugin kdesu)
-optdepends=('tidyhtml: tidy HTML plugin' 'kdesu: shell command plugin')
-conflicts=(kde-baseapps-konqueror kde-baseapps-konq-plugins dolphinpart4)
-replaces=(kde-baseapps-konqueror kde-baseapps-konq-plugins dolphinpart4)
-provides=(kde-baseapps-konqueror kde-baseapps-konq-plugins dolphinpart4)
+depends=(dolphin keditbookmarks qt5-webengine qt5-script kdelibs4support khtml)
+makedepends=(extra-cmake-modules kdoctools kdesignerplugin kdesu)
+optdepends=('tidyhtml: tidy HTML plugin'
+            'kdesu: shell command plugin')
 options=(docs debug)
-groups=(kde kde-uninstall kde-applications kde-baseapps)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('d0ff5b409bbbef5394aeb0bafeb6fea6265feff929fbf4b6a451adc030542d9b'
+sha256sums=('0f2b31a1dae1740839232bd646bf22d7cb57e34995584b9a96271ebcb0da7f0e'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
