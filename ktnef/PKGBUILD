@@ -12,11 +12,8 @@ url="https://community.kde.org/KDE_PIM"
 license=(LGPL)
 depends=(kcalutils kcontacts)
 makedepends=(extra-cmake-modules)
-conflicts=(libktnef)
-provides=(libktnef)
-replaces=(libktnef)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('86ae57b54047f51d31292fb71f2410660dd5bf7ca54e847b78108c600884ee4d'
+sha256sums=('3537515b432e5da00d401046e94e0098fa54c071246cb0e357e3d8f47296ed3c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
