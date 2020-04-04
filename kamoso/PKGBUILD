@@ -1,7 +1,5 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
-#               Felix Yan <felixonmars@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 #               birdflesh <antkoul@gmail.com>
 #               said
 #               Panagiotis Papadopoulos <pano_90@gmx.net>
@@ -13,10 +11,10 @@ pkgdesc="A webcam recorder"
 url="https://userbase.kde.org/Kamoso"
 arch=(x86_64)
 license=(GPL)
-depends=(purpose gst-plugins-good gst-plugins-bad kirigami2)
+depends=(purpose gst-plugins-good gst-plugins-bad kirigami)
 makedepends=(extra-cmake-modules kdoctools boost python3)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('437ddca6849ff3ad964737794ab8d22f8d152ad4aa9172dd838c77c59fc81448'
+sha256sums=('9ae14c4c80cdbbf2ce2e92db5e9c814fbd685e81aa5c319aac5477649fc39fe4'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
