@@ -12,13 +12,9 @@ arch=(x86_64)
 license=(GPL LGPL FDL)
 depends=(kactivities-stats kio)
 makedepends=(extra-cmake-modules kdoctools)
-groups=(kde-applications kdeutils)
-conflicts=(kdeutils-sweeper)
-replaces=(kdeutils-sweeper)
-provides=(kdeutils-sweeper)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('0451b9319c4390cfae497922cc135d7d8c4ef74ac81f2c05d2f94458bb3fc8be'
+sha256sums=('cf89cfba61c9eeda9b4e7921c21a23e7d9a110b134ab6fbd127c37d036bd0517'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
