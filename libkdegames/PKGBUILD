@@ -6,21 +6,15 @@
 pkgname=libkdegames
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="Shared libraries for KDE games"
+pkgdesc="Shared libraries and data for many KDE games"
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/kdegames/libkdegames'
 license=('GPL' 'LGPL' 'FDL')
-depends=('karchive' 'kbookmarks' 'kcodecs' 'kcompletion' 'kconfig'
-         'kconfigwidgets' 'kcoreaddons' 'kcrash' 'kdbusaddons' 'kdeclarative'
-         'kdnssd' 'kjobwidgets' 'kglobalaccel' 'kguiaddons' 'ki18n'
-         'kiconthemes' 'kio' 'kitemviews' 'knewstuff' 'kservice'
-         'ktextwidgets' 'kwidgetsaddons' 'kxmlgui' 'libsndfile' 'openal'
-         'qt5-base' 'qt5-declarative' 'qt5-svg')
-makedepends=('cmake' 'extra-cmake-modules')
-groups=("kde" "kdegames" "kde-uninstall")
+depends=('kdeclarative' 'kdnssd' 'knewstuff')
+makedepends=('extra-cmake-modules')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('019cdc0c702b8c9cacabc36ec2c81951e43ff80dbdfe527cba0dc5f5649dbb89'
+sha256sums=('39cf5039b7fe11688028df026252c9cd4424546817b5bb635af2558f71ba6b20'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
