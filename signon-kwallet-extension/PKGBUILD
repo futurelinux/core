@@ -6,15 +6,14 @@
 pkgname=signon-kwallet-extension
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="KWallet signon extension"
+pkgdesc="KWallet integration for signon framework"
 arch=('x86_64')
-url="http://kde.org/"
-license=('GPL')
+url="https://kde.org"
+license=('LGPL')
 depends=('kwallet' 'signon')
 makedepends=('extra-cmake-modules')
-groups=('kde-telepathy')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('273ff874bf08dd97a12b3b07215bc0ce9fd3c3c59b6bb1f61000411454211a65'
+sha256sums=('46199be023bad630b769b14c2c0a63feff2949da944c76780b1ebd9a50ee3daa'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
