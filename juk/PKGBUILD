@@ -14,7 +14,7 @@ depends=(kio taglib phonon-qt5 hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('6ef343b31b4b996d3a576e91a8a0b57b55b61ed76e9ddc51c5072a6243cb3030'
+sha256sums=('4bc4210d223afc23cb6edc9262eceee038ecc6243a550698e676230168943611'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
