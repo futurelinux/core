@@ -2,92 +2,78 @@
 # Contributors: Andrea Scarpino <andrea@archlinux.org>
 #               Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
+#               Gustavo Alvarez <sl1pkn07@gmail.com>
+#               Balló György <ballogyor+arch@gmail.com>
 
 pkgbase=marble
-pkgname=(marble libastro marble-data)
+pkgname=(marble-common marble-qt marble)
 pkgver=19.12.3
 pkgrel=1
 pkgdesc="Desktop Globe"
 arch=(x86_64)
 url="https://www.kde.org/applications/system/marble"
-screenshot="http://www.kde.org/images/screenshots/marble.png"
 license=(GPL)
-makedepends=(extra-cmake-modules gpsd libwlocate phonon-qt5 qt5-webkit krunner kparts knewstuff qt5-tools) # quazip-qt5
+makedepends=(extra-cmake-modules gpsd kdoctools knewstuff kparts krunner libwlocate phonon-qt5
+             plasma-workspace qt5-serialport qt5-tools qt5-webengine shapelib)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('cd5d7f758d2234dc8e2fa638b9e1326461655e10dbe21910dbef029e80ef7a68'
+sha256sums=('73a2c5234f8a1728e2a97499166e7bbf8dfb2f48d10fe8cff96380631d064627'
             'SKIP')
-validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7 # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
 
 prepare() {
   mkdir -p build
-
-  # fix installation designer plugins path
-  sed 's|LIB_SUFFIX}/plugins|LIB_SUFFIX}/qt/plugins|g' -i $pkgbase-$pkgver/CMakeLists.txt
-
-  # only build the KDE app
-  sed -e '/mobile/d' \
-      -e '/qt/d'  \
-      -e '/Quick/d' \
-      -e '/touch/d' \
-      -i $pkgbase-$pkgver/src/apps/CMakeLists.txt
 }
 
 build() {
   cd build
-  cmake ../$pkgname-$pkgver \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  cmake ../$pkgbase-$pkgver \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DKDE_INSTALL_LIBDIR=lib \
-    -DKDE_INSTALL_SYSCONFDIR=/etc \
-    -DKDE_INSTALL_LIBEXECDIR=lib \
-    -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DQT_PLUGINS_DIR=lib/qt/plugins \
     -DBUILD_TESTING=OFF \
-    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@" \
-    -DCMAKE_INSTALL_LIBDIR=lib \
     -DBUILD_MARBLE_EXAMPLES=OFF \
-    -DBUILD_MARBLE_TOOLS=ON \
     -DBUILD_MARBLE_TESTS=OFF \
     -DMOBILE=OFF
   make
 }
 
-package_libastro() {
-  pkgdesc='Marble astronomy library'
-  depends=(gcc-libs)
-  conflicts=('kdeedu-marble<15.07')
-
-  cd build/src/lib/astro
-  make DESTDIR="$pkgdir" install
-}
-
-package_marble() {
-  depends=(libastro marble-data qt5-webkit kparts knewstuff hicolor-icon-theme)
+package_marble-common() {
+  pkgdesc='Common libraries and plugins for Marble'
+  depends=(qt5-svg qt5-webengine phonon-qt5 desktop-file-utils)
   optdepends=('gpsd: GPS based geolocation'
-            'quazip-qt5: reading and displaying .kmz files'
-            'libwlocate: WLAN based geolocation'
-            'phonon-qt5: enables the use of audio and video content'
-            'krunner: Krunner plugin')
-  conflicts=('kdeedu-marble<15.04.3-1')
-  replaces=('kdeedu-marble')
-  groups=(kde-applications kdeedu)
+              'libwlocate: WLAN based geolocation'
+              'qt5-serialport: APRS plugin'
+              'shapelib: SHP plugin')
 
   cd build
   make DESTDIR="$pkgdir" install
-
-  # provided by libastro
-  rm -r "$pkgdir"/usr/include/astro
-  rm -r "$pkgdir"/usr/lib/{libastro.*,cmake/Astro}
-
-  # provided by marble-data
-  rm -r "$pkgdir"/usr/share/{icons,marble/data,mime}
+  rm -r "$pkgdir"/usr/share/{config.kcfg,kxmlgui5,metainfo,plasma} \
+        "$pkgdir"/usr/bin \
+        "$pkgdir"/etc \
+        "$pkgdir"/usr/lib/qt/{qml,plugins/*.so} \
+        "$pkgdir"/usr/share/applications/{marble_geo.desktop,marble_worldwind.desktop,org.kde.marble*.desktop} \
+        "$pkgdir"/usr/share/kservices5/{marble_part.desktop,plasma*} \
+        "$pkgdir"/usr/share/locale/*/LC_MESSAGES/*.mo
 }
 
-package_marble-data() {
-  pkgdesc='Data for Marble'
-  conflicts=('kdeedu-marble<15.07')
+package_marble-qt() {
+  pkgdesc+=' (Qt version)'
+  depends=(marble-common)
 
-  cd build/data
-  make DESTDIR="$pkgdir" install
+  cd build
+  make -C src/apps/marble-qt DESTDIR="$pkgdir" install
+}
+
+package_marble() {
+  depends=(marble-common knewstuff kparts)
+  optdepends=('krunner: Krunner plugin')
+
+  cd build
+  make -C src/apps/marble-kde DESTDIR="$pkgdir" install
+  make -C src/plasma DESTDIR="$pkgdir" install
+  make -C src/plasmarunner DESTDIR="$pkgdir" install
+  make -C src/thumbnailer DESTDIR="$pkgdir" install
+  rm -r "$pkgdir"/usr/share/{icons,doc/HTML}
 }
