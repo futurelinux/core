@@ -16,8 +16,11 @@ optdepends=('libmediawiki: MediaWiki Export plugin'
             'qt5-xmlpatterns: rajce.net plugin')
 makedepends=(extra-cmake-modules qt5-xmlpatterns libmediawiki libkvkontakte)
 options=(debug)
-source=("http://download.kde.org/stable/$pkgname/$pkgname-$pkgver.tar.xz")
-sha256sums=('f540e517421503b54e906633c71c2f688bb920c5aefe7d05a13d0eeaf0356a9b')
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('16997bd6fbb59c194c2997732c870e33bbacd3d7346546af9a255db3330ec5ac'
+            'SKIP')
+validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
+              F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
 
 prepare() {
   mkdir -p build
