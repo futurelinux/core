@@ -14,7 +14,7 @@ options=(debug)
 depends=(kbookmarks)
 makedepends=(extra-cmake-modules kdoctools)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('f294965fc7cf8b1063b611233a98fab13a00263f1d4fd254fb8b53b3f125bc52'
+sha256sums=('9be6ac607148b0815bd985075fbb97d44561fdd6a955b60f0afc728f9cbd978b'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
