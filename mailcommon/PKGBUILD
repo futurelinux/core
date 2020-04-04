@@ -6,18 +6,15 @@
 pkgname=mailcommon
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="Lib which provides support for mail apps"
+pkgdesc="KDE PIM library providing support for mail applications"
 arch=('x86_64')
-url='https://github.com/KDE/mailcommon'
+url="https://kontact.kde.org"
 license=('LGPL')
-depends=('akonadi' 'ki18n' 'kmime' 'kcodecs' 'kiconthemes' 'karchive' 'kitemviews'
-         'kwindowsystem' 'kxmlgui' 'messagelib' 'libkdepim' 'pimcommon' 'mailimporter' 'kmailtransport'
-         'kldap' 'phonon-qt5')
-makedepends=('extra-cmake-modules' 'kdoctools' 'qt5-tools')
-groups=(kde kde-applications kdepim kde-uninstall)
+depends=(mailimporter messagelib phonon-qt5)
+makedepends=(extra-cmake-modules boost qt5-tools)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('55ccf161f40b3647f269f71309f9a2fcdf1e2327da53e96c3d8510fc664252bf'
+sha256sums=('d3999d290505b20aecbb4b14bec5af4d6a7db72d1f26f7a40b4aff231588c7e5'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
