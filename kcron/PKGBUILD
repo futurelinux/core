@@ -14,7 +14,7 @@ depends=(kio cron)
 makedepends=(extra-cmake-modules kdoctools)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('b2270bb3390570ee49b887e5cda1c596c351fd0cd83183f091ef1b078fa55669'
+sha256sums=('22d07834e8431d0fcc756a0e7d92d4e8993008766bf336254f8650c9455c9ab0'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
