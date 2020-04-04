@@ -10,11 +10,11 @@ pkgdesc="An interface to use kipi-plugins from a KDE application"
 url="https://projects.kde.org/projects/kde/kdegraphics/libs/libkipi"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-depends=(kxmlgui hicolor-icon-theme)
-makedepends=(extra-cmake-modules python)
+depends=(kxmlgui kservice hicolor-icon-theme)
+makedepends=(extra-cmake-modules)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('4b06a880a66eae18dc3ed7f4b39e877691c21d60af7603c7679ebcac5a0a7d4b'
+sha256sums=('3a57d07cd4fe8e118558d807242bf483fa2aac1bcf3dcdc29139636c2b280786'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
