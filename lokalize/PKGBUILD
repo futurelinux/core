@@ -3,23 +3,18 @@
 #               Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
-pkgname="lokalize"
-arch=('x86_64')
+pkgname=lokalize
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="Computer aided translation system"
-screenshot="http://www.kde.org/images/screenshots/lokalize.png"
-depends=('kross')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-provides=('kdesdk-lokalize')
-conflicts=('kdesdk-lokalize')
-replaces=('kdesdk-lokalize')
-groups=('kde' 'kde-devel' 'kde-uninstall' 'kdesdk')
-url="http://www.kde.org"
+pkgdesc='Computer-Aided Translation System'
+url='https://kde.org/applications/development/lokalize/'
+arch=('x86_64')
 license=('GPL' 'LGPL' 'FDL')
+depends=('kross' 'hunspell' 'hicolor-icon-theme')
+makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('e25de54944ca32b32b4eeddd85e8ca9764a04de7c1d7a2d350d41cbda8105aef'
+sha256sums=('8015c994e974fd51c1c7f5903a005bbbc25f094656bdd44cd5e8675cd69cea92'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
