@@ -10,11 +10,11 @@ pkgdesc="Floppy formatter"
 url="https://kde.org/applications/utilities/kfloppy/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-depends=(kxmlgui hicolor-icon-theme)
+depends=(kxmlgui kcompletion hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('aed5533db83513e7ad9d4108920fc0241569d6b1b649d95ef36a36bbc1f72cab'
+sha256sums=('7f384f9197d5066a5db978a9551665ae9a90b1f3afd1937f800ab61e376d3723'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
