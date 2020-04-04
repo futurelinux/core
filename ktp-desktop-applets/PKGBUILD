@@ -3,22 +3,17 @@
 #               Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
-pkgname='plasma5-applets-ktp-desktop'
-_pkgname='ktp-desktop-applets'
+pkgname='ktp-desktop-applets'
 pkgver=19.12.3
 pkgrel=1
 pkgdesc="The KDE-Telepathy Plasma desktop applets"
 arch=('x86_64')
 url="http://community.kde.org/Real-Time_Communication_and_Collaboration"
 license=('GPL')
-depends=('ktp-common-internals' 'ktp-accounts-kcm')
-makedepends=('extra-cmake-modules' 'plasma-framework')
-replaces=('ktp-desktop-applets')
-conflicts=('ktp-desktop-applets')
-provides=('ktp-desktop-applets')
-groups=('kde-telepathy' 'plasma5-applets')
-source=("https://download.kde.org/stable/release-service/$pkgver/src/$_pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('318b6a8f40cbbd7a82a1ed55788f8832133ee8d5685182783a4c00e1b2e6fa2a'
+depends=('ktp-common-internals' 'ktp-accounts-kcm' 'plasma-workspace')
+makedepends=('extra-cmake-modules')
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+sha256sums=('4ab8f04537345db8e41ed9f8ff7a6a2f3135e3539382cef97d1a7e9f0eddb54e'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
@@ -29,7 +24,7 @@ prepare() {
 
 build() {
   cd build
-  cmake ../${_pkgname}-${pkgver} \
+  cmake ../${pkgname}-${pkgver} \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DKDE_INSTALL_LIBDIR=lib \
