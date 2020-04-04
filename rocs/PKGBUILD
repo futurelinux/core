@@ -6,19 +6,15 @@
 pkgname=rocs
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="Rocs graph theory"
-url="http://kde.org/applications/education/rocs/"
+pkgdesc="Graph Theory IDE"
+url="https://kde.org/applications/education/rocs/"
 arch=('x86_64')
-screenshot='https://www.kde.org/images/screenshots/rocs.png'
 license=('GPL' 'LGPL' 'FDL')
-depends=('grantlee' 'kdeclarative' 'ktexteditor' 'qt5-webkit')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3' 'boost')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdeedu')
-replaces=('kdeedu-rocs')
-conflicts=('kdeedu-rocs')
+depends=('grantlee' 'kdeclarative' 'ktexteditor' 'qt5-webkit' 'qt5-xmlpatterns' 'qt5-script' 'hicolor-icon-theme')
+makedepends=('extra-cmake-modules' 'kdoctools' 'boost')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('533ab2f17160c402550479d7d3be9132b49e1d745c021c7735f0687d12236c8e'
+sha256sums=('f834e69e676913e364162906b79da5a75a6043f4a5c8506954d1630abda45e3c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
