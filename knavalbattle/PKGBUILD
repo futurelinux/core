@@ -10,14 +10,11 @@ pkgdesc="A ship sinking game"
 url="http://kde.org/applications/games/knavalbattle/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-groups=(kde kde-applications kdegames kde-uninstall)
 depends=(libkdegames hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
-conflicts=(kdegames-knavalbattle)
-replaces=(kdegames-knavalbattle)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('e4a50d3873865e8ab4803a9d7350bfc56ee3d59fd718b8abe860ac89e995ae69'
+sha256sums=('59875e10b0f2b06c2d3165f2f2457113f04550215947c8296ce1dcaf385ee37f'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
