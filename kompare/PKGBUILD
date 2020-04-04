@@ -12,14 +12,10 @@ screenshot="http://www.kde.org/images/screenshots/kompare.png"
 url="http://www.kde.org"
 license=('GPL' 'LGPL' 'FDL')
 depends=('libkomparediff2' 'ktexteditor' 'hicolor-icon-theme')
-makedepends=('extra-cmake-modules' 'python3' 'kdoctools')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kde-devel' 'kdesdk')
-provides=('kdesdk-kompare')
-conflicts=('kdesdk-kompare')
-replaces=('kdesdk-kompare')
+makedepends=('extra-cmake-modules' 'kdoctools')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('d0adbae35e979212e9705cb815e309059d8b3d0b7a815d7ff2cd7197eff65f44'
+sha256sums=('b89b266b6f648500627d2e70df29b73248c7b7d7d5e7c1bbcaddaedf072f6f1a'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
