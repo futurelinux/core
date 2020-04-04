@@ -10,13 +10,11 @@ pkgdesc="KMail account wizard"
 arch=(x86_64)
 url="https://community.kde.org/KDE_PIM"
 license=(GPL2)
-depends=(knotifyconfig ktexteditor kross mailcommon)
-conflicts=(kdepim-common)
-makedepends=(extra-cmake-modules boost python3 kdoctools qt5-tools)
+depends=(kidentitymanagement libkleo pimcommon kmailtransport kross)
+makedepends=(extra-cmake-modules boost kdoctools qt5-tools knotifyconfig ktexteditor)
 options=(docs debug)
-groups=(kde kde-uninstall kde-applications kdepim)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('eb998583eb99f9e06eda35c7d44819ffac33fbe1a068c597bc43db271f194f68'
+sha256sums=('4199e8c73456bf31b829596919ca481c3a95e59dee7c9bfb2e680311d0354ff0'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
