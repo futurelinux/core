@@ -6,19 +6,15 @@
 pkgname=umbrello
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="An UML modeling tool for KDE"
+pkgdesc='UML modeller'
 arch=('x86_64')
 url='https://kde.org/applications/development/umbrello'
 license=('GPL')
-depends=(hicolor-icon-theme ktexteditor qt5-webkit kdelibs4support)
-makedepends=(extra-cmake-modules kdoctools python3)
-groups=('kde' 'kde-applications' 'kdesdk')
-provides=('kdesdk-umbrello')
-conflicts=('kdesdk-umbrello')
-replaces=('kdesdk-umbrello')
+depends=(kdelibs4support kdevelop qt5-webkit)
+makedepends=(extra-cmake-modules kdoctools kdesignerplugin kdevelop-pg-qt llvm kinit)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('c4c56354d2765c0d03ffda02cc098cc3e9d72b0c7c22bb0c1cc03dcf5ac31a6a'
+sha256sums=('b2f769c7bd1cc259170b62c68d2dca05b4a143dd1048dbb507cf2bbb3020a193'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
