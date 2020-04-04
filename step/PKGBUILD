@@ -7,18 +7,14 @@ pkgname=step
 pkgver=19.12.3
 pkgrel=1
 pkgdesc="Interactive physical simulator"
-url="http://kde.org/applications/education/step/"
+url="https://kde.org/applications/education/step/"
 arch=('x86_64')
-screenshot='https://www.kde.org/images/screenshots/step.png'
 license=('GPL' 'LGPL' 'FDL')
-depends=('gsl' 'kdelibs4support' 'khtml' 'knewstuff' 'libqalculate')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3' 'eigen3' 'mesa'  'qt5-tools')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdeedu')
-replaces=('kdeedu-step')
-conflicts=('kdeedu-step')
+depends=('gsl' 'knewstuff' 'libqalculate' 'kplotting' 'hicolor-icon-theme')
+makedepends=('extra-cmake-modules' 'kdoctools' 'eigen3' 'qt5-tools')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('1197b38d9ef14305cf341eba4cd2df08695a9b3f53e2bebff8abb7cbd7a9e2aa'
+sha256sums=('0eb62c87553769e009daa02406b1d95742c946bdffe0d22327776ec558e7584b'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
