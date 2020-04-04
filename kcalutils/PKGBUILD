@@ -1,7 +1,5 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
-#               Felix Yan <felixonmars@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 
 pkgname=kcalutils
 pkgver=19.12.3
@@ -14,7 +12,7 @@ depends=(kcalendarcore kidentitymanagement)
 makedepends=(extra-cmake-modules)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('821742c98dd55a1334c13ea9d59e177ade048b1d3ade4775803eb288c98c93da'
+sha256sums=('00da1f331110a63c3d3c2c96394ead3d282f582d73fa925065560a50807fb7ff'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
