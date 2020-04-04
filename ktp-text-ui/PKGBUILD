@@ -10,11 +10,10 @@ pkgdesc="Telepathy text chat handler"
 arch=('x86_64')
 url="http://community.kde.org/Real-Time_Communication_and_Collaboration"
 license=('GPL')
-depends=('ktp-common-internals' 'kdewebkit' 'kemoticons' 'qt5-webengine' 'lcms2')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-groups=('kde-telepathy')
+depends=('ktp-common-internals' 'kemoticons' 'qt5-webengine')
+makedepends=('extra-cmake-modules' 'kdoctools')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('6779fad4ae6198ebf2e0759b53a8a0792bfca477df2c1f538bc00d1da281eae8'
+sha256sums=('b8ad9a224ae300c0412874d0877fdc8e050869d3a8f60a4051a0919a8749c50f'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
