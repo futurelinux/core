@@ -13,7 +13,7 @@ license=(GPL LGPL FDL)
 depends=(kio hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('23776b6b56e97fac0d8372d856a6fc9014b057f98ad5a96298b0685943c3da2a'
+sha256sums=('5bef4e4fb74da3102cba6672584195962514ee3f53fb369b48d492d6ce7255ad'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
