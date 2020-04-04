@@ -8,16 +8,13 @@ pkgver=19.12.3
 pkgrel=1
 pkgdesc="KDE screenshot capture utility"
 arch=(x86_64)
-url='https://projects.kde.org/spectacle'
+url='https://kde.org/applications/utilities/org.kde.spectacle'
 license=(GPL)
 depends=(xcb-util-cursor libkipi purpose knewstuff kwayland qt5-tools)
-makedepends=(extra-cmake-modules kdoctools python3)
-conflicts=(kdegraphics-ksnapshot kscreengenie)
-replaces=(kdegraphics-ksnapshot kscreengenie)
-groups=(kde-applications kdegraphics)
+makedepends=(extra-cmake-modules kdoctools)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('3717b7ebd314cac47c263c304c54c14b0115b15cfa4b87201f5ea27a2f4e9b8a'
+sha256sums=('443f114dab1fb50e7e12a046fdf06c0456bf99a3abdf09dce05605fdf7d3de81'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
