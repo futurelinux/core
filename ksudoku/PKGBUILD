@@ -9,17 +9,12 @@ pkgrel=1
 pkgdesc="A logic-based symbol placement puzzle"
 arch=('x86_64')
 url='http://kde.org/applications/games/ksudoku/'
-screenshot='https://www.kde.org/images/screenshots/ksudoku.png'
 license=('GPL' 'LGPL' 'FDL')
-groups=('kdegames' 'kde' 'kde-applications')
 depends=(libkdegames glu hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
-conflicts=(kdegames-ksudoku)
-replaces=(kdegames-ksudoku)
-provides=(kdegames-ksudoku)
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('82bf07385d131968ffd49a58404984fd506481158097aa063d954618d2679a65'
+sha256sums=('1cf36e762f31464b0640a88c739dfbb39b10129cace7fb5b74093ec607dea06c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
