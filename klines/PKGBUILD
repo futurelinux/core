@@ -6,19 +6,15 @@
 pkgname=klines
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="A simple but highly addictive, one player game"
+pkgdesc="A simple but highly addictive, single player game"
 arch=('x86_64')
 url='http://kde.org/applications/games/klines/'
-screenshot='https://www.kde.org/images/screenshots/klines.png'
 license=('GPL' 'LGPL' 'FDL')
-depends=('libkdegames')
-makedepends=('cmake' 'extra-cmake-modules' 'python' 'kdoctools')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdegames')
-replaces=('kdegames-klines')
-conflicts=('kdegames-klines')
+depends=('libkdegames' 'hicolor-icon-theme')
+makedepends=('extra-cmake-modules' 'kdoctools')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('aaa7825b4bfd61b650ddf28dd975b04cebdb7c09c9b137f17d686570a5212ebc'
+sha256sums=('8d11894d0a02de20090e52ef697a5a3c00e902213c018a82c94ca0985e92350a'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
