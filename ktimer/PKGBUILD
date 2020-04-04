@@ -3,21 +3,18 @@
 #               Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
-pkgname="ktimer"
-arch=('x86_64')
+pkgname=ktimer
 pkgver=19.12.3
 pkgrel=1
 pkgdesc="Timer application"
 url="http://www.kde.org"
+arch=('x86_64')
 license=('GPL' 'LGPL' 'FDL')
-options=('docs' 'debug')
 depends=('hicolor-icon-theme' 'kio')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-conflicts=('kdeutils-ktimer')
-replaces=('kdeutils-ktimer')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdeutils')
+makedepends=('extra-cmake-modules' 'kdoctools')
+options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('d8c80c3929e21a0450574d2e05e2a2384978c70f812eaab25e32402fe3a2f6c5'
+sha256sums=('921af876a176a4731a74b5e9e76d751853043ec4f4857301b39a5c680246557c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
