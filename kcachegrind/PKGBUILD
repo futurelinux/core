@@ -10,11 +10,15 @@ pkgdesc="Visualization of performance profiling data"
 url="https://kde.org/applications/development/kcachegrind/"
 license=(GPL LGPL FDL)
 arch=(x86_64)
-depends=(kio hicolor-icon-theme)
+depends=(kio hicolor-icon-theme qt5-base desktop-file-utils)
 makedepends=(extra-cmake-modules kdoctools qt5-tools kio)
+optdepends=('graphviz: for plotting support'
+            'php: for pprof2calltree'
+            'python2: for hotshot2calltree'
+            'perl: for dprof2calltree, memprof2calltree and op2calltree')
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('8fc5e0643bb826b07cb5d283b8bd6fd5da4979f6125b43b1db3a9db60b02a36a'
+sha256sums=('a30b70bac32f2b33c3c90b8c17754cfbf7d293c9eff0d573747eca2b45353b41'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
