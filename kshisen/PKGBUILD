@@ -9,16 +9,12 @@ pkgrel=1
 pkgdesc="A solitaire-like game played using the standard set of Mahjong tiles"
 arch=('x86_64')
 url='http://kde.org/applications/games/kshisen/'
-screenshot='https://www.kde.org/images/screenshots/kshisen.png'
 license=('GPL' 'LGPL' 'FDL')
-depends=('libkmahjongg' 'libkdegames')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdegames')
-replaces=('kdegames-kshisen')
-conflicts=('kdegames-kshisen')
+depends=('libkmahjongg' 'libkdegames' 'hicolor-icon-theme')
+makedepends=('extra-cmake-modules' 'kdoctools')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('bae9f0ed77f7b1b33f21a53dc07481665f6acdb9daad71dd550512a710a905af'
+sha256sums=('f6ce353725d71ce65269b1b7b3d118cb8555cd065db0d3b17fe4696d87c10601'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
