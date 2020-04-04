@@ -1,6 +1,5 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=ffmpegthumbs
@@ -13,7 +12,7 @@ license=(GPL LGPL FDL)
 depends=(kio ffmpeg)
 makedepends=(extra-cmake-modules)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('c91ad8e83df474971cf9766f2398e88e45d02dd2e51a7a794ace02f22c38c0f0'
+sha256sums=('cc4a1c3b4768dc674d210294a9957d622448cbe9cdaf713c1cb40bff3a79260e'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
