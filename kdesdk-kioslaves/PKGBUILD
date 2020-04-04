@@ -10,13 +10,10 @@ pkgdesc="KDE SDK KIO-slaves"
 url="https://www.kde.org/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-depends=(kio)
-provides=(kioslaves)
-conflicts=(kioslaves)
-replaces=(kioslaves)
+depends=(kio perl)
 makedepends=(extra-cmake-modules)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('cd957c67712616b9c7f00c8d733f723d98779c5805561770970bb3e2173478e0'
+sha256sums=('8b075bff545883aba24fee1763d0cdc64bf9444ae865f0623a33fc1ca295d254'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
