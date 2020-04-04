@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kdenetwork-filesharing
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Properties dialog plugin to share a directory with the local network"
 url="https://www.kde.org/applications/internet/"

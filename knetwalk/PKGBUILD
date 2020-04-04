@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=knetwalk
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Connect all the terminals to the server, in as few turns as possible"
 arch=('x86_64')

@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kapman
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A clone of the well-known game Pac-Man"
 url="https://kde.org/applications/games/kapman/"

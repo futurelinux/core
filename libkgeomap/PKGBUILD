@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=libkgeomap
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A wrapper around world map components for browsing and arranging photos on a map"
 url="https://projects.kde.org/projects/kde/kdegraphics/libs/libkgeomap"

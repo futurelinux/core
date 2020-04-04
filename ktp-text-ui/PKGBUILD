@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=ktp-text-ui
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Telepathy text chat handler"
 arch=('x86_64')

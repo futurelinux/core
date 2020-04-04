@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=ksquares
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A modeled after the well known pen and paper based game of Dots and Boxes"
 arch=('x86_64')

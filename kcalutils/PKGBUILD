@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kcalutils
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="The KDE calendar utility library"
 url="https://kontact.kde.org"

@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kaccounts-integration
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Small system to administer web accounts for the sites and services across the KDE desktop, including: Google, Facebook, Owncloud, IMAP, Jabber and others"
 url="https://www.kde.org/applications/internet/"

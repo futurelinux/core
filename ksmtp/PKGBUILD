@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=ksmtp
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Job-based library to send email through an SMTP server"
 arch=(x86_64)

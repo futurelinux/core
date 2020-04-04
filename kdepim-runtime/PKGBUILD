@@ -5,7 +5,7 @@
 #               Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=kdepim-runtime
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Extends the functionality of KDE PIM"
 url="https://kontact.kde.org"

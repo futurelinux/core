@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=lskat
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Lieutenant Skat is a fun and engaging card game for two players"
 arch=('x86_64')

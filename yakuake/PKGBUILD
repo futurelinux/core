@@ -6,7 +6,7 @@
 #               leeghoofd <abcdefg@solcon.nl>
 
 pkgname=yakuake
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A drop-down terminal emulator based on KDE konsole technology"
 arch=(x86_64)

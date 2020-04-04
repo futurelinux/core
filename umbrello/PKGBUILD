@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=umbrello
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="An UML modeling tool for KDE"
 arch=('x86_64')

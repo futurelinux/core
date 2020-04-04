@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kalarmcal
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="The KAlarm client library"
 url="https://kontact.kde.org"

@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=libkmahjongg
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Common code, backgrounds and tile sets for games using Mahjongg tiles"
 arch=('x86_64')

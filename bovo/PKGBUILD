@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=bovo
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A Gomoku-like game for two players"
 url="http://kde.org/applications/games/bovo/"

@@ -7,7 +7,7 @@
 #               Panagiotis Papadopoulos <pano_90@gmx.net>
 
 pkgname=kamoso
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A webcam recorder"
 url="https://userbase.kde.org/Kamoso"

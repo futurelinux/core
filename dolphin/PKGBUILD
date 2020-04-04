@@ -5,7 +5,7 @@
 #               Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=dolphin
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="File Manager"
 url="http://kde.org/applications/system/dolphin/"

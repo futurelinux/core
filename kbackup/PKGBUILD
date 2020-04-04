@@ -5,7 +5,7 @@
 #               BluePeril <blueperil@blueperil.de>
 
 pkgname=kbackup
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A program that lets you back up any directories or files"
 url="https://www.kde.org/applications/utilities/kbackup/"

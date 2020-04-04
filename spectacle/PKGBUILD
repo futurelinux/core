@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=spectacle
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="KDE screenshot capture utility"
 arch=(x86_64)

@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kcachegrind
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Visualization of performance profiling data"
 url="https://kde.org/applications/development/kcachegrind/"

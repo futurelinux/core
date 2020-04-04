@@ -5,7 +5,7 @@
 
 pkgbase=kate
 pkgname=(kate kwrite)
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 arch=(x86_64)
 license=(GPL LGPL FDL)

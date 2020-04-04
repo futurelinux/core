@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kdeedu-data
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Common data for KDE Edu applications"
 url="https://kde.org/applications/education"

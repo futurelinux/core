@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kleopatra
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Certificate manager and GUI for OpenPGP and CMS cryptography."
 arch=('x86_64')

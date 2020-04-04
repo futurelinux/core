@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=ksudoku
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A logic-based symbol placement puzzle"
 arch=('x86_64')

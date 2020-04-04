@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kalarm
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Personal alarm scheduler"
 url="https://kontact.kde.org"

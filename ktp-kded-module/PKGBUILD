@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=ktp-kded-module
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Workspace integration module - provides several plugins like auto-away, the infamous 'Now listening to...' and also an error handler"
 arch=('x86_64')

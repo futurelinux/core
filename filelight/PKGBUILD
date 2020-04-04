@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=filelight
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Creates a complex, but data-rich graphical representation of the files and directories on your computer"
 url="https://kde.org/applications/utilities/filelight"

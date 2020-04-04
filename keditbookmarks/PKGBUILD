@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=keditbookmarks
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Bookmark organizer and editor"
 url="https://www.kde.org/"

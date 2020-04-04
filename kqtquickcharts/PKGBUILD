@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kqtquickcharts
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A QtQuick plugin to render beautiful and interactive charts"
 url="https://edu.kde.org/"

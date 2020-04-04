@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kamera
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="KDE integration for gphoto2 cameras"
 url="https://kde.org/applications/graphics/kamera/"

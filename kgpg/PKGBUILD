@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kgpg
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="A GnuPG frontend"
 url="https://kde.org/applications/utilities/kgpg/"

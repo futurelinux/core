@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kdebugsettings
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="An application to enable/disable qCDebug"
 url="https://kde.org/applications/development/org.kde.kdebugsettings"

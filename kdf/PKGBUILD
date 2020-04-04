@@ -4,7 +4,7 @@
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=kdf
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="Displays available file devices along with information on their capacity, free space, type, and mount point"
 url="https://utils.kde.org/projects/kdf/"
