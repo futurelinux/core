@@ -6,17 +6,16 @@
 pkgname=korganizer
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="Calendar and scheduling Program"
+pkgdesc="Calendar and scheduling program"
 arch=(x86_64)
 url="https://community.kde.org/KDE_PIM"
 license=(GPL2)
-depends=(kdepim-runtime kontactinterface mailcommon incidenceeditor)
-makedepends=(extra-cmake-modules kdoctools boost python3 qt5-tools kdesignerplugin)
+depends=(kdepim-runtime kontactinterface incidenceeditor)
+makedepends=(extra-cmake-modules kdoctools boost qt5-tools)
 optdepends=('kdepim-addons: additional plugins')
 options=(docs debug)
-groups=(kde kde-uninstall kde-applications kdepim)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('b675b6c7a2a28a51bd377872c69795157825fd04fbef6dd4c97c33f659adadc7'
+sha256sums=('ea0a970aa510d5cdbbf80e974049fa3e7591e02c9ec2c4206137c49266df1acb'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
