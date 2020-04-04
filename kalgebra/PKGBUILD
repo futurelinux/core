@@ -12,8 +12,9 @@ arch=(x86_64)
 license=(GPL LGPL FDL)
 depends=(analitza kio qt5-webengine)
 makedepends=(extra-cmake-modules kdoctools)
+optdepends=('kirigami: for KAlgebra Mobile')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('7832584a161c2f611ce980ad98932533c998d37e6e4e2b7afbd0b4e98ce88a65'
+sha256sums=('ac865dded31b61c438ddb9db721543b8facba79c9b39365750b4bebfe2645640'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
