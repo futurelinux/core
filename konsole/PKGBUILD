@@ -9,15 +9,11 @@ pkgrel=1
 pkgdesc="KDE's terminal emulator"
 arch=('x86_64')
 url='http://kde.org/applications/system/konsole/'
-screenshot=('https://www.kde.org/images/screenshots/konsole.png')
 license=('LGPL')
 depends=(knotifyconfig kpty kparts kinit knewstuff)
-makedepends=(extra-cmake-modules kdoctools python3)
-groups=('kde')
-conflicts=('kde-baseapps-konsole<4.14.3-2')
-replaces=('kde-baseapps-konsole')
+makedepends=(extra-cmake-modules kdoctools)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('2cc610109ff8ddc6efa6ea83f0153f4b1d72e4be65d8dbde9cfd526c257e7025'
+sha256sums=('0bde8eb6365c53e96489d0ceb05baa0bb0385ee865492622033164a4c4bfccdc'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
