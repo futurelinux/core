@@ -6,18 +6,14 @@
 pkgname=ktp-kded-module
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="Workspace integration module - provides several plugins like auto-away, the infamous 'Now listening to...' and also an error handler"
+pkgdesc='KDED module providing system integration, e.g. setting user to auto-away and handling connection errors'
 arch=('x86_64')
 url="https://community.kde.org/Real-Time_Communication_and_Collaboration"
 license=('GPL')
 depends=('ktp-common-internals' 'kidletime' 'kactivities')
-makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
-provides=('ktp-kded-integration-module')
-replaces=('ktp-kded-integration-module')
-conflicts=('ktp-kded-integration-module')
-groups=('kde-telepathy')
+makedepends=('extra-cmake-modules' 'kdoctools')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('c16d46035874460f98c4f59e04d50e197c1c70ae9b441dfeb53dd4b319e96d15'
+sha256sums=('6bb0c05683812738e254c88d39936565966096a7156111565d8a64a59c55ef0d'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
