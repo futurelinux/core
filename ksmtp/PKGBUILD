@@ -10,10 +10,10 @@ pkgdesc="Job-based library to send email through an SMTP server"
 arch=(x86_64)
 url="https://community.kde.org/KDE_PIM"
 license=(LGPL)
-depends=(kmime kio)
-makedepends=(extra-cmake-modules python3)
+depends=(kio)
+makedepends=(extra-cmake-modules)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('16b389a8dcb938ed3f1e2f4b10a5aa31c16eac8df89963a71c08af3e54ada8dd'
+sha256sums=('1fd69f494afee91c11667ddbba43bc6cc316b51acf5894fe4c3a2631f53fae27'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
