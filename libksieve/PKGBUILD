@@ -6,16 +6,15 @@
 pkgname=libksieve
 pkgver=19.12.3
 pkgrel=1
-pkgdesc="Lib which manages sieve support"
+pkgdesc="KDE PIM library for managing sieves"
 arch=('x86_64')
-url='https://github.com/KDE/libksieve.git'
+url="https://kontact.kde.org"
 license=('LGPL')
 depends=(kidentitymanagement pimcommon kmailtransport)
-makedepends=('extra-cmake-modules' 'kdoctools' 'boost' 'qt5-tools')
-groups=(kde kde-applications kdepim kde-uninstall)
+makedepends=('extra-cmake-modules' 'kdoctools' 'boost')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('a10311192a57d1b7073d73477f5cefdf7c42d0a720d0eaf406986e4f1835ce60'
+sha256sums=('990e6a15e7e88120bf6c744fe6f1ac78184d6470318005f24634a70219f45002'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
