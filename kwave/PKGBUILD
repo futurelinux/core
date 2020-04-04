@@ -10,13 +10,12 @@ pkgdesc="A sound editor for KDE"
 arch=(x86_64)
 url="http://kwave.sourceforge.net"
 license=(GPL)
-depends=(qt5-multimedia kio audiofile libmad libsamplerate hicolor-icon-theme id3lib fftw opus)
-makedepends=(extra-cmake-modules kdoctools doxygen python librsvg)
-groups=('kde' 'kde-uninstall' 'kde-applications' 'kdemultimedia')
-screenshot=('http://kde-apps.org/CONTENT/content-pre1/11781-1.png')
+depends=(kio audiofile libmad libsamplerate hicolor-icon-theme id3lib fftw)
+makedepends=(extra-cmake-modules kdoctools doxygen librsvg opus)
+optdepends=('opus: OGG plugin')
 options=('docs' 'debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('bde8d2c3805b52bdcf0371c28e870d20fdfdd8b69831a9ba4e59ee9ae0a863ef'
+sha256sums=('3c90115d4702dbe46767e2404c952d84533137fa558b787b87ff95ed61f6930d'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
