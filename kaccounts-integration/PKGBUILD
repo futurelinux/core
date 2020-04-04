@@ -1,7 +1,5 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
-#               Felix Yan <felixonmars@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 
 pkgname=kaccounts-integration
 pkgver=19.12.3
@@ -13,7 +11,7 @@ license=(GPL)
 depends=(kcmutils signon-kwallet-extension signon-plugin-oauth2 signon-ui)
 makedepends=(extra-cmake-modules kdoctools)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('9106718c3ac8beeb11dc8a8d2ad53c7cc4a364ab6246ca9a24ea05dfe7415723'
+sha256sums=('452b95113de5fb0d19a13ef75e229ee07b0e92cc1e7a17e9a2dc7879121d9d33'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
