@@ -1,10 +1,9 @@
 # Maintainer:   totte <totte@chakralinux.org>
-# Contributors: Andrea Scarpino <andrea@archlinux.org>
-#               Antonio Rojas <arojas@archlinux.org>
+# Contributors: Antonio Rojas <arojas@archlinux.org>
 #               Felix Yan <felixonmars@archlinux.org>
 
 pkgname=akonadi-calendar-tools
-pkgver=19.08.3
+pkgver=19.12.3
 pkgrel=1
 pkgdesc="CLI tools to manage akonadi calendars"
 url="https://kontact.kde.org"
@@ -14,7 +13,7 @@ depends=(calendarsupport)
 makedepends=(extra-cmake-modules kdoctools boost)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('539bef47c9586f1edb87cedf63cce140dab4f19b6a94fbe08b0cd4c083cf6ffc'
+sha256sums=('ad2c23cf188228dc697d39e2120b56ce445bbea3eb46721794cd6344aa7e94ba'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
