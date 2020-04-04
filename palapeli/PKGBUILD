@@ -16,7 +16,7 @@ makedepends=(extra-cmake-modules kdoctools)
 conflicts=(kdegames-palapeli)
 replaces=(kdegames-palapeli)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('fc8e4ddd92def4998a0e8b11bc0a45671e5b07e065313aec135e74c056f321bd'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

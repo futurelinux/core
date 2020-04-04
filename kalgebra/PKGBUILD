@@ -12,7 +12,7 @@ arch=(x86_64)
 license=(GPL LGPL FDL)
 depends=(analitza kio qt5-webengine)
 makedepends=(extra-cmake-modules kdoctools)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('7832584a161c2f611ce980ad98932533c998d37e6e4e2b7afbd0b4e98ce88a65'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

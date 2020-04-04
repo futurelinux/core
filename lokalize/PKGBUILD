@@ -18,7 +18,7 @@ groups=('kde' 'kde-devel' 'kde-uninstall' 'kdesdk')
 url="http://www.kde.org"
 license=('GPL' 'LGPL' 'FDL')
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('e25de54944ca32b32b4eeddd85e8ca9764a04de7c1d7a2d350d41cbda8105aef'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

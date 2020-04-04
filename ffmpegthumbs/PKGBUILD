@@ -12,7 +12,7 @@ arch=(x86_64)
 license=(GPL LGPL FDL)
 depends=(kio ffmpeg)
 makedepends=(extra-cmake-modules)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('c91ad8e83df474971cf9766f2398e88e45d02dd2e51a7a794ace02f22c38c0f0'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

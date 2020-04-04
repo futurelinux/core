@@ -13,7 +13,7 @@ license=(GPL2)
 depends=(kdepim-runtime kdelibs4support)
 makedepends=(extra-cmake-modules kdoctools boost kdesignerplugin kdepim-apps-libs mailcommon)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('34d73be35b0cdf6189bf3792e939fa9557bffff8271966d9fc49217e488317e8'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

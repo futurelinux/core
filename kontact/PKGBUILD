@@ -14,7 +14,7 @@ depends=(hicolor-icon-theme kontactinterface mailcommon)
 makedepends=(extra-cmake-modules kdoctools boost python3)
 options=(docs debug)
 groups=(kde kde-uninstall kde-applications kdepim)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('2bc81b4c051856894d5405532e9663a59abf25bfed1cf0394ee24e219b4752d5'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

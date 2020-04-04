@@ -14,7 +14,7 @@ depends=(gpgme kitemmodels kpimtextedit)
 makedepends=(extra-cmake-modules python3 boost)
 groups=(kde kde-applications kdepim kde-uninstall)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('5f1a3276646c786e8e25e6765d0f4e6b6ac0e4dccd094c1810b10a10e401576e'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

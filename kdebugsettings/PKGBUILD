@@ -13,7 +13,7 @@ license=(GPL)
 depends=(kdbusaddons ki18n kitemviews kcompletion kcoreaddons)
 makedepends=(extra-cmake-modules)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('10ccbc85c36a81ba7fdf3230f16c3b9974d240d17347d21aa7b67e9b5f85c78d'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

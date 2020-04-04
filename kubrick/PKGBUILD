@@ -18,7 +18,7 @@ conflicts=(kdegames-kubrick)
 replaces=(kdegames-kubrick)
 provides=(kdegames-kubrick)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('fd11e0969ae08e42316044535008511b3fcae7752c7a86b2ae9ae24c94e44855'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

@@ -13,7 +13,7 @@ license=(LGPL)
 depends=(kio)
 makedepends=(extra-cmake-modules)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('2fa2e07fb9975e2e32e26a2a17350ef253b93471017e5945a2df0fef2eeba787'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

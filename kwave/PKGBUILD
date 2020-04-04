@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules kdoctools doxygen python librsvg)
 groups=('kde' 'kde-uninstall' 'kde-applications' 'kdemultimedia')
 screenshot=('http://kde-apps.org/CONTENT/content-pre1/11781-1.png')
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('bde8d2c3805b52bdcf0371c28e870d20fdfdd8b69831a9ba4e59ee9ae0a863ef'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

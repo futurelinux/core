@@ -14,7 +14,7 @@ depends=(kontactinterface messagelib knotifyconfig ktexteditor syndication)
 makedepends=(extra-cmake-modules boost kdoctools)
 optdepends=('kdepim-addons: additional plugins')
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('c3aab6ebba25eab8c76b113a900af33a90222257f957650d0bbc0c47d5cf4bc9'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

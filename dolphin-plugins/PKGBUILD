@@ -14,7 +14,7 @@ depends=(dolphin)
 makedepends=(extra-cmake-modules ktexteditor)
 optdepends=('ktexteditor: Mercurial plugin')
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('82860ef615954e94f3f382ad60fb144fcfcf7777b8a890f281c0cce55da13a55'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

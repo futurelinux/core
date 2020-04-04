@@ -13,7 +13,7 @@ license=('GPL')
 depends=('kwallet' 'signon')
 makedepends=('extra-cmake-modules')
 groups=('kde-telepathy')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('273ff874bf08dd97a12b3b07215bc0ce9fd3c3c59b6bb1f61000411454211a65'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

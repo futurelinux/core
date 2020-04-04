@@ -13,7 +13,7 @@ license=(GPL LGPL FDL)
 depends=(libkdegames hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('eac24bb0b0bcf7e12e4059187e0fd542503bae620637a4f35a339e6f63ab3890'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

@@ -13,7 +13,7 @@ license=(LGPL)
 depends=(kio kemoticons grantlee syntax-highlighting)
 makedepends=(extra-cmake-modules python3 kdoctools kdesignerplugin qt5-tools)
 options=('debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('75ff2300e771a1fe02a19ef57e2a28489179a92dc184c924be495e878b4444ab'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

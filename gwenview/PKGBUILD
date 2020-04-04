@@ -16,7 +16,7 @@ optdepends=('qt5-imageformats: support for tiff, webp, and more image formats'
             'kipi-plugins: export to various online services'
             'kamera: import pictures from gphoto2 cameras')
 makedepends=(extra-cmake-modules kdoctools exiv2)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('7e7ad69eaa7a6b2d0549e94d1dab0d012107c822d66483d54aa8268900820255'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

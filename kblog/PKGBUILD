@@ -13,7 +13,7 @@ license=(LGPL)
 depends=(kxmlrpcclient syndication kcalendarcore)
 makedepends=(extra-cmake-modules)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('7b030a13c79a6add2b6f46b840e347609b39099c937d5bc5fb9310e2da987164'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

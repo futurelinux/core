@@ -13,7 +13,7 @@ license=(GPL2)
 depends=(messagelib ktexteditor)
 makedepends=(extra-cmake-modules kdoctools boost)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('4d81e56ee89bf8ff19ba112b2ecaf6080b7fbc6768030b4dbb4f15a1099a5bce'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

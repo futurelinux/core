@@ -15,7 +15,7 @@ makedepends=(extra-cmake-modules boost python3)
 conflicts=('kmail<16.11')
 options=(docs debug)
 groups=(kde kde-uninstall kde-applications kdepim)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('77fadf4d2dc14830704135237fb7c5f0285204acb9822277944cc03f70b8dc3c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

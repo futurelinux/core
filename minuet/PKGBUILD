@@ -17,7 +17,7 @@ optdepends=('soundfont-fluidr3: for MIDI sound'
 makedepends=('extra-cmake-modules' 'kdoctools')
 groups=(kde kde-applications kdeedu kde-uninstall)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('8af3e0b5fd17d7043499391273232a1649ea3dec5e69faab5a4dc4452080605c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

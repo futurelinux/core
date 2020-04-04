@@ -16,7 +16,7 @@ conflicts=(kdeedu-ktouch)
 replaces=(kdeedu-ktouch)
 options=(docs debug)
 groups=(kde kde-uninstall kde-applications kdeedu)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('8a288377a37f5afbd657c452c45628186646b27585a67312e35930a9fb581d37'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

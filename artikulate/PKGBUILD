@@ -13,7 +13,7 @@ license=(GPL LGPL FDL)
 depends=(hicolor-icon-theme kdeclarative knewstuff kirigami qt5-xmlpatterns)
 makedepends=(extra-cmake-modules kdoctools boost)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('99831d51bf8cb4032ba9af7c4ae0712f7b3668b7c51bce8f942808c1e5e42f85'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

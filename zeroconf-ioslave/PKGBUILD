@@ -16,7 +16,7 @@ makedepends=(extra-cmake-modules)
 conflicts=(kdenetwork-zeroconf-ioslave)
 replaces=(kdenetwork-zeroconf-ioslave)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('b7b00edcc987c298e1dc885e3ceb6acbcbfe40141423d90406a3ccecef2471ed'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

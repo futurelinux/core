@@ -13,7 +13,7 @@ license=('LGPL')
 depends=(hicolor-icon-theme libkleo kcmutils kmime)
 makedepends=(extra-cmake-modules kdoctools boost python3)
 groups=(kde kde-applications kde-uninstall kdepim)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('44b9873fbdeb88416d33b54491b75d35eac1589d70ef70505456e89068eb1caf'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

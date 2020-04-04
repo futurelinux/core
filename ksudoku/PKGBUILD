@@ -18,7 +18,7 @@ conflicts=(kdegames-ksudoku)
 replaces=(kdegames-ksudoku)
 provides=(kdegames-ksudoku)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('82bf07385d131968ffd49a58404984fd506481158097aa063d954618d2679a65'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

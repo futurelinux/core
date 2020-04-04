@@ -13,7 +13,7 @@ license=(GPL LGPL FDL)
 depends=(khtml knewstuff kplotting kunitconversion qt5-script avogadrolibs openbabel hicolor-icon-theme)
 makedepends=(extra-cmake-modules kdoctools eigen3 ocaml python3)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig}
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig}
         kalzium-openbabel3.patch)
 sha256sums=('5dc3423a0f2646b59233f92b6a6e81b4a0bcdb819aa543c83270fe4cc5592933'
             'SKIP'

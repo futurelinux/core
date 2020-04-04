@@ -13,7 +13,7 @@ license=('GPL')
 depends=('ktp-common-internals')
 makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
 groups=('kde-telepathy')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('cdc90313da9a238197b69d0ebc11d8e4c6ce617063acbf2864d966aff6df1e94'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

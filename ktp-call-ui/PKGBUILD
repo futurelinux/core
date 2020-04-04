@@ -17,7 +17,7 @@ depends=('kconfig' 'kdeclarative' 'kiconthemes' 'ki18n' 'knotifications' 'kxmlgu
 makedepends=('boost' 'extra-cmake-modules' 'kdoctools')
 groups=(kde kde-applications kde-telepathy kde-uninstall)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('9245d11a28c2022ec98de6368d03ba8d9a53d8364d4f87efb142a0f843eea67d'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

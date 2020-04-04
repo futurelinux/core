@@ -13,7 +13,7 @@ license=(GPL LGPL FDL)
 depends=(akonadi-contacts)
 makedepends=(extra-cmake-modules kdoctools boost)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('85bb9adbd7a7213bdd4913c2153582e938543db49cf2414b8794a850f63f3ab6'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

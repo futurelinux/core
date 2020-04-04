@@ -14,7 +14,7 @@ depends=('akonadi' 'ki18n' 'kmime' 'kconfig' 'karchive' 'libkdepim')
 makedepends=('extra-cmake-modules' 'kdoctools' 'qt5-tools')
 groups=(kde kde-applications kdepim kde-uninstall)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('fbdfbfe093bb0af05d26492c0839a94ac0a5c0577081bd726626b943be7cb96e'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

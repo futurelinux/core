@@ -13,7 +13,7 @@ license=(GPL LGPL FDL)
 depends=(kxmlgui hicolor-icon-theme)
 makedepends=(extra-cmake-modules python)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('4b06a880a66eae18dc3ed7f4b39e877691c21d60af7603c7679ebcac5a0a7d4b'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

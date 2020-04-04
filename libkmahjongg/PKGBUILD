@@ -14,7 +14,7 @@ depends=('kcompletion' 'kconfigwidgets')
 makedepends=('extra-cmake-modules' 'qt5-svg' 'python3')
 groups=("kde" "kdegames" "kde-uninstall")
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('fd7d036ba3b17246fad42e0366003233c42f5b03df881d6bc6886518c2acb165'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

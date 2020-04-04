@@ -17,7 +17,7 @@ groups=('kde' 'kde-uninstall' 'kde-applications' 'kdeedu')
 replaces=('kdeedu-kmplot')
 conflicts=('kdeedu-kmplot')
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('777408873baa5d6ce236d71bc2935a89fa414fb9f59049ba6e1ae88d581f580e'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

@@ -13,7 +13,7 @@ license=(LGPL)
 depends=(calendarsupport kdiagram)
 makedepends=(extra-cmake-modules boost qt5-tools)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('3c110fb5001e71d664aaa3b09a3689c0bb16ca12ee169e98f6ff454a0ee81ba4'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

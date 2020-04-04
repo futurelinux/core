@@ -17,7 +17,7 @@ groups=('kde' 'kde-uninstall' 'kde-applications' 'kdegames')
 replaces=('kdegames-knetwalk')
 conflicts=('kdegames-knetwalk')
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('ed74cd88364eb263209574655e1cdf77f4776bf339f3313ce20dbf4f950664c4'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

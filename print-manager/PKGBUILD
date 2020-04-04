@@ -17,7 +17,7 @@ groups=("kde" "kdeadmin" "kde-uninstall")
 replaces=('kdeadmin-print-manager')
 conflicts=('kdeadmin-print-manager')
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('c6420dfa711fc68a6d681d27521eac3c9f1060e57f048594b43f2941a78320ee'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

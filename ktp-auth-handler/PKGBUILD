@@ -13,7 +13,7 @@ license=('GPL')
 depends=('ktp-common-internals' 'kdewebkit' 'qca-qt5')
 makedepends=('extra-cmake-modules')
 groups=('kde-telepathy')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('6275ea746a28857cc77cc031a75a5f2278cf85dd1ef3c04e47006c4316975659'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

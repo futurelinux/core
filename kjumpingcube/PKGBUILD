@@ -13,7 +13,7 @@ license=('GPL' 'LGPL' 'FDL')
 depends=('knotifyconfig' 'libkdegames' 'kdelibs4support')
 makedepends=('extra-cmake-modules' 'kdoctools' 'python3')
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('a1e6147105a0d467629118bf6cac974a1a698d15f48563e494ce75e126fec734'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

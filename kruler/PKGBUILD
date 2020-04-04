@@ -16,7 +16,7 @@ groups=('kde' 'kde-uninstall' 'kde-applications' 'kdegraphics')
 replaces=('kdegraphics-kruler')
 conflicts=('kdegraphics-kruler')
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('1825ec4b7f6a0ffc00f1ed09d2879a8d9925da49e62bad0a7484d4e90903df79'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

@@ -13,7 +13,7 @@ license=(GPL LGPL FDL)
 depends=(kcmutils libkcddb libkcompactdisc lame)
 makedepends=(extra-cmake-modules kdoctools)
 optdepends=('opus-tools: encoding to opus format')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('98d836def762b839b9636acc540158d5b4789a84d1bdb535ae139b10e9e144a4'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

@@ -18,7 +18,7 @@ provides=('kdesdk-kompare')
 conflicts=('kdesdk-kompare')
 replaces=('kdesdk-kompare')
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('d0adbae35e979212e9705cb815e309059d8b3d0b7a815d7ff2cd7197eff65f44'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

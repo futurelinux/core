@@ -13,7 +13,7 @@ license=(LGPL)
 depends=(libkleo pimcommon grantleetheme)
 makedepends=(extra-cmake-modules kdoctools)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('3c478455a0f4704aa4f8a42e92f0657e01b749c568dc6e89bfae5496eefeab83'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

@@ -13,7 +13,7 @@ license=('GPL')
 depends=('kaccounts-integration' 'kaccounts-providers' 'telepathy-qt5')
 makedepends=('extra-cmake-modules' 'intltool')
 groups=('kde-telepathy')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('79d2af8b3863d2f4fda51c0bc04b696648d297f2af33e09237b0eed9dd24509f'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

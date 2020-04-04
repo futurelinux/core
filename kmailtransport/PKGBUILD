@@ -13,7 +13,7 @@ license=(LGPL)
 depends=(akonadi-mime kcmutils ksmtp libkgapi)
 makedepends=(extra-cmake-modules python kdoctools boost)
 options=('debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('24cf570b2ab77a69e55adb013e1d7e3eaf17f5ced900d8e5166890bb3ab64d12'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

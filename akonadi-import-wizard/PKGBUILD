@@ -13,7 +13,7 @@ license=(GPL2)
 depends=(mailcommon)
 makedepends=(extra-cmake-modules boost kdoctools)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('1a11207826ecc59af73ca2dae1b6299a6cd9c71c093e634043295747ba8f6553'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

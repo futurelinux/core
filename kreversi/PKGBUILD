@@ -18,7 +18,7 @@ conflicts=(kdegames-kreversi)
 replaces=(kdegames-kreversi)
 provides=(kdegames-kreversi)
 options=('docs' 'debug')
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('30f15e40e1347c7d746bfdef7dffc0a0a9aecef8a960c875b68fab255c43d82c'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

@@ -13,7 +13,7 @@ license=(GPL2)
 depends=(calendarsupport messagelib)
 makedepends=(extra-cmake-modules kdoctools boost)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('37253a4b56afc34e52a05b58f63d1cdce221a11432c713f159b5c033a6018947'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

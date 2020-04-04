@@ -14,7 +14,7 @@ depends=(solid ki18n kcoreaddons phonon-qt5)
 makedepends=(extra-cmake-modules kdelibs4support kdesignerplugin kdoctools python)
 options=(docs debug)
 groups=(kde kde-uninstall kde-applications kdemultimedia)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('912b885badf6aff6b0378fba993633c9fb5cf026dc6791e4cda0c4c27913f425'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>

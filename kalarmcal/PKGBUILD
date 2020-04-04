@@ -13,7 +13,7 @@ license=(LGPL)
 depends=(kholidays libakonadi kcalutils)
 makedepends=(extra-cmake-modules boost)
 options=(debug)
-source=("https://download.kde.org/stable/applications/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('f6e9d0c99d228fc922e52ae3ddb33f2b691290e58a48edc816de72fc44d73871'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
