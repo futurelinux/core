@@ -10,19 +10,18 @@ pkgdesc="KDE frontend to mathematical software"
 url="https://kde.org/applications/education/cantor/"
 arch=(x86_64)
 license=(GPL LGPL FDL)
-depends=(analitza libspectre kpty ktexteditor knewstuff libqalculate hicolor-icon-theme qt5-xmlpatterns)
+depends=(analitza libspectre kpty ktexteditor knewstuff libqalculate hicolor-icon-theme qt5-xmlpatterns poppler-qt5)
+makedepends=(extra-cmake-modules python3 kdoctools luajit r julia)
 optdepends=('maxima: Maxima backend'
             'octave: Octave backend'
             'r: R backend'
             'luajit: LUA backend'
             'python3: Python 3 backend'
-            'python2: Python 2 backend'
             'sagemath: SageMath backend'
             'julia: Julia backend')
-makedepends=(extra-cmake-modules python3 python2 kdoctools luajit r julia)
 options=(debug)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('5b0f0b0b3990c83a927d2545baa9596119025dbf25242a9d46b1c76a26fcbfe5'
+sha256sums=('8347160f18993f53c857ec0d418dfebbc533878ad9f480047646d121e4e644cb'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
@@ -42,8 +41,8 @@ build() {
     -DUDEV_RULES_INSTALL_DIR=/usr/lib/udev/rules.d \
     -DBUILD_TESTING=OFF \
     -DKDE_INSTALL_USE_QT_SYS_PATHS=ON "$@" \
-    -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 \
-    -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so
+    -DPYTHON_INCLUDE_DIR=/usr/include/python3.6 \
+    -DPYTHON_LIBRARY=/usr/lib/libpython3.6.so
   make
 }
 
