@@ -11,11 +11,10 @@ url='https://www.kde.org/applications/multimedia/'
 arch=(x86_64)
 license=(GPL LGPL FDL)
 depends=(kio libmusicbrainz5)
-makedepends=(extra-cmake-modules kdoctools python)
+makedepends=(extra-cmake-modules kdoctools)
 options=(docs debug)
-groups=(kde kde-uninstall kde-applications kdemultimedia)
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('56fe09cfab0455581057aa1681cec01777159a51af1871419cd1b5fb9d4e8ae6'
+sha256sums=('69cbaf03adba24c0cabf957ee4149c4fa86d403eb6b8a07f7f80eb17be49e892'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
