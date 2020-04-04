@@ -10,11 +10,12 @@ pkgdesc="LDAP access API for KDE"
 arch=('x86_64')
 url="https://projects.kde.org/$pkgname"
 license=(LGPL)
-depends=(kcompletion ki18n libsasl libldap kmbox)
-makedepends=(extra-cmake-modules python3 kdoctools)
+depends=(kcompletion)
+makedepends=(extra-cmake-modules kio kdoctools)
+optdepends=('kio: LDAP kioslave')
 options=('debug')
 source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
-sha256sums=('b65ba5fefab7ecb92a7d38ac718e53077d9d9a87d73f121e32019aad90b48bae'
+sha256sums=('49f1ad32ae10b7f997c77f3a8db0776b972b93f9e18873b77baabf0db05cd5d4'
             'SKIP')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
