@@ -18,7 +18,7 @@ source=("https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$p
          kajongg-destdir.patch)
 sha256sums=('23e2b1be670b48bdd027e4e7a57e86a94b322afe6d37d8492c3d17689decfae5'
             'SKIP'
-            '456282348c31c71e8e49dea26df9f47de992cdaf3306e60005c433bf4326d565')
+            '66069ad694e9b8da8cf80d0a3e7e048fad345f1f1d03ac504ea645a08ee898c9')
 validpgpkeys=(CA262C6C83DE4D2FB28A332A3A6A4DB839EAA6D7  # Albert Astals Cid <aacid@kde.org>
               F23275E4BF10AFC1DF6914A6DBD2CE893E2D1C87) # Christoph Feck <cfeck@kde.org>
 
