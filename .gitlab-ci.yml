@@ -61,9 +61,28 @@ staging:
   stage: deploy
   only:
     - merge_requests
-  when: manual
+  when: on_success
   environment:
     name: staging
+    url: https://rsync.chakralinux.org/packages/staging/x86_64/
+  variables:
+    DEPLOY_SERVER: "$DEPLOY_SERVER"
+    SSH_USER: "$SSH_USER"
+    SSH_PORT: "$SSH_PORT"
+    GPG_PASSWORD: "$GPG_PASSWORD"
+    DEST_REPO: "testing"
+  tags:
+    - rsync
+  script:
+    - _gitlab-ci-scripts/deploy.sh
+
+testing:
+  stage: deploy
+  only:
+    - merge_requests
+  when: manual
+  environment:
+    name: testing
     url: https://rsync.chakralinux.org/packages/testing/x86_64/
   variables:
     DEPLOY_SERVER: "$DEPLOY_SERVER"
