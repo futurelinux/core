@@ -1,5 +1,8 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Pierre Schmitz <pierre@archlinux.de>
+
 pkgname=openssl
-_ver=1.0.2t
+_ver=1.1.1f
 # use a pacman compatible version scheme
 pkgver=${_ver/[a-z]/.${_ver//[0-9.]/}}
 pkgrel=1
@@ -7,63 +10,47 @@ pkgdesc='The Open Source toolkit for Secure Sockets Layer and Transport Layer Se
 arch=('x86_64')
 url='https://www.openssl.org'
 license=('custom:BSD')
-depends=('zlib' 'perl')
+depends=('perl')
 optdepends=('ca-certificates')
-options=('!makeflags')
 backup=('etc/ssl/openssl.cnf')
-source=("https://www.openssl.org/source/${pkgname}-${_ver}.tar.gz"
-        "https://www.openssl.org/source/${pkgname}-${_ver}.tar.gz.asc"
-        'no-rpath.patch'
-        'ssl3-test-failure.patch'
+source=("https://www.openssl.org/source/${pkgname}-${_ver}.tar.gz"{,.asc}
         'ca-dir.patch')
-md5sums=('ef66581b80f06eae42f5268bc0b50c6d'
-         'SKIP'
-         'dc78d3d06baffc16217519242ce92478'
-         '62fc492252edd3283871632bb77fadbe'
-         '3bf51be3a1bbd262be46dc619f92aa90')
-
-# Matt Caswell
-validpgpkeys=('8657ABB260F056B1E5190839D9C4D26D0E604491')
+sha256sums=('186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35'
+            'SKIP'
+            '9e8126f3a748f4c1d6fe34d4436de72b16a40e97a6d18234d2e88caa179d50c4')
+validpgpkeys=('8657ABB260F056B1E5190839D9C4D26D0E604491' # Matt Caswell
+              '7953AC1FBC3DC8B3B292393ED5E9E43F7DF9EE8C')
 
 prepare() {
-	cd $srcdir/$pkgname-$_ver
+  cd "$srcdir/$pkgname-$_ver"
 
-	# remove rpath: http://bugs.archlinux.org/task/14367
-	patch -p0 -i $srcdir/no-rpath.patch
-
-	# disable a test that fails when ssl3 is disabled
-	patch -p1 -i $srcdir/ssl3-test-failure.patch
-
-	# set ca dir to /etc/ssl by default
-	patch -p0 -i $srcdir/ca-dir.patch
+  # set ca dir to /etc/ssl by default
+  patch -p0 -i "$srcdir/ca-dir.patch"
 }
 
 build() {
-	cd $srcdir/$pkgname-$_ver
+  cd "$srcdir/$pkgname-$_ver"
 
-	openssltarget='linux-x86_64'
-	optflags='enable-ec_nistp_64_gcc_128'
-        # not disable ssl3-method yet, keep more compatibility
-	./Configure --prefix=/usr --openssldir=/etc/ssl --libdir=lib \
-		shared zlib no-ssl3 ${optflags} \
-		"${openssltarget}" \
-		"-Wa,--noexecstack ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}"
+  # mark stack as non-executable: http://bugs.archlinux.org/task/12434
+  ./Configure --prefix=/usr --openssldir=/etc/ssl --libdir=lib \
+    shared no-ssl3-method enable-ec_nistp_64_gcc_128 linux-x86_64 \
+    "-Wa,--noexecstack ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}"
 
-	make depend
-	make
+  make depend
+  make
 }
 
 check() {
-	cd $srcdir/$pkgname-$_ver
-	# the test fails due to missing write permissions in /etc/ssl
-	# revert this patch for make test
-	patch -p0 -R -i $srcdir/ca-dir.patch
-	make test
-	patch -p0 -i $srcdir/ca-dir.patch
+  cd "$srcdir/$pkgname-$_ver"
+  # the test fails due to missing write permissions in /etc/ssl
+  # revert this patch for make test
+  patch -p0 -R -i "$srcdir/ca-dir.patch"
+  make test
+  patch -p0 -i "$srcdir/ca-dir.patch"
 }
 
 package() {
-	cd $srcdir/$pkgname-$_ver
-	make INSTALL_PREFIX=$pkgdir MANDIR=/usr/share/man MANSUFFIX=ssl install
-	install -D -m644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+  cd "$srcdir/$pkgname-$_ver"
+  make DESTDIR=$pkgdir MANDIR=/usr/share/man MANSUFFIX=ssl install_sw install_ssldirs install_man_docs
+  install -D -m644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
