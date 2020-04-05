@@ -31,7 +31,7 @@ build() {
   cd build
   cmake ../$pkgname-$pkgver \
     -DBUILD_TESTING=OFF \
-    -DOPENBABEL2_INCLUDE_DIR=/usr/include/openbabel3 \
+    -DOPENBABEL2_INCLUDE_DIR=/usr/include/openbabel-2.0 \
     -DOPENBABEL2_LIBRARIES=/usr/lib/libopenbabel.so \
     -DOPENBABEL2_VERSION_MET=TRUE
   make
