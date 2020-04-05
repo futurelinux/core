@@ -3,7 +3,7 @@
 #               Damir Perisa <damir.perisa@bluewin.ch>
 
 pkgbase=openbabel
-pkgname=(openbabel python-openbabel)
+pkgname=(openbabel python3-openbabel)
 pkgver=3.0.0
 pkgrel=3
 pkgdesc="A library designed to interconvert between many file formats used in molecular modeling and computational chemistry"
