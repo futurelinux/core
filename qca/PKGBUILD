@@ -12,7 +12,7 @@ optdepends=('pkcs11-helper: PKCS-11 plugin'
 conflicts=(qca-qt5)
 provides=(qca-qt5)
 replaces=(qca-qt5)
-source=("https://download.kde.org/stable/$pkgname/$pkgver/src/$pkgname-$pkgver.tar.xz"{,.sig})
+source=("https://download.kde.org/stable/$pkgname/$pkgver/$pkgname-$pkgver.tar.xz"{,.sig})
 sha256sums=('1d68ef41a1b61dc9786beb923a68902a6276a77cced5e5ea7ff985ef113932d7'
             'SKIP')
 validpgpkeys=(CB9387521E1EE0127DA804843FDBB55084CC5D84) # Harald Sitter <sitter@kde.org>
