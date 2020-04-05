@@ -31,7 +31,7 @@ build() {
     -DPYTHON_BINDINGS=ON
   make
 
-  # To split python bindings
+  # Split Python bindings
   sed -i '/scripts.cmake_install.cmake/d' cmake_install.cmake
 }
 
