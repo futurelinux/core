@@ -141,7 +141,7 @@ calendarsupport
 eventviews
 incidenceeditor
 kpkpass
-kitinerary
+#kitinerary
 akonadi-calendar-tools
 ##akonadiconsole
 akonadi-import-wizard
