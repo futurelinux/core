@@ -8,7 +8,7 @@
 pkgbase=marble
 pkgname=(marble-common marble-qt marble)
 pkgver=19.12.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Desktop Globe"
 arch=(x86_64)
 url="https://www.kde.org/applications/system/marble"
@@ -35,7 +35,8 @@ build() {
     -DBUILD_TESTING=OFF \
     -DBUILD_MARBLE_EXAMPLES=OFF \
     -DBUILD_MARBLE_TESTS=OFF \
-    -DMOBILE=OFF
+    -DMOBILE=OFF \
+    -DKDE_INSTALL_LIBEXECDIR=lib
   make
 }
 
