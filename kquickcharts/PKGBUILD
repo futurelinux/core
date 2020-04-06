@@ -4,7 +4,7 @@
 
 pkgname=kquickcharts
 pkgver=5.68.0
-pkgrel=2
+pkgrel=3
 pkgdesc='A QtQuick plugin providing high-performance charts'
 arch=(x86_64)
 url='https://community.kde.org/Frameworks'
@@ -24,6 +24,7 @@ prepare() {
 build() {
   cd build
   cmake ../$pkgname-$pkgver \
+    -DKDE_INSTALL_LIBEXECDIR=lib \
     -DBUILD_TESTING=OFF
   make
 }
