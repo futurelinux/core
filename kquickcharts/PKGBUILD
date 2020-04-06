@@ -24,7 +24,7 @@ prepare() {
 build() {
   cd build
   cmake ../$pkgname-$pkgver \
-    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DKDE_INSTALL_LIBEXECDIR=lib \ # Don't install to /usr/lib64
     -DBUILD_TESTING=OFF
   make
 }
