@@ -151,12 +151,12 @@ kleopatra
 ##akregator
 ##grantlee-editor
 kaddressbook
-kalarm
-mbox-importer
-pim-data-exporter
+##kalarm
+##mbox-importer
+##pim-data-exporter
 pim-sieve-editor
 kmail-account-wizard
-kmail
+##kmail
 knotes
 korganizer
 kontact
