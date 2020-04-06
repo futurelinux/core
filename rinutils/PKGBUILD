@@ -3,7 +3,7 @@
 
 pkgname=rinutils
 pkgver=0.4.0
-pkgrel=1
+pkgrel=2
 pkgdesc="C11 / gnu11 utilities C library"
 arch=(any)
 url="https://www.shlomifish.org/open-source/projects/"
