@@ -3,7 +3,7 @@
 
 pkgname=rinutils
 pkgver=0.4.0
-pkgrel=2
+pkgrel=3
 pkgdesc="C11 / gnu11 utilities C library"
 arch=(any)
 url="https://www.shlomifish.org/open-source/projects/"
@@ -21,6 +21,7 @@ build() {
   cd build
   cmake ../$pkgname-$pkgver \
     -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
     -DWITH_TEST_SUITE=OFF
   make
 }
