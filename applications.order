@@ -144,10 +144,10 @@ kpkpass
 #kitinerary
 akonadi-calendar-tools
 ##akonadiconsole
-akonadi-import-wizard
-kdepim-addons
-kleopatra
-kopete
+#akonadi-import-wizard
+#kdepim-addons
+#kleopatra
+#kopete
 ##akregator
 ##grantlee-editor
 #kaddressbook
