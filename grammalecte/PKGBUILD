@@ -1,0 +1,25 @@
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Bruno Pagani <archange@archlinux.org>
+
+pkgname=grammalecte
+pkgver=1.7.0
+pkgrel=1
+pkgdesc="Grammar and typographic checker dedicated to the French language – standalone version"
+arch=(any)
+url="https://grammalecte.net/"
+license=(GPL3)
+depends=(python3)
+makedepends=(unzip python3-setuptools)
+options=(!emptydirs)
+source=(https://grammalecte.net/grammalecte/zip/Grammalecte-fr-v${pkgver}.zip)
+sha256sums=('83764ae204a1c13974f1b6a3bcff9d8d7b1c0d93f4c3fa9fd136618bab116171')
+
+build() {
+  python3 setup.py build
+}
+
+package() {
+  python3 setup.py install --root="${pkgdir}" --skip-build --optimize=1
+  mv "${pkgdir}"/usr/bin/grammalecte-cli{.py,}
+  mv "${pkgdir}"/usr/bin/grammalecte-server{.py,}
+}
