@@ -29,6 +29,7 @@ prepare() {
 build() {
   cd build
   cmake ../$pkgname-$pkgver \
+  -DKDE_INSTALL_LIBEXECDIR=lib \ # Don't install to /usr/lib64
     -DGWENVIEW_SEMANTICINFO_BACKEND="Baloo" \
     -DBUILD_TESTING=OFF
   make
