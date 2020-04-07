@@ -5,7 +5,8 @@
 
 pkgname=sddm-kcm
 pkgver=5.18.4.1
-pkgrel=1
+pkgrel=2
+epoch=1
 pkgdesc="SDDM configuration module for KDE"
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/workspace/sddm-kcm'
