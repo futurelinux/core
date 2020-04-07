@@ -6,9 +6,9 @@
 #               Balló György <ballogyor+arch@gmail.com>
 
 pkgbase=marble
-pkgname=(marble-common marble-qt marble)
+pkgname=(marble-common marble)
 pkgver=19.12.3
-pkgrel=3
+pkgrel=4
 pkgdesc="Desktop Globe"
 arch=(x86_64)
 url="https://www.kde.org/applications/system/marble"
@@ -50,6 +50,7 @@ package_marble-common() {
               'libwlocate: WLAN based geolocation'
               'qt5-serialport: APRS plugin'
               'shapelib: SHP plugin')
+  conflicts=(marble-data)
 
   cd build
   make DESTDIR="$pkgdir" install
@@ -60,14 +61,6 @@ package_marble-common() {
         "$pkgdir"/usr/share/applications/{marble_geo.desktop,marble_worldwind.desktop,org.kde.marble*.desktop} \
         "$pkgdir"/usr/share/kservices5/{marble_part.desktop,plasma*} \
         "$pkgdir"/usr/share/locale/*/LC_MESSAGES/*.mo
-}
-
-package_marble-qt() {
-  pkgdesc+=' (Qt version)'
-  depends=(marble-common)
-
-  cd build
-  make -C src/apps/marble-qt DESTDIR="$pkgdir" install
 }
 
 package_marble() {
