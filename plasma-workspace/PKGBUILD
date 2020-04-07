@@ -7,15 +7,41 @@
 pkgbase=plasma-workspace
 pkgname=('plasma-workspace' 'plasma-wayland-session')
 pkgver=5.18.4.1
-pkgrel=1
+pkgrel=2
 pkgdesc='KDE Plasma Workspace'
 arch=('x86_64')
 url='https://projects.kde.org/projects/kde/workspace/plasma-workspace'
 license=('LGPL')
-depends=(kjsembed knotifyconfig libksysguard ktexteditor libqalculate qt5-tools kde-cli-tools bc
-         xorg-xrdb xorg-xsetroot kactivitymanagerd kholidays xorg-utils milou prison kwin
-         plasma-integration kdelibs4support kpeople kactivities-stats knotifyconfig libkscreen)
-makedepends=(extra-cmake-modules kdoctools gpsd baloo krunner networkmanager-qt kdesignerplugin)
+depends=(kjsembed
+         knotifyconfig
+         libksysguard
+         ktexteditor
+         libqalculate
+         qt5-tools
+         kde-cli-tools
+         bc
+         xorg-xrdb
+         xorg-xsetroot
+         kactivitymanagerd
+         kholidays
+         xorg-utils
+         milou
+         prison
+         kwin
+         plasma-integration
+         kdelibs4support
+         kpeople
+         kactivities-stats
+         knotifyconfig
+         libkscreen
+         kquickcharts)
+makedepends=(extra-cmake-modules
+             kdoctools
+             gpsd
+             baloo
+             krunner
+             networkmanager-qt
+             kdesignerplugin)
 groups=('plasma')
 options=("debug")
 source=("https://download.kde.org/stable/plasma/${pkgver%.*}/$pkgname-$pkgver.tar.xz"{,.sig}
