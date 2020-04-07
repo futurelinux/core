@@ -5,7 +5,8 @@
 
 pkgname=kipi-plugins
 pkgver=19.12.3
-pkgrel=1
+pkgrel=2
+epoch=1
 pkgdesc="A collection of plugins extending the KDE graphics and image applications"
 url="https://userbase.kde.org/KIPI"
 arch=(x86_64)
