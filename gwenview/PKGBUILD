@@ -5,7 +5,7 @@
 
 pkgname=gwenview
 pkgver=19.12.3
-pkgrel=2
+pkgrel=3
 pkgdesc="A fast and easy to use image viewer"
 url="https://kde.org/applications/graphics/gwenview/"
 arch=(x86_64)
@@ -29,7 +29,7 @@ prepare() {
 build() {
   cd build
   cmake ../$pkgname-$pkgver \
-    -DKDE_INSTALL_LIBEXECDIR=lib \
+    -DCMAKE_INSTALL_LIBDIR=lib \
     -DGWENVIEW_SEMANTICINFO_BACKEND="Baloo" \
     -DBUILD_TESTING=OFF
   make
