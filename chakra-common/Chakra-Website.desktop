@@ -1,0 +1,26 @@
+[Desktop Entry]
+Categories=Chakra;
+Comment=Chakra Webpage
+Comment[ca]=Lloc web de Chakra
+Comment[da]=Chakra webside
+Comment[it]=Homepage di Chakra
+Comment[nl]=Homepage van Chakra
+Comment[ja]=Chakraのホームページ
+Exec=xdg-open https://www.chakralinux.org
+GenericName[ca]=
+GenericName=
+Icon=chakra-shield
+MimeType=
+Name=Homepage
+Name[ca]=Lloc web
+Name[nl]=Homepage
+Name[ja]=ホームページ
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

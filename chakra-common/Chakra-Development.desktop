@@ -1,0 +1,19 @@
+[Desktop Entry]
+Comment=Chakra Code Repository
+Comment[ca]=Repostiori de codi de Chakra
+Comment=Chakra kodearkiv
+Comment[it]=Repository del Codice di Chakra
+Comment[nl]=Chakra code Repository
+Comment[ja]=Chakraコードリポジトリ
+Exec=xdg-open https://code.chakralinux.org
+Icon=preferences-system
+Name=Code
+Name[ca]=Codi
+Name[da]=Kode
+Name[it]=Codice
+Name[nl]=Code
+Name[ja]=コード
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Chakra;
