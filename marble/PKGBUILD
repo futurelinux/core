@@ -8,7 +8,7 @@
 pkgbase=marble
 pkgname=(marble-common marble)
 pkgver=19.12.3
-pkgrel=4
+pkgrel=5
 pkgdesc="Desktop Globe"
 arch=(x86_64)
 url="https://www.kde.org/applications/system/marble"
@@ -50,7 +50,7 @@ package_marble-common() {
               'libwlocate: WLAN based geolocation'
               'qt5-serialport: APRS plugin'
               'shapelib: SHP plugin')
-  conflicts=(marble-data)
+  conflicts=(marble-data libastro)
 
   cd build
   make DESTDIR="$pkgdir" install
