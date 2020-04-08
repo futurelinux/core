@@ -4,7 +4,7 @@ pkgbase=pulseaudio
 pkgname=(pulseaudio libpulse pulseaudio-{gconf,zeroconf,lirc,jack,bluetooth,equalizer})
 pkgdesc="A featureful, general-purpose sound server"
 pkgver=11.1
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url="http://www.freedesktop.org/wiki/Software/PulseAudio"
 license=(LGPL)
@@ -223,7 +223,7 @@ package_pulseaudio-bluetooth(){
 
 package_pulseaudio-equalizer(){
   pkgdesc="Equalizer for PulseAudio"
-  depends=("pulseaudio=$pkgver-$pkgrel" python-pyqt5 fftw)
+  depends=("pulseaudio=$pkgver-$pkgrel" python3-pyqt5 fftw)
   license=(AGPL3)
 
   mv "$srcdir"/equalizer/* "$pkgdir"
