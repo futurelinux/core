@@ -1,30 +1,35 @@
-# Maintainer: Neophytos Kolokotronis <tetris4@gmail.com>
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: https://git.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/libvncserver
 
 pkgname=libvncserver
-pkgver=0.9.11
-pkgrel=2
-pkgdesc="A cross-platform C libraries that allow you to easily implement VNC server"
+pkgver=0.9.12
+pkgrel=1
+pkgdesc="Cross-platform C libraries that allow you to easily implement VNC server or client functionality"
 arch=('x86_64')
 url="https://libvnc.github.io/"
 license=('GPL')
-depends=('libpng' 'libjpeg' 'gnutls' 'libgcrypt' 'openssl')
-makedepends=('sdl')
-source=("https://github.com/LibVNC/libvncserver/archive/LibVNCServer-${pkgver}.tar.gz")
-md5sums=('7f06104d5c009813e95142932c4ddb06')
+depends=('libpng' 'libjpeg' 'gnutls' 'libgcrypt' 'openssl' 'libnsl')
+makedepends=('sdl2' 'cmake')
+source=("https://github.com/LibVNC/libvncserver/archive/LibVNCServer-${pkgver}.tar.gz"
+         krfb-crash-1.patch::"https://github.com/LibVNC/libvncserver/commit/d0a76539.patch"
+         krfb-crash-2.patch::"https://github.com/LibVNC/libvncserver/commit/15c4f144.patch")
+sha256sums=('33cbbb4e15bb390f723c311b323cef4a43bcf781984f92d92adda3243a116136'
+            'c419c30e9048e5b968fd6c9faad1a74c4559bc4c0ebcbddedfb76ce3f98adef1'
+            'a82ccbf56c5ba2aedccd2ac2158aff94d4eab02432f1dfb395b8166982f379a2')
 
 prepare() {
-  cd ${pkgname}-LibVNCServer-${pkgver}
+  cd $pkgname-LibVNCServer-$pkgver
+  patch -p1 -i ../krfb-crash-1.patch # Fix crash in krfb
+  patch -p1 -i ../krfb-crash-2.patch
 }
 
 build() {
-  cd ${pkgname}-LibVNCServer-${pkgver}
-  ./autogen.sh
-  ./configure --prefix=/usr --without-libva
+  cd $pkgname-LibVNCServer-$pkgver
+  cmake -DCMAKE_INSTALL_PREFIX=/usr .
   make
 }
 
 package() {
-  cd ${pkgname}-LibVNCServer-${pkgver}
-  make DESTDIR="${pkgdir}" install
+  cd $pkgname-LibVNCServer-$pkgver
+  make DESTDIR="$pkgdir" install
 }
-
