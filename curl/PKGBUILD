@@ -20,8 +20,7 @@ depends=('ca-certificates'
          'zlib'
          'libpsl'
          'libnghttp2'
-         'libidn2'
-         'libidn2.so')
+         'libidn2')
 provides=('libcurl.so')
 source=("https://curl.haxx.se/download/$pkgname-$pkgver.tar.gz"{,.asc})
 sha512sums=('c0bc5e52fd3f52e095f61cf2724de57f2698317dd19ca8c331575f3998d08b067adefcb57dc5274747276a5556df89465fe13976774af885804fa81ca417887f'
