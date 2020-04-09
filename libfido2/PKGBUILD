@@ -14,11 +14,8 @@ provides=('libfido2.so')
 source=(https://developers.yubico.com/libfido2/Releases/libfido2-${pkgver}.tar.gz{,.sig})
 sha256sums=('ba35e22016b60c1e4be66dff3cd6a60c1fe4bfa0d91ec0b89ca9da25ebeaaf41'
             'SKIP')
-        'SKIP')
-validpgpkeys=(
-  'EE90AE0D19774C8386628FAAB428949EF7914718' # pedro martelletto <pedro@yubico.com>
-  '1D7308B0055F5AEF36944A8F27A9C24D9588EA0F' # Aveen Ismail <aveen.ismail@yubico.com>
-)
+validpgpkeys=('EE90AE0D19774C8386628FAAB428949EF7914718'  # pedro martelletto <pedro@yubico.com>
+              '1D7308B0055F5AEF36944A8F27A9C24D9588EA0F') # Aveen Ismail <aveen.ismail@yubico.com>
 
 build() {
   mkdir -p ${pkgname}-${pkgver}/build
