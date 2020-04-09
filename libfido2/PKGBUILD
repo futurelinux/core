@@ -14,7 +14,6 @@ provides=('libfido2.so')
 source=(https://developers.yubico.com/libfido2/Releases/libfido2-${pkgver}.tar.gz{,.sig})
 sha256sums=('ba35e22016b60c1e4be66dff3cd6a60c1fe4bfa0d91ec0b89ca9da25ebeaaf41'
             'SKIP')
-b2sums=('f69a04fc69c46b688d83afe9d72b2fb1860ac00a09665d55e25293595520e95d45486ecc5355c479bc8bc06dbe6ed4fd469c511f5bf5f341a0ec86cb099fce28'
         'SKIP')
 validpgpkeys=(
   'EE90AE0D19774C8386628FAAB428949EF7914718' # pedro martelletto <pedro@yubico.com>

@@ -9,7 +9,6 @@ arch=(x86_64)
 url='https://github.com/libusb/hidapi'
 license=('GPL3' 'BSD' 'custom')
 depends=('libusb')
-conflicts=('hidapi-git')
 source=("https://github.com/libusb/${pkgname}/archive/${pkgname}-${pkgver}.tar.gz")
 sha256sums=('630ee1834bdd5c5761ab079fd04f463a89585df8fcae51a7bfe4229b1e02a652')
 

@@ -13,7 +13,6 @@ makedepends=('cmake' 'cmocka')
 provides=('libcbor.so')
 source=(https://github.com/PJK/libcbor/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz)
 sha256sums=('19309b84d4d88ae1179f3686bd246d977710801c1603915c51f618ba76727e94')
-b2sums=('2a258bc5dea44e54d32012d8f4937330c721ceac380317413dc3a5e52ae998e81785623b86833035151b8f17c5591a797e534ba7f1b66ac26dba58c3ad300afc')
 
 build() {
   mkdir -p ${pkgname}-${pkgver}/build
