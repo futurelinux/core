@@ -1,8 +1,11 @@
-# Arch Contribution: https://www.archlinux.org/packages/extra/x86_64/efitools/
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: Tobias Powalowski <tpowa@archlinux.org>
+#               Mirco Tischler <mt-ml at gmx dot de>
+#               Keshav Amburay <(the ddoott ridikulus ddoott rat) (aatt) (gemmaeiil) (ddoott) (ccoomm)>
 
 pkgname="efitools"
 pkgver=1.9.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Tools for manipulating UEFI secure boot platforms"
 url="http://git.kernel.org/cgit/linux/kernel/git/jejb/efitools.git"
 arch=('x86_64')
@@ -16,27 +19,27 @@ source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/jejb/$pkgname.git#c
 md5sums=('SKIP')
 
 pkgver() {
-	cd "${pkgname}"
-	echo "$(git describe --tags)" | sed -e 's|-|\.|g' -e 's|^v||g'
+  cd "${pkgname}"
+  echo "$(git describe --tags)" | sed -e 's|-|\.|g' -e 's|^v||g'
 }
 
 prepare() {
-	cd "${pkgname}"
-	git clean -x -d -f
-	sed -i "s/-O2/${CFLAGS} -Wno-pointer-sign/" Make.rules
+  cd "${pkgname}"
+  git clean -x -d -f
+  sed -i "s/-O2/${CFLAGS} -Wno-pointer-sign/" Make.rules
 }
 
 build() {
-	cd "${pkgname}"
-	# fix PreLoader.efi building on x86_64 #49314
-	export ARCH="${CARCH}"
-	make
+  cd "${pkgname}"
+  # fix PreLoader.efi building on x86_64 #49314
+  export ARCH="${CARCH}"
+  make
 }
 
 package() {
-	# http://www.rodsbooks.com/efi-bootloaders/secureboot.html#prebootloader
-	# http://blog.hansenpartnership.com/uefi-secure-boot/
-	# http://blog.hansenpartnership.com/linux-foundation-secure-boot-system-released
-	cd "${pkgname}"
-	make DESTDIR="${pkgdir}" install
+  # http://www.rodsbooks.com/efi-bootloaders/secureboot.html#prebootloader
+  # http://blog.hansenpartnership.com/uefi-secure-boot/
+  # http://blog.hansenpartnership.com/linux-foundation-secure-boot-system-released
+  cd "${pkgname}"
+  make DESTDIR="${pkgdir}" install
 }
