@@ -10,7 +10,7 @@ arch=('x86_64')
 license=('Apache')
 depends=('glibc')
 makedepends=('cmake')
-source=(https://cmocka.org/files/1.1/cmocka-${pkgver}.tar.{xz,asc})
+source=(https://cmocka.org/files/1.1/cmocka-${pkgver}.tar.xz{,.asc})
 sha512sums=('cad7f04757183d004f6eaad39036fc0e24c5e0e987f80e85bc43bc66dba22389cb02b08e25531cc28a541d0a24a86b29be134a2d6fc339128e87d66952f502bd'
             'SKIP')
 validpgpkeys=('8DFF53E18F2ABC8D8F3C92237EE0FC4DCC014E3D') # Andreas Schneider <asn@cryptomilk.org>
