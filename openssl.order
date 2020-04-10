@@ -1,6 +1,6 @@
 # Prerequisites
 ##glibc
-#http-parser
+http-parser
 ##libcbor
 ##libusb
 ##hidapi
@@ -10,8 +10,8 @@
 ##krb5
 ##libidn2
 ##gnutls
-#publicsuffix-list
-#libpsl
+publicsuffix-list
+libpsl
 ##libnghttp2
 ##zlib
 ##pcre2
