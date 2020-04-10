@@ -19,7 +19,7 @@
 ##grep
 
 # OpenSSL
-#openssl
+openssl
 libssh
 libssh2
 curl
