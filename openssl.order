@@ -53,7 +53,7 @@ wget
 #openvpn
 #easy-rsa
 
-# Cyrus (https://git.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libsasl)
+# Cyrus (see https://git.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libsasl)
 #mariadb
 #postgresql
 #cyrus-sasl
