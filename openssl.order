@@ -11,8 +11,8 @@ http-parser
 ##libidn
 ##libidn2
 gnutls
-#publicsuffix-list
-#libpsl
+publicsuffix-list
+libpsl
 ##libnghttp2
 ##zlib
 ##pcre2
@@ -20,11 +20,11 @@ gnutls
 ##grep
 
 # OpenSSL
-#openssl
-#libssh
-#libssh2
-#curl
-#wget
+openssl
+libssh
+libssh2
+curl
+wget
 #git
 #efitools
 #encfs
