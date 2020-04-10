@@ -1,47 +1,58 @@
 # Prerequisites
+##glibc
+http-parser
+##libcbor
+##libusb
+##hidapi
+##libcap
+##libnl
+##libpcap
 ##krb5
 ##libidn2
 ##gnutls
-publicsuffix-list
-libpsl
+#publicsuffix-list
+#libpsl
 ##libnghttp2
 ##zlib
+##pcre2
+##pcre
+##grep
 
 # OpenSSL
-openssl
-libssh2
-curl
-wget
-
-#easy-rsa
-#git (curl, expat, grep, openssl, pcre2, perl, perl-error, perl-mailtools, shadow, asciidoc, python3, xmlto)
-#efitools (openssl, git, gnu-efi-libs, help2man, perl-file-slurp, sbsigntools)
-#encfs (fuse2, openssl, tinyxml2)
-#gst-plugins-bad (curl, openssl, git, ... )
-#iputils
-#ldns
-#libevent
-#libfido2
-#libgit2
-#cyrus-sasl
-#libssh
-#libvncserver
-#ntp
-#openssh
-#openvpn
+#openssl
+libssh
+#libssh2
+#curl
+#wget
+git
+efitools
+encfs
+gst-plugins-bad
+iputils
+ldns
+libevent
+libfido2
+openssh
+libgit2
+libvncserver
+ntp
+testdisk
+vpnc
+wpa_supplicant
+net-snmp
+rtmpdump
+s-nail
 #ruby
-#pkcs11-helper
 #python2
 #python3
-#testdisk
-#vpnc
-#wpa_supplicant
-
-#net-snmp
-#rtmpdump
 #telepathy-idle
 
+# OpenVPN
+#pkcs11-helper
+#openvpn
+#easy-rsa
+
+# Cyrus (https://git.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/libsasl)
 #mariadb
 #postgresql
-#postgresql-libs
-#s-nail
+#cyrus-sasl
