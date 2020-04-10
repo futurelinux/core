@@ -37,7 +37,7 @@ build() {
     --sysconfdir=/etc \
     --disable-rpath \
     --enable-nls \
-    --with-ssl=openssl
+    --with-ssl=gnutls
   make
 }
 

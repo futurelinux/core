@@ -1,36 +1,46 @@
-# Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/gnutls
+# Maintainer:   totte <totte@chakralinux.org>
+# Contributors: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/gnutls
 
 pkgname=gnutls
-pkgver=3.5.19
+pkgver=3.6.13
 pkgrel=1
 pkgdesc="A library which provides a secure layer over a reliable transport layer"
 arch=('x86_64')
 license=('GPL3' 'LGPL2.1')
-url="http://www.gnutls.org/"
-install=gnutls.install
+url="https://www.gnutls.org/"
 options=('!zipman')
-depends=('gcc-libs' 'libidn' 'libtasn1' 'libunistring' 'readline' 'zlib' 'nettle' 'p11-kit' 'libidn')
+depends=('gcc-libs'
+         'libidn2'
+         'libtasn1'
+         'libunistring'
+         'nettle'
+         'p11-kit'
+         'readline'
+         'zlib')
+checkdepends=('net-tools')
 optdepends=('guile: for use with Guile bindings')
-source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v3.5/${pkgname}-${pkgver}.tar.xz{,.sig})
-sha256sums=('1936eb64f03aaefd6eb16cef0567457777618573826b94d03376bb6a4afadc44'
+source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/${pkgname}-${pkgver}.tar.xz{,.sig})
+sha256sums=('32041df447d9f4644570cf573c9f60358e865637d69b7e59d1159b7240b52f38'
             'SKIP')
-validpgpkeys=('0424D4EE81A0E3D119C6F835EDA21E94B565716F'
-              '1F42418905D8206AA754CCDC29EE58B996865171')
+validpgpkeys=('0424D4EE81A0E3D119C6F835EDA21E94B565716F'  # "Simon Josefsson <simon@josefsson.org>"
+              '1F42418905D8206AA754CCDC29EE58B996865171') # "Nikos Mavrogiannopoulos <nmav@gnutls.org>
 
 build() {
   cd ${pkgname}-${pkgver}
   ./configure --prefix=/usr \
-	--with-zlib \
-	--without-idn \
-	--disable-static \
-	--enable-guile --with-guile-site-dir=no \
-	--with-default-trust-store-pkcs11="pkcs11:model=p11-kit-trust;manufacturer=PKCS%2311%20Kit"
+              --with-zlib \
+              --disable-static \
+              --with-idn \
+              --enable-guile \
+              --with-guile-site-dir=no \
+              --with-default-trust-store-pkcs11="pkcs11:model=p11-kit-trust;manufacturer=PKCS%2311%20Kit"
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
   make
 }
 
 check() {
   cd ${pkgname}-${pkgver}
-  make -j1 check | true
+  make check
 }
 
 package() {

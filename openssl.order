@@ -8,8 +8,9 @@ http-parser
 ##libnl
 ##libpcap
 ##krb5
+##libidn
 ##libidn2
-##gnutls
+gnutls
 publicsuffix-list
 libpsl
 ##libnghttp2
