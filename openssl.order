@@ -1,11 +1,13 @@
+# Prerequisites
 ##krb5
 ##libidn2
 ##gnutls
-##publicsuffix-list
-##libpsl
+publicsuffix-list
+libpsl
 ##libnghttp2
 ##zlib
 
+# OpenSSL
 openssl
 libssh2
 curl
