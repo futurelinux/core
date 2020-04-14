@@ -1,15 +1,13 @@
 pkgname=sdl2_net
 pkgver=2.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A small sample cross-platform networking library (Version 2)"
 arch=('x86_64')
 url="http://www.libsdl.org/projects/SDL_net"
 license=('MIT')
 depends=(sdl2)
-source=("$url/release/SDL2_net-${pkgver}.tar.gz"
-        "FindSDL2_net.cmake")
-sha256sums=('15ce8a7e5a23dafe8177c8df6e6c79b6749a03fff1e8196742d3571657609d21'
-            'f46df983e7cdd920529cc76433b24805bc68a0d67340bdcca2769d71ff2379cb')
+source=("$url/release/SDL2_net-${pkgver}.tar.gz")
+sha256sums=('15ce8a7e5a23dafe8177c8df6e6c79b6749a03fff1e8196742d3571657609d21')
 
 build() {
   cd "${srcdir}/SDL2_net-${pkgver}/"
@@ -22,8 +20,5 @@ package() {
   cd "${srcdir}/SDL2_net-${pkgver}/"
   make DESTDIR="${pkgdir}/" install
   install -Dm644 COPYING.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-
-  # we can remove the following when provided directly by cmake
-  install -Dm644 $srcdir/FindSDL2_net.cmake ${pkgdir}/usr/share/cmake-3.0/Modules/FindSDL2_net.cmake
 }
 
