@@ -1,5 +1,5 @@
 pkgname=git
-pkgver=2.25.0
+pkgver=2.26.1
 pkgrel=1
 pkgdesc='the fast distributed version control system'
 arch=('x86_64')
@@ -20,7 +20,7 @@ source=("https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar"{.xz,.sign}
         'git-daemon@.service'
         'git-daemon.socket'
         'git-sysusers.conf')
-sha256sums=('c060291a3ffb43d7c99f4aa5c4d37d3751cf6bca683e7344ea407ea504d9a8d0'
+sha256sums=('888228408f254634330234df3cece734d190ef6381063821f31ec020538f0368'
             'SKIP'
             '0d19345aaeaeb374f8bfc30b823e8f53cb128c56b68c6504bbdd8766c03d1df9'
             '14c0b67cfe116b430645c19d8c4759419657e6809dfa28f438c33a005245ad91'
@@ -61,25 +61,6 @@ build() {
   make -C contrib/subtree "${_make_paths[@]}" all man
   make -C contrib/mw-to-git "${_make_paths[@]}" all
   make -C contrib/diff-highlight "${_make_paths[@]}"
-}
-check() {
-  cd "$srcdir/$pkgname-$pkgver"
-
-  local jobs
-  jobs=$(expr "$MAKEFLAGS" : '.*\(-j[0-9]*\).*') || true
-  mkdir -p /dev/shm/git-test
-  # explicitly specify SHELL to avoid a test failure in t/t9903-bash-prompt.sh
-  # which is caused by 'git rebase' trying to use builduser's SHELL inside the
-  # build chroot (i.e.: /usr/bin/nologin)
-  SHELL=/bin/sh \
-  make \
-    "${_make_paths[@]}" \
-    "${_make_options[@]}" \
-    NO_SVN_TESTS=y \
-    DEFAULT_TEST_TARGET=prove \
-    GIT_PROVE_OPTS="$jobs -Q" \
-    GIT_TEST_OPTS="--root=/dev/shm/git-test" \
-    test
 }
 
 package() {
