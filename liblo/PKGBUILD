@@ -1,25 +1,38 @@
 # Contributions from Arch: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/liblo
 
 pkgname=liblo
-pkgver=0.28
+pkgver=0.31
 pkgrel=1
 pkgdesc="Lightweight OSC implementation: an implementation of the Open Sound Control protocol for POSIX systems"
 arch=(x86_64)
 url="http://liblo.sourceforge.net/"
-license=('GPL')
+license=('LGPL2.1')
 depends=('glibc')
+makedepends=('doxygen')
 source=("http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz")
-md5sums=('e2a4391a08b49bb316c03e2034e06fa2')
+sha512sums=('97f9561296c2e53f92db0cfee625687208b490f8bc229b6cffe88b43ca2a8da1ed3217aaa2151245ea483e54ad6c5e92b9cf10a20661766fa6d3bedb5a8cdd01')
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
-
+  cd "$pkgname-$pkgver"
   ./configure --prefix=/usr
   make
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
-
+  cd "$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
+
+  # delete broken man pages
+  rm -f doc/man/man3/_*.3
+
+  # man pages
+  install -vDm 644 doc/man/man3/*.3 -t "${pkgdir}/usr/share/man/man3"
+  # examples
+  install -vDm 644 examples/*.{cpp,c} \
+    -t "${pkgdir}/usr/share/${pkgname}/examples/"
+  # docs
+  install -vDm 644 doc/html/* -t "${pkgdir}/usr/share/doc/${pkgname}/html/"
+  install -vDm 644 doc/latex/* -t "${pkgdir}/usr/share/doc/${pkgname}/latex/"
+  install -vDm 644 {AUTHORS,ChangeLog,NEWS,README,TODO} \
+    -t "${pkgdir}/usr/share/doc/${pkgname}/"
 }
