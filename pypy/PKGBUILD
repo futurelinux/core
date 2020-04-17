@@ -1,5 +1,5 @@
 pkgname=pypy
-pkgver=7.3.0
+pkgver=7.3.1
 pkgrel=1
 pkgdesc="A Python implementation written in Python, JIT enabled"
 arch=('x86_64')
@@ -11,7 +11,7 @@ optdepends=('sqlite: sqlite module'
             'tk: tk module')
 source=("https://bitbucket.org/${pkgname}/${pkgname}/downloads/pypy2.7-v$pkgver-src.tar.bz2")
 options=(!buildflags)
-sha256sums=('b0b25c7f8938ab0fedd8dedf26b9e73c490913b002b484c1b2f19d5844a518de')
+sha256sums=('fa3771514c8a354969be9bd3b26d65a489c30e28f91d350e4ad2f4081a9c9321')
 
 build() {
   cd pypy2.7-v${pkgver}-src/pypy/goal
@@ -19,7 +19,7 @@ build() {
   python2 ../../rpython/bin/rpython -Ojit --shared targetpypystandalone
 
   # Compile binary modules
-  PYTHONPATH=../.. ./pypy-c ../tool/build_cffi_imports.py
+  PYTHONPATH=../.. ./pypy-c ../../lib_pypy/tools/build_cffi_imports.py
 }
 
 package() {
