@@ -1,30 +1,34 @@
-#
-# Platform Packages for Chakra, part of chakra-project.org
-#
-# maintainer (x86_64): Manuel Tortosa <manutortosa[at]chakra-project[dot]org>
+# Contributions from Arch:
+# Maintainer: Antonio Rojas <arojas@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Jan Hambrecht <jaham at gmx dot net>
 
 pkgname=libspnav
-pkgver=0.2.2
-pkgrel=4
-pkgdesc="The spacenav project provides a free, compatible alternative, to the proprietary 3Dconnexion device driver and SDK, for their 3D input devices (called 'space navigator', 'space pilot', 'space traveller', etc)."
-arch=('i686' 'x86_64')
-url="http://spacenav.sourceforge.net/"
-license=('GPL')
-makedepends=('gcc make')
-depends=('libx11')
-provides=('libspnav')
-options=()
-install=
-source=(http://downloads.sourceforge.net/spacenav/$pkgname-$pkgver.tar.gz Makefile.in.diff)
-md5sums=('b85a0f4ab711e2d4f73a40e2e371f5ae'
-         'f9122ad4ca823e45bfa0538187df6270')
+pkgver=0.2.3
+pkgrel=1
+pkgdesc="Alternative to the proprietary 3Dconnexion device driver and SDK for their 3D input devices"
+arch=(x86_64)
+url='https://spacenav.sourceforge.net/'
+license=(GPL)
+depends=(libx11)
+source=("https://downloads.sourceforge.net/spacenav/$pkgname-$pkgver.tar.gz"
+        Makefile.patch)
+sha256sums=('7ae4d7bb7f6a5dda28b487891e01accc856311440f582299760dace6ee5f1f93'
+            'a49a9ac824ad41c043018094dd118ba92dd29f96fee92e70b640e47f643dde44')
+
+prepare() {
+  cd $pkgname-$pkgver
+  patch -p1 -i ../Makefile.patch
+}
 
 build() {
-  cd $srcdir/$pkgname-$pkgver
-  patch -p0 < $startdir/Makefile.in.diff
-  ./configure --prefix=$pkgdir/usr
-  make || return 1
-  install -d $pkgdir/usr/lib
-  install -d $pkgdir/usr/include
-  make DESTDIR=$pkgdir install || return 1
+  cd $pkgname-$pkgver
+  ./configure --prefix=/usr \
+    --disable-debug
+  make
+}
+
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
 }
