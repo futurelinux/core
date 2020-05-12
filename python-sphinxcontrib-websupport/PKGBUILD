@@ -1,14 +1,16 @@
-pkgbase=python-sphinxcontrib-websupport
+# Maintainer: Johannes Löthberg <johannes@kyriasis.com
+
+pkgbase=python3-sphinxcontrib-websupport
 pkgname=(python3-sphinxcontrib-websupport python2-sphinxcontrib-websupport)
-pkgver=1.1.0
-pkgrel=1
+pkgver=1.1.2
+pkgrel=3
 pkgdesc="Sphinx API for Web Apps"
 arch=('any')
-url="http://www.sphinx-doc.org/"
+url="https://www.sphinx-doc.org/"
 license=('BSD')
-makedepends=('python3' 'python3-setuptools' 'python2' 'python2-setuptools')
-source=("$pkgbase-$pkgver.tar.gz::https://github.com/sphinx-doc/sphinxcontrib-websupport/archive/$pkgver.tar.gz")
-sha512sums=('a99a7edf60ccff0be60a9442bc5f8b2612d374747b730b8a428df34b2e434e3fb55d88ee858255b710b05c2b75f4c235e17f908e5bb2fae4bb7790ff262bc7be')
+makedepends=('python' 'python3-setuptools' 'python2' 'python2-setuptools')
+source=(https://pypi.org/packages/source/s/sphinxcontrib-websupport/sphinxcontrib-websupport-$pkgver.tar.gz)
+sha512sums=('55754f6304f38abd50f410da164f401a1b9a1d289b19f0077a38f72ce11a2dd64eff0713bb99471e470ff15fbd6a0042d49bab14c92f82cdd61019adbb88397e')
 
 prepare() {
   cp -a sphinxcontrib-websupport-$pkgver{,-py2}
@@ -32,3 +34,4 @@ package_python2-sphinxcontrib-websupport() {
   python2 setup.py install --root="$pkgdir" --optimize=1
 }
 
+# vim:set ts=2 sw=2 et:

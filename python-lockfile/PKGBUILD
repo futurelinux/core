@@ -1,0 +1,49 @@
+
+pkgbase=python-lockfile
+pkgname=(python3-lockfile python2-lockfile)
+pkgver=0.12.2
+pkgrel=1
+pkgdesc='Platform-independent file locking module'
+arch=(any)
+url='https://github.com/openstack/pylockfile'
+license=(MIT)
+makedepends=(python3-setuptools python2-setuptools python3-pbr python2-pbr)
+checkdepends=(python3-nose python2-nose)
+source=(https://files.pythonhosted.org/packages/source/l/lockfile/lockfile-$pkgver.tar.gz)
+sha1sums=('c2ac46e48585e5f8f8d57ccc55ca83faa8b53b86')
+
+prepare() {
+  cp -a lockfile-$pkgver{,-py2}
+}
+
+build() {
+  cd "$srcdir/lockfile-$pkgver"
+  python3 setup.py build
+
+  cd "$srcdir/lockfile-$pkgver-py2"
+  python2 setup.py build
+}
+
+check() {
+  cd "$srcdir/lockfile-$pkgver"
+  nosetests
+
+  cd "$srcdir/lockfile-$pkgver-py2"
+  nosetests2
+}
+
+package_python3-lockfile() {
+  depends=(python3)
+
+  cd "$srcdir/lockfile-$pkgver"
+  python3 setup.py install --root="$pkgdir" --optimize=1
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_python2-lockfile() {
+  depends=(python2)
+
+  cd "$srcdir/lockfile-$pkgver-py2"
+  python2 setup.py install --root="$pkgdir" --optimize=1
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

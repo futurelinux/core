@@ -1,0 +1,45 @@
+# Maintainer: Eli Schwartz <eschwartz@archlinux.org>
+# Contributor: Guillaume Brogi <gui-gui at netcourrier dot com>
+
+_pkgname=progress
+pkgbase=python3-progress
+pkgname=('python3-progress' 'python2-progress')
+pkgver=1.5
+pkgrel=3
+pkgdesc="Easy to use progress bars for Python"
+arch=('any')
+url="https://github.com/verigak/${_pkgname}"
+license=('ISC')
+makedepends=('python3-setuptools' 'python2-setuptools')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz")
+sha256sums=('e90987f203a91a80550d4d68b4e74bfc901ce0e246631a1291427097cffb891b')
+
+build() {
+    cd "${srcdir}"/${_pkgname}-${pkgver}
+
+    python3 setup.py build
+    python2 setup.py build
+}
+
+check() {
+    cd "${srcdir}"/${_pkgname}-${pkgver}
+
+    python3 test_progress.py
+    python2 test_progress.py
+}
+
+package_python3-progress() {
+    depends=('python')
+
+    cd "${srcdir}"/${_pkgname}-${pkgver}
+    python3 setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+	install -Dm644 LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
+}
+
+package_python2-progress() {
+    depends=('python2')
+
+    cd "${srcdir}"/${_pkgname}-${pkgver}
+    python2 setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+	install -Dm644 LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
+}

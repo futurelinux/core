@@ -1,0 +1,58 @@
+# Maintainer: David Runge <dave@sleepmap.de>
+_name=toml
+pkgbase=python3-toml
+pkgname=('python3-toml' 'python2-toml')
+pkgver=0.10.0
+pkgrel=2
+pkgdesc="A Python library for parsing and creating TOML"
+arch=('any')
+url="https://github.com/uiri/toml"
+license=('MIT')
+makedepends=('python3-setuptools' 'python2-setuptools')
+checkdepends=('python3-pytest' 'python2-pytest' 'python3-importlib-metadata')
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/${_name}/${_name}-${pkgver}.tar.gz"
+        "https://raw.githubusercontent.com/uiri/toml/master/test.toml")
+sha512sums=('26f26c38ce9cd48305218c2c34c5a5407b00aefc25a933f044bb7be22c23cfdfa3b8cf2da952d17760c4b9038df62e405fa039cc7b63dd3e94c9c312f04f9182'
+            'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e')
+
+prepare() {
+  mv -v "${_name}-$pkgver" "$pkgbase-$pkgver"
+  cp -v test.toml "$pkgbase-$pkgver"
+  cd "$pkgbase-$pkgver"
+}
+
+build() {
+  cd "$pkgbase-$pkgver"
+  python3 setup.py build
+  python2 setup.py build
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  export PYTHONPATH="../build/lib/:${PYTHONPATH}"
+  # disable useless tests
+  py.test tests -k 'not test_invalid_tests and not test_valid_tests'
+  py.test2 tests -k 'not test_invalid_tests and not test_valid_tests'
+}
+
+package_python3-toml() {
+  cd "$pkgname-$pkgver"
+  depends=('python')
+  python3 setup.py install --skip-build \
+    --optimize=1 \
+    --prefix=/usr \
+    --root="${pkgdir}"
+  install -vDm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -vDm 644 README.rst -t "${pkgdir}/usr/share/doc/${pkgname}"
+}
+
+package_python2-toml() {
+  cd "$pkgbase-$pkgver"
+  depends=('python2')
+  python2 setup.py install --skip-build \
+    --optimize=1 \
+    --prefix=/usr \
+    --root="${pkgdir}"
+  install -vDm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -vDm 644 README.rst -t "${pkgdir}/usr/share/doc/${pkgname}"
+}

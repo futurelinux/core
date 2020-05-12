@@ -1,44 +1,74 @@
-pkgname=('python3-pip' 'python2-pip')
-pkgver=19.1.1
+# Maintainer: Dan McGee <dan@archlinux.org>
+# Contributor: Eli Schwartz <eschwartz@archlinux.org>
+# Contributor: Sebastien Binet <binet@lblbox>
+
+pkgname=('python3-pip')
+pkgver=20.0.2
 pkgrel=1
-pkgdesc="An easy_install replacement for installing pypi python packages"
-url="http://www.pip-installer.org/"
-arch=('x86_64')
+pkgdesc="The PyPA recommended tool for installing Python packages"
+url="https://pip.pypa.io/"
+arch=('any')
 license=('MIT')
-makedepends=('python3' 'python3-setuptools' 'python2' 'python2-setuptools')
-source=(https://pypi.io/packages/source/p/pip/pip-${pkgver}.tar.gz)
-md5sums=('4fb98a060f21c731d6743b90a714fc73')
+_deps=('appdirs' 'cachecontrol' 'colorama' 'contextlib2' 'distlib' 'distro' 'html5lib'
+       'msgpack' 'packaging' 'pep517' 'progress' 'pyparsing' 'pytoml' 'requests' 'retrying'
+       'setuptools' 'six' 'webencodings')
+makedepends=("${_deps[@]/#/python3-}" 'python3-sphinx')
+checkdepends=('python3-pytest-runner' 'python3-scripttest' 'python3-virtualenv' 'python3-pretend'
+              'python3-yaml' 'python3-mock' 'python3-freezegun' 'python3-cryptography' 'python3-pip'
+              'python3-wheel' 'python3-werkzeug' 'git' 'subversion')
+source=("pip-${pkgver}.tar.gz::https://github.com/pypa/pip/archive/${pkgver}.tar.gz"
+        pip-vendor-appdirs.patch::https://github.com/pypa/pip/commit/9be7454fd69081d06a3f8234a08a6d791e13173f.patch)
+sha512sums=('f9965944ca0f319d01db1638ce97cf64772afff1778b3b1271155de73208cfcb3954d89a469c1143c0bf3288a53d4446165a49df994374b16ac6f7ffdae85857'
+            '61732786303ca7ec7828d04099a884534034d50cdd9a7a0de2ace34c28381a992943880f03797a64d5d4f3a76d317d356f76ffff5e3ffd97ed611b234cc05528')
 
-package_python3-pip() {
-    depends=('python3' 'python3-setuptools' 'python3-six')
+shopt -s extglob
+prepare() {
+  cd "$srcdir/pip-$pkgver"
+  patch -p1 -i ../pip-vendor-appdirs.patch
 
-    cd "$srcdir/pip-$pkgver"
-    python3 setup.py build
-    python3 setup.py install \
-        --prefix=/usr \
-        --root="$pkgdir"
+  # Remove certifi usage
+  sed -i 's|from pip._vendor.certifi import where|where = lambda: "/etc/ssl/certs/ca-certificates.crt"|' src/pip/_internal/commands/debug.py
 
-    mv "$pkgdir/usr/bin/pip" "$pkgdir/usr/bin/pip3"
-    sed -i "s|#!/usr/bin/env python$|#!/usr/bin/env python3|" \
-        ${pkgdir}/usr/lib/python3.6/site-packages/pip/__init__.py
-
-    install -D -m644 LICENSE.txt \
-        "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  rm -rf src/pip/_vendor/!(__init__.py)
+  sed -i -e 's/DEBUNDLED = False/DEBUNDLED = True/' \
+            src/pip/_vendor/__init__.py
 }
 
-package_python2-pip() {
-    depends=('python2' 'python2-setuptools' 'python2-six')
+build() {
+  cd "$srcdir/pip-$pkgver"
 
-    cd "$srcdir/pip-$pkgver"
-    python2 setup.py build
-    python2 setup.py install \
-        --prefix=/usr \
-        --root="$pkgdir"
+  python3 setup.py build
+}
 
-    mv "$pkgdir/usr/bin/pip" "$pkgdir/usr/bin/pip2"
-    sed -i "s|#!/usr/bin/env python$|#!/usr/bin/env python2|" \
-    ${pkgdir}/usr/lib/python2.7/site-packages/pip/__init__.py
+check() {
+  cd "$srcdir"/pip-$pkgver
+  pip3 wheel -w tests/data/common_wheels -r tools/requirements/tests-common_wheels.txt
+  python3 setup.py install --root="$PWD/tmp_install" --optimize=1
+  # appdirs: https://github.com/pypa/pip/issues/7784
+  # build_env: TODO weird looking errors
+  PYTHONPATH="$PWD/tmp_install/usr/lib/python3.8/site-packages" PATH="$PWD/tmp_install/usr/bin:$PATH" \
+    python3 -m pytest -m unit --junit-xml=junit/unit-test.xml --deselect tests/unit/test_appdirs.py::TestSiteConfigDirs::test_site_config_dirs_linux \
+                                                             --deselect tests/unit/test_appdirs.py::TestSiteConfigDirs::test_site_config_dirs_linux_override \
+                                                             --deselect tests/unit/test_appdirs.py::TestSiteConfigDirs::test_site_config_dirs_linux_empty \
+                                                             --deselect tests/unit/test_appdirs.py::TestUserDataDir::test_user_data_dir_osx \
+                                                             --deselect tests/unit/test_appdirs.py::TestUserConfigDir::test_user_config_dir_osx \
+                                                             --deselect tests/unit/test_build_env.py::test_build_env_requirements_check \
+                                                             --deselect tests/unit/test_build_env.py::test_build_env_overlay_prefix_has_priority \
+                                                             --deselect tests/unit/test_build_env.py::test_build_env_isolation
 
-    install -D -m644 LICENSE.txt \
-        "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
+package_python3-pip() {
+  depends=("${_deps[@]/#/python3-}")
+
+  cd "$srcdir/pip-$pkgver"
+  python3 setup.py install --prefix=/usr --root="$pkgdir"
+
+  install -D -m644 LICENSE.txt \
+	  "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+  PYTHONPATH="$pkgdir"/usr/lib/python3.6/site-packages "$pkgdir"/usr/bin/pip completion --bash \
+    | install -Dm644 /dev/stdin "$pkgdir"/usr/share/bash-completion/completions/pip
+  PYTHONPATH="$pkgdir"/usr/lib/python3.6/site-packages "$pkgdir"/usr/bin/pip completion --fish \
+    | install -Dm644 /dev/stdin "$pkgdir"/usr/share/fish/vendor_completions.d/pip.fish
 }

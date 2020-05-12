@@ -1,22 +1,22 @@
-# Arch Contributor: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Hugo Osvaldo Barrera <hugo@barrera.io>
 
-pkgbase=python-setuptools-scm
+pkgbase=python3-setuptools-scm
 pkgname=(python3-setuptools-scm python2-setuptools-scm)
-pkgver=1.15.6
-pkgrel=2
-pkgdesc="Handles managing your python package versions in scm metadata."
+pkgver=3.5.0
+pkgrel=1
+pkgdesc="Handles managing your python3 package versions in scm metadata."
 arch=('any')
 url="https://github.com/pypa/setuptools_scm"
 license=('MIT')
 makedepends=('python3-setuptools' 'python2-setuptools')
-checkdepends=('python3-pytest' 'python2-pytest' 'mercurial' 'git' 'python3-pip' 'python2-pip')
-source=("$pkgbase-$pkgver.tar.gz::https://github.com/pypa/setuptools_scm/archive/v$pkgver.tar.gz")
-sha512sums=('c97669232a492e19bdb073c48f9e792ee029ee2af2191da65461436e2a66a3adf5ad490f0a1429c33a5574d4afeb0d54afedfe78f581fff890ecfc787d08ef5a')
+checkdepends=('python3-pytest' 'python2-pytest' 'mercurial' 'git' 'python3-pip' 'python2-pip'
+              'python3-toml' 'python2-toml')
+source=("https://pypi.io/packages/source/s/setuptools_scm/setuptools_scm-$pkgver.tar.gz")
+sha512sums=('f7e2cdae7a8a3d5ef3d12effcda5ce7f362c426e11aecaef69ef604bede9abbab2aa1eee6f5310cdd72a9bf11a927dbd1f42671e28bd467ad7b15f2dba5b81d9')
 
 prepare() {
   cp -a setuptools_scm-$pkgver{,-py2}
-
-  export SETUPTOOLS_SCM_PRETEND_VERSION=$pkgver
 }
 
 build() {
@@ -34,15 +34,18 @@ check() {
 
   cd "$srcdir"/setuptools_scm-$pkgver
   python3 setup.py install --root="$PWD/tmp_install" --optimize=1
-  SETUPTOOLS_SCM_PRETEND_VERSION= PYTHONPATH="$PWD/tmp_install/usr/lib/python3.6/site-packages:$PYTHONPATH" py.test
+  PYTHONPATH="$PWD/tmp_install/usr/lib/python3.8/site-packages:$PYTHONPATH" py.test
 
   cd "$srcdir"/setuptools_scm-$pkgver-py2
   python2 setup.py install --root="$PWD/tmp_install" --optimize=1
-  SETUPTOOLS_SCM_PRETEND_VERSION= PYTHONPATH="$PWD/tmp_install/usr/lib/python2.7/site-packages:$PYTHONPATH" py.test2
+  PYTHONPATH="$PWD/tmp_install/usr/lib/python2.7/site-packages:$PYTHONPATH" py.test2
 }
 
 package_python3-setuptools-scm() {
   depends=('python3-setuptools')
+  provides=('python3-setuptools_scm')
+  conflicts=('python3-setuptools_scm')
+  replaces=('python3-setuptools_scm')
 
   cd "$srcdir"/setuptools_scm-$pkgver
   python3 setup.py install --root "$pkgdir"
@@ -52,6 +55,9 @@ package_python3-setuptools-scm() {
 
 package_python2-setuptools-scm() {
   depends=('python2-setuptools')
+  provides=('python2-setuptools_scm')
+  conflicts=('python2-setuptools_scm')
+  replaces=('python2-setuptools_scm')
 
   cd "$srcdir"/setuptools_scm-$pkgver-py2
   python2 setup.py install --root "$pkgdir"

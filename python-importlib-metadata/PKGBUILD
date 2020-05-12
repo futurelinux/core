@@ -1,0 +1,33 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+
+pkgbase=python-importlib-metadata
+pkgname=(python3-importlib-metadata)
+pkgver=1.5.2
+pkgrel=1
+pkgdesc="Read metadata from Python packages"
+url="https://importlib-metadata.readthedocs.io"
+license=('Apache')
+arch=('any')
+makedepends=('python3-setuptools-scm' 'python3-zipp')
+checkdepends=('python3-pip' 'python3-pytest-runner' 'python3-wheel' 'python3-pyfakefs')
+source=("$pkgbase-$pkgver.tar.gz::https://gitlab.com/python-devs/importlib_metadata/-/archive/v$pkgver/importlib_metadata-v$pkgver.tar.bz2")
+sha512sums=('a2d007fe541493a665170a746b6e0613b71a07f0a032affddb5562c57b8b28c439d108c934dd5a44da451e5f0a03c1d707ee0eae5cc079450f9d8fd7c000b817')
+
+export SETUPTOOLS_SCM_PRETEND_VERSION=$pkgver
+
+build() {
+  cd "$srcdir"/importlib_metadata-v$pkgver
+  python3 setup.py build
+}
+
+check() {
+  cd "$srcdir"/importlib_metadata-v$pkgver
+  python3 setup.py pytest
+}
+
+package_python3-importlib-metadata() {
+  depends=('python3-zipp')
+
+  cd importlib_metadata-v$pkgver
+  python3 setup.py install --root="$pkgdir" --optimize=1
+}
