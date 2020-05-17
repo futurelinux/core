@@ -1,62 +1,68 @@
-# $Id$
-# Contributor: Ionut Biru <ibiru@archlinux.org>
-
-pkgname=p11-kit
-pkgver=0.23.8
+pkgbase=p11-kit
+pkgname=(p11-kit libp11-kit)
+pkgver=0.23.20
 pkgrel=1
-pkgdesc="Provides a way to load and enumerate PKCS#11 modules"
-arch=(i686 x86_64)
+pkgdesc="Loads and enumerates PKCS#11 modules"
 url="https://p11-glue.freedesktop.org"
+arch=(x86_64)
 license=(BSD)
-depends=(glibc libtasn1 libffi)
-makedepends=(git)
-_commit=25474901cf9c1fb39ae5dc73a2f2b4dd34e81fdc  # tags/0.23.8^0
-source=("git+https://github.com/p11-glue/p11-kit#commit=$_commit"
-        libnssckbi-compat.patch)
-sha256sums=('SKIP'
-            '8f763cdbc6c0ca6c5a7898f9fd6f3018b7ac5b1aca36f67c6c813343c2962962')
-validpgpkeys=('C0F67099B808FB063E2C81117BFB1108D92765AF')
-
-pkgver() {
-  cd $pkgname
-  git describe --tags | sed 's/-/+/g'
-}
+makedepends=(git meson libtasn1 libffi systemd)
+source=("git+https://github.com/p11-glue/p11-kit?signed#tag=$pkgver")
+sha256sums=('SKIP')
+validpgpkeys=('C0F67099B808FB063E2C81117BFB1108D92765AF'  # Stef Walter
+              '462225C3B46F34879FC8496CD605848ED7E69871') # Daiki Ueno
 
 prepare() {
-  cd $pkgname
-
-  # Build and install an additional library (libnssckbi-p11-kit.so) which
-  # is a copy of p11-kit-trust.so but uses the same label for root certs as
-  # libnssckbi.so ("Builtin Object Token" instead of "Default Trust")
-  # https://bugs.freedesktop.org/show_bug.cgi?id=66161
-  patch -Np1 -i ../libnssckbi-compat.patch
-
-  NOCONFIGURE=1 ./autogen.sh
+  cd p11-kit
 }
 
 build() {
-  cd $pkgname
-
-  ./configure --prefix=/usr \
-    --sysconfdir=/etc \
-    --localstatedir=/var \
-    --libexecdir=/usr/lib \
-    --with-module-path=/usr/lib/pkcs11 \
-    --with-trust-paths=/etc/ca-certificates/trust-source:/usr/share/ca-certificates/trust-source
-  make
+  chakra-meson p11-kit build \
+    --buildtype debugoptimized \
+    -D gtk_doc=false \
+    -D man=false \
+    -D trust_paths=/etc/ca-certificates/trust-source:/usr/share/ca-certificates/trust-source
+  ninja -C build
 }
 
 check() {
-  cd $pkgname
-  make check
+  meson test -C build --print-errorlogs
 }
 
-package() {
-  cd $pkgname
-  make DESTDIR="$pkgdir" install
-  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+_pick() {
+  local p="$1" f d; shift
+  for f; do
+    d="$srcdir/$p/${f#$pkgdir/}"
+    mkdir -p "$(dirname "$d")"
+    mv "$f" "$d"
+    rmdir -p --ignore-fail-on-non-empty "$(dirname "$f")"
+  done
+}
 
-  ln -srf "$pkgdir/usr/bin/update-ca-trust" "$pkgdir/usr/lib/p11-kit/trust-extract-compat"
+package_p11-kit() {
+  depends=("libp11-kit=$pkgver-$pkgrel" coreutils libp11-kit.so libsystemd.so)
+  install=p11-kit.install
+
+  DESTDIR="$pkgdir" meson install -C build
+  ln -sr "$pkgdir/usr/bin/update-ca-trust" "$pkgdir/usr/lib/p11-kit/trust-extract-compat"
+
+  # Split libp11-kit
+  _pick lib "$pkgdir"/usr/include
+  _pick lib "$pkgdir"/usr/lib/{p11-kit-proxy.so,libp11-kit.*}
+  _pick lib "$pkgdir"/usr/lib/{pkcs11,pkgconfig}
+  _pick lib "$pkgdir"/usr/share/{locale,p11-kit}
+
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 p11-kit/COPYING
+}
+
+package_libp11-kit() {
+  pkgdesc+=" (library)"
+  depends=(glibc libtasn1 libffi)
+  provides=(libp11-kit.so)
+
+  mv lib/* "$pkgdir"
+
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 p11-kit/COPYING
 }
 
 # vim:set ts=2 sw=2 et:
