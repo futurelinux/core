@@ -3,7 +3,7 @@
 pkgbase=nss
 pkgname=(nss ca-certificates-mozilla)
 pkgver=3.52
-pkgrel=1
+pkgrel=2
 pkgdesc="Network Security Services"
 url="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS"
 arch=(x86_64)
@@ -11,7 +11,6 @@ license=(MPL GPL)
 _nsprver=4.25
 depends=("nspr>=${_nsprver}" sqlite zlib sh p11-kit)
 makedepends=(perl python3 gyp)
-options=(!strip !makeflags staticlibs)
 source=("https://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/nss-${pkgver}.tar.gz"
         certdata2pem.py bundle.sh)
 sha256sums=('0a0aeb0cdda65ddcb64f746223df58b150f6803f4bfa1a4e876bbe6f9c4c1561'
@@ -19,12 +18,9 @@ sha256sums=('0a0aeb0cdda65ddcb64f746223df58b150f6803f4bfa1a4e876bbe6f9c4c1561'
             'e412463cfa32bd38a97c1c3664e70c8eb211b676d9192e45f44fbccb0422e87d')
 
 prepare() {
-  mkdir certs path
-
-  ln -s /usr/bin/python2 path/python
+  mkdir certs
 
   cd nss-$pkgver
-
   ln -sr nss/lib/ckfw/builtins/certdata.txt ../certs/
   ln -sr nss/lib/ckfw/builtins/nssckbi.h ../certs/
 }
@@ -37,8 +33,7 @@ build() {
   sh bundle.sh
 
   cd nss-$pkgver/nss
-  PATH="$srcdir/path:$PATH" bash -x ./build.sh -v \
-    --opt --system-sqlite --system-nspr --enable-libpkix --disable-tests
+  ./build.sh -v --opt --system-sqlite --system-nspr --enable-libpkix --disable-tests
 }
 
 package_nss() {
