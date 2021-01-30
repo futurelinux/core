@@ -5,3 +5,5 @@ pre_upgrade() {
     chmod 0711 var/db/sudo
   fi
 }
+
+# vim:set ts=2 sw=2 et:
