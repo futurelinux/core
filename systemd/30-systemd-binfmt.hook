@@ -1,0 +1,12 @@
+--2021-08-07 04:25:12--  https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/systemd/trunk/30-systemd-binfmt.hook
+已載入 CA 憑證「/etc/ssl/certs/ca-certificates.crt」
+正在查找主機 raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.111.133, ...
+正在連接 raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... 連上了。
+已送出 HTTP 要求，正在等候回應... 200 OK
+長度: 226 [text/plain]
+儲存到：「30-systemd-binfmt.hook.1」
+
+     0K                                                       100% 5.40M=0s
+
+2021-08-07 04:25:13 (5.40 MB/s) - 已儲存 「30-systemd-binfmt.hook.1」 [226/226]
+
