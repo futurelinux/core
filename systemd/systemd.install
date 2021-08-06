@@ -10,12 +10,6 @@ add_journal_acls() {
   :
 }
 
-maybe_reexec() {
-  if sd_booted; then
-    systemctl --system daemon-reexec
-  fi
-}
-
 post_common() {
   systemd-sysusers
   journalctl --update-catalog
@@ -57,7 +51,9 @@ post_install() {
 post_upgrade() {
   post_common "$@"
 
-  maybe_reexec "$@"
+  if sd_booted; then
+    systemctl --system daemon-reexec
+  fi
 
   local v upgrades=(216
                     219
