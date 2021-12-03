@@ -1,0 +1,60 @@
+# Maintainer:   totte <totte@chakralinux.org>
+
+pkgname=chakra-common
+arch=('x86_64')
+pkgver=19.12.3
+pkgrel=1
+pkgdesc="Common configuration files, scripts and artwork"
+url="https://www.chakralinux.org"
+license=('GPL' 'BSD')
+groups=("kde" "kde-minimal" "kde-uninstall")
+depends=("qt5-base"
+         'pinentry'
+         'openssh'
+         'bash>=4.2'
+         'python3'  'python3-jinja' 'python3-pyelftools' 'python3-tqdm')
+backup=('etc/profile.d/inputmethod.sh')
+install=chakra-common.install
+source=('Chakra-Development.desktop'
+        'Chakra-Donate.desktop'
+        'Chakra-Forum.desktop'
+        'Chakra-Website.desktop'
+        'Chakra.directory'
+        'chakra-icons.tar.gz'
+        'inputmethod.profile'
+        'chakra-check-links.py::https://raw.githubusercontent.com/Inkane/listMissingLibs/master/list_missing_libs.py')
+sha256sums=('528ac5b202f60893aed5e1949a23851afb6a14cf13aca2510fa4f1811349fb8d'
+            '8a01f9403d84da67dee3295341f0e89cb671fd0b71c349df07bdd2d0cd6f89df'
+            '9bdc5320ed9efdf3dbbd6c3f81058bc725e34c4eeaafba252896bcb61300e8ad'
+            '1ba63dbaf15e0becdc2ce745f0253f8422f1873467b83681356cf18d102818f0'
+            'cf6be6c5dd059021b140f97f82be4ed33e887aa8b588b5d4adb0b035d05a90a6'
+            'b20160225a990513ae58027b7e70bb958253da881be02f296e54e9ccca09b348'
+            'c931c42f3286b0f02b0ab192dfe580952dcb677a74f3fb393d17bae30ec1cf79'
+            'cad07d94408ba5c385b483316098dbffc35ab7220990c4c607634eb2f4a2399f')
+
+package() {
+    # Install Chakra icons
+    cd ${srcdir}/chakra-icons/
+    mkdir -p ${pkgdir}/usr/share/icons/hicolor/scalable/apps/
+    for n in flat shiny smooth shield; do
+        for i in 128 64 48 32 22 16; do
+            mkdir -p ${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/
+            install -D -m755 chakra-${n}-${i}.png ${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/chakra-${n}.png
+        done
+        install -D -m755 chakra-${n}.svgz ${pkgdir}/usr/share/icons/hicolor/scalable/apps/chakra-${n}.svgz
+    done
+
+    # Install menu entries
+    cd ${srcdir}
+    install -m755 -d ${pkgdir}/usr/share/desktop-directories
+    install -m755 -d ${pkgdir}/usr/share/applications
+    install -m755 -d ${pkgdir}/usr/share/pixmaps
+    install -m644 Chakra*.desktop ${pkgdir}/usr/share/applications
+    install -m644 Chakra.directory ${pkgdir}/usr/share/desktop-directories/
+  
+    # chakra-check-links
+    install -Dm755 chakra-check-links.py "${pkgdir}/usr/bin/chakra-check-links"
+
+    # inputmethod support
+    install -Dm644 inputmethod.profile $pkgdir/etc/profile.d/inputmethod.sh
+}

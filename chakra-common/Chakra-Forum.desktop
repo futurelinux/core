@@ -1,0 +1,18 @@
+[Desktop Entry]
+Comment=Chakra Forums
+Comment[ca]=Forums de Chakra
+Comment[da]=Chakra fora
+Comment[it]=Forum di Chakra
+Comment[nl]=Chakra forums
+Comment[ja]=Chakraフォーラム
+Exec=xdg-open https://community.chakralinux.org/
+Icon=system-users
+Name=Forums
+Name[da]=Fora
+Name[it]=Forum
+Name[nl]=Forums
+Name[ja]=フォーラム
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Chakra;

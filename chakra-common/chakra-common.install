@@ -1,0 +1,22 @@
+post_install() {
+        echo " "
+        echo "  Frameworks, Plasma, and Release Service by KDE"
+        echo "  Packaged by the Chakra team"
+        echo " "
+        echo "  Installation prefix:      /usr"
+        echo "  Configuration directory:  ~/.config"
+        echo " "
+        echo "  Website:     https://www.chakralinux.org"
+        echo "  CCR:         https://ccr.chakralinux.org/"
+        echo "  Development: https://code.chakralinux.org"
+        echo "  Forum:       https://community.chakralinux.org"
+        echo " "
+}
+
+post_upgrade() {
+    post_install
+}
+
+post_remove() {
+    /bin/true
+}
